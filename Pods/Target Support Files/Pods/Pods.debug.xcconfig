@@ -1,0 +1,6 @@
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/AFNetworking" "${PODS_ROOT}/Headers/Public/HexColors" "${PODS_ROOT}/Headers/Public/LwScanningByZBar" "${PODS_ROOT}/Headers/Public/SDWebImage" "${PODS_ROOT}/Headers/Public/TSMessages" "${PODS_ROOT}/Headers/Public/libqrencode"
+LIBRARY_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/LwScanningByZBar/Pod/Classes/ZBarSDK"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/AFNetworking" -isystem "${PODS_ROOT}/Headers/Public/HexColors" -isystem "${PODS_ROOT}/Headers/Public/LwScanningByZBar" -isystem "${PODS_ROOT}/Headers/Public/SDWebImage" -isystem "${PODS_ROOT}/Headers/Public/TSMessages" -isystem "${PODS_ROOT}/Headers/Public/libqrencode"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"AFNetworking" -l"HexColors" -l"LwScanningByZBar" -l"SDWebImage" -l"TSMessages" -l"iconv" -l"libqrencode" -l"zbar" -framework "AVFoundation" -framework "CoreGraphics" -framework "CoreMedia" -framework "CoreTelephony" -framework "CoreVideo" -framework "ImageIO" -framework "MobileCoreServices" -framework "QuartzCore" -framework "Security" -framework "SystemConfiguration"
+PODS_ROOT = ${SRCROOT}/Pods
