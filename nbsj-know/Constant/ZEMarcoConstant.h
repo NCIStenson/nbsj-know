@@ -26,6 +26,8 @@
 #define HTTPMETHOD_GET @"GET"
 #define HTTPMETHOD_POST @"POST"
 
+#define NAV_HEIGHT 64.0f
+
 #define Zenith_Server [[[NSBundle mainBundle] infoDictionary] objectForKey:@"ZenithServerAddress"]
 
 #endif /* ZEMarcoConstant_h */

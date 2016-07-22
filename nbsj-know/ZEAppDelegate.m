@@ -9,6 +9,11 @@
 #import "ZEAppDelegate.h"
 #import "ZEMainViewController.h"
 
+#import "ZEHomeVC.h"
+#import "ZEQuestionsVC.h"
+#import "ZEGroupVC.h"
+#import "ZEUserCenterVC.h"
+
 @interface ZEAppDelegate ()
 
 @end
@@ -21,9 +26,36 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     application.applicationSupportsShakeToEdit = YES;
 
-    ZEMainViewController * mainVC = [[ZEMainViewController alloc]init];
-    UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:mainVC];
-    self.window.rootViewController = nav;
+    ZEHomeVC * homeVC = [[ZEHomeVC alloc]init];
+    homeVC.tabBarItem.image = [UIImage imageNamed:@"tab_homepage_normal"];
+    homeVC.tabBarItem.title = @"首页";
+    UINavigationController * homeNav = [[UINavigationController alloc]initWithRootViewController:homeVC];
+    
+    ZEQuestionsVC * quesetionsVC = [[ZEQuestionsVC alloc]init];
+    quesetionsVC.tabBarItem.image = [UIImage imageNamed:@"tab_homepage_normal"];
+    quesetionsVC.tabBarItem.title = @"首页";
+    UINavigationController * quesetionsNav = [[UINavigationController alloc]initWithRootViewController:quesetionsVC];
+
+    ZEGroupVC * groupVC = [[ZEGroupVC alloc]init];
+    groupVC.tabBarItem.image = [UIImage imageNamed:@"tab_homepage_normal"];
+    groupVC.tabBarItem.title = @"首页";
+    UINavigationController * groupNav = [[UINavigationController alloc]initWithRootViewController:groupVC];
+
+    ZEUserCenterVC * userCenVC = [[ZEUserCenterVC alloc]init];
+    userCenVC.tabBarItem.image = [UIImage imageNamed:@"tab_homepage_normal"];
+    userCenVC.tabBarItem.title = @"首页";
+    UINavigationController * userCenNav = [[UINavigationController alloc]initWithRootViewController:userCenVC];
+    
+    UITabBarController * tabBar = [[UITabBarController alloc]init];
+    tabBar.toolbarItems = @[homeNav,quesetionsNav,groupNav,userCenNav];
+    
+    
+    
+    
+    
+//    ZEMainViewController * mainVC = [[ZEMainViewController alloc]init];
+//    UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:mainVC];
+    self.window.rootViewController = tabBar;
     
     NSLog(@"%@",Zenith_Server);
     

@@ -1,28 +1,24 @@
 //
-//  ZEMainViewController.m
-//  NewCentury
+//  ZEHomeVC.m
+//  nbsj-know
 //
-//  Created by Stenson on 16/1/20.
-//  Copyright © 2016年 Stenson. All rights reserved.
+//  Created by Stenson on 16/7/22.
+//  Copyright © 2016年 Hangzhou Zenith Electronic Technology Co., Ltd. . All rights reserved.
 //
 
-#import "ZEMainViewController.h"
+#import "ZEHomeVC.h"
+#import "ZEHomeView.h"
 
-#import "ZEUserServer.h"
-
-@interface ZEMainViewController ()
+@interface ZEHomeVC ()
 
 @end
 
-@implementation ZEMainViewController
+@implementation ZEHomeVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor cyanColor];
     
-    
-
 }
 
 - (void)didReceiveMemoryWarning {

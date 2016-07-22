@@ -1,28 +1,31 @@
 //
-//  ZEMainViewController.m
+//  ZEUserCenterVC.m
 //  NewCentury
 //
-//  Created by Stenson on 16/1/20.
-//  Copyright © 2016年 Stenson. All rights reserved.
+//  Created by Stenson on 16/4/28.
+//  Copyright © 2016年 Zenith Electronic. All rights reserved.
 //
 
-#import "ZEMainViewController.h"
-
-#import "ZEUserServer.h"
-
-@interface ZEMainViewController ()
+#import "ZEUserCenterVC.h"
+#import "ZEUserCenterView.h"
+@interface ZEUserCenterVC ()
 
 @end
 
-@implementation ZEMainViewController
+@implementation ZEUserCenterVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor cyanColor];
-    
-    
+    self.title = @"用户中心";
+    [self initView];
+}
 
+-(void)initView
+{
+    ZEUserCenterView * usView = [[ZEUserCenterView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
+    
+    [self.view addSubview:usView];
 }
 
 - (void)didReceiveMemoryWarning {
