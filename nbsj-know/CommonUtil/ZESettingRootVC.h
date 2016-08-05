@@ -20,6 +20,7 @@
 }
 
 @property (nonatomic,strong) UILabel * titleLabel;
+@property (nonatomic,strong) UIButton * leftBtn;
 @property (nonatomic,strong) UIButton * rightBtn;
 /**
  *  添加一条提示 1s后消失

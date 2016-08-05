@@ -27,34 +27,29 @@
     application.applicationSupportsShakeToEdit = YES;
 
     ZEHomeVC * homeVC = [[ZEHomeVC alloc]init];
-    homeVC.tabBarItem.image = [UIImage imageNamed:@"tab_homepage_normal"];
+    homeVC.tabBarItem.image = [UIImage imageNamed:@"ic_titlebar_home_normal_flat.png"];
     homeVC.tabBarItem.title = @"首页";
     UINavigationController * homeNav = [[UINavigationController alloc]initWithRootViewController:homeVC];
     
     ZEQuestionsVC * quesetionsVC = [[ZEQuestionsVC alloc]init];
-    quesetionsVC.tabBarItem.image = [UIImage imageNamed:@"tab_homepage_normal"];
-    quesetionsVC.tabBarItem.title = @"首页";
+    quesetionsVC.tabBarItem.image = [UIImage imageNamed:@"refresh_Rank.png"];
+    quesetionsVC.tabBarItem.title = @"问答";
     UINavigationController * quesetionsNav = [[UINavigationController alloc]initWithRootViewController:quesetionsVC];
 
     ZEGroupVC * groupVC = [[ZEGroupVC alloc]init];
     groupVC.tabBarItem.image = [UIImage imageNamed:@"tab_homepage_normal"];
-    groupVC.tabBarItem.title = @"首页";
+    groupVC.tabBarItem.title = @"圈子";
     UINavigationController * groupNav = [[UINavigationController alloc]initWithRootViewController:groupVC];
 
     ZEUserCenterVC * userCenVC = [[ZEUserCenterVC alloc]init];
     userCenVC.tabBarItem.image = [UIImage imageNamed:@"tab_homepage_normal"];
-    userCenVC.tabBarItem.title = @"首页";
+    userCenVC.tabBarItem.title = @"我的";
     UINavigationController * userCenNav = [[UINavigationController alloc]initWithRootViewController:userCenVC];
     
     UITabBarController * tabBar = [[UITabBarController alloc]init];
-    tabBar.toolbarItems = @[homeNav,quesetionsNav,groupNav,userCenNav];
+    tabBar.tabBar.tintColor = MAIN_NAV_COLOR;
+    tabBar.viewControllers = @[homeNav,quesetionsNav,groupNav,userCenNav];
     
-    
-    
-    
-    
-//    ZEMainViewController * mainVC = [[ZEMainViewController alloc]init];
-//    UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:mainVC];
     self.window.rootViewController = tabBar;
     
     NSLog(@"%@",Zenith_Server);

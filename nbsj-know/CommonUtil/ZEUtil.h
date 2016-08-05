@@ -25,4 +25,26 @@
 //  时间格式化
 + (NSString *)formatDate:(NSDate *)date;
 
++ (UIColor *)colorWithRed:(NSInteger)red green:(NSInteger)green blue:(NSInteger)blue;
+
+/**
+ *  16进制转uicolor
+ *
+ *  @param color @"#FFFFFF" ,@"OXFFFFFF" ,@"FFFFFF"
+ *
+ *  @return uicolor
+ */
++ (UIColor *)colorWithHexString:(NSString *)color;
+
+/**
+ *  @author Stenson, 16-07-28 16:07:44
+ *
+ *  比较当前时间是多少分钟前
+ *
+ *  @param str 传入时间
+ *
+ *  @return 出入时间是多少分钟前
+ */
++ (NSString *) compareCurrentTime:(NSString *)str;
+
 @end

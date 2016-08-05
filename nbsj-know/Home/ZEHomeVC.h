@@ -8,6 +8,6 @@
 
 #import "ZESettingRootVC.h"
 
-@interface ZEHomeVC : ZESettingRootVC
+@interface ZEHomeVC : UIViewController
 
 @end

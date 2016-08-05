@@ -118,6 +118,53 @@
     UIGraphicsEndImageContext();
     return image;
 }
++ (UIColor *)colorWithRed:(NSInteger)red green:(NSInteger)green blue:(NSInteger)blue
+{
+    return [UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:1];
+}
+
++ (UIColor *)colorWithHexString:(NSString *)color
+{
+    NSString *cString = [[color stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];
+    
+    // String should be 6 or 8 characters
+    if ([cString length] < 6) {
+        return [UIColor clearColor];
+    }
+    
+    // strip 0X if it appears
+    if ([cString hasPrefix:@"0X"])
+        cString = [cString substringFromIndex:2];
+    if ([cString hasPrefix:@"#"])
+        cString = [cString substringFromIndex:1];
+    if ([cString length] != 6)
+        return [UIColor clearColor];
+    
+    // Separate into r, g, b substrings
+    NSRange range;
+    range.location = 0;
+    range.length = 2;
+    
+    //r
+    NSString *rString = [cString substringWithRange:range];
+    
+    //g
+    range.location = 2;
+    NSString *gString = [cString substringWithRange:range];
+    
+    //b
+    range.location = 4;
+    NSString *bString = [cString substringWithRange:range];
+    
+    // Scan values
+    unsigned int r, g, b;
+    [[NSScanner scannerWithString:rString] scanHexInt:&r];
+    [[NSScanner scannerWithString:gString] scanHexInt:&g];
+    [[NSScanner scannerWithString:bString] scanHexInt:&b];
+    
+    return [UIColor colorWithRed:((float) r / 255.0f) green:((float) g / 255.0f) blue:((float) b / 255.0f) alpha:1.0f];
+}
+
 
 + (NSString *)formatDate:(NSDate *)date
 {
@@ -126,6 +173,46 @@
     return [df stringFromDate:date];
 }
 
++ (NSString *) compareCurrentTime:(NSString *)str
+{
+    //把字符串转为NSdate
+//    NSDate * serverDate = [[NSDate alloc]initWithTimeIntervalSince1970:str];
+//    NSLog(@">>  %@",serverDate);
 
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *timeDate = [dateFormatter dateFromString:str];
+    //得到与当前时间差
+    NSTimeInterval  timeInterval = [timeDate timeIntervalSinceNow];
+    timeInterval = -timeInterval;
+    //标准时间和北京时间差8个小时
+    timeInterval = timeInterval ;
+    long temp = 0;
+    NSString *result;
+    if (timeInterval < 60) {
+        result = [NSString stringWithFormat:@"刚刚"];
+    }
+    else if((temp = timeInterval/60) <60){
+        result = [NSString stringWithFormat:@"%ld分钟前",temp];
+    }
+    
+    else if((temp = temp/60) <24){
+        result = [NSString stringWithFormat:@"%ld小时前",temp];
+    }
+    
+    else if((temp = temp/24) <30){
+        result = [NSString stringWithFormat:@"%ld天前",temp];
+    }
+    
+    else if((temp = temp/30) <12){
+        result = [NSString stringWithFormat:@"%ld月前",temp];
+    }
+    else{
+        temp = temp/12;
+        result = [NSString stringWithFormat:@"%ld年前",temp];
+    }
+    
+    return  result;
+}
 
 @end

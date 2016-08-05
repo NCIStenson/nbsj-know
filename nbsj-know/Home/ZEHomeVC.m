@@ -8,8 +8,10 @@
 
 #import "ZEHomeVC.h"
 #import "ZEHomeView.h"
-
-@interface ZEHomeVC ()
+#import "ZESinginVC.h"
+#import "ZEShowQuestionVC.h"
+#import "ZEQuestionsDetailVC.h"
+@interface ZEHomeVC ()<ZEHomeViewDelegate>
 
 @end
 
@@ -18,7 +20,52 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.navigationController.navigationBarHidden = YES;
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self initView];
     
+    NSLog(@">>  %@",[ZEUtil compareCurrentTime:@"2016-07-28 17:08:50"]);
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    self.tabBarController.tabBar.hidden = NO;
+}
+
+-(void)initView
+{
+    ZEHomeView * _homeView = [[ZEHomeView alloc] initWithFrame:self.view.frame];
+    _homeView.delegate = self;
+    [self.view addSubview:_homeView];
+}
+
+#pragma mark - ZEHomeViewDelegate
+
+-(void)goSinginView
+{
+    ZESinginVC * singVC = [[ZESinginVC alloc]init];
+    [self.navigationController pushViewController:singVC animated:YES];
+}
+
+-(void)goMoreQuestionsView
+{
+    [self.tabBarController setSelectedIndex:1];
+}
+-(void)goMoreCaseAnswerView
+{
+    
+}
+-(void)goMoreExpertAnswerView
+{
+    
+}
+-(void)goQuestionDetailVCWithIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"选择了第 %ld 区，第 %ld 行",(long)indexPath.section,(long)indexPath.row);
+    
+    ZEQuestionsDetailVC * quesDetailVC = [[ZEQuestionsDetailVC alloc]init];
+    
+    [self.navigationController pushViewController:quesDetailVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

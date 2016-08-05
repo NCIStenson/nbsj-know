@@ -26,7 +26,11 @@
 #define HTTPMETHOD_GET @"GET"
 #define HTTPMETHOD_POST @"POST"
 
+#define kTiltlFontSize 14.0f
+#define kSubTiltlFontSize 12.0f
+
 #define NAV_HEIGHT 64.0f
+
 
 #define Zenith_Server [[[NSBundle mainBundle] infoDictionary] objectForKey:@"ZenithServerAddress"]
 
