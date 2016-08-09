@@ -11,8 +11,14 @@
 
 @interface ZEUserServer : NSObject
 
-+ (void)getWeatherInfoWithCity:(NSString *)str
-                       success:(ServerResponseSuccessBlock)successBlock
-                          fail:(ServerResponseFailBlock)failBlock
-                         error:(ServerErrorRecordBlock)errorBlock;
++(void)loginWithNum:(NSString *)username
+       withPassword:(NSString *)password
+            success:(ServerResponseSuccessBlock)successBlock
+               fail:(ServerResponseFailBlock)failBlock
+              error:(ServerErrorRecordBlock)errorBlock;
+
++(void)getDataSuccess:(ServerResponseSuccessBlock)successBlock
+                 fail:(ServerResponseFailBlock)failBlock
+                error:(ServerErrorRecordBlock)errorBlock;
+
 @end

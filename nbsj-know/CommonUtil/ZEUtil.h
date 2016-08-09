@@ -47,4 +47,8 @@
  */
 + (NSString *) compareCurrentTime:(NSString *)str;
 
+
+//  字符串转换成JSON格式
++ (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
++(NSString *)JSONString:(NSString *)aString;
 @end

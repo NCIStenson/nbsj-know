@@ -51,6 +51,10 @@
 		982ED4481D48518E00F87343 /* JFCalendarPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED4471D48518E00F87343 /* JFCalendarPickerView.m */; };
 		982ED44B1D48550900F87343 /* ZESinginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED44A1D48550900F87343 /* ZESinginVC.m */; };
 		982F0C6A1C4E2D4600593946 /* ZEServerEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 982F0C691C4E2D4600593946 /* ZEServerEngine.m */; };
+		9872544E1D587CD7005C4AB9 /* ZELoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9872544B1D587CD7005C4AB9 /* ZELoginView.m */; };
+		9872544F1D587CD7005C4AB9 /* ZELoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9872544D1D587CD7005C4AB9 /* ZELoginViewController.m */; };
+		987257581D59A7F6005C4AB9 /* ZEPackageServerData.m in Sources */ = {isa = PBXBuildFile; fileRef = 987257571D59A7F6005C4AB9 /* ZEPackageServerData.m */; };
+		9872575E1D59BAEA005C4AB9 /* ZESettingLocalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9872575D1D59BAEA005C4AB9 /* ZESettingLocalData.m */; };
 		987ACBC21D49E08F006D692E /* rateTa@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 987ACBC11D49E08F006D692E /* rateTa@2x.png */; };
 		987ACBC41D49E577006D692E /* banner.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 987ACBC31D49E577006D692E /* banner.jpg */; };
 		987ACBC71D4A2557006D692E /* ZEShowQuestionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 987ACBC61D4A2557006D692E /* ZEShowQuestionVC.m */; };
@@ -183,6 +187,14 @@
 		982ED44A1D48550900F87343 /* ZESinginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZESinginVC.m; path = Home/ZESinginVC.m; sourceTree = "<group>"; };
 		982F0C681C4E2D4600593946 /* ZEServerEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEServerEngine.h; path = Service/ZEServerEngine.h; sourceTree = "<group>"; };
 		982F0C691C4E2D4600593946 /* ZEServerEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEServerEngine.m; path = Service/ZEServerEngine.m; sourceTree = "<group>"; };
+		9872544A1D587CD7005C4AB9 /* ZELoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZELoginView.h; sourceTree = "<group>"; };
+		9872544B1D587CD7005C4AB9 /* ZELoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZELoginView.m; sourceTree = "<group>"; };
+		9872544C1D587CD7005C4AB9 /* ZELoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZELoginViewController.h; sourceTree = "<group>"; };
+		9872544D1D587CD7005C4AB9 /* ZELoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZELoginViewController.m; sourceTree = "<group>"; };
+		987257561D59A7F6005C4AB9 /* ZEPackageServerData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEPackageServerData.h; path = CommonUtil/ZEPackageServerData.h; sourceTree = "<group>"; };
+		987257571D59A7F6005C4AB9 /* ZEPackageServerData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEPackageServerData.m; path = CommonUtil/ZEPackageServerData.m; sourceTree = "<group>"; };
+		9872575C1D59BAEA005C4AB9 /* ZESettingLocalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZESettingLocalData.h; path = CommonUtil/ZESettingLocalData.h; sourceTree = "<group>"; };
+		9872575D1D59BAEA005C4AB9 /* ZESettingLocalData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZESettingLocalData.m; path = CommonUtil/ZESettingLocalData.m; sourceTree = "<group>"; };
 		987ACBC11D49E08F006D692E /* rateTa@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rateTa@2x.png"; sourceTree = "<group>"; };
 		987ACBC31D49E577006D692E /* banner.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = banner.jpg; sourceTree = "<group>"; };
 		987ACBC51D4A2557006D692E /* ZEShowQuestionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEShowQuestionVC.h; path = Home/ZEShowQuestionVC.h; sourceTree = "<group>"; };
@@ -462,10 +474,25 @@
 			children = (
 				982F0C681C4E2D4600593946 /* ZEServerEngine.h */,
 				982F0C691C4E2D4600593946 /* ZEServerEngine.m */,
+				9872575C1D59BAEA005C4AB9 /* ZESettingLocalData.h */,
+				9872575D1D59BAEA005C4AB9 /* ZESettingLocalData.m */,
+				987257561D59A7F6005C4AB9 /* ZEPackageServerData.h */,
+				987257571D59A7F6005C4AB9 /* ZEPackageServerData.m */,
 				98DB7C601C4F56470046D405 /* ZEUserServer.h */,
 				98DB7C611C4F56470046D405 /* ZEUserServer.m */,
 			);
 			name = Service;
+			sourceTree = "<group>";
+		};
+		987254491D587CD7005C4AB9 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				9872544A1D587CD7005C4AB9 /* ZELoginView.h */,
+				9872544B1D587CD7005C4AB9 /* ZELoginView.m */,
+				9872544C1D587CD7005C4AB9 /* ZELoginViewController.h */,
+				9872544D1D587CD7005C4AB9 /* ZELoginViewController.m */,
+			);
+			path = Login;
 			sourceTree = "<group>";
 		};
 		987ACBCE1D4AEDEC006D692E /* icon_questions */ = {
@@ -519,6 +546,7 @@
 				989B2C4A1C4DE7AA00F14EFA /* ZEAppDelegate.m */,
 				98DB7C541C4F53EA0046D405 /* ZEMainViewController.h */,
 				98DB7C551C4F53EA0046D405 /* ZEMainViewController.m */,
+				987254491D587CD7005C4AB9 /* Login */,
 				982ED3701D4208E300F87343 /* Home */,
 				982ED36F1D4208E000F87343 /* Questions */,
 				982ED36E1D4208DC00F87343 /* Group */,
@@ -816,17 +844,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				98DB7C501C4F4FA70046D405 /* ZEUtil.m in Sources */,
+				9872575E1D59BAEA005C4AB9 /* ZESettingLocalData.m in Sources */,
 				982ED3B11D420DB700F87343 /* MASViewConstraint.m in Sources */,
 				987ACBCA1D4AE3E6006D692E /* ZEShowQuestionView.m in Sources */,
+				9872544E1D587CD7005C4AB9 /* ZELoginView.m in Sources */,
 				989B2C4B1C4DE7AA00F14EFA /* ZEAppDelegate.m in Sources */,
 				982ED3AD1D420DB700F87343 /* MASConstraint.m in Sources */,
 				982ED3761D42096F00F87343 /* ZEHomeView.m in Sources */,
 				982ED37C1D4209F200F87343 /* ZEGroupVC.m in Sources */,
+				987257581D59A7F6005C4AB9 /* ZEPackageServerData.m in Sources */,
 				989B2C481C4DE7AA00F14EFA /* main.m in Sources */,
 				982F0C6A1C4E2D4600593946 /* ZEServerEngine.m in Sources */,
 				987ACBCD1D4AE845006D692E /* ZEQuestionsView.m in Sources */,
 				989AA67D1D4EF83E00A08022 /* ZEAskQuesViewController.m in Sources */,
 				982ED3EA1D4850E900F87343 /* JFCollectionViewCell.m in Sources */,
+				9872544F1D587CD7005C4AB9 /* ZELoginViewController.m in Sources */,
 				982ED3B51D420DB700F87343 /* ViewController+MASAdditions.m in Sources */,
 				982ED3B41D420DB700F87343 /* View+MASAdditions.m in Sources */,
 				98F4719E1D5434F70016CD5A /* ZEAnswerQuestionsView.m in Sources */,

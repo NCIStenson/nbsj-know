@@ -10,7 +10,7 @@
 #import "AFNetworking.h"
 
 typedef void (^ServerResponseBlock) (NSDictionary *result);
-typedef void (^ServerResponseSuccessBlock) (NSString *successMsg, id data);
+typedef void (^ServerResponseSuccessBlock) (id data);
 typedef void (^ServerResponseFailBlock) (NSError *errorCode);
 typedef void (^ServerErrorRecordBlock) (void);  // 记录服务器错误block
 
@@ -23,5 +23,10 @@ typedef void (^ServerErrorRecordBlock) (void);  // 记录服务器错误block
               httpMethod:(NSString *)httpMethod
                  success:(ServerResponseSuccessBlock)successBlock
                     fail:(ServerResponseFailBlock)failBlock;
+
+
+-(void)requestWithJsonDic:(NSDictionary *)jsonDic
+                   success:(ServerResponseSuccessBlock)successBlock
+                      fail:(ServerResponseFailBlock)failBlock;
 
 @end

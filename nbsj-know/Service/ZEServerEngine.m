@@ -7,7 +7,7 @@
 //
 
 #import "ZEServerEngine.h"
-
+#import "ZESettingLocalData.h"
 #define kServerErrorNotLogin                @"E020601" // 用户未登陆
 #define kServerErrorLoginTimeOut            @"E020602" // 登陆超时
 #define kServerErrorReqTimeOut              @"E020603" // 请求超时
@@ -54,9 +54,8 @@ static ZEServerEngine *serverEngine = nil;
                     success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                         NSDictionary * responseDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
                         if ([responseDic isKindOfClass:[NSDictionary class]] && [ZEUtil isNotNull:responseDic]) {
-                            NSString * successMsg = nil;
                             if (successBlock != nil) {
-                                successBlock(successMsg, responseDic);
+                                successBlock(responseDic);
                             }
                         }
         }
@@ -77,6 +76,41 @@ static ZEServerEngine *serverEngine = nil;
     
 }
 
+-(void)requestWithJsonDic:(NSDictionary *)jsonDic
+                 success:(ServerResponseSuccessBlock)successBlock
+                    fail:(ServerResponseFailBlock)failBlock
+{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    
+    [manager POST:@"http://192.168.9.220:9090/emarkspg/do/app/login"
+              parameters:jsonDic
+                progress:nil
+                 success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+  
+                    NSArray *cookiesArray = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+                    NSDictionary *cookieDict = [NSHTTPCookie requestHeaderFieldsWithCookies:cookiesArray];
+                    NSString *cookie = [cookieDict objectForKey:@"Cookie"];
+                         //设置http的header的cookie
+                     NSArray * cookirStr = [cookie componentsSeparatedByString:@"="];
+                     [ZESettingLocalData setCookie:[cookirStr lastObject]];
+
+                     NSError * err = nil;
+                     NSDictionary * responseDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:&err];
+                     if ([ZEUtil isNotNull:responseObject]) {
+                         successBlock(responseDic);
+                     }
+                 } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                     NSLog(@"%@",error);
+                     if (error != nil) {
+                         failBlock(error);
+                     }
+                 }];
+}
 
 
 @end
