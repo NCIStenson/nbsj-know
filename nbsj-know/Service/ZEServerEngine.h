@@ -6,12 +6,20 @@
 //  Copyright © 2016年 Stenson. All rights reserved.
 //
 
+/**
+ *  @author Stenson, 16-08-11 14:08:34
+ *
+ *  封装AFNetWorking请求
+ *
+ */
+
+
 #import <Foundation/Foundation.h>
 #import "AFNetworking.h"
 
 typedef void (^ServerResponseBlock) (NSDictionary *result);
 typedef void (^ServerResponseSuccessBlock) (id data);
-typedef void (^ServerResponseFailBlock) (NSError *errorCode);
+typedef void (^ServerResponseFailBlock) (NSError *error);
 typedef void (^ServerErrorRecordBlock) (void);  // 记录服务器错误block
 
 @interface ZEServerEngine : NSObject
@@ -26,6 +34,7 @@ typedef void (^ServerErrorRecordBlock) (void);  // 记录服务器错误block
 
 
 -(void)requestWithJsonDic:(NSDictionary *)jsonDic
+        withServerAddress:(NSString *)serverAddress
                    success:(ServerResponseSuccessBlock)successBlock
                       fail:(ServerResponseFailBlock)failBlock;
 

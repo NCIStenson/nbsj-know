@@ -15,17 +15,6 @@
 		982ED37C1D4209F200F87343 /* ZEGroupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED37B1D4209F200F87343 /* ZEGroupVC.m */; };
 		982ED3811D420A5000F87343 /* ZEUserCenterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED37E1D420A5000F87343 /* ZEUserCenterVC.m */; };
 		982ED3821D420A5000F87343 /* ZEUserCenterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED3801D420A5000F87343 /* ZEUserCenterView.m */; };
-		982ED38C1D420AC900F87343 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED3891D420AC900F87343 /* MBProgressHUD.m */; };
-		982ED3AC1D420DB700F87343 /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED3921D420DB700F87343 /* MASCompositeConstraint.m */; };
-		982ED3AD1D420DB700F87343 /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED3951D420DB700F87343 /* MASConstraint.m */; };
-		982ED3AE1D420DB700F87343 /* MASConstraintMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED3971D420DB700F87343 /* MASConstraintMaker.m */; };
-		982ED3AF1D420DB700F87343 /* MASLayoutConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED3991D420DB700F87343 /* MASLayoutConstraint.m */; };
-		982ED3B01D420DB700F87343 /* MASViewAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED39D1D420DB700F87343 /* MASViewAttribute.m */; };
-		982ED3B11D420DB700F87343 /* MASViewConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED39F1D420DB700F87343 /* MASViewConstraint.m */; };
-		982ED3B21D420DB700F87343 /* NSArray+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED3A11D420DB700F87343 /* NSArray+MASAdditions.m */; };
-		982ED3B31D420DB700F87343 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED3A41D420DB700F87343 /* NSLayoutConstraint+MASDebugAdditions.m */; };
-		982ED3B41D420DB700F87343 /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED3A61D420DB700F87343 /* View+MASAdditions.m */; };
-		982ED3B51D420DB700F87343 /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED3A91D420DB700F87343 /* ViewController+MASAdditions.m */; };
 		982ED3EA1D4850E900F87343 /* JFCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED3E71D4850E900F87343 /* JFCollectionViewCell.m */; };
 		982ED4311D48517600F87343 /* icon_back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 982ED41A1D48517600F87343 /* icon_back@2x.png */; };
 		982ED4321D48517600F87343 /* icon_back@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 982ED41B1D48517600F87343 /* icon_back@3x.png */; };
@@ -55,6 +44,14 @@
 		9872544F1D587CD7005C4AB9 /* ZELoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9872544D1D587CD7005C4AB9 /* ZELoginViewController.m */; };
 		987257581D59A7F6005C4AB9 /* ZEPackageServerData.m in Sources */ = {isa = PBXBuildFile; fileRef = 987257571D59A7F6005C4AB9 /* ZEPackageServerData.m */; };
 		9872575E1D59BAEA005C4AB9 /* ZESettingLocalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9872575D1D59BAEA005C4AB9 /* ZESettingLocalData.m */; };
+		987258E41D5C5C55005C4AB9 /* boy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 987258E21D5C5C55005C4AB9 /* boy@2x.png */; };
+		987258E51D5C5C55005C4AB9 /* girl@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 987258E31D5C5C55005C4AB9 /* girl@2x.png */; };
+		987258EA1D5C6517005C4AB9 /* askTa@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 987258E61D5C6517005C4AB9 /* askTa@2x.png */; };
+		987258EB1D5C6517005C4AB9 /* loadCycle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 987258E71D5C6517005C4AB9 /* loadCycle@2x.png */; };
+		987258EC1D5C6517005C4AB9 /* my_center_seting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 987258E81D5C6517005C4AB9 /* my_center_seting@2x.png */; };
+		987258ED1D5C6517005C4AB9 /* question_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 987258E91D5C6517005C4AB9 /* question_icon@2x.png */; };
+		987258F01D5C6F54005C4AB9 /* ZESetPersonalMessageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 987258EF1D5C6F54005C4AB9 /* ZESetPersonalMessageVC.m */; };
+		987258F31D5C6F7E005C4AB9 /* ZESetPersonalMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 987258F21D5C6F7E005C4AB9 /* ZESetPersonalMessageView.m */; };
 		987ACBC21D49E08F006D692E /* rateTa@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 987ACBC11D49E08F006D692E /* rateTa@2x.png */; };
 		987ACBC41D49E577006D692E /* banner.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 987ACBC31D49E577006D692E /* banner.jpg */; };
 		987ACBC71D4A2557006D692E /* ZEShowQuestionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 987ACBC61D4A2557006D692E /* ZEShowQuestionVC.m */; };
@@ -91,7 +88,7 @@
 		98F094261D49DD2D002D4E3B /* qb_praiseBtn_hand@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98F094251D49DD2D002D4E3B /* qb_praiseBtn_hand@2x.png */; };
 		98F471981D5434CF0016CD5A /* ZEAnswerQuestionsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98F471971D5434CF0016CD5A /* ZEAnswerQuestionsVC.m */; };
 		98F4719E1D5434F70016CD5A /* ZEAnswerQuestionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98F4719D1D5434F70016CD5A /* ZEAnswerQuestionsView.m */; };
-		A828955B7420714F2D89D798 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E105A2397763081EFD8784C9 /* libPods.a */; };
+		9FBE7A32BDB566C417E1113F /* libPods-nbsj-know.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EF64F73ABC42A2CC3AC9B45 /* libPods-nbsj-know.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,8 +109,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		63FC90F96158DCD8066473CD /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		806A7047C4B13286A220D3B0 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		7EF64F73ABC42A2CC3AC9B45 /* libPods-nbsj-know.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-nbsj-know.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		93430E78EC06797D6B873E01 /* Pods-nbsj-know.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nbsj-know.release.xcconfig"; path = "Pods/Target Support Files/Pods-nbsj-know/Pods-nbsj-know.release.xcconfig"; sourceTree = "<group>"; };
+		9801DAFD1D5DCD95008B1676 /* ZEServerTableMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEServerTableMessage.h; path = Constant/ZEServerTableMessage.h; sourceTree = "<group>"; };
 		9821C76F1C4E10FF00FE9080 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		982ED36A1D4208A900F87343 /* ZESettingRootVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZESettingRootVC.h; path = CommonUtil/ZESettingRootVC.h; sourceTree = "<group>"; };
 		982ED36B1D4208A900F87343 /* ZESettingRootVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZESettingRootVC.m; path = CommonUtil/ZESettingRootVC.m; sourceTree = "<group>"; };
@@ -129,35 +127,7 @@
 		982ED37E1D420A5000F87343 /* ZEUserCenterVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEUserCenterVC.m; path = Setting/ZEUserCenterVC.m; sourceTree = "<group>"; };
 		982ED37F1D420A5000F87343 /* ZEUserCenterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEUserCenterView.h; path = Setting/ZEUserCenterView.h; sourceTree = "<group>"; };
 		982ED3801D420A5000F87343 /* ZEUserCenterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEUserCenterView.m; path = Setting/ZEUserCenterView.m; sourceTree = "<group>"; };
-		982ED3871D420AC900F87343 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		982ED3881D420AC900F87343 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
-		982ED3891D420AC900F87343 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		982ED38F1D420DB700F87343 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../Masonry/LICENSE; sourceTree = "<group>"; };
-		982ED3911D420DB700F87343 /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASCompositeConstraint.h; sourceTree = "<group>"; };
-		982ED3921D420DB700F87343 /* MASCompositeConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASCompositeConstraint.m; sourceTree = "<group>"; };
-		982ED3931D420DB700F87343 /* MASConstraint+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MASConstraint+Private.h"; sourceTree = "<group>"; };
-		982ED3941D420DB700F87343 /* MASConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASConstraint.h; sourceTree = "<group>"; };
-		982ED3951D420DB700F87343 /* MASConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASConstraint.m; sourceTree = "<group>"; };
-		982ED3961D420DB700F87343 /* MASConstraintMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASConstraintMaker.h; sourceTree = "<group>"; };
-		982ED3971D420DB700F87343 /* MASConstraintMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASConstraintMaker.m; sourceTree = "<group>"; };
-		982ED3981D420DB700F87343 /* MASLayoutConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASLayoutConstraint.h; sourceTree = "<group>"; };
-		982ED3991D420DB700F87343 /* MASLayoutConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASLayoutConstraint.m; sourceTree = "<group>"; };
-		982ED39A1D420DB700F87343 /* Masonry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Masonry.h; sourceTree = "<group>"; };
-		982ED39B1D420DB700F87343 /* MASUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASUtilities.h; sourceTree = "<group>"; };
-		982ED39C1D420DB700F87343 /* MASViewAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASViewAttribute.h; sourceTree = "<group>"; };
-		982ED39D1D420DB700F87343 /* MASViewAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewAttribute.m; sourceTree = "<group>"; };
-		982ED39E1D420DB700F87343 /* MASViewConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASViewConstraint.h; sourceTree = "<group>"; };
-		982ED39F1D420DB700F87343 /* MASViewConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewConstraint.m; sourceTree = "<group>"; };
-		982ED3A01D420DB700F87343 /* NSArray+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MASAdditions.h"; sourceTree = "<group>"; };
-		982ED3A11D420DB700F87343 /* NSArray+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MASAdditions.m"; sourceTree = "<group>"; };
-		982ED3A21D420DB700F87343 /* NSArray+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MASShorthandAdditions.h"; sourceTree = "<group>"; };
-		982ED3A31D420DB700F87343 /* NSLayoutConstraint+MASDebugAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+MASDebugAdditions.h"; sourceTree = "<group>"; };
-		982ED3A41D420DB700F87343 /* NSLayoutConstraint+MASDebugAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+MASDebugAdditions.m"; sourceTree = "<group>"; };
-		982ED3A51D420DB700F87343 /* View+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASAdditions.h"; sourceTree = "<group>"; };
-		982ED3A61D420DB700F87343 /* View+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "View+MASAdditions.m"; sourceTree = "<group>"; };
-		982ED3A71D420DB700F87343 /* View+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASShorthandAdditions.h"; sourceTree = "<group>"; };
-		982ED3A81D420DB700F87343 /* ViewController+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ViewController+MASAdditions.h"; sourceTree = "<group>"; };
-		982ED3A91D420DB700F87343 /* ViewController+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ViewController+MASAdditions.m"; sourceTree = "<group>"; };
 		982ED3E61D4850E900F87343 /* JFCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFCollectionViewCell.h; sourceTree = "<group>"; };
 		982ED3E71D4850E900F87343 /* JFCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFCollectionViewCell.m; sourceTree = "<group>"; };
 		982ED41A1D48517600F87343 /* icon_back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_back@2x.png"; path = "nbsj-know/SourceImg/icon_back@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -195,6 +165,16 @@
 		987257571D59A7F6005C4AB9 /* ZEPackageServerData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEPackageServerData.m; path = CommonUtil/ZEPackageServerData.m; sourceTree = "<group>"; };
 		9872575C1D59BAEA005C4AB9 /* ZESettingLocalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZESettingLocalData.h; path = CommonUtil/ZESettingLocalData.h; sourceTree = "<group>"; };
 		9872575D1D59BAEA005C4AB9 /* ZESettingLocalData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZESettingLocalData.m; path = CommonUtil/ZESettingLocalData.m; sourceTree = "<group>"; };
+		987258E21D5C5C55005C4AB9 /* boy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "boy@2x.png"; sourceTree = "<group>"; };
+		987258E31D5C5C55005C4AB9 /* girl@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "girl@2x.png"; sourceTree = "<group>"; };
+		987258E61D5C6517005C4AB9 /* askTa@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "askTa@2x.png"; sourceTree = "<group>"; };
+		987258E71D5C6517005C4AB9 /* loadCycle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loadCycle@2x.png"; sourceTree = "<group>"; };
+		987258E81D5C6517005C4AB9 /* my_center_seting@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "my_center_seting@2x.png"; sourceTree = "<group>"; };
+		987258E91D5C6517005C4AB9 /* question_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "question_icon@2x.png"; sourceTree = "<group>"; };
+		987258EE1D5C6F54005C4AB9 /* ZESetPersonalMessageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZESetPersonalMessageVC.h; path = Setting/ZESetPersonalMessageVC.h; sourceTree = "<group>"; };
+		987258EF1D5C6F54005C4AB9 /* ZESetPersonalMessageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZESetPersonalMessageVC.m; path = Setting/ZESetPersonalMessageVC.m; sourceTree = "<group>"; };
+		987258F11D5C6F7E005C4AB9 /* ZESetPersonalMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZESetPersonalMessageView.h; path = Setting/ZESetPersonalMessageView.h; sourceTree = "<group>"; };
+		987258F21D5C6F7E005C4AB9 /* ZESetPersonalMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZESetPersonalMessageView.m; path = Setting/ZESetPersonalMessageView.m; sourceTree = "<group>"; };
 		987ACBC11D49E08F006D692E /* rateTa@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rateTa@2x.png"; sourceTree = "<group>"; };
 		987ACBC31D49E577006D692E /* banner.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = banner.jpg; sourceTree = "<group>"; };
 		987ACBC51D4A2557006D692E /* ZEShowQuestionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEShowQuestionVC.h; path = Home/ZEShowQuestionVC.h; sourceTree = "<group>"; };
@@ -257,7 +237,7 @@
 		98F471971D5434CF0016CD5A /* ZEAnswerQuestionsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEAnswerQuestionsVC.m; path = Questions/ZEAnswerQuestionsVC.m; sourceTree = "<group>"; };
 		98F4719C1D5434F70016CD5A /* ZEAnswerQuestionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEAnswerQuestionsView.h; path = Questions/ZEAnswerQuestionsView.h; sourceTree = "<group>"; };
 		98F4719D1D5434F70016CD5A /* ZEAnswerQuestionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEAnswerQuestionsView.m; path = Questions/ZEAnswerQuestionsView.m; sourceTree = "<group>"; };
-		E105A2397763081EFD8784C9 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C543DE3B53D618A58F02B201 /* Pods-nbsj-know.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nbsj-know.debug.xcconfig"; path = "Pods/Target Support Files/Pods-nbsj-know/Pods-nbsj-know.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -265,7 +245,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A828955B7420714F2D89D798 /* libPods.a in Frameworks */,
+				9FBE7A32BDB566C417E1113F /* libPods-nbsj-know.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,12 +266,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4228FB72F762E3664B194934 /* Frameworks */ = {
+		020716478B01CEE148606F06 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				E105A2397763081EFD8784C9 /* libPods.a */,
+				C543DE3B53D618A58F02B201 /* Pods-nbsj-know.debug.xcconfig */,
+				93430E78EC06797D6B873E01 /* Pods-nbsj-know.release.xcconfig */,
 			);
-			name = Frameworks;
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		982ED36D1D4208DA00F87343 /* Setting */ = {
@@ -301,6 +282,10 @@
 				982ED37E1D420A5000F87343 /* ZEUserCenterVC.m */,
 				982ED37F1D420A5000F87343 /* ZEUserCenterView.h */,
 				982ED3801D420A5000F87343 /* ZEUserCenterView.m */,
+				987258EE1D5C6F54005C4AB9 /* ZESetPersonalMessageVC.h */,
+				987258EF1D5C6F54005C4AB9 /* ZESetPersonalMessageVC.m */,
+				987258F11D5C6F7E005C4AB9 /* ZESetPersonalMessageView.h */,
+				987258F21D5C6F7E005C4AB9 /* ZESetPersonalMessageView.m */,
 			);
 			name = Setting;
 			sourceTree = "<group>";
@@ -360,64 +345,20 @@
 			isa = PBXGroup;
 			children = (
 				982ED3E51D4850E900F87343 /* JFCalendarPicker */,
-				982ED3901D420DB700F87343 /* Masonry */,
-				982ED3861D420AC900F87343 /* MBProgressHUD */,
 			);
 			path = ThirdSource;
-			sourceTree = "<group>";
-		};
-		982ED3861D420AC900F87343 /* MBProgressHUD */ = {
-			isa = PBXGroup;
-			children = (
-				982ED3871D420AC900F87343 /* LICENSE */,
-				982ED3881D420AC900F87343 /* MBProgressHUD.h */,
-				982ED3891D420AC900F87343 /* MBProgressHUD.m */,
-			);
-			path = MBProgressHUD;
-			sourceTree = "<group>";
-		};
-		982ED3901D420DB700F87343 /* Masonry */ = {
-			isa = PBXGroup;
-			children = (
-				982ED3911D420DB700F87343 /* MASCompositeConstraint.h */,
-				982ED3921D420DB700F87343 /* MASCompositeConstraint.m */,
-				982ED3931D420DB700F87343 /* MASConstraint+Private.h */,
-				982ED3941D420DB700F87343 /* MASConstraint.h */,
-				982ED3951D420DB700F87343 /* MASConstraint.m */,
-				982ED3961D420DB700F87343 /* MASConstraintMaker.h */,
-				982ED3971D420DB700F87343 /* MASConstraintMaker.m */,
-				982ED3981D420DB700F87343 /* MASLayoutConstraint.h */,
-				982ED3991D420DB700F87343 /* MASLayoutConstraint.m */,
-				982ED39A1D420DB700F87343 /* Masonry.h */,
-				982ED39B1D420DB700F87343 /* MASUtilities.h */,
-				982ED39C1D420DB700F87343 /* MASViewAttribute.h */,
-				982ED39D1D420DB700F87343 /* MASViewAttribute.m */,
-				982ED39E1D420DB700F87343 /* MASViewConstraint.h */,
-				982ED39F1D420DB700F87343 /* MASViewConstraint.m */,
-				982ED3A01D420DB700F87343 /* NSArray+MASAdditions.h */,
-				982ED3A11D420DB700F87343 /* NSArray+MASAdditions.m */,
-				982ED3A21D420DB700F87343 /* NSArray+MASShorthandAdditions.h */,
-				982ED3A31D420DB700F87343 /* NSLayoutConstraint+MASDebugAdditions.h */,
-				982ED3A41D420DB700F87343 /* NSLayoutConstraint+MASDebugAdditions.m */,
-				982ED3A51D420DB700F87343 /* View+MASAdditions.h */,
-				982ED3A61D420DB700F87343 /* View+MASAdditions.m */,
-				982ED3A71D420DB700F87343 /* View+MASShorthandAdditions.h */,
-				982ED3A81D420DB700F87343 /* ViewController+MASAdditions.h */,
-				982ED3A91D420DB700F87343 /* ViewController+MASAdditions.m */,
-			);
-			name = Masonry;
-			path = Masonry/Masonry;
 			sourceTree = "<group>";
 		};
 		982ED3B71D45A37A00F87343 /* SourceImg */ = {
 			isa = PBXGroup;
 			children = (
+				987258E11D5C5C4B005C4AB9 /* setting */,
 				987ACBCE1D4AEDEC006D692E /* icon_questions */,
+				982ED41E1D48517600F87343 /* icon_home */,
 				982ED41A1D48517600F87343 /* icon_back@2x.png */,
 				982ED41B1D48517600F87343 /* icon_back@3x.png */,
 				982ED41C1D48517600F87343 /* icon_down@2x.png */,
 				982ED41D1D48517600F87343 /* icon_down@3x.png */,
-				982ED41E1D48517600F87343 /* icon_home */,
 				982ED4211D48517600F87343 /* icon_search@2x.png */,
 				982ED4221D48517600F87343 /* icon_search@3x.png */,
 				982ED4231D48517600F87343 /* icon_up@2x.png */,
@@ -472,12 +413,10 @@
 		982F0C671C4E2C5F00593946 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				982F0C681C4E2D4600593946 /* ZEServerEngine.h */,
-				982F0C691C4E2D4600593946 /* ZEServerEngine.m */,
-				9872575C1D59BAEA005C4AB9 /* ZESettingLocalData.h */,
-				9872575D1D59BAEA005C4AB9 /* ZESettingLocalData.m */,
 				987257561D59A7F6005C4AB9 /* ZEPackageServerData.h */,
 				987257571D59A7F6005C4AB9 /* ZEPackageServerData.m */,
+				982F0C681C4E2D4600593946 /* ZEServerEngine.h */,
+				982F0C691C4E2D4600593946 /* ZEServerEngine.m */,
 				98DB7C601C4F56470046D405 /* ZEUserServer.h */,
 				98DB7C611C4F56470046D405 /* ZEUserServer.m */,
 			);
@@ -493,6 +432,19 @@
 				9872544D1D587CD7005C4AB9 /* ZELoginViewController.m */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		987258E11D5C5C4B005C4AB9 /* setting */ = {
+			isa = PBXGroup;
+			children = (
+				987258E61D5C6517005C4AB9 /* askTa@2x.png */,
+				987258E71D5C6517005C4AB9 /* loadCycle@2x.png */,
+				987258E81D5C6517005C4AB9 /* my_center_seting@2x.png */,
+				987258E91D5C6517005C4AB9 /* question_icon@2x.png */,
+				987258E21D5C5C55005C4AB9 /* boy@2x.png */,
+				987258E31D5C5C55005C4AB9 /* girl@2x.png */,
+			);
+			name = setting;
 			sourceTree = "<group>";
 		};
 		987ACBCE1D4AEDEC006D692E /* icon_questions */ = {
@@ -524,8 +476,8 @@
 				989B2C5F1C4DE7AA00F14EFA /* nbsj-knowTests */,
 				989B2C6A1C4DE7AA00F14EFA /* nbsj-knowUITests */,
 				989B2C441C4DE7AA00F14EFA /* Products */,
-				D0FADC476AB78279A909DD65 /* Pods */,
-				4228FB72F762E3664B194934 /* Frameworks */,
+				020716478B01CEE148606F06 /* Pods */,
+				B7D1F079C1E85BD7D2342805 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -599,6 +551,7 @@
 				98DB7C471C4F323A0046D405 /* ZEMarcoConstant.h */,
 				98DB7C451C4F323A0046D405 /* ZEColorConstant.h */,
 				98DB7C461C4F323A0046D405 /* ZEEnumConstant.h */,
+				9801DAFD1D5DCD95008B1676 /* ZEServerTableMessage.h */,
 			);
 			name = Constant;
 			sourceTree = "<group>";
@@ -606,6 +559,8 @@
 		98DB7C4A1C4F4F360046D405 /* CommonUtil */ = {
 			isa = PBXGroup;
 			children = (
+				9872575C1D59BAEA005C4AB9 /* ZESettingLocalData.h */,
+				9872575D1D59BAEA005C4AB9 /* ZESettingLocalData.m */,
 				982ED36A1D4208A900F87343 /* ZESettingRootVC.h */,
 				982ED36B1D4208A900F87343 /* ZESettingRootVC.m */,
 				98DB7C4E1C4F4FA70046D405 /* ZEUtil.h */,
@@ -616,13 +571,12 @@
 			name = CommonUtil;
 			sourceTree = "<group>";
 		};
-		D0FADC476AB78279A909DD65 /* Pods */ = {
+		B7D1F079C1E85BD7D2342805 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				806A7047C4B13286A220D3B0 /* Pods.debug.xcconfig */,
-				63FC90F96158DCD8066473CD /* Pods.release.xcconfig */,
+				7EF64F73ABC42A2CC3AC9B45 /* libPods-nbsj-know.a */,
 			);
-			name = Pods;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -632,12 +586,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 989B2C701C4DE7AA00F14EFA /* Build configuration list for PBXNativeTarget "nbsj-know" */;
 			buildPhases = (
-				43257F8FE9C830A0D7925704 /* Check Pods Manifest.lock */,
+				B336CEAF07D2138604D8DBA6 /* [CP] Check Pods Manifest.lock */,
 				989B2C3F1C4DE7AA00F14EFA /* Sources */,
 				989B2C401C4DE7AA00F14EFA /* Frameworks */,
 				989B2C411C4DE7AA00F14EFA /* Resources */,
-				B913A47A96A649941EE58401 /* Embed Pods Frameworks */,
-				63B809BF60686D50F60AE713 /* Copy Pods Resources */,
+				AE1A9FA34EEF3CC439175FE7 /* [CP] Embed Pods Frameworks */,
+				091D465A37D5E66BEDB5E08B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -739,8 +693,11 @@
 				982ED4431D48517600F87343 /* tab_homepage_normal@3x.png in Resources */,
 				98DB7C591C4F554E0046D405 /* Main.storyboard in Resources */,
 				98F094221D49AA42002D4E3B /* forum_list_post@2x.png in Resources */,
+				987258EC1D5C6517005C4AB9 /* my_center_seting@2x.png in Resources */,
 				982ED4331D48517600F87343 /* icon_down@2x.png in Resources */,
 				982ED4351D48517600F87343 /* ic_titlebar_home_normal_flat@2x.png in Resources */,
+				987258EB1D5C6517005C4AB9 /* loadCycle@2x.png in Resources */,
+				987258E41D5C5C55005C4AB9 /* boy@2x.png in Resources */,
 				982ED43D1D48517600F87343 /* login_username@2x.png in Resources */,
 				982ED4451D48517600F87343 /* tab_setting_normal@3x.png in Resources */,
 				989AA6861D5075C600A08022 /* addImage@2x.png in Resources */,
@@ -753,6 +710,7 @@
 				98F094261D49DD2D002D4E3B /* qb_praiseBtn_hand@2x.png in Resources */,
 				987ACBD21D4AEE08006D692E /* refresh_Rank@3x.png in Resources */,
 				987ACBC41D49E577006D692E /* banner.jpg in Resources */,
+				987258ED1D5C6517005C4AB9 /* question_icon@2x.png in Resources */,
 				982ED43A1D48517600F87343 /* icon_up@3x.png in Resources */,
 				989AA6961D52D4BB00A08022 /* u24.png in Resources */,
 				982ED43F1D48517600F87343 /* logo.png in Resources */,
@@ -764,11 +722,13 @@
 				982ED43B1D48517600F87343 /* login_password@2x.png in Resources */,
 				982ED4401D48517600F87343 /* tab_download_normal@2x.png in Resources */,
 				982ED43C1D48517600F87343 /* login_password@3x.png in Resources */,
+				987258EA1D5C6517005C4AB9 /* askTa@2x.png in Resources */,
 				982ED4421D48517600F87343 /* tab_homepage_normal@2x.png in Resources */,
 				989AA6971D52D4BB00A08022 /* u32.png in Resources */,
 				989AA6841D4F35C900A08022 /* camera_gray@2x.png in Resources */,
 				989AA6991D52D4BB00A08022 /* u2364.png in Resources */,
 				982ED4361D48517600F87343 /* search_icon@2x.png in Resources */,
+				987258E51D5C5C55005C4AB9 /* girl@2x.png in Resources */,
 				982ED4411D48517600F87343 /* tab_download_normal@3x.png in Resources */,
 				982ED4321D48517600F87343 /* icon_back@3x.png in Resources */,
 			);
@@ -791,49 +751,49 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		43257F8FE9C830A0D7925704 /* Check Pods Manifest.lock */ = {
+		091D465A37D5E66BEDB5E08B /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-nbsj-know/Pods-nbsj-know-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AE1A9FA34EEF3CC439175FE7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-nbsj-know/Pods-nbsj-know-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B336CEAF07D2138604D8DBA6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		63B809BF60686D50F60AE713 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B913A47A96A649941EE58401 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -845,11 +805,9 @@
 			files = (
 				98DB7C501C4F4FA70046D405 /* ZEUtil.m in Sources */,
 				9872575E1D59BAEA005C4AB9 /* ZESettingLocalData.m in Sources */,
-				982ED3B11D420DB700F87343 /* MASViewConstraint.m in Sources */,
 				987ACBCA1D4AE3E6006D692E /* ZEShowQuestionView.m in Sources */,
 				9872544E1D587CD7005C4AB9 /* ZELoginView.m in Sources */,
 				989B2C4B1C4DE7AA00F14EFA /* ZEAppDelegate.m in Sources */,
-				982ED3AD1D420DB700F87343 /* MASConstraint.m in Sources */,
 				982ED3761D42096F00F87343 /* ZEHomeView.m in Sources */,
 				982ED37C1D4209F200F87343 /* ZEGroupVC.m in Sources */,
 				987257581D59A7F6005C4AB9 /* ZEPackageServerData.m in Sources */,
@@ -859,32 +817,25 @@
 				989AA67D1D4EF83E00A08022 /* ZEAskQuesViewController.m in Sources */,
 				982ED3EA1D4850E900F87343 /* JFCollectionViewCell.m in Sources */,
 				9872544F1D587CD7005C4AB9 /* ZELoginViewController.m in Sources */,
-				982ED3B51D420DB700F87343 /* ViewController+MASAdditions.m in Sources */,
-				982ED3B41D420DB700F87343 /* View+MASAdditions.m in Sources */,
 				98F4719E1D5434F70016CD5A /* ZEAnswerQuestionsView.m in Sources */,
 				989AA6891D507A9A00A08022 /* ZELookViewController.m in Sources */,
+				987258F31D5C6F7E005C4AB9 /* ZESetPersonalMessageView.m in Sources */,
 				982ED3731D42095400F87343 /* ZEHomeVC.m in Sources */,
-				982ED3B01D420DB700F87343 /* MASViewAttribute.m in Sources */,
-				982ED38C1D420AC900F87343 /* MBProgressHUD.m in Sources */,
 				987ACBDA1D4AFC31006D692E /* ZEQuestionTableView.m in Sources */,
 				98DB7C561C4F53EA0046D405 /* ZEMainViewController.m in Sources */,
 				982ED3811D420A5000F87343 /* ZEUserCenterVC.m in Sources */,
-				982ED3AC1D420DB700F87343 /* MASCompositeConstraint.m in Sources */,
 				989AA6801D4F186300A08022 /* ZEAskQuesView.m in Sources */,
-				982ED3AF1D420DB700F87343 /* MASLayoutConstraint.m in Sources */,
 				98DB7C621C4F56470046D405 /* ZEUserServer.m in Sources */,
 				982ED36C1D4208A900F87343 /* ZESettingRootVC.m in Sources */,
 				989AA68E1D52CDB500A08022 /* ZEQuestionsDetailVC.m in Sources */,
-				982ED3AE1D420DB700F87343 /* MASConstraintMaker.m in Sources */,
-				982ED3B21D420DB700F87343 /* NSArray+MASAdditions.m in Sources */,
 				982ED3791D4209DD00F87343 /* ZEQuestionsVC.m in Sources */,
 				989AA6911D52CDD600A08022 /* ZEQuestionsDetailView.m in Sources */,
 				987ACBC71D4A2557006D692E /* ZEShowQuestionVC.m in Sources */,
 				98DB7C531C4F52050046D405 /* UIImage+ZEImage.m in Sources */,
+				987258F01D5C6F54005C4AB9 /* ZESetPersonalMessageVC.m in Sources */,
 				982ED4481D48518E00F87343 /* JFCalendarPickerView.m in Sources */,
 				982ED44B1D48550900F87343 /* ZESinginVC.m in Sources */,
 				982ED3821D420A5000F87343 /* ZEUserCenterView.m in Sources */,
-				982ED3B31D420DB700F87343 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				98F471981D5434CF0016CD5A /* ZEAnswerQuestionsVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1016,7 +967,7 @@
 		};
 		989B2C711C4DE7AA00F14EFA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 806A7047C4B13286A220D3B0 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = C543DE3B53D618A58F02B201 /* Pods-nbsj-know.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1032,13 +983,13 @@
 				TARGETED_DEVICE_FAMILY = 1;
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = "com.zenith.app-Debug";
-				ZENITH_SERVER = "http://www.weather.com.cn/data/sk/101010100.html";
+				ZENITH_SERVER = "http://192.168.0.142:9090/emarkspg";
 			};
 			name = Debug;
 		};
 		989B2C721C4DE7AA00F14EFA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 63FC90F96158DCD8066473CD /* Pods.release.xcconfig */;
+			baseConfigurationReference = 93430E78EC06797D6B873E01 /* Pods-nbsj-know.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1054,7 +1005,7 @@
 				TARGETED_DEVICE_FAMILY = 1;
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = "com.zenith.app-Release";
-				ZENITH_SERVER = "http://www.weather.com.cn/data/cityinfo/101010100.html\n";
+				ZENITH_SERVER = "http://192.168.0.142:9090/emarkspg";
 			};
 			name = Release;
 		};

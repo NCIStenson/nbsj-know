@@ -8,6 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ZEUserCenterView : UIView
+@class ZEUserCenterView;
+
+@protocol ZEUserCenterViewDelegate <NSObject>
+
+
+-(void)goSettingVC;
+
+@end
+
+@interface ZEUserCenterView : UIView<UITableViewDelegate,UITableViewDataSource>
+
+@property (nonatomic,weak) id <ZEUserCenterViewDelegate> delegate;
+
 
 @end

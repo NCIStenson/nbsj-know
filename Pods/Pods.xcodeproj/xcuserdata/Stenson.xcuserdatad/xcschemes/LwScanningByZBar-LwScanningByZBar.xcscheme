@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '67461E48157E1AA79B8B028D'
+               BlueprintIdentifier = '633D29C1C04E18EA6BAD8411AA59B88D'
                BlueprintName = 'LwScanningByZBar-LwScanningByZBar'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'LwScanningByZBar.bundle'>

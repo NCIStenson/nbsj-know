@@ -12,7 +12,10 @@
 
 #import "ZEUserServer.h"
 
-#import "ZEMainViewController.h"
+#import "ZEHomeVC.h"
+#import "ZEQuestionsVC.h"
+#import "ZEGroupVC.h"
+#import "ZEUserCenterVC.h"
 
 @interface ZELoginViewController ()<ZELoginViewDelegate>
 
@@ -82,27 +85,63 @@
 //        }
 //        return;
 //    }
-    __block ZELoginViewController * safeSelf = self;
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    __block ZELoginViewController * safeSelf = self;
     
-    [ZEUserServer loginWithNum:nil
+//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self progressBegin:nil];
+    [ZEUserServer loginWithNum:username
                   withPassword:pwd
                        success:^(id data) {
-//                           NSLog(@">>  %@);
+                           [self progressEnd:nil];
+                           
+                           if ([[data objectForKey:@"RETMSG"] isEqualToString:@"null"]) {
+                               NSLog(@"登陆成功  %@",[data objectForKey:@"RETMSG"]);
+                               [ZESettingLocalData setUSERNAME:username];
+                               [self commonRequest];
+                               [self goHome];
+                           }else{
+                               NSLog(@"登陆失败   %@",[data objectForKey:@"RETMSG"]);
+                           }
+
                        } fail:^(NSError *errorCode) {
-                           
-                       } error:^{
-                           
+                           [self progressEnd:nil];
                        }];
-    
-//    [ZEUserServer getDataSuccess:^(id data) {
-//        NSLog(@">>  %@",data);
-//    } fail:^(NSError *errorCode) {
-//        
-//    } error:nil];
     
 }
 
+-(void)commonRequest
+{
+    
+    
+    NSDictionary * parametersDic = @{@"limit":@"20",
+                                     @"MASTERTABLE":@"KLB_USER_BASE_INFO",
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":@"search",
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{@"USERCODE":@"",
+                                @"USERNAME":@"",
+                                @"USERACCOUNT":[ZESettingLocalData getUSERNAME]};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[@"KLB_USER_BASE_INFO"]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+
+    [ZEUserServer getDataWithJsonDic:packageDic
+                             success:^(id data) {
+                                 NSLog(@">>  %@",data);
+                             } fail:^(NSError *errorCode) {
+                                 NSLog(@">>  %@",errorCode);
+                             }];
+
+}
 
 
 -(void)showAlertView:(NSString *)alertMes
@@ -128,26 +167,32 @@
 
 -(void)goHome
 {
-//    ZEMainViewController * mainVC = [[ZEMainViewController alloc]init];
-//    mainVC.tabBarItem.image = [UIImage imageNamed:@"tab_homepage_normal"];
-//    mainVC.tabBarItem.title = @"首页";
-//    UINavigationController * mainNav = [[UINavigationController alloc]initWithRootViewController:mainVC];
-//    
-//    ZEDownloadVC * downloadVC = [[ZEDownloadVC alloc]init];
-//    downloadVC.tabBarItem.image = [UIImage imageNamed:@"tab_download_normal"];
-//    downloadVC.tabBarItem.title = @"下载";
-//    UINavigationController * downloadNav = [[UINavigationController alloc]initWithRootViewController:downloadVC];
-//    
-//    ZESettingVC * settingVC = [[ZESettingVC alloc]init];
-//    settingVC.tabBarItem.image = [UIImage imageNamed:@"tab_setting_normal"];
-//    settingVC.tabBarItem.title = @"设置";
-//    UINavigationController * settingNav = [[UINavigationController alloc]initWithRootViewController:settingVC];
-//    
-//    UITabBarController * tabBarVC = [[UITabBarController alloc]init];
-//    tabBarVC.viewControllers = @[mainNav,downloadNav,settingNav];
-//    
-//    UIWindow * window = [UIApplication sharedApplication].keyWindow;
-//    window.rootViewController = tabBarVC;
+    ZEHomeVC * homeVC = [[ZEHomeVC alloc]init];
+    homeVC.tabBarItem.image = [UIImage imageNamed:@"ic_titlebar_home_normal_flat.png"];
+    homeVC.tabBarItem.title = @"首页";
+    UINavigationController * homeNav = [[UINavigationController alloc]initWithRootViewController:homeVC];
+    
+    ZEQuestionsVC * quesetionsVC = [[ZEQuestionsVC alloc]init];
+    quesetionsVC.tabBarItem.image = [UIImage imageNamed:@"refresh_Rank.png"];
+    quesetionsVC.tabBarItem.title = @"问答";
+    UINavigationController * quesetionsNav = [[UINavigationController alloc]initWithRootViewController:quesetionsVC];
+    
+    ZEGroupVC * groupVC = [[ZEGroupVC alloc]init];
+    groupVC.tabBarItem.image = [UIImage imageNamed:@"tab_homepage_normal"];
+    groupVC.tabBarItem.title = @"圈子";
+    UINavigationController * groupNav = [[UINavigationController alloc]initWithRootViewController:groupVC];
+    
+    ZEUserCenterVC * userCenVC = [[ZEUserCenterVC alloc]init];
+    userCenVC.tabBarItem.image = [UIImage imageNamed:@"tab_homepage_normal"];
+    userCenVC.tabBarItem.title = @"我的";
+    UINavigationController * userCenNav = [[UINavigationController alloc]initWithRootViewController:userCenVC];
+    
+    UITabBarController * tabBar = [[UITabBarController alloc]init];
+    tabBar.tabBar.tintColor = MAIN_NAV_COLOR;
+    tabBar.viewControllers = @[homeNav,quesetionsNav,groupNav,userCenNav];
+    
+    UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
+    keyWindow.rootViewController = tabBar;
 }
 
 

@@ -8,7 +8,9 @@
 
 #import "ZEUserCenterVC.h"
 #import "ZEUserCenterView.h"
-@interface ZEUserCenterVC ()
+
+#import "ZESetPersonalMessageVC.h"
+@interface ZEUserCenterVC ()<ZEUserCenterViewDelegate>
 
 @end
 
@@ -17,17 +19,29 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBarHidden = YES;
-    self.title = @"用户中心";
+    self.automaticallyAdjustsScrollViewInsets = NO;
+//    self.edgesForExtendedLayout = UIRectEdgeNone;
     [self initView];
 }
 
 -(void)initView
 {
-    ZEUserCenterView * usView = [[ZEUserCenterView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
-    
+    ZEUserCenterView * usView = [[ZEUserCenterView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
+    usView.delegate = self;
     [self.view addSubview:usView];
 }
+
+#pragma mark - ZEUserCenterViewDelegate
+
+-(void)goSettingVC
+{
+    ZESetPersonalMessageVC * personalMsgVC = [[ZESetPersonalMessageVC alloc]init];
+    
+    [self.navigationController pushViewController:personalMsgVC animated:YES];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -10,6 +10,8 @@
 
 static NSString * kUserInformation  = @"keyUserInformation";
 static NSString * kSignCookie       = @"keySIGNCOOKIE";
+static NSString * kUSERNAME         = @"kUSERNAME";
+static NSString * kUSERCODE         = @"kUSERCODE";
 
 @implementation ZESettingLocalData
 
@@ -49,22 +51,60 @@ static NSString * kSignCookie       = @"keySIGNCOOKIE";
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+#pragma mark - COOKIE
 
-
-+(void)setCookie:(NSString *)str
++(void)setCookie:(NSData *)str
 {
     [self Set:kSignCookie value:str];
-    
 }
 
-+(NSString *)getCookie
++(NSData *)getCookie
 {
-    return [self GetStringWithKey:kSignCookie];
+    return [[NSUserDefaults standardUserDefaults] objectForKey:kSignCookie];
 }
 
 +(void)deleteCookie
 {
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSignCookie];
 }
+
+#pragma mark - USERNAME
++(void)setUSERNAME:(NSString *)str
+{
+    [self Set:kUSERNAME value:str];
+}
++(NSString *)getUSERNAME
+{
+    return [self Get:kUSERNAME];
+}
++(void)deleteUSERNAME
+{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUSERNAME];
+}
+
+#pragma mark - USERCODE
+
++(void)setUSERCODE:(NSString *)str
+{
+    [self Set:kUSERCODE value:str];
+}
++(NSString *)getUSERCODE
+{
+     return [self Get:kUSERCODE];
+}
++(void)deleteUSERCODE
+{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUSERCODE];
+}
+
+
+#pragma mark - CLEAR
+
++(void)clearLocalData
+{
+    
+}
+
+
 @end
 

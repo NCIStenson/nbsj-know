@@ -72,19 +72,6 @@
 #pragma mark - custom view init
 - (void)initInputView
 {
-//    UILabel *navTitleLabel = [UILabel new];
-//    navTitleLabel.backgroundColor = [UIColor clearColor];
-//    navTitleLabel.textAlignment = NSTextAlignmentCenter;
-//    navTitleLabel.textColor = [UIColor whiteColor];
-//    navTitleLabel.font = [UIFont systemFontOfSize:24.0f];
-//    navTitleLabel.text = @"浙江省电力公司工分登记";
-//    [self addSubview:navTitleLabel];
-//    [navTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.rightMargin.offset(kNavTitleLabelMarginLeft);
-//        make.top.offset(kNavTitleLabelMarginTop);
-//        make.size.mas_equalTo(CGSizeMake(kNavTitleLabelWidth, kNavTitleLabelHeight));
-//    }];
-    
     UIImageView * logoImageView = [[UIImageView alloc]init];
     [logoImageView setImage:[UIImage imageNamed:@"logo.png"]];
     logoImageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -110,7 +97,6 @@
         vLineLayer.frame = CGRectMake(kLoginBtnToLeft + i * kLoginBtnWidth, kUsernameFieldMarginTop, 0.5, 100);
         vLineLayer.backgroundColor = LINECOLOR;
         [self.layer addSublayer:vLineLayer];
-
         
         UIImageView * usernameImage = [[UIImageView alloc]initWithFrame:self.frame];
         [self addSubview:usernameImage];
@@ -126,12 +112,12 @@
         if (i == 1) {
             
             CALayer * firstLineLayer = [CALayer layer];
-            firstLineLayer.frame = CGRectMake(kLoginBtnToLeft, kUsernameFieldMarginTop, kLoginBtnWidth, 0.5);
+            firstLineLayer.frame = CGRectMake(kLoginBtnToLeft, kUsernameFieldMarginTop, kLoginBtnWidth, 1);
             firstLineLayer.backgroundColor = LINECOLOR;
             [self.layer addSublayer:firstLineLayer];
 
             CALayer * lineLayer = [CALayer layer];
-            lineLayer.frame = CGRectMake(kLoginBtnToLeft, kUsernameFieldMarginTop + kUsernameFieldHeight + 10.0f, kLoginBtnWidth, 0.5);
+            lineLayer.frame = CGRectMake(kLoginBtnToLeft, kUsernameFieldMarginTop + kUsernameFieldHeight + 10.0f, kLoginBtnWidth, 1);
             lineLayer.backgroundColor = LINECOLOR;
             [self.layer addSublayer:lineLayer];
             
@@ -152,7 +138,7 @@
         }else {
             
             CALayer * lineLayer = [CALayer layer];
-            lineLayer.frame = CGRectMake(kLoginBtnToLeft, kPasswordLabMarginTop + kPasswordFieldHeight - 5.0f, kLoginBtnWidth, 0.5);
+            lineLayer.frame = CGRectMake(kLoginBtnToLeft, kPasswordLabMarginTop + kPasswordFieldHeight - 5.0f, kLoginBtnWidth, 1);
             lineLayer.backgroundColor = LINECOLOR;
             [self.layer addSublayer:lineLayer];
 

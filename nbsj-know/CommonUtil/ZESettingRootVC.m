@@ -56,7 +56,7 @@
 
 - (void)progressBegin:(NSString *)labelText {
     
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     if (labelText) {
         hud.labelText = labelText;
@@ -66,22 +66,22 @@
 
 - (void)showTips:(NSString *)labelText {
 
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud3.mode = MBProgressHUDModeText;
     hud3.labelText = labelText;
-    [hud3 hide:YES afterDelay:1.f];
+    [hud3 hide:YES afterDelay:1.0f];
 }
 
 - (void)progressEnd:(NSString *)labelText {
     
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     MBProgressHUD *hud2 = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     if (labelText) {
         hud2.labelText = labelText;
     }
 //    hud2.labelText = @"加载完成";
-    [hud2 hide:YES afterDelay:0.f];
+    [hud2 hide:YES afterDelay:1.0f];
 }
 
 #pragma mark - View init
