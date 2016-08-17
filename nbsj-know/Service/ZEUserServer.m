@@ -58,10 +58,60 @@
     [[ZEServerEngine sharedInstance]requestWithJsonDic:dic
                                      withServerAddress:commonServer
                                                success:^(id data) {
-                                                   successBlock(data);
+                                                   if ([ZEUtil isSuccess:[data objectForKey:@"RETMSG"]]) {
+                                                       successBlock(data);
+                                                   }else{
+                                                       [ZESettingLocalData clearLocalData];
+                                                       NSLog(@" failBlock ==  %@ ",[data objectForKey:@"RETMSG"]);
+                                                       NSLog(@" failData ==  %@ ",data);
+                                                   }
                                                } fail:^(NSError *errorCode) {
                                                    failBlock(errorCode);
                                                }];
+}
+
+#pragma mark - 进行操作前 预先进行查询操作
+
++(void)searchDataISExistWithTableName:(NSString *)tableName
+                      withMASTERFIELD:(NSString *)MASTERFIELD
+                        withFieldsDic:(NSDictionary *)fieldsDic
+                             complete:(void(^)(BOOL isExist,NSString * SEQKEY))complete
+{
+    NSDictionary * parametersDic = @{@"limit":@"20",
+                                     @"MASTERTABLE":tableName,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":@"search",
+                                     @"MASTERFIELD":MASTERFIELD,
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"DETAILTABLE":@"",};
+    
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[tableName]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    __block BOOL isExist;
+    
+    [ZEUserServer getDataWithJsonDic:packageDic
+                             success:^(id data) {
+                                 NSString * SEQKEY = nil;
+                                 NSDictionary * userinfoDic = [[data objectForKey:@"DATAS"] objectForKey:tableName];
+                                 if ([[userinfoDic objectForKey:@"totalCount"] integerValue] == 0) {
+                                     isExist = NO;
+                                 }else{
+                                     isExist = YES;
+                                     SEQKEY = [[ZEUtil getServerData:data withTabelName:tableName][0] objectForKey:@"SEQKEY"];
+                                 }
+
+                                 complete(isExist,SEQKEY);
+                             } fail:^(NSError *errorCode) {
+                                 NSLog(@">>  %@",errorCode);
+                             }];
+    
 }
 
 

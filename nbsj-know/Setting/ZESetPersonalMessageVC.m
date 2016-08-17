@@ -10,6 +10,7 @@
 #import "ZESetPersonalMessageView.h"
 #import "ZEUserServer.h"
 #import "ZELoginViewController.h"
+#import "ZEChangePersonalMsgVC.h"
 @interface ZESetPersonalMessageVC ()<ZESetPersonalMessageViewDelegate>
 
 @end
@@ -22,12 +23,26 @@
     self.title = @"设置";
     [self initView];
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    self.tabBarController.tabBar.hidden = YES;
+}
 
 -(void)initView
 {
     ZESetPersonalMessageView * personalMsgView = [[ZESetPersonalMessageView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
     personalMsgView.delegate = self;
     [self.view addSubview:personalMsgView];
+}
+
+#pragma mark - ZESetPersonalMessageViewDelegate
+
+-(void)changePersonalMsg:(CHANGE_PERSONALMSG_TYPE)type
+{
+    ZEChangePersonalMsgVC * personalMsgVC = [[ZEChangePersonalMsgVC alloc]init];
+    personalMsgVC.changeType = type;
+    [self.navigationController pushViewController:personalMsgVC animated:YES];
 }
 
 /**
@@ -39,19 +54,18 @@
 {
     [self progressBegin:@"正在退出登录"];
     [ZEUserServer logoutSuccess:^(id data) {
-        NSLog(@">>  %@",data);
-        if ([[data objectForKey:@"RETMSG"] isEqualToString:@"null"]) {
+        [self progressEnd:nil];
+        if ([ZEUtil isSuccess:[data objectForKey:@"RETMSG"]]) {
             [self logoutSuccess];
         }
-        
     } fail:^(NSError *error) {
-        NSLog(@">>  %@",error);
+        [self progressEnd:nil];
     }];
 }
 
 -(void)logoutSuccess
 {
-    [ZESettingLocalData deleteCookie];
+    [ZESettingLocalData clearLocalData];
     UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
     
     ZELoginViewController * loginVC = [[ZELoginViewController alloc]init];

@@ -26,6 +26,12 @@
     [self initView];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    self.tabBarController.tabBar.hidden = NO;
+}
+
 -(void)initView
 {
     ZEUserCenterView * usView = [[ZEUserCenterView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];

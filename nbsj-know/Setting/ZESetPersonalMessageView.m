@@ -8,6 +8,13 @@
 
 #import "ZESetPersonalMessageView.h"
 
+@interface ZESetPersonalMessageView ()
+{
+    UITableView * contentTable;
+}
+
+@end
+
 @implementation ZESetPersonalMessageView
 
 -(id)initWithFrame:(CGRect)frame
@@ -21,12 +28,23 @@
 
 -(void)initView
 {
-    UITableView * contentTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
+    contentTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
     contentTable.backgroundColor = MAIN_LINE_COLOR;
     contentTable.delegate = self;
     contentTable.dataSource = self;
     [self addSubview:contentTable];
     contentTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeSuccess) name:kNOTI_CHANGEPERSONALMSG_SUCCESS object:nil];
+}
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNOTI_CHANGEPERSONALMSG_SUCCESS object:nil];
+}
+
+-(void)changeSuccess
+{
+    [contentTable reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark - UITableViewDataSource
@@ -34,7 +52,7 @@
 {
     switch (section) {
         case 0:
-            return 3;
+            return 2;
             break;
         case 1:
             return 3;
@@ -85,13 +103,13 @@
             switch (indexPath.row) {
                 case 0:
                     cell.textLabel.text = @"用户昵称";
-                    cell.detailTextLabel.text = @"Miss 12";
+                    cell.detailTextLabel.text = [ZESettingLocalData getNICKNAME];
                     break;
+//                case 1:
+//                    cell.textLabel.text = @"性别";
+//                    cell.detailTextLabel.text = @"男";
+//                    break;
                 case 1:
-                    cell.textLabel.text = @"性别";
-                    cell.detailTextLabel.text = @"男";
-                    break;
-                case 2:
                     cell.textLabel.text = @"当前等级";
                     cell.detailTextLabel.text = @"Lv 10";
                     cell.accessoryType = UITableViewCellAccessoryNone;
@@ -135,10 +153,49 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     switch (indexPath.section) {
         case 0:
+        {
+            switch (indexPath.row) {
+                case 0:{
+                    if ([self.delegate respondsToSelector:@selector(changePersonalMsg:)]) {
+                        [self.delegate changePersonalMsg:CHANGE_PERSONALMSG_NICKNAME];
+                    }
+                }
+                    break;
+                    
+                case 1:{
+                    
+                }
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
             
             break;
-        case 1:
-            
+        case 1:{
+            switch (indexPath.row) {
+                case 0:{
+                    
+                }
+                    break;
+
+                case 1:{
+                    if ([self.delegate respondsToSelector:@selector(changePersonalMsg:)]) {
+                        [self.delegate changePersonalMsg:CHANGE_PERSONALMSG_ADVICE];
+                    }
+                }
+                    break;
+
+                case 2:{
+                    
+                }
+                    break;
+
+                default:
+                    break;
+            }
+        }
             break;
 
         case 2:

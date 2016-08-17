@@ -14,7 +14,6 @@
  */
 
 
-#import <Foundation/Foundation.h>
 #import "AFNetworking.h"
 
 typedef void (^ServerResponseBlock) (NSDictionary *result);

@@ -87,19 +87,20 @@
 //    }
 //    __block ZELoginViewController * safeSelf = self;
     
-//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self progressBegin:nil];
     [ZEUserServer loginWithNum:username
                   withPassword:pwd
                        success:^(id data) {
                            [self progressEnd:nil];
-                           
                            if ([[data objectForKey:@"RETMSG"] isEqualToString:@"null"]) {
-                               NSLog(@"登陆成功  %@",[data objectForKey:@"RETMSG"]);
+                                NSLog(@"登陆成功  %@",[data objectForKey:@"RETMSG"]);
                                [ZESettingLocalData setUSERNAME:username];
                                [self commonRequest];
+                               [self isExpert];
                                [self goHome];
                            }else{
+                               [ZESettingLocalData deleteCookie];
                                NSLog(@"登陆失败   %@",[data objectForKey:@"RETMSG"]);
                            }
 
@@ -109,12 +110,12 @@
     
 }
 
+#pragma mark - 获取个人信息
+
 -(void)commonRequest
 {
-    
-    
     NSDictionary * parametersDic = @{@"limit":@"20",
-                                     @"MASTERTABLE":@"KLB_USER_BASE_INFO",
+                                     @"MASTERTABLE":KLB_USER_BASE_INFO,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"",
                                      @"WHERESQL":@"",
@@ -127,20 +128,66 @@
     
     NSDictionary * fieldsDic =@{@"USERCODE":@"",
                                 @"USERNAME":@"",
+                                @"SEQKEY":@"",
                                 @"USERACCOUNT":[ZESettingLocalData getUSERNAME]};
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[@"KLB_USER_BASE_INFO"]
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_USER_BASE_INFO]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
 
     [ZEUserServer getDataWithJsonDic:packageDic
                              success:^(id data) {
+                                 NSDictionary * userinfoDic = [ZEUtil getServerData:data withTabelName:KLB_USER_BASE_INFO][0];
+                                 [ZESettingLocalData setUSERINFODic:userinfoDic];
                                  NSLog(@">>  %@",data);
                              } fail:^(NSError *errorCode) {
                                  NSLog(@">>  %@",errorCode);
                              }];
 
+}
+
+#pragma mark - 查询该用户是否为专家
+
+-(void)isExpert
+{
+    NSDictionary * parametersDic = @{@"limit":@"20",
+                                     @"MASTERTABLE":KLB_EXPERT_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":@"search",
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{@"USERCODE":[ZESettingLocalData getUSERNAME],
+                                @"USERNAME":@"",
+                                @"EXPERTDATE":@"",
+                                @"EXPERTTYPE":@"",
+                                @"STATUS":@"",
+                                @"EXPERTFRADE":@"",
+                                @"SEQKEY":@""};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_EXPERT_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    
+    [ZEUserServer getDataWithJsonDic:packageDic
+                             success:^(id data) {
+                                 NSDictionary * dataDic = [ZEUtil getServerDic:data withTabelName:KLB_EXPERT_INFO];
+                                 if ([[dataDic objectForKey:@"totalCount"] integerValue] == 0) {
+                                     [ZESettingLocalData setISEXPERT:NO];
+                                 }else{
+                                     [ZESettingLocalData setISEXPERT:YES];
+                                 }
+                                 
+                             } fail:^(NSError *errorCode) {
+                                 NSLog(@">>  %@",errorCode);
+                             }];
 }
 
 

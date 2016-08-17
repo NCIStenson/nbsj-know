@@ -88,8 +88,8 @@ static ZEServerEngine *serverEngine = nil;
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    
-    
+    manager.requestSerializer.timeoutInterval = 10.f;
+
     NSData *cookiesdata = [ZESettingLocalData getCookie];
     if([cookiesdata length]) {
         NSArray *cookies = [NSKeyedUnarchiver unarchiveObjectWithData:cookiesdata];
@@ -112,9 +112,6 @@ static ZEServerEngine *serverEngine = nil;
                      NSError * err = nil;
                      NSDictionary * responseDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:&err];
                      if ([ZEUtil isNotNull:responseObject]) {
-                         if (![[responseDic objectForKey:@"RETMSG"] isEqualToString:@"null"]) {
-                            [ZESettingLocalData deleteCookie];
-                         }
                          successBlock(responseDic);
                      }
                  } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -129,8 +126,6 @@ static ZEServerEngine *serverEngine = nil;
     ZELoginViewController * loginVC = [[ZELoginViewController alloc]init];
     UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
     [keyWindow setRootViewController:loginVC];
-    
-    
 }
 
 

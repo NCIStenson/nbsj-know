@@ -29,9 +29,11 @@
 #define kTiltlFontSize 14.0f
 #define kSubTiltlFontSize 12.0f
 
-#define NAV_HEIGHT 63.0f
-
+#define NAV_HEIGHT 64.0f
 
 #define Zenith_Server [[[NSBundle mainBundle] infoDictionary] objectForKey:@"ZenithServerAddress"]
+
+#define kNOTI_CHANGEPERSONALMSG_SUCCESS @"NOTI_CHANGEPERSONALMSG_SUCCESS"
+
 
 #endif /* ZEMarcoConstant_h */

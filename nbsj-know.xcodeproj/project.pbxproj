@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9801DB001D6153EE008B1676 /* ZEChangePersonalMsgVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9801DAFF1D6153EE008B1676 /* ZEChangePersonalMsgVC.m */; };
+		9801DB031D61541B008B1676 /* ZEChangePersonalMsgView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9801DB021D61541B008B1676 /* ZEChangePersonalMsgView.m */; };
+		9801DB0D1D6170A8008B1676 /* ZEServerEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 9801DB0A1D6170A8008B1676 /* ZEServerEngine.m */; };
+		9801DB0E1D6170A8008B1676 /* ZEUserServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9801DB0C1D6170A8008B1676 /* ZEUserServer.m */; };
 		9821C7701C4E10FF00FE9080 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9821C76F1C4E10FF00FE9080 /* Images.xcassets */; };
 		982ED36C1D4208A900F87343 /* ZESettingRootVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED36B1D4208A900F87343 /* ZESettingRootVC.m */; };
 		982ED3731D42095400F87343 /* ZEHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED3721D42095400F87343 /* ZEHomeVC.m */; };
@@ -39,7 +43,6 @@
 		982ED4451D48517600F87343 /* tab_setting_normal@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 982ED42F1D48517600F87343 /* tab_setting_normal@3x.png */; };
 		982ED4481D48518E00F87343 /* JFCalendarPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED4471D48518E00F87343 /* JFCalendarPickerView.m */; };
 		982ED44B1D48550900F87343 /* ZESinginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED44A1D48550900F87343 /* ZESinginVC.m */; };
-		982F0C6A1C4E2D4600593946 /* ZEServerEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 982F0C691C4E2D4600593946 /* ZEServerEngine.m */; };
 		9872544E1D587CD7005C4AB9 /* ZELoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9872544B1D587CD7005C4AB9 /* ZELoginView.m */; };
 		9872544F1D587CD7005C4AB9 /* ZELoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9872544D1D587CD7005C4AB9 /* ZELoginViewController.m */; };
 		987257581D59A7F6005C4AB9 /* ZEPackageServerData.m in Sources */ = {isa = PBXBuildFile; fileRef = 987257571D59A7F6005C4AB9 /* ZEPackageServerData.m */; };
@@ -82,7 +85,6 @@
 		98DB7C531C4F52050046D405 /* UIImage+ZEImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DB7C521C4F52050046D405 /* UIImage+ZEImage.m */; };
 		98DB7C561C4F53EA0046D405 /* ZEMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DB7C551C4F53EA0046D405 /* ZEMainViewController.m */; };
 		98DB7C591C4F554E0046D405 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98DB7C571C4F554E0046D405 /* Main.storyboard */; };
-		98DB7C621C4F56470046D405 /* ZEUserServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DB7C611C4F56470046D405 /* ZEUserServer.m */; };
 		98F094221D49AA42002D4E3B /* forum_list_post@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98F094211D49AA42002D4E3B /* forum_list_post@2x.png */; };
 		98F094241D49DB11002D4E3B /* avatar_default.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 98F094231D49DB11002D4E3B /* avatar_default.jpg */; };
 		98F094261D49DD2D002D4E3B /* qb_praiseBtn_hand@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98F094251D49DD2D002D4E3B /* qb_praiseBtn_hand@2x.png */; };
@@ -112,6 +114,14 @@
 		7EF64F73ABC42A2CC3AC9B45 /* libPods-nbsj-know.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-nbsj-know.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		93430E78EC06797D6B873E01 /* Pods-nbsj-know.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nbsj-know.release.xcconfig"; path = "Pods/Target Support Files/Pods-nbsj-know/Pods-nbsj-know.release.xcconfig"; sourceTree = "<group>"; };
 		9801DAFD1D5DCD95008B1676 /* ZEServerTableMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEServerTableMessage.h; path = Constant/ZEServerTableMessage.h; sourceTree = "<group>"; };
+		9801DAFE1D6153EE008B1676 /* ZEChangePersonalMsgVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEChangePersonalMsgVC.h; path = Setting/ZEChangePersonalMsgVC.h; sourceTree = "<group>"; };
+		9801DAFF1D6153EE008B1676 /* ZEChangePersonalMsgVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEChangePersonalMsgVC.m; path = Setting/ZEChangePersonalMsgVC.m; sourceTree = "<group>"; };
+		9801DB011D61541B008B1676 /* ZEChangePersonalMsgView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEChangePersonalMsgView.h; path = Setting/ZEChangePersonalMsgView.h; sourceTree = "<group>"; };
+		9801DB021D61541B008B1676 /* ZEChangePersonalMsgView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEChangePersonalMsgView.m; path = Setting/ZEChangePersonalMsgView.m; sourceTree = "<group>"; };
+		9801DB091D6170A8008B1676 /* ZEServerEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEServerEngine.h; path = Service/ZEServerEngine.h; sourceTree = "<group>"; };
+		9801DB0A1D6170A8008B1676 /* ZEServerEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEServerEngine.m; path = Service/ZEServerEngine.m; sourceTree = "<group>"; };
+		9801DB0B1D6170A8008B1676 /* ZEUserServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEUserServer.h; path = Service/ZEUserServer.h; sourceTree = "<group>"; };
+		9801DB0C1D6170A8008B1676 /* ZEUserServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEUserServer.m; path = Service/ZEUserServer.m; sourceTree = "<group>"; };
 		9821C76F1C4E10FF00FE9080 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		982ED36A1D4208A900F87343 /* ZESettingRootVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZESettingRootVC.h; path = CommonUtil/ZESettingRootVC.h; sourceTree = "<group>"; };
 		982ED36B1D4208A900F87343 /* ZESettingRootVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZESettingRootVC.m; path = CommonUtil/ZESettingRootVC.m; sourceTree = "<group>"; };
@@ -155,8 +165,6 @@
 		982ED4471D48518E00F87343 /* JFCalendarPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFCalendarPickerView.m; sourceTree = "<group>"; };
 		982ED4491D48550900F87343 /* ZESinginVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZESinginVC.h; path = Home/ZESinginVC.h; sourceTree = "<group>"; };
 		982ED44A1D48550900F87343 /* ZESinginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZESinginVC.m; path = Home/ZESinginVC.m; sourceTree = "<group>"; };
-		982F0C681C4E2D4600593946 /* ZEServerEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEServerEngine.h; path = Service/ZEServerEngine.h; sourceTree = "<group>"; };
-		982F0C691C4E2D4600593946 /* ZEServerEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEServerEngine.m; path = Service/ZEServerEngine.m; sourceTree = "<group>"; };
 		9872544A1D587CD7005C4AB9 /* ZELoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZELoginView.h; sourceTree = "<group>"; };
 		9872544B1D587CD7005C4AB9 /* ZELoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZELoginView.m; sourceTree = "<group>"; };
 		9872544C1D587CD7005C4AB9 /* ZELoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZELoginViewController.h; sourceTree = "<group>"; };
@@ -228,8 +236,6 @@
 		98DB7C541C4F53EA0046D405 /* ZEMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZEMainViewController.h; sourceTree = "<group>"; };
 		98DB7C551C4F53EA0046D405 /* ZEMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZEMainViewController.m; sourceTree = "<group>"; };
 		98DB7C581C4F554E0046D405 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		98DB7C601C4F56470046D405 /* ZEUserServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEUserServer.h; path = Service/ZEUserServer.h; sourceTree = "<group>"; };
-		98DB7C611C4F56470046D405 /* ZEUserServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEUserServer.m; path = Service/ZEUserServer.m; sourceTree = "<group>"; };
 		98F094211D49AA42002D4E3B /* forum_list_post@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "forum_list_post@2x.png"; sourceTree = "<group>"; };
 		98F094231D49DB11002D4E3B /* avatar_default.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = avatar_default.jpg; sourceTree = "<group>"; };
 		98F094251D49DD2D002D4E3B /* qb_praiseBtn_hand@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qb_praiseBtn_hand@2x.png"; sourceTree = "<group>"; };
@@ -286,6 +292,10 @@
 				987258EF1D5C6F54005C4AB9 /* ZESetPersonalMessageVC.m */,
 				987258F11D5C6F7E005C4AB9 /* ZESetPersonalMessageView.h */,
 				987258F21D5C6F7E005C4AB9 /* ZESetPersonalMessageView.m */,
+				9801DAFE1D6153EE008B1676 /* ZEChangePersonalMsgVC.h */,
+				9801DAFF1D6153EE008B1676 /* ZEChangePersonalMsgVC.m */,
+				9801DB011D61541B008B1676 /* ZEChangePersonalMsgView.h */,
+				9801DB021D61541B008B1676 /* ZEChangePersonalMsgView.m */,
 			);
 			name = Setting;
 			sourceTree = "<group>";
@@ -415,10 +425,10 @@
 			children = (
 				987257561D59A7F6005C4AB9 /* ZEPackageServerData.h */,
 				987257571D59A7F6005C4AB9 /* ZEPackageServerData.m */,
-				982F0C681C4E2D4600593946 /* ZEServerEngine.h */,
-				982F0C691C4E2D4600593946 /* ZEServerEngine.m */,
-				98DB7C601C4F56470046D405 /* ZEUserServer.h */,
-				98DB7C611C4F56470046D405 /* ZEUserServer.m */,
+				9801DB091D6170A8008B1676 /* ZEServerEngine.h */,
+				9801DB0A1D6170A8008B1676 /* ZEServerEngine.m */,
+				9801DB0B1D6170A8008B1676 /* ZEUserServer.h */,
+				9801DB0C1D6170A8008B1676 /* ZEUserServer.m */,
 			);
 			name = Service;
 			sourceTree = "<group>";
@@ -588,8 +598,8 @@
 			buildPhases = (
 				B336CEAF07D2138604D8DBA6 /* [CP] Check Pods Manifest.lock */,
 				989B2C3F1C4DE7AA00F14EFA /* Sources */,
-				989B2C401C4DE7AA00F14EFA /* Frameworks */,
 				989B2C411C4DE7AA00F14EFA /* Resources */,
+				989B2C401C4DE7AA00F14EFA /* Frameworks */,
 				AE1A9FA34EEF3CC439175FE7 /* [CP] Embed Pods Frameworks */,
 				091D465A37D5E66BEDB5E08B /* [CP] Copy Pods Resources */,
 			);
@@ -812,23 +822,25 @@
 				982ED37C1D4209F200F87343 /* ZEGroupVC.m in Sources */,
 				987257581D59A7F6005C4AB9 /* ZEPackageServerData.m in Sources */,
 				989B2C481C4DE7AA00F14EFA /* main.m in Sources */,
-				982F0C6A1C4E2D4600593946 /* ZEServerEngine.m in Sources */,
 				987ACBCD1D4AE845006D692E /* ZEQuestionsView.m in Sources */,
 				989AA67D1D4EF83E00A08022 /* ZEAskQuesViewController.m in Sources */,
 				982ED3EA1D4850E900F87343 /* JFCollectionViewCell.m in Sources */,
 				9872544F1D587CD7005C4AB9 /* ZELoginViewController.m in Sources */,
 				98F4719E1D5434F70016CD5A /* ZEAnswerQuestionsView.m in Sources */,
+				9801DB0E1D6170A8008B1676 /* ZEUserServer.m in Sources */,
 				989AA6891D507A9A00A08022 /* ZELookViewController.m in Sources */,
 				987258F31D5C6F7E005C4AB9 /* ZESetPersonalMessageView.m in Sources */,
+				9801DB001D6153EE008B1676 /* ZEChangePersonalMsgVC.m in Sources */,
 				982ED3731D42095400F87343 /* ZEHomeVC.m in Sources */,
 				987ACBDA1D4AFC31006D692E /* ZEQuestionTableView.m in Sources */,
 				98DB7C561C4F53EA0046D405 /* ZEMainViewController.m in Sources */,
 				982ED3811D420A5000F87343 /* ZEUserCenterVC.m in Sources */,
 				989AA6801D4F186300A08022 /* ZEAskQuesView.m in Sources */,
-				98DB7C621C4F56470046D405 /* ZEUserServer.m in Sources */,
+				9801DB0D1D6170A8008B1676 /* ZEServerEngine.m in Sources */,
 				982ED36C1D4208A900F87343 /* ZESettingRootVC.m in Sources */,
 				989AA68E1D52CDB500A08022 /* ZEQuestionsDetailVC.m in Sources */,
 				982ED3791D4209DD00F87343 /* ZEQuestionsVC.m in Sources */,
+				9801DB031D61541B008B1676 /* ZEChangePersonalMsgView.m in Sources */,
 				989AA6911D52CDD600A08022 /* ZEQuestionsDetailView.m in Sources */,
 				987ACBC71D4A2557006D692E /* ZEShowQuestionVC.m in Sources */,
 				98DB7C531C4F52050046D405 /* UIImage+ZEImage.m in Sources */,
@@ -922,6 +934,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -959,6 +972,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -969,18 +983,59 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C543DE3B53D618A58F02B201 /* Pods-nbsj-know.debug.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/nbsj-know/PrefixHeader.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/nbsj-know/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"AFNetworking\"",
+					"-l\"HexColors\"",
+					"-l\"LwScanningByZBar\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"Masonry\"",
+					"-l\"SDWebImage\"",
+					"-l\"TSMessages\"",
+					"-l\"iconv\"",
+					"-l\"libqrencode\"",
+					"-l\"zbar\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreMedia\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"CoreVideo\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.newCentury.NewCentury;
 				PRODUCT_NAME = "nbsj-know";
 				SHARED_PRECOMPS_DIR = "";
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = "com.zenith.app-Debug";
 				ZENITH_SERVER = "http://192.168.0.142:9090/emarkspg";
@@ -991,18 +1046,58 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 93430E78EC06797D6B873E01 /* Pods-nbsj-know.release.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/nbsj-know/PrefixHeader.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/nbsj-know/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"AFNetworking\"",
+					"-l\"HexColors\"",
+					"-l\"LwScanningByZBar\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"Masonry\"",
+					"-l\"SDWebImage\"",
+					"-l\"TSMessages\"",
+					"-l\"iconv\"",
+					"-l\"libqrencode\"",
+					"-l\"zbar\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreMedia\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"CoreVideo\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.newCentury.NewCentury;
 				PRODUCT_NAME = "nbsj-know";
 				SHARED_PRECOMPS_DIR = "";
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = "com.zenith.app-Release";
 				ZENITH_SERVER = "http://192.168.0.142:9090/emarkspg";

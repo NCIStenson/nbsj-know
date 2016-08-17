@@ -12,6 +12,14 @@
 
 @protocol ZESetPersonalMessageViewDelegate <NSObject>
 
+-(void)changePersonalMsg:(CHANGE_PERSONALMSG_TYPE)type;
+
+
+/**
+ *  @author Stenson, 16-08-15 09:08:28
+ *
+ *  退出登录
+ */
 -(void)logout;
 
 @end

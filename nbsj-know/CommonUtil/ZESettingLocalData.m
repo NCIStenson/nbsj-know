@@ -12,6 +12,8 @@ static NSString * kUserInformation  = @"keyUserInformation";
 static NSString * kSignCookie       = @"keySIGNCOOKIE";
 static NSString * kUSERNAME         = @"kUSERNAME";
 static NSString * kUSERCODE         = @"kUSERCODE";
+static NSString * kISEXPERT         = @"kISEXPERT";
+static NSString * kUSERINFODic      = @"kUSERINFODic";
 
 @implementation ZESettingLocalData
 
@@ -90,7 +92,7 @@ static NSString * kUSERCODE         = @"kUSERCODE";
 }
 +(NSString *)getUSERCODE
 {
-     return [self Get:kUSERCODE];
+     return [[self getUSERINFO] objectForKey:@"USERCODE"];
 }
 +(void)deleteUSERCODE
 {
@@ -98,11 +100,63 @@ static NSString * kUSERCODE         = @"kUSERCODE";
 }
 
 
-#pragma mark - CLEAR
+#pragma mark - ISEXPERT
++(void)setISEXPERT:(BOOL)isExpert
+{
+    [self Set:kISEXPERT value:[NSString stringWithFormat:@"%d",isExpert]];
 
+}
++(BOOL)getISEXPERT
+{
+    return [self Get:kISEXPERT];
+}
++(void)deleteISEXPERT
+{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kISEXPERT];
+}
+
+#pragma mark - USERINFODic
++(void)setUSERINFODic:(NSDictionary *)userinfo
+{
+    [self Set:kUSERINFODic value:userinfo];
+    
+}
++(NSDictionary *)getUSERINFO
+{
+    return [self Get:kUSERINFODic];
+}
++(void)deleteUSERINFODic
+{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUSERINFODic];
+}
+
+/******** 修改昵称 *******/
++(void)changeNICKNAME:(NSString *)nickname
+{
+    NSMutableDictionary * userinfoDic = [NSMutableDictionary dictionaryWithDictionary: [self getUSERINFO]];
+    [userinfoDic setValue:nickname forKey:@"USERNAME"];
+    [self Set:kUSERINFODic value:userinfoDic];
+}
+
++(NSString *)getNICKNAME
+{
+    return  [[self getUSERINFO] objectForKey:@"USERNAME"];
+}
+
+/********  用户主键 **********/
++(NSString *)getUSERSEQKEY
+{
+    return [[self getUSERINFO] objectForKey:@"SEQKEY"];
+}
+
+#pragma mark - CLEAR
 +(void)clearLocalData
 {
-    
+    [ZESettingLocalData deleteCookie];
+    [ZESettingLocalData deleteUSERCODE];
+    [ZESettingLocalData deleteUSERNAME];
+    [ZESettingLocalData deleteISEXPERT];
+    [ZESettingLocalData deleteUSERINFODic];
 }
 
 

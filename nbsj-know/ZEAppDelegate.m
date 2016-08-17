@@ -28,6 +28,7 @@
     application.applicationSupportsShakeToEdit = YES;
     
     NSData *cookiesdata = [ZESettingLocalData getCookie];
+    NSLog(@">>  %@",cookiesdata);
     if([cookiesdata length]) {
         ZEHomeVC * homeVC = [[ZEHomeVC alloc]init];
         homeVC.tabBarItem.image = [UIImage imageNamed:@"ic_titlebar_home_normal_flat.png"];

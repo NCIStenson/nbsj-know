@@ -215,49 +215,31 @@
     return  result;
 }
 
-//  字符串转换成为json格式
-
-+ (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString {
+#pragma mark - 服务器固定格式提取工具类 进行简化提取
++(NSDictionary *)getServerDic:(NSDictionary *)dic withTabelName:(NSString *)tableName
+{
+    NSDictionary * tableDic = [[dic objectForKey:@"DATAS"] objectForKey:tableName];
     
-    if (jsonString == nil) {
-        
-        return nil;
-        
-    }
-    
-    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-    
-    NSError *err;
-    
-    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
-                         
-                                                        options:NSJSONReadingMutableLeaves
-                         
-                                                          error:&err];
-    NSLog(@">>.  %@",dic);
-    
-    if(err) {
-        
-        NSLog(@"json解析失败：%@",err);
-        
-        return nil;
-        
-    }
-    
-    return dic;
-    
+    return tableDic;
 }
 
-+(NSString *)JSONString:(NSString *)aString {
-    NSMutableString *s = [NSMutableString stringWithString:aString];
-    [s replaceOccurrencesOfString:@"\"" withString:@"\\\"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [s length])];
-    [s replaceOccurrencesOfString:@"/" withString:@"\\/" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [s length])];
-    [s replaceOccurrencesOfString:@"\n" withString:@"\\n" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [s length])];
-    [s replaceOccurrencesOfString:@"\b" withString:@"\\b" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [s length])];
-    [s replaceOccurrencesOfString:@"\f" withString:@"\\f" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [s length])];
-    [s replaceOccurrencesOfString:@"\r" withString:@"\\r" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [s length])];
-    [s replaceOccurrencesOfString:@"\t" withString:@"\\t" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [s length])];
-    return [NSString stringWithString:s];
++ (NSArray *)getServerData:(NSDictionary *)dic withTabelName:(NSString *)tableName
+{
+    NSDictionary * tableDic = [[dic objectForKey:@"DATAS"] objectForKey:tableName];
+    NSArray * serverDatasArr = [tableDic objectForKey:@"datas"];
+    
+    return serverDatasArr;
+}
+
++(BOOL)isSuccess:(NSString *)dicStr
+{
+    if ([dicStr isEqualToString:@"操作成功！"]) {
+        return YES;
+    }else if ([dicStr isEqualToString:@"null"]){
+        return YES;
+    }else{
+        return NO;
+    }
 }
 
 @end

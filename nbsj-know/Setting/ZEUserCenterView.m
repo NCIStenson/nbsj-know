@@ -14,6 +14,13 @@
 #import "UIImageView+WebCache.h"
 #import "ZEUserCenterView.h"
 
+@interface ZEUserCenterView ()
+{
+    UITableView * userCenterTable;
+}
+
+@end
+
 @implementation ZEUserCenterView
 
 -(id)initWithFrame:(CGRect)frame
@@ -27,7 +34,7 @@
 
 -(void)initUserCenterView
 {
-    UITableView * userCenterTable = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+    userCenterTable = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     userCenterTable.delegate = self;
     userCenterTable.dataSource = self;
     userCenterTable.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -39,8 +46,17 @@
         make.size.mas_equalTo(CGSizeMake(kUserTableWidth, kUserTableHeight));
     }];
     
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeSuccess) name:kNOTI_CHANGEPERSONALMSG_SUCCESS object:nil];
+}
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNOTI_CHANGEPERSONALMSG_SUCCESS object:nil];
 }
 
+-(void)changeSuccess
+{
+    [userCenterTable reloadData];
+}
 
 #pragma mark - UITableViewDataSource
 
@@ -160,7 +176,7 @@
     lvLabel.backgroundColor = [UIColor yellowColor];
     [userMessage addSubview:lvLabel];
     
-    NSString * username = @"Miss 嘿嘿";
+    NSString * username = [ZESettingLocalData getNICKNAME];
     float usernameWidth = [ZEUtil widthForString:username font:[UIFont systemFontOfSize:16] maxSize:CGSizeMake(SCREEN_WIDTH - 60, 20)];
     
     UILabel * usernameLabel = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH - usernameWidth ) / 2, 155, usernameWidth, 20.0f)];

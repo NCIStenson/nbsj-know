@@ -48,7 +48,27 @@
 + (NSString *) compareCurrentTime:(NSString *)str;
 
 
-//  字符串转换成JSON格式
-+ (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
-+(NSString *)JSONString:(NSString *)aString;
+/**
+ *  @author Stenson, 16-08-15 15:08:07
+ *
+ *  服务器固定格式提取工具类 进行简化提取
+ *
+ *  @param dic       服务器返回字符串
+ *  @param tableName 查询表名
+ *
+ *  @return 数据数组
+ */
++ (NSDictionary *)getServerDic:(NSDictionary *)dic withTabelName:(NSString *)tableName;
++ (NSArray *)getServerData:(NSDictionary *)dic withTabelName:(NSString *)tableName;
+/**
+ *  @author Stenson, 16-08-16 09:08:20
+ *
+ *  获取操作是否成功
+ *
+ *  @param dicStr 请求返回参数
+ *
+ *  @return 是否成功
+ */
++(BOOL)isSuccess:(NSString *)dicStr;
+
 @end

@@ -9,9 +9,9 @@
 #ifndef ZEEnumConstant_h
 #define ZEEnumConstant_h
 
-typedef NS_ENUM (NSInteger,TEST_BODY_PART){
-    TEST_BODY_PART_FACE,
-    TEST_BODY_PART_NOSE
-};
+typedef enum : NSUInteger {
+    CHANGE_PERSONALMSG_NICKNAME,
+    CHANGE_PERSONALMSG_ADVICE,
+} CHANGE_PERSONALMSG_TYPE;
 
 #endif /* ZEEnumConstant_h */

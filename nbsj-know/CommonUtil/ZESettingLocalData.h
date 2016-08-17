@@ -45,6 +45,32 @@
 +(void)setUSERCODE:(NSString *)str;
 +(NSString *)getUSERCODE;
 +(void)deleteUSERCODE;
+/**
+ *  @author Stenson, 16-08-12 15:08:00
+ *
+ *  保存是否是专家
+ *
+ */
++(void)setISEXPERT:(BOOL)isExpert;
++(BOOL)getISEXPERT;
++(void)deleteISEXPERT;
+
+/**
+ *  @author Stenson, 16-08-17 13:08:23
+ *
+ *  存储个人用户数据信息
+ */
++(void)setUSERINFODic:(NSDictionary *)userinfo;
++(NSDictionary *)getUSERINFO;
++(void)deleteUSERINFODic;
+
+/******** 修改昵称 *******/
++(void)changeNICKNAME:(NSString *)nickname;
+/*********** 获取用户昵称 ********/
++(NSString *)getNICKNAME;
+
+/********  用户主键 **********/
++(NSString *)getUSERSEQKEY;
 
 +(void)clearLocalData;
 
