@@ -55,9 +55,10 @@
     [self progressBegin:@"正在退出登录"];
     [ZEUserServer logoutSuccess:^(id data) {
         [self progressEnd:nil];
-        if ([ZEUtil isSuccess:[data objectForKey:@"RETMSG"]]) {
-            [self logoutSuccess];
-        }
+        NSLog(@" 正在退出登录 >>  %@",data);
+//        if ([ZEUtil isSuccess:[data objectForKey:@"RETMSG"]]) {
+        [self logoutSuccess];
+//        }
     } fail:^(NSError *error) {
         [self progressEnd:nil];
     }];

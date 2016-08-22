@@ -22,7 +22,6 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBarHidden = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
-//    self.edgesForExtendedLayout = UIRectEdgeNone;
     [self initView];
 }
 

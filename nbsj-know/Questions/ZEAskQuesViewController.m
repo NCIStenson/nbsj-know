@@ -10,9 +10,13 @@
 #import "ZEAskQuesView.h"
 
 #import "ZELookViewController.h"
+#import "ZEQuestionTypeCache.h"
+#define textViewStr @"试着将问题尽可能清晰的描述出来，这样回答者们才能更完整、更高质量的为您解答。不能超过50个字符。"
+
 @interface ZEAskQuesViewController ()<ZEAskQuesViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,ZELookViewControllerDelegate>
 {
     ZEAskQuesView * askView;
+    NSDictionary * showQuesTypeDic;
 }
 
 @property (nonatomic,retain) NSMutableArray * imagesArr;
@@ -115,9 +119,106 @@
     [askView reloadChoosedImageView:imageArr];
 }
 
+-(void)showQuestionType:(ZEAskQuesView *)askQuesView
+{
+    NSArray * typeArr = [[ZEQuestionTypeCache instance] getQuestionTypeCaches];
+    if (typeArr.count > 0) {
+        [askQuesView showQuestionTypeViewWithData:typeArr];
+        return;
+    }
+    
+    
+    NSDictionary * parametersDic = @{@"limit":@"20",
+                                     @"MASTERTABLE":KLB_QUESTION_TYPE,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"ISENABLED=1",
+                                     @"start":@"0",
+                                     @"METHOD":@"search",
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_QUESTION_TYPE]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [self progressBegin:nil];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                             success:^(id data) {
+                                 [self progressEnd:nil];
+                                 NSLog(@">>>>>   %@",data);
+                                 [askQuesView showQuestionTypeViewWithData:[ZEUtil getServerData:data withTabelName:KLB_QUESTION_TYPE]];
+                             } fail:^(NSError *errorCode) {
+                                 [self progressEnd:nil];
+                             }];
+}
+
+
 -(void)rightBtnClick
 {
-    NSLog(@">>   %@",self.imagesArr);
+    NSLog(@">>   %@",askView.inputView.text);
+    if ([askView.inputView.text isEqualToString:textViewStr]) {
+        [self showAlertView:@"请输入问题说明" isBack:NO];
+        return;
+    }else if (askView.inputView.text.length < 5){
+        [self showAlertView:@"请详细输入问题说明" isBack:NO];
+        return;
+    }else if (![ZEUtil isStrNotEmpty:askView.quesTypeSEQKEY]){
+        [self showAlertView:@"请选择问题分类" isBack:NO];
+        return;
+    }
+    NSDictionary * parametersDic = @{@"limit":@"20",
+                                     @"MASTERTABLE":KLB_QUESTION_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"ISLOSE=1",
+                                     @"start":@"0",
+                                     @"METHOD":@"addSave",
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{@"SEQKEY":@"",
+                                @"QUESTIONTYPE":askView.quesTypeSEQKEY,
+                                @"QUESTIONEXPLAIN":askView.inputView.text,
+                                @"QUESTIONIMAGE":@"",
+                                @"QUESTIONUSERCODE":[ZESettingLocalData getUSERCODE],
+                                @"QUESTIONUSERNAME":[ZESettingLocalData getNICKNAME],
+                                @"QUESTIONLEVEL":@"1",
+                                @"IMPORTLEVEL":@"",
+                                @"ISLOSE":@"1",
+                                @"ISEXPERTANSWER":@"0",
+                                @"ISSOLVE":@"0"};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_QUESTION_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [self progressBegin:nil];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                             success:^(id data) {
+                                 [self progressEnd:nil];
+                                 [self showAlertView:@"问题发表成功" isBack:YES];
+                             } fail:^(NSError *errorCode) {
+                                 [self progressEnd:nil];
+                             }];
+    
+}
+-(void)showAlertView:(NSString *)alertMsg isBack:(BOOL)isBack
+{
+    UIAlertController * alertC = [UIAlertController alertControllerWithTitle:nil message:alertMsg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if (isBack) {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }];
+    [alertC addAction:action];
+    [self presentViewController:alertC animated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {

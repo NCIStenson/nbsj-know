@@ -11,16 +11,19 @@
 #define kInputViewWidth         SCREEN_WIDTH - 20.0f
 #define kInputViewHeight        120.0f
 
-#define textViewStr @"试着将问题尽可能清晰的描述出来，这样回答者们才能更完整、更高质量的为您解答。"
+#define textViewStr @"试着将问题尽可能清晰的描述出来，这样回答者们才能更完整、更高质量的为您解答。不能超过50个字符。"
 
 #import "ZEAskQuesView.h"
+#import "JCAlertView.h"
+#import "ZEShowQuestionTypeView.h"
 
-@interface ZEAskQuesView()<UITextViewDelegate>
+@interface ZEAskQuesView()<UITextViewDelegate,ZEShowQuestionTypeViewDelegate>
 {
-    UITextView * inputView;
+    UITextView * _inputView;
     NSMutableArray * _choosedImageArr;
-    
+    JCAlertView * _alertView;
     UIView * _backImageView;//   上传图片背景view
+    UIButton * questionTypeBtn;
 }
 
 @property (nonatomic,strong) NSMutableArray * choosedImageArr;
@@ -41,13 +44,13 @@
 }
 -(void)initView
 {
-    inputView = [[UITextView alloc]initWithFrame:CGRectZero];
-    inputView.text = textViewStr;
-    inputView.font = [UIFont systemFontOfSize:14];
-    inputView.textColor = [UIColor lightGrayColor];
-    inputView.delegate = self;
-    [self addSubview:inputView];
-    [inputView mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.inputView = [[UITextView alloc]initWithFrame:CGRectZero];
+    _inputView.text = textViewStr;
+    _inputView.font = [UIFont systemFontOfSize:14];
+    _inputView.textColor = [UIColor lightGrayColor];
+    _inputView.delegate = self;
+    [self addSubview:_inputView];
+    [_inputView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(kInputViewMarginLeft);
         make.top.mas_equalTo(kInputViewMarginTop);
         make.size.mas_equalTo(CGSizeMake(kInputViewWidth, kInputViewHeight));
@@ -78,6 +81,19 @@
     cameraBtn.layer.borderColor = [MAIN_GREEN_COLOR CGColor];
     [cameraBtn addTarget:self action:@selector(showCondition) forControlEvents:UIControlEventTouchUpInside];
     
+    questionTypeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    questionTypeBtn.frame = CGRectMake(10.0f, kInputViewHeight + NAV_HEIGHT + 50.0f, SCREEN_WIDTH - 20.0f, 40);
+//    [questionTypeBtn setImage:[UIImage imageNamed:@"camera_gray" color:MAIN_GREEN_COLOR] forState:UIControlStateNormal];
+    [questionTypeBtn setTitle:@"选择问题分类" forState:UIControlStateNormal];
+    [questionTypeBtn setTitleColor:MAIN_GREEN_COLOR forState:UIControlStateNormal];
+    questionTypeBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    [self addSubview:questionTypeBtn];
+    questionTypeBtn.clipsToBounds = YES;
+    questionTypeBtn.layer.cornerRadius = 5.0f;
+    questionTypeBtn.layer.borderWidth = 1.5f;
+    questionTypeBtn.layer.borderColor = [MAIN_GREEN_COLOR CGColor];
+    [questionTypeBtn addTarget:self action:@selector(showQuestionType) forControlEvents:UIControlEventTouchUpInside];
+
 }
 
 -(void)initImageView
@@ -105,6 +121,7 @@
     }
     
 }
+
 
 -(void)drawDashLine:(UIView *)lineView lineLength:(int)lineLength lineSpacing:(int)lineSpacing lineColor:(UIColor *)lineColor
 {
@@ -145,6 +162,17 @@
     
     [self initImageView];
 }
+
+-(void)showQuestionTypeViewWithData:(NSArray *)optionArr
+{
+    ZEShowQuestionTypeView * showTypeView = [[ZEShowQuestionTypeView alloc]initWithOptionArr:optionArr];
+    showTypeView.delegate = self;
+    _alertView = [[JCAlertView alloc]initWithCustomView:showTypeView dismissWhenTouchedBackground:YES];
+    [_alertView show];
+}
+
+
+
 #pragma mark - UITextViewDelegate
 
 -(void)textViewDidBeginEditing:(UITextView *)textView
@@ -164,8 +192,8 @@
 
 -(void)textViewDidChange:(UITextView *)textView
 {
-    if (textView.text.length > 20) {
-        NSLog(@" 》》   字数过多");
+    if (textView.text.length > 50) {
+        textView.text = [textView.text substringToIndex:50];
     }
 }
 
@@ -177,7 +205,16 @@
 
 -(void)downTheKeyBoard
 {
-    [inputView resignFirstResponder];
+    [_inputView resignFirstResponder];
+}
+
+#pragma mark - ZEAskQuesViewDelegate
+
+-(void)showQuestionType
+{
+    if([self.delegate respondsToSelector:@selector(showQuestionType:)]){
+        [self.delegate showQuestionType:self];
+    }
 }
 
 -(void)showCondition
@@ -192,6 +229,16 @@
     if ([self.delegate respondsToSelector:@selector(goLookImageView:)]) {
         [self.delegate goLookImageView:_choosedImageArr];
     }
+}
+#pragma mark - ZEShowQuesTypeVIewDelegate
+
+-(void)didSeclect:(ZEShowQuestionTypeView *)showTypeView withData:(NSDictionary *)dic
+{
+    [questionTypeBtn setTitle:[dic objectForKey:@"QUESTIONTYPENAME"] forState:UIControlStateNormal];
+    [questionTypeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [questionTypeBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:16]];
+    self.quesTypeSEQKEY = [dic objectForKey:@"SEQKEY"];
+    [_alertView dismissWithCompletion:nil];
 }
 
 

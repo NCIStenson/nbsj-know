@@ -11,4 +11,8 @@
 
 @interface ZEShowQuestionVC : ZESettingRootVC
 
+@property (nonatomic,assign) QUESTION_LIST showQuestionListType;
+@property (nonatomic,copy) NSString * QUESTIONTYPENAME;
+@property (nonatomic,copy) NSString * typeSEQKEY;
+
 @end

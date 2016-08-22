@@ -5,6 +5,12 @@
 //  Created by Stenson on 16/7/29.
 //  Copyright © 2016年 Hangzhou Zenith Electronic Technology Co., Ltd. All rights reserved.
 //
+
+#import <UIKit/UIKit.h>
+#import "ZEQuestionTypeCache.h"
+#import "ZEQuestionInfoModel.h"
+#import "ZEQuestionTypeModel.h"
+
 typedef NS_ENUM(NSInteger,QUESTION_SECTION_TYPE){
     QUESTION_SECTION_TYPE_RECOMMEND,
     QUESTION_SECTION_TYPE_NEWEST
@@ -27,16 +33,26 @@ typedef NS_ENUM(NSInteger,QUESTION_SECTION_TYPE){
  *
  *  @param indexPath 选择第几区第几个问题
  */
--(void)goQuestionDetailVCWithIndexPath:(NSIndexPath *)indexPath;
+-(void)goQuestionDetailVCWithQuestionInfo:(ZEQuestionInfoModel *)infoModel
+                         withQuestionType:(ZEQuestionTypeModel *)typeModel;
+
+/**
+ *  @author Stenson, 16-08-19 11:08:05
+ *
+ *  开始搜索
+ */
+-(void)goSearchWithStr:(NSString *)inputStr;
 
 @end
 
-#import <UIKit/UIKit.h>
 
 @interface ZEQuestionsView : UIView<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>
 
 @property(nonatomic,weak) id <ZEQuestionsViewDelegate> delegate;
 
+#pragma mark - Public Method
+
+-(void)reloadContentViewWithArr:(NSArray *)arr;
 -(id)initWithFrame:(CGRect)frame;
 
 @end

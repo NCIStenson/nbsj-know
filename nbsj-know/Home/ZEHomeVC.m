@@ -23,8 +23,6 @@
     self.navigationController.navigationBarHidden = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     [self initView];
-    
-    NSLog(@">>  %@",[ZEUtil compareCurrentTime:@"2016-07-28 17:08:50"]);
 }
 -(void)viewWillAppear:(BOOL)animated
 {

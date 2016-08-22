@@ -14,4 +14,10 @@ typedef enum : NSUInteger {
     CHANGE_PERSONALMSG_ADVICE,
 } CHANGE_PERSONALMSG_TYPE;
 
+
+typedef enum:NSInteger{
+    QUESTION_LIST_RECOMMEND, // 推荐列表
+    QUESTION_LIST_TYPE,      // 问题分类
+}QUESTION_LIST;
+
 #endif /* ZEEnumConstant_h */

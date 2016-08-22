@@ -180,7 +180,7 @@
 //    NSLog(@">>  %@",serverDate);
 
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.s"];
     NSDate *timeDate = [dateFormatter dateFromString:str];
     //得到与当前时间差
     NSTimeInterval  timeInterval = [timeDate timeIntervalSinceNow];

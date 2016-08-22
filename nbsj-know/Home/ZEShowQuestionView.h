@@ -19,7 +19,10 @@
  *
  *  @param indexPath 选择第几区第几个问题
  */
--(void)goQuestionDetailVCWithIndexPath:(NSIndexPath *)indexPath;
+-(void)goQuestionDetailVCWithQuestionInfo:(ZEQuestionInfoModel *)infoModel
+                         withQuestionType:(ZEQuestionTypeModel *)typeModel;
+
+
 
 @end
 
@@ -28,5 +31,6 @@
 @property (nonatomic,weak) id <ZEShowQuestionViewDelegate> delegate;
 
 -(id)initWithFrame:(CGRect)frame;
+-(void)reloadContentViewWithArr:(NSArray *)arr;
 
 @end

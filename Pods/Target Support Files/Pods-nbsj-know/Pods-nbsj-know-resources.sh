@@ -81,6 +81,7 @@ EOM
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "$PODS_CONFIGURATION_BUILD_DIR/LwScanningByZBar/LwScanningByZBar.bundle"
+  install_resource "MJRefresh/MJRefresh/MJRefresh.bundle"
   install_resource "TSMessages/Pod/Assets/NotificationBackgroundError.png"
   install_resource "TSMessages/Pod/Assets/NotificationBackgroundError@2x.png"
   install_resource "TSMessages/Pod/Assets/NotificationBackgroundErrorIcon.png"
@@ -101,6 +102,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "$PODS_CONFIGURATION_BUILD_DIR/LwScanningByZBar/LwScanningByZBar.bundle"
+  install_resource "MJRefresh/MJRefresh/MJRefresh.bundle"
   install_resource "TSMessages/Pod/Assets/NotificationBackgroundError.png"
   install_resource "TSMessages/Pod/Assets/NotificationBackgroundError@2x.png"
   install_resource "TSMessages/Pod/Assets/NotificationBackgroundErrorIcon.png"

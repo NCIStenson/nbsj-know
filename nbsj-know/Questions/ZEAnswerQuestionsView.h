@@ -20,6 +20,8 @@
 
 @property (nonatomic,weak) id <ZEAnswerQuestionsViewDelegate> delegate;
 
+@property (nonatomic,strong) UITextView * answerText;
+
 -(id)initWithFrame:(CGRect)frame;
 
 @end

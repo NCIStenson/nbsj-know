@@ -43,7 +43,7 @@
  *
  *  @param str 传入时间
  *
- *  @return 出入时间是多少分钟前
+ *  @return 返回时间是多少分钟前
  */
 + (NSString *) compareCurrentTime:(NSString *)str;
 

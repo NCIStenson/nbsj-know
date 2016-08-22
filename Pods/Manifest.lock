@@ -21,6 +21,7 @@ PODS:
     - TSMessages (~> 0.9.12)
   - Masonry (0.6.4)
   - MBProgressHUD (0.9.2)
+  - MJRefresh (3.1.12)
   - SDWebImage (3.7.6):
     - SDWebImage/Core (= 3.7.6)
   - SDWebImage/Core (3.7.6)
@@ -32,6 +33,7 @@ DEPENDENCIES:
   - LwScanningByZBar (~> 0.0.2)
   - Masonry (~> 0.6.4)
   - MBProgressHUD (~> 0.9.2)
+  - MJRefresh (~> 3.1.0)
   - SDWebImage (~> 3.7.4)
 
 SPEC CHECKSUMS:
@@ -41,9 +43,10 @@ SPEC CHECKSUMS:
   LwScanningByZBar: becafdee10203bcc5a79c708b64c8e624ba0c427
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
+  MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   TSMessages: c8cc7b80f2a833af533872cd02010cac061532cc
 
-PODFILE CHECKSUM: fa2672ba99cb9c4a98d18f1f2e65e0a19ce5184e
+PODFILE CHECKSUM: 1c9088ccc06e37e64324c46cc8726ed998adf2ec
 
 COCOAPODS: 1.0.1

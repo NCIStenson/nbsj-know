@@ -33,9 +33,9 @@
     [self addSubview:questionLab];
     
     
-    UITextView * answerText = [[UITextView alloc]initWithFrame:CGRectMake(0,NAV_HEIGHT + questionTitleHeight + 20.0f, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT - questionTitleHeight - 20.0f)];
-    answerText.backgroundColor = [UIColor whiteColor];
-    [self addSubview:answerText];
+    self.answerText = [[UITextView alloc]initWithFrame:CGRectMake(0,NAV_HEIGHT + questionTitleHeight + 20.0f, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT - questionTitleHeight - 20.0f)];
+    _answerText.backgroundColor = [UIColor whiteColor];
+    [self addSubview:_answerText];
     
     
 }

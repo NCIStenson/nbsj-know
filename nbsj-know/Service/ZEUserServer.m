@@ -8,7 +8,7 @@
 
 #import "ZEPackageServerData.h"
 #import "ZEUserServer.h"
-
+#import "ZELoginViewController.h"
 @implementation ZEUserServer
 
 
@@ -64,10 +64,32 @@
                                                        [ZESettingLocalData clearLocalData];
                                                        NSLog(@" failBlock ==  %@ ",[data objectForKey:@"RETMSG"]);
                                                        NSLog(@" failData ==  %@ ",data);
+                                                       [ZEUserServer logoutSucce];
+                                                       NSError *errorCode = nil;
+                                                       failBlock(errorCode);
+                                                       
                                                    }
                                                } fail:^(NSError *errorCode) {
                                                    failBlock(errorCode);
                                                }];
+}
+
++(void)logoutSucce
+{
+    
+    UIAlertController * alertC = [UIAlertController alertControllerWithTitle:nil message:@"登陆过期，请重新登陆。" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    [alertC addAction:action];
+
+    [ZESettingLocalData clearLocalData];
+    UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
+    
+    ZELoginViewController * loginVC = [[ZELoginViewController alloc]init];
+    keyWindow.rootViewController = loginVC;
+    
+    [loginVC presentViewController:alertC animated:YES completion:nil];
+
 }
 
 #pragma mark - 进行操作前 预先进行查询操作

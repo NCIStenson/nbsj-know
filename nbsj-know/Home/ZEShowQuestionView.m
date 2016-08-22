@@ -17,11 +17,12 @@
 #import "ZEShowQuestionView.h"
 
 @interface ZEShowQuestionView()<UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource>
-
 {
+    UITableView * _contentTableView;
     UITextField * _questionSearchTF;
-    NSString * _questionStr;
 }
+
+@property (nonatomic,strong) NSMutableArray * datasArr;
 
 @end
 
@@ -31,8 +32,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
-        _questionStr = @"/Users/Stenson/Xcode/zenith/nbsj-know/nbsj-know/Home/ZEHomeVC.m:18:17: Method 'goMoreExpertAnswerView' in protocol 'ZEHomeViewDelegate' not implemented";
+        self.datasArr = [NSMutableArray array];
         [self initContentTableView];
     }
     return self;
@@ -40,17 +40,26 @@
 
 -(void)initContentTableView
 {
-    UITableView * contentTableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
-    contentTableView.delegate = self;
-    contentTableView.dataSource = self;
-    [self addSubview:contentTableView];
+    _contentTableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
+    _contentTableView.delegate = self;
+    _contentTableView.dataSource = self;
+    [self addSubview:_contentTableView];
+
+    MJRefreshHeader * header = [MJRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshTableView)];
+    [_contentTableView setMj_header:header];
     
-    [contentTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_contentTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(kContentTableMarginLeft);
         make.top.mas_equalTo(kContentTableMarginTop);
         make.size.mas_equalTo(CGSizeMake(kContentTableWidth, kContentTableHeight));
     }];
     
+}
+
+-(void)refreshTableView
+{
+    NSLog(@">>  刷新表");
+    [_contentTableView.mj_header endRefreshing];
 }
 
 
@@ -77,12 +86,25 @@
     
     return searchTFView;
 }
+#pragma mark - Public Method
+
+-(void)reloadContentViewWithArr:(NSArray *)arr{
+    [self.datasArr addObjectsFromArray:arr];
+    [_contentTableView reloadData];
+}
+
 
 #pragma mark - UITableViewDelegate
 
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    return self.datasArr.count;
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -90,32 +112,35 @@
     return 50;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0;
+}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-   
-        float questionHeight =[ZEUtil heightForString:_questionStr font:[UIFont systemFontOfSize:kQuestionTitleFontSize] andWidth:SCREEN_WIDTH - 40];
-        UIImage * img = [UIImage imageNamed:@"banner.jpg"];
-        float questionImgH =  ( SCREEN_WIDTH - 40 ) / img.size.width * img.size.height;
-        
-        return questionHeight + questionImgH + 50.0f;
+    NSDictionary * datasDic = _datasArr[indexPath.row];
+    NSString * QUESTIONEXPLAINStr = [datasDic objectForKey:@"QUESTIONEXPLAIN"];
     
-    return 40;
+    
+        float questionHeight =[ZEUtil heightForString:QUESTIONEXPLAINStr font:[UIFont systemFontOfSize:kQuestionTitleFontSize] andWidth:SCREEN_WIDTH - 40];
+        //        UIImage * img = [UIImage imageNamed:@"banner.jpg"];
+        //        float questionImgH =  ( SCREEN_WIDTH - 40 ) / img.size.width * img.size.height;
+        
+        return questionHeight + 50.0f;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     
-    UIView * searchBackView = [[UIView alloc]initWithFrame:CGRectMake(0, -1, SCREEN_WIDTH, 50)];
-    searchBackView.backgroundColor = MAIN_LINE_COLOR;
+    UIView * sectionView = [[UIView alloc]init];
+    sectionView.backgroundColor = MAIN_LINE_COLOR;
     
-    UIView * searchTF = [self searchTextfieldView];
-    searchTF.frame = CGRectMake(25, 10, SCREEN_WIDTH - 50, 30);
-    [searchBackView addSubview:searchTF];
-    [self addSubview:searchBackView];
+    UIView * textfieldView = [self searchTextfieldView];
+    textfieldView.center = CGPointMake(SCREEN_WIDTH / 2, 25.0f);
+    [sectionView addSubview:textfieldView];
     
-    
-    return searchBackView;
+    return sectionView;
 }
 
 -(UITableViewCell * )tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -133,39 +158,43 @@
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    [cell.contentView addSubview:[self createAnswerView]];
+    [cell.contentView addSubview:[self createAnswerView:indexPath]];
     
     return cell;
 }
 
-
 #pragma mark - 回答问题
--(UIView *)createAnswerView
+
+-(UIView *)createAnswerView:(NSIndexPath *)indexpath
 {
+    NSDictionary * datasDic = _datasArr[indexpath.row];
+    
     UIView *  questionsView = [[UIView alloc]init];
     
-    float questionHeight =[ZEUtil heightForString:_questionStr font:[UIFont systemFontOfSize:kQuestionTitleFontSize] andWidth:SCREEN_WIDTH - 40];
+    ZEQuestionInfoModel * quesInfoM = [ZEQuestionInfoModel getDetailWithDic:datasDic];
+    NSString * QUESTIONEXPLAINStr = quesInfoM.QUESTIONEXPLAIN;
     
-    UILabel * questionsLab = [[UILabel alloc]initWithFrame:CGRectMake(20, 5, SCREEN_WIDTH - 40, questionHeight)];
-    questionsLab.numberOfLines = 0;
-    questionsLab.text = _questionStr;
-    questionsLab.font = [UIFont systemFontOfSize:kQuestionTitleFontSize];
-    [questionsView addSubview:questionsLab];
+    float questionHeight =[ZEUtil heightForString:QUESTIONEXPLAINStr font:[UIFont systemFontOfSize:kQuestionTitleFontSize] andWidth:SCREEN_WIDTH - 40];
+    
+    UILabel * QUESTIONEXPLAIN = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, SCREEN_WIDTH - 40, questionHeight)];
+    QUESTIONEXPLAIN.numberOfLines = 0;
+    QUESTIONEXPLAIN.text = QUESTIONEXPLAINStr;
+    QUESTIONEXPLAIN.font = [UIFont systemFontOfSize:kQuestionMarkFontSize];
+    [questionsView addSubview:QUESTIONEXPLAIN];
     
     //  问题文字与用户信息之间间隔
-    float userY = questionHeight + 15.0f;
+    float userY = questionHeight + 20.0f;
     
     //    if () {
-    UIImage * img = [UIImage imageNamed:@"banner.jpg"];
-    float questionImgH =  ( SCREEN_WIDTH - 40 ) / img.size.width * img.size.height;
-    
-    UIImageView * questionImg = [[UIImageView alloc]initWithFrame:CGRectMake(20, userY, SCREEN_WIDTH - 40, questionImgH)];
-    questionImg.image = img;
-    questionImg.contentMode = UIViewContentModeScaleAspectFit;
-    [questionsView addSubview:questionImg];
-    userY += questionImgH + 10.0f;
+    //    UIImage * img = [UIImage imageNamed:@"banner.jpg"];
+    //    float questionImgH =  ( SCREEN_WIDTH - 40 ) / img.size.width * img.size.height;
+    //
+    //    UIImageView * questionImg = [[UIImageView alloc]initWithFrame:CGRectMake(20, userY, SCREEN_WIDTH - 40, questionImgH)];
+    //    questionImg.image = img;
+    //    questionImg.contentMode = UIViewContentModeScaleAspectFit;
+    //    [questionsView addSubview:questionImg];
+    //    userY += questionImgH + 10.0f;
     //    }
-    
     
     UIImageView * userImg = [[UIImageView alloc]initWithFrame:CGRectMake(20, userY, 20, 20)];
     userImg.image = [UIImage imageNamed:@"avatar_default.jpg"];
@@ -173,11 +202,11 @@
     userImg.clipsToBounds = YES;
     userImg.layer.cornerRadius = 10;
     
-    UILabel * usernameLab = [[UILabel alloc]initWithFrame:CGRectMake(45,userY,100.0f,20.0f)];
-    usernameLab.text = @"test1";
-    usernameLab.textColor = MAIN_SUBTITLE_COLOR;
-    usernameLab.font = [UIFont systemFontOfSize:kQuestionTitleFontSize];
-    [questionsView addSubview:usernameLab];
+    UILabel * QUESTIONUSERNAME = [[UILabel alloc]initWithFrame:CGRectMake(45,userY,100.0f,20.0f)];
+    QUESTIONUSERNAME.text = quesInfoM.QUESTIONUSERNAME;
+    QUESTIONUSERNAME.textColor = MAIN_SUBTITLE_COLOR;
+    QUESTIONUSERNAME.font = [UIFont systemFontOfSize:kQuestionTitleFontSize];
+    [questionsView addSubview:QUESTIONUSERNAME];
     
     float praiseNumWidth = [ZEUtil widthForString:@"10 回答" font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
     
@@ -190,17 +219,26 @@
     praiseNumLab.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
     praiseNumLab.textColor = MAIN_SUBTITLE_COLOR;
     [questionsView addSubview:praiseNumLab];
+    ZEQuestionTypeModel * questionTypeM = nil;
+    
+    for (NSDictionary * dic in [[ZEQuestionTypeCache instance] getQuestionTypeCaches]) {
+        ZEQuestionTypeModel * typeM = [ZEQuestionTypeModel getDetailWithDic:dic];
+        if ([typeM.SEQKEY isEqualToString:quesInfoM.QUESTIONTYPE]) {
+            questionTypeM = typeM;
+        }
+    }
     
     // 圈组分类最右边
     float circleTypeR = SCREEN_WIDTH - praiseNumWidth - 30;
-    float circleWidth = [ZEUtil widthForString:@"高压用电检查" font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
+    
+    float circleWidth = [ZEUtil widthForString:questionTypeM.QUESTIONTYPENAME font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
     
     UIImageView * circleImg = [[UIImageView alloc]initWithFrame:CGRectMake(circleTypeR - circleWidth - 20.0f, userY + 2.0f, 15, 15)];
     circleImg.image = [UIImage imageNamed:@"rateTa.png"];
     [questionsView addSubview:circleImg];
     
     UILabel * circleLab = [[UILabel alloc]initWithFrame:CGRectMake(circleImg.frame.origin.x + 20,userY,circleWidth,20.0f)];
-    circleLab.text = @"高压用电检查";
+    circleLab.text = questionTypeM.QUESTIONTYPENAME;
     circleLab.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
     circleLab.textColor = MAIN_SUBTITLE_COLOR;
     [questionsView addSubview:circleLab];
@@ -208,34 +246,21 @@
     return questionsView;
 }
 
--(UIView *)creatCaseView
-{
-    UIView *  caseView = [[UIView alloc]init];
-    
-    UIImage * img = [UIImage imageNamed:@"banner.jpg"];
-    float questionImgH =  ( ( SCREEN_WIDTH - 40) / 2 - 10.0f   ) / img.size.width * img.size.height;
-    
-    UIImageView * questionImg = [[UIImageView alloc]initWithFrame:CGRectMake(20, 10, (SCREEN_WIDTH - 40) / 2 , questionImgH)];
-    questionImg.image = img;
-    questionImg.contentMode = UIViewContentModeScaleAspectFit;
-    [caseView addSubview:questionImg];
-    
-    float caseContH = [ZEUtil heightForString:_questionStr font:[UIFont systemFontOfSize:kSubTiltlFontSize] andWidth:(SCREEN_WIDTH - 40) / 2 ];
-    
-    UILabel * caseContentLab = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH - 40) / 2 + 20.0f ,10,(SCREEN_WIDTH - 40) / 2 ,caseContH)];
-    caseContentLab.text = _questionStr;
-    caseContentLab.numberOfLines = 0;
-    caseContentLab.textColor = MAIN_SUBTITLE_COLOR;
-    caseContentLab.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
-    [caseView addSubview:caseContentLab];
-    
-    return caseView;
-}
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([self.delegate respondsToSelector:@selector(goQuestionDetailVCWithIndexPath:)]) {
-        [self.delegate goQuestionDetailVCWithIndexPath:indexPath];
+    NSDictionary * datasDic = _datasArr[indexPath.row];
+    ZEQuestionInfoModel * quesInfoM = [ZEQuestionInfoModel getDetailWithDic:datasDic];
+    
+    ZEQuestionTypeModel * questionTypeM = nil;
+    for (NSDictionary * dic in [[ZEQuestionTypeCache instance] getQuestionTypeCaches]) {
+        ZEQuestionTypeModel * typeM = [ZEQuestionTypeModel getDetailWithDic:dic];
+        if ([typeM.SEQKEY isEqualToString:quesInfoM.QUESTIONTYPE]) {
+            questionTypeM = typeM;
+        }
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(goQuestionDetailVCWithQuestionInfo:withQuestionType:)]) {
+        [self.delegate goQuestionDetailVCWithQuestionInfo:quesInfoM withQuestionType:questionTypeM];
     }
 }
 
