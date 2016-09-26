@@ -16,7 +16,7 @@ static ZEQuestionInfoModel * quesInfoM = nil;
     quesInfoM = [[ZEQuestionInfoModel alloc]init];
     
     quesInfoM.SEQKEY           = [dic objectForKey:@"SEQKEY"];
-    quesInfoM.QUESTIONTYPE     = [dic objectForKey:@"QUESTIONTYPE"];
+    quesInfoM.QUESTIONTYPECODE = [dic objectForKey:@"QUESTIONTYPECODE"];
     quesInfoM.QUESTIONEXPLAIN  = [dic objectForKey:@"QUESTIONEXPLAIN"];
     quesInfoM.QUESTIONIMAGE    = [dic objectForKey:@"QUESTIONIMAGE"];
     quesInfoM.QUESTIONUSERCODE = [dic objectForKey:@"QUESTIONUSERCODE"];

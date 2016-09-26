@@ -72,6 +72,7 @@
                                                                        withActionFlag:nil];
     [self progressBegin:nil];
     [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
                              success:^(id data) {
                                  [self progressEnd:nil];
                                  NSLog(@">>  %@",data);

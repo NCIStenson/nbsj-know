@@ -13,6 +13,8 @@
 @interface ZEShowQuestionVC ()<ZEShowQuestionViewDelegate>
 {
     ZEShowQuestionView * _questionsView;
+    NSInteger _currentPage;
+    
 }
 @end
 
@@ -21,13 +23,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    if (_showQuestionListType == QUESTION_LIST_RECOMMEND) {
-        self.title = @"推荐";
+    if (_showQuestionListType == QUESTION_LIST_NEW) {
+        self.title = @"最新问题";
     }else{
         self.title = _QUESTIONTYPENAME;
-        [self sendRequest];
     }
-    
+    [self createWhereSQL:nil];
     [self initView];
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -36,18 +37,28 @@
     self.tabBarController.tabBar.hidden = YES;
 }
 
--(void)sendRequest
+-(void)createWhereSQL:(NSString *)searchStr
 {
-    //    @"WHERESQL":@"ISLOSE=1 and QUESTIONEXPLAIN like '%z%'",
+    NSString * searchCondition;
+    if (_showQuestionListType == QUESTION_LIST_NEW) {
+        searchCondition = [NSString stringWithFormat:@"ISLOSE = 0"];
+    }else if (_showQuestionListType == QUESTION_LIST_TYPE){
+        searchCondition = [NSString stringWithFormat:@"ISLOSE = 0 and QUESTIONTYPECODE = %@ and QUESTIONEXPLAIN like '%%%@'",_typeSEQKEY,searchStr];
+        if (![ZEUtil isStrNotEmpty:searchStr]) {
+            searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONTYPECODE = %@",_typeSEQKEY];
+        }
+    }
     
-    NSString * searchCondition = [NSString stringWithFormat:@"ISLOSE=1 and QUESTIONTYPE=%@",_typeSEQKEY];
-    
+    [self sendRequestWithCondition:searchCondition];
+}
+-(void)sendRequestWithCondition:(NSString *)conditionStr
+{
     NSDictionary * parametersDic = @{@"limit":@"20",
                                      @"MASTERTABLE":KLB_QUESTION_INFO,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"SYSCREATEDATE desc",
-                                     @"WHERESQL":searchCondition,
-                                     @"start":@"0",
+                                     @"WHERESQL":conditionStr,
+                                     @"start":[NSString stringWithFormat:@"%ld",(long)_currentPage * 20],
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
@@ -62,14 +73,35 @@
                                                                        withActionFlag:nil];
     [self progressBegin:nil];
     [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
                              success:^(id data) {
-                                 NSLog(@">>   %@",data);
                                  [self progressEnd:nil];
-                                 [_questionsView reloadContentViewWithArr:[ZEUtil getServerData:data withTabelName:KLB_QUESTION_INFO]];
+                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:KLB_QUESTION_INFO];
+                                 if (dataArr.count > 0) {
+                                     if (_currentPage == 0) {
+                                         [_questionsView reloadFirstView:dataArr];
+                                     }else{
+                                         [_questionsView reloadContentViewWithArr:dataArr];
+                                     }
+                                     if (dataArr.count%20 == 0) {
+                                         _currentPage += 1;
+                                     }
+                                 }else{
+                                     if (_currentPage > 0) {
+                                         [_questionsView loadNoMoreData];
+                                         return ;
+                                     }
+                                     [_questionsView reloadFirstView:dataArr];
+                                     [_questionsView headerEndRefreshing];
+                                     [_questionsView loadNoMoreData];
+                                 }
                              } fail:^(NSError *errorCode) {
                                  [self progressEnd:nil];
                              }];
 }
+
+
+
 
 #pragma mark -
 -(void)initView
@@ -88,6 +120,17 @@
     detailVC.questionInfoModel = infoModel;
     detailVC.questionTypeModel = typeModel;
     [self.navigationController pushViewController:detailVC animated:YES];
+}
+
+-(void)loadNewData
+{
+    _currentPage = 0;
+    [self createWhereSQL:nil];
+}
+
+-(void)loadMoreData
+{
+    [self createWhereSQL:nil];
 }
 
 - (void)didReceiveMemoryWarning {

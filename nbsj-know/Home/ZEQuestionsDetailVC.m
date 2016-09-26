@@ -9,6 +9,7 @@
 #import "ZEQuestionsDetailVC.h"
 #import "ZEQuestionsDetailView.h"
 #import "ZEAnswerQuestionsVC.h"
+
 @interface ZEQuestionsDetailVC ()<ZEQuestionsDetailViewDelegate>
 {
     ZEQuestionsDetailView * _quesDetailView;
@@ -60,7 +61,8 @@
                                 @"ANSWERLEVEL":@"",
                                 @"ISPASS":@"",
                                 @"ISENABLED":@"0",
-                                @"GOODNUMS":@""};
+                                @"GOODNUMS":@"",
+                                @"SYSCREATEDATE":@""};
     
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_ANSWER_INFO]
                                                                            withFields:@[fieldsDic]
@@ -68,6 +70,7 @@
                                                                        withActionFlag:nil];
     [self progressBegin:nil];
     [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
                              success:^(id data) {
                                  [self progressEnd:nil];
                                  _datasArr = [ZEUtil getServerData:data withTabelName:KLB_ANSWER_INFO];
@@ -144,6 +147,7 @@
                                                                        withActionFlag:nil];
     [self progressBegin:nil];
     [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
                              success:^(id data) {
                                  [self progressEnd:nil];
                                  NSLog(@">>  %@",data);

@@ -241,5 +241,14 @@
         return NO;
     }
 }
++(NSString *)getCurrentDate:(NSString *)dateFormatter
+{
+    NSDate * date = [NSDate date];
+    NSDateFormatter * formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:dateFormatter];
+    NSString * dateStr = [formatter stringFromDate:date];
+    
+    return dateStr;
+}
 
 @end

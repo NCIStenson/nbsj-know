@@ -16,7 +16,7 @@ typedef enum : NSUInteger {
 
 
 typedef enum:NSInteger{
-    QUESTION_LIST_RECOMMEND, // 推荐列表
+    QUESTION_LIST_NEW, // 推荐列表
     QUESTION_LIST_TYPE,      // 问题分类
 }QUESTION_LIST;
 

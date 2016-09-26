@@ -9,6 +9,8 @@
 #ifndef ZEMarcoConstant_h
 #define ZEMarcoConstant_h
 
+#define RICHTEXT_IMAGE (@"[UIImageView]")
+
 #define IS_IOS7 [[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0
 #define IS_IOS8 [[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0
 
@@ -25,6 +27,11 @@
 
 #define HTTPMETHOD_GET @"GET"
 #define HTTPMETHOD_POST @"POST"
+
+#define METHOD_SEARCH @"search"
+#define METHOD_UPDATE @"updateSave"
+#define METHOD_INSERT @"addSave"
+#define METHOD_DELETE @"delete"
 
 #define kTiltlFontSize 14.0f
 #define kSubTiltlFontSize 12.0f

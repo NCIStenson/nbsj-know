@@ -41,23 +41,21 @@
     self.rightBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     
     [self initView];
-    
-    [self sendRequestWithStr:nil];
     [self cacheQuestionType];
+//    [self sendRequestWithStr:nil];
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
     self.tabBarController.tabBar.hidden = NO;
-    
+    [self sendRequestWithStr:nil];
 }
 
 -(void)sendRequestWithStr:(NSString *)searchStr
 {
-//    @"WHERESQL":@"ISLOSE=1 and QUESTIONEXPLAIN like '%z%'",
-    NSString * WHERESQL = [NSString stringWithFormat:@"ISLOSE=1 and QUESTIONEXPLAIN like '%%%@%%'",searchStr];
+    NSString * WHERESQL = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONEXPLAIN like '%%%@%%'",searchStr];
     if (![ZEUtil isStrNotEmpty:searchStr]) {
-        WHERESQL = [NSString stringWithFormat:@"ISLOSE=1 and QUESTIONEXPLAIN like '%%'"];
+        WHERESQL = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONEXPLAIN like '%%'"];
     }
     NSLog(@">>  %@",WHERESQL);
     NSDictionary * parametersDic = @{@"limit":@"20",
@@ -80,8 +78,8 @@
                                                                        withActionFlag:nil];
     [self progressBegin:nil];
     [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
                              success:^(id data) {
-                                 NSLog(@">>   %@",data);
                                  [self progressEnd:nil];
                                  [_questionView reloadContentViewWithArr:[ZEUtil getServerData:data withTabelName:KLB_QUESTION_INFO]];
                              } fail:^(NSError *errorCode) {
@@ -109,13 +107,11 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [self progressBegin:nil];
     [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
                              success:^(id data) {
-                                 [self progressEnd:nil];
                                  [[ZEQuestionTypeCache instance]setQuestionTypeCaches:[ZEUtil getServerData:data withTabelName:KLB_QUESTION_TYPE]];
                              } fail:^(NSError *errorCode) {
-                                 [self progressEnd:nil];
                              }];
 }
 

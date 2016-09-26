@@ -52,7 +52,17 @@
 		982ED4451D48517600F87343 /* tab_setting_normal@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 982ED42F1D48517600F87343 /* tab_setting_normal@3x.png */; };
 		982ED4481D48518E00F87343 /* JFCalendarPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED4471D48518E00F87343 /* JFCalendarPickerView.m */; };
 		982ED44B1D48550900F87343 /* ZESinginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED44A1D48550900F87343 /* ZESinginVC.m */; };
+		985222F41D9133830063D667 /* ZEChooseMonthView.m in Sources */ = {isa = PBXBuildFile; fileRef = 985222F31D9133830063D667 /* ZEChooseMonthView.m */; };
 		9863DE491D657DA100410475 /* ZEQuestionTypeCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9863DE481D657DA100410475 /* ZEQuestionTypeCache.m */; };
+		986C29421D9233FA0004778A /* RichTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 986C29301D9233FA0004778A /* RichTextViewController.m */; };
+		986C29431D9233FA0004778A /* ArchiveFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 986C29331D9233FA0004778A /* ArchiveFile.m */; };
+		986C29441D9233FA0004778A /* ImageTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 986C29351D9233FA0004778A /* ImageTextAttachment.m */; };
+		986C29451D9233FA0004778A /* NSAttributedString+html.m in Sources */ = {isa = PBXBuildFile; fileRef = 986C29371D9233FA0004778A /* NSAttributedString+html.m */; };
+		986C29461D9233FA0004778A /* NSAttributedString+RichText.m in Sources */ = {isa = PBXBuildFile; fileRef = 986C29391D9233FA0004778A /* NSAttributedString+RichText.m */; };
+		986C29471D9233FA0004778A /* NSString+Regular.m in Sources */ = {isa = PBXBuildFile; fileRef = 986C293B1D9233FA0004778A /* NSString+Regular.m */; };
+		986C29481D9233FA0004778A /* PictureModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 986C293D1D9233FA0004778A /* PictureModel.m */; };
+		986C29491D9233FA0004778A /* UIColor+HEX.m in Sources */ = {isa = PBXBuildFile; fileRef = 986C293F1D9233FA0004778A /* UIColor+HEX.m */; };
+		986C294C1D9234170004778A /* NSJSON+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 986C294B1D9234170004778A /* NSJSON+Extension.m */; };
 		9872544E1D587CD7005C4AB9 /* ZELoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9872544B1D587CD7005C4AB9 /* ZELoginView.m */; };
 		9872544F1D587CD7005C4AB9 /* ZELoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9872544D1D587CD7005C4AB9 /* ZELoginViewController.m */; };
 		987257581D59A7F6005C4AB9 /* ZEPackageServerData.m in Sources */ = {isa = PBXBuildFile; fileRef = 987257571D59A7F6005C4AB9 /* ZEPackageServerData.m */; };
@@ -157,7 +167,6 @@
 		982ED37E1D420A5000F87343 /* ZEUserCenterVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEUserCenterVC.m; path = Setting/ZEUserCenterVC.m; sourceTree = "<group>"; };
 		982ED37F1D420A5000F87343 /* ZEUserCenterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEUserCenterView.h; path = Setting/ZEUserCenterView.h; sourceTree = "<group>"; };
 		982ED3801D420A5000F87343 /* ZEUserCenterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEUserCenterView.m; path = Setting/ZEUserCenterView.m; sourceTree = "<group>"; };
-		982ED38F1D420DB700F87343 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../Masonry/LICENSE; sourceTree = "<group>"; };
 		982ED3E61D4850E900F87343 /* JFCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFCollectionViewCell.h; sourceTree = "<group>"; };
 		982ED3E71D4850E900F87343 /* JFCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFCollectionViewCell.m; sourceTree = "<group>"; };
 		982ED41A1D48517600F87343 /* icon_back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_back@2x.png"; path = "nbsj-know/SourceImg/icon_back@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -185,8 +194,29 @@
 		982ED4471D48518E00F87343 /* JFCalendarPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFCalendarPickerView.m; sourceTree = "<group>"; };
 		982ED4491D48550900F87343 /* ZESinginVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZESinginVC.h; path = Home/ZESinginVC.h; sourceTree = "<group>"; };
 		982ED44A1D48550900F87343 /* ZESinginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZESinginVC.m; path = Home/ZESinginVC.m; sourceTree = "<group>"; };
+		985222F21D9133830063D667 /* ZEChooseMonthView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZEChooseMonthView.h; sourceTree = "<group>"; };
+		985222F31D9133830063D667 /* ZEChooseMonthView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZEChooseMonthView.m; sourceTree = "<group>"; };
 		9863DE471D657DA100410475 /* ZEQuestionTypeCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEQuestionTypeCache.h; path = Questions/ZEQuestionTypeCache.h; sourceTree = "<group>"; };
 		9863DE481D657DA100410475 /* ZEQuestionTypeCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEQuestionTypeCache.m; path = Questions/ZEQuestionTypeCache.m; sourceTree = "<group>"; };
+		986C292F1D9233FA0004778A /* RichTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RichTextViewController.h; sourceTree = "<group>"; };
+		986C29301D9233FA0004778A /* RichTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RichTextViewController.m; sourceTree = "<group>"; };
+		986C29321D9233FA0004778A /* ArchiveFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchiveFile.h; sourceTree = "<group>"; };
+		986C29331D9233FA0004778A /* ArchiveFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArchiveFile.m; sourceTree = "<group>"; };
+		986C29341D9233FA0004778A /* ImageTextAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageTextAttachment.h; sourceTree = "<group>"; };
+		986C29351D9233FA0004778A /* ImageTextAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageTextAttachment.m; sourceTree = "<group>"; };
+		986C29361D9233FA0004778A /* NSAttributedString+html.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+html.h"; sourceTree = "<group>"; };
+		986C29371D9233FA0004778A /* NSAttributedString+html.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+html.m"; sourceTree = "<group>"; };
+		986C29381D9233FA0004778A /* NSAttributedString+RichText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+RichText.h"; sourceTree = "<group>"; };
+		986C29391D9233FA0004778A /* NSAttributedString+RichText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+RichText.m"; sourceTree = "<group>"; };
+		986C293A1D9233FA0004778A /* NSString+Regular.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Regular.h"; sourceTree = "<group>"; };
+		986C293B1D9233FA0004778A /* NSString+Regular.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Regular.m"; sourceTree = "<group>"; };
+		986C293C1D9233FA0004778A /* PictureModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureModel.h; sourceTree = "<group>"; };
+		986C293D1D9233FA0004778A /* PictureModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureModel.m; sourceTree = "<group>"; };
+		986C293E1D9233FA0004778A /* UIColor+HEX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HEX.h"; sourceTree = "<group>"; };
+		986C293F1D9233FA0004778A /* UIColor+HEX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HEX.m"; sourceTree = "<group>"; };
+		986C29401D9233FA0004778A /* utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utility.h; sourceTree = "<group>"; };
+		986C294A1D9234170004778A /* NSJSON+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSJSON+Extension.h"; sourceTree = "<group>"; };
+		986C294B1D9234170004778A /* NSJSON+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSJSON+Extension.m"; sourceTree = "<group>"; };
 		9872544A1D587CD7005C4AB9 /* ZELoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZELoginView.h; sourceTree = "<group>"; };
 		9872544B1D587CD7005C4AB9 /* ZELoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZELoginView.m; sourceTree = "<group>"; };
 		9872544C1D587CD7005C4AB9 /* ZELoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZELoginViewController.h; sourceTree = "<group>"; };
@@ -313,6 +343,8 @@
 				9801DBD71D6449A4008B1676 /* JCAlertView.bundle */,
 				9801DBD81D6449A4008B1676 /* JCAlertView.h */,
 				9801DBD91D6449A4008B1676 /* JCAlertView.m */,
+				985222F21D9133830063D667 /* ZEChooseMonthView.h */,
+				985222F31D9133830063D667 /* ZEChooseMonthView.m */,
 			);
 			path = JCAlertView;
 			sourceTree = "<group>";
@@ -398,6 +430,9 @@
 		982ED3851D420AC900F87343 /* ThirdSource */ = {
 			isa = PBXGroup;
 			children = (
+				986C292F1D9233FA0004778A /* RichTextViewController.h */,
+				986C29301D9233FA0004778A /* RichTextViewController.m */,
+				986C29311D9233FA0004778A /* RichVCUtil */,
 				9801DBD61D6449A4008B1676 /* JCAlertView */,
 				982ED3E51D4850E900F87343 /* JFCalendarPicker */,
 			);
@@ -437,7 +472,6 @@
 		982ED3E51D4850E900F87343 /* JFCalendarPicker */ = {
 			isa = PBXGroup;
 			children = (
-				982ED38F1D420DB700F87343 /* LICENSE */,
 				982ED4461D48518E00F87343 /* JFCalendarPickerView.h */,
 				982ED4471D48518E00F87343 /* JFCalendarPickerView.m */,
 				982ED3E61D4850E900F87343 /* JFCollectionViewCell.h */,
@@ -489,6 +523,30 @@
 				98AB2A4F1D65A6C400F4DBF8 /* ZEAnswerInfoModel.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		986C29311D9233FA0004778A /* RichVCUtil */ = {
+			isa = PBXGroup;
+			children = (
+				986C294A1D9234170004778A /* NSJSON+Extension.h */,
+				986C294B1D9234170004778A /* NSJSON+Extension.m */,
+				986C29321D9233FA0004778A /* ArchiveFile.h */,
+				986C29331D9233FA0004778A /* ArchiveFile.m */,
+				986C29341D9233FA0004778A /* ImageTextAttachment.h */,
+				986C29351D9233FA0004778A /* ImageTextAttachment.m */,
+				986C29361D9233FA0004778A /* NSAttributedString+html.h */,
+				986C29371D9233FA0004778A /* NSAttributedString+html.m */,
+				986C29381D9233FA0004778A /* NSAttributedString+RichText.h */,
+				986C29391D9233FA0004778A /* NSAttributedString+RichText.m */,
+				986C293A1D9233FA0004778A /* NSString+Regular.h */,
+				986C293B1D9233FA0004778A /* NSString+Regular.m */,
+				986C293C1D9233FA0004778A /* PictureModel.h */,
+				986C293D1D9233FA0004778A /* PictureModel.m */,
+				986C293E1D9233FA0004778A /* UIColor+HEX.h */,
+				986C293F1D9233FA0004778A /* UIColor+HEX.m */,
+				986C29401D9233FA0004778A /* utility.h */,
+			);
+			path = RichVCUtil;
 			sourceTree = "<group>";
 		};
 		987254491D587CD7005C4AB9 /* Login */ = {
@@ -714,11 +772,12 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = ZE;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Hangzhou Zenith Electronic Technology Co., Ltd";
 				TargetAttributes = {
 					989B2C421C4DE7AA00F14EFA = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = CJ8CND7Y24;
 					};
 					989B2C5B1C4DE7AA00F14EFA = {
 						CreatedOnToolsVersion = 7.2;
@@ -873,28 +932,38 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				986C29461D9233FA0004778A /* NSAttributedString+RichText.m in Sources */,
 				98DB7C501C4F4FA70046D405 /* ZEUtil.m in Sources */,
 				9872575E1D59BAEA005C4AB9 /* ZESettingLocalData.m in Sources */,
 				987ACBCA1D4AE3E6006D692E /* ZEShowQuestionView.m in Sources */,
+				986C29471D9233FA0004778A /* NSString+Regular.m in Sources */,
 				9872544E1D587CD7005C4AB9 /* ZELoginView.m in Sources */,
 				98AB2A531D66943C00F4DBF8 /* ZETypeQuestionVC.m in Sources */,
 				989B2C4B1C4DE7AA00F14EFA /* ZEAppDelegate.m in Sources */,
 				982ED3761D42096F00F87343 /* ZEHomeView.m in Sources */,
 				982ED37C1D4209F200F87343 /* ZEGroupVC.m in Sources */,
+				986C29491D9233FA0004778A /* UIColor+HEX.m in Sources */,
 				9801DBDB1D6449A4008B1676 /* JCAlertView.m in Sources */,
 				987257581D59A7F6005C4AB9 /* ZEPackageServerData.m in Sources */,
 				9863DE491D657DA100410475 /* ZEQuestionTypeCache.m in Sources */,
 				989B2C481C4DE7AA00F14EFA /* main.m in Sources */,
 				987ACBCD1D4AE845006D692E /* ZEQuestionsView.m in Sources */,
+				986C294C1D9234170004778A /* NSJSON+Extension.m in Sources */,
+				986C29421D9233FA0004778A /* RichTextViewController.m in Sources */,
 				98AB2A4C1D65A6AA00F4DBF8 /* ZEQuestionInfoModel.m in Sources */,
 				989AA67D1D4EF83E00A08022 /* ZEAskQuesViewController.m in Sources */,
 				98AB2A561D66945A00F4DBF8 /* ZETypeQuestionView.m in Sources */,
+				986C29441D9233FA0004778A /* ImageTextAttachment.m in Sources */,
 				982ED3EA1D4850E900F87343 /* JFCollectionViewCell.m in Sources */,
+				986C29451D9233FA0004778A /* NSAttributedString+html.m in Sources */,
+				986C29481D9233FA0004778A /* PictureModel.m in Sources */,
 				9872544F1D587CD7005C4AB9 /* ZELoginViewController.m in Sources */,
+				985222F41D9133830063D667 /* ZEChooseMonthView.m in Sources */,
 				98F4719E1D5434F70016CD5A /* ZEAnswerQuestionsView.m in Sources */,
 				9801DB0E1D6170A8008B1676 /* ZEUserServer.m in Sources */,
 				98AB2A501D65A6C400F4DBF8 /* ZEAnswerInfoModel.m in Sources */,
 				989AA6891D507A9A00A08022 /* ZELookViewController.m in Sources */,
+				986C29431D9233FA0004778A /* ArchiveFile.m in Sources */,
 				987258F31D5C6F7E005C4AB9 /* ZESetPersonalMessageView.m in Sources */,
 				9801DB001D6153EE008B1676 /* ZEChangePersonalMsgVC.m in Sources */,
 				982ED3731D42095400F87343 /* ZEHomeVC.m in Sources */,
@@ -976,8 +1045,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -999,7 +1070,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
@@ -1021,8 +1092,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1038,7 +1111,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
@@ -1053,6 +1126,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = CJ8CND7Y24;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/nbsj-know/PrefixHeader.pch";
@@ -1098,14 +1172,14 @@
 					"-framework",
 					"\"UIKit\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.newCentury.NewCentury;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.zenithElec.nbsj-know";
 				PRODUCT_NAME = "nbsj-know";
 				SHARED_PRECOMPS_DIR = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = "com.zenith.app-Debug";
-				ZENITH_SERVER = "http://192.168.0.142:9090/emarkspg";
+				ZENITH_SERVER = "http://192.168.9.110:8080/klb_java";
 			};
 			name = Debug;
 		};
@@ -1115,6 +1189,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = CJ8CND7Y24;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/nbsj-know/PrefixHeader.pch";
@@ -1159,14 +1234,14 @@
 					"-framework",
 					"\"UIKit\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.newCentury.NewCentury;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.zenithElec.nbsj-know";
 				PRODUCT_NAME = "nbsj-know";
 				SHARED_PRECOMPS_DIR = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = "com.zenith.app-Release";
-				ZENITH_SERVER = "http://192.168.0.142:9090/emarkspg";
+				ZENITH_SERVER = "http://192.168.9.110:8080/klb_java";
 			};
 			name = Release;
 		};

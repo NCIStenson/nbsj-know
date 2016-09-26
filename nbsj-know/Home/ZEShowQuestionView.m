@@ -44,24 +44,24 @@
     _contentTableView.delegate = self;
     _contentTableView.dataSource = self;
     [self addSubview:_contentTableView];
-
-    MJRefreshHeader * header = [MJRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshTableView)];
-    [_contentTableView setMj_header:header];
     
     [_contentTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(kContentTableMarginLeft);
         make.top.mas_equalTo(kContentTableMarginTop);
         make.size.mas_equalTo(CGSizeMake(kContentTableWidth, kContentTableHeight));
     }];
+    MJRefreshGifHeader *header = [MJRefreshGifHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+    _contentTableView.mj_header = header;
     
+    MJRefreshFooter * footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    _contentTableView.mj_footer = footer;
+
 }
 
 -(void)refreshTableView
 {
-    NSLog(@">>  刷新表");
     [_contentTableView.mj_header endRefreshing];
 }
-
 
 -(UIView *)searchTextfieldView
 {
@@ -90,7 +90,50 @@
 
 -(void)reloadContentViewWithArr:(NSArray *)arr{
     [self.datasArr addObjectsFromArray:arr];
+    
+    [_contentTableView.mj_header endRefreshing];
+    if (arr.count % 20 != 0) {
+        [_contentTableView.mj_footer endRefreshingWithNoMoreData];
+    }else{
+        [_contentTableView.mj_footer endRefreshing];
+    }
+
     [_contentTableView reloadData];
+}
+
+-(void)canLoadMoreData
+{
+    MJRefreshFooter * footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    _contentTableView.mj_footer = footer;
+}
+-(void)reloadFirstView:(NSArray *)array
+{
+    self.datasArr = [NSMutableArray array];
+    [self reloadContentViewWithArr:array];
+}
+-(void)loadNewData
+{
+    if([self.delegate respondsToSelector:@selector(loadNewData)]){
+        [self.delegate loadNewData];
+    }
+}
+
+-(void)loadMoreData{
+    if([self.delegate respondsToSelector:@selector(loadMoreData)]){
+        [self.delegate loadMoreData];
+    }
+}
+/**
+ *  停止刷新
+ */
+-(void)headerEndRefreshing
+{
+    [_contentTableView.mj_header endRefreshing];
+}
+
+-(void)loadNoMoreData
+{
+    [_contentTableView.mj_footer endRefreshingWithNoMoreData];
 }
 
 
@@ -223,7 +266,7 @@
     
     for (NSDictionary * dic in [[ZEQuestionTypeCache instance] getQuestionTypeCaches]) {
         ZEQuestionTypeModel * typeM = [ZEQuestionTypeModel getDetailWithDic:dic];
-        if ([typeM.SEQKEY isEqualToString:quesInfoM.QUESTIONTYPE]) {
+        if ([typeM.SEQKEY isEqualToString:quesInfoM.QUESTIONTYPECODE]) {
             questionTypeM = typeM;
         }
     }
@@ -254,7 +297,7 @@
     ZEQuestionTypeModel * questionTypeM = nil;
     for (NSDictionary * dic in [[ZEQuestionTypeCache instance] getQuestionTypeCaches]) {
         ZEQuestionTypeModel * typeM = [ZEQuestionTypeModel getDetailWithDic:dic];
-        if ([typeM.SEQKEY isEqualToString:quesInfoM.QUESTIONTYPE]) {
+        if ([typeM.SEQKEY isEqualToString:quesInfoM.QUESTIONTYPECODE]) {
             questionTypeM = typeM;
         }
     }
@@ -280,21 +323,7 @@
 
 #pragma mark - ZEQuestionsViewDelegate
 
--(void)goMoreQuesVC:(UIButton *)button
-{
-//    switch (button.tag) {
-//        case QUESTION_SECTION_TYPE_RECOMMEND:
-//        {
-//            if ([self.delegate respondsToSelector:@selector(goMoreRecommend)]) {
-//                [self.delegate goMoreRecommend];
-//            }
-//        }
-//            break;
-//            
-//        default:
-//            break;
-//    }
-}
+
 
 /*
  // Only override drawRect: if you perform custom drawing.

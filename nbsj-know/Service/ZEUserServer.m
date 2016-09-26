@@ -49,6 +49,7 @@
 }
 
 +(void)getDataWithJsonDic:(NSDictionary *)dic
+            showAlertView:(BOOL)isShow
                   success:(ServerResponseSuccessBlock)successBlock
                      fail:(ServerResponseFailBlock)failBlock
 {
@@ -67,22 +68,23 @@
                                                        [ZEUserServer logoutSucce];
                                                        NSError *errorCode = nil;
                                                        failBlock(errorCode);
-                                                       
                                                    }
                                                } fail:^(NSError *errorCode) {
+                                                   NSLog(@" >>>   %@",errorCode);
                                                    failBlock(errorCode);
                                                }];
 }
 
 +(void)logoutSucce
 {
-    
     UIAlertController * alertC = [UIAlertController alertControllerWithTitle:nil message:@"登陆过期，请重新登陆。" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
     }];
     [alertC addAction:action];
 
     [ZESettingLocalData clearLocalData];
+    [[ZEQuestionTypeCache instance] clear];
+    
     UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
     
     ZELoginViewController * loginVC = [[ZELoginViewController alloc]init];
@@ -119,6 +121,7 @@
     __block BOOL isExist;
     
     [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
                              success:^(id data) {
                                  NSString * SEQKEY = nil;
                                  NSDictionary * userinfoDic = [[data objectForKey:@"DATAS"] objectForKey:tableName];

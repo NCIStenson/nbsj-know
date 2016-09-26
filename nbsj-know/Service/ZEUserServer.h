@@ -54,9 +54,9 @@
  *  @param failBlock    请求失败返回
  */
 +(void)getDataWithJsonDic:(NSDictionary *)dic
+            showAlertView:(BOOL)isShow
                   success:(ServerResponseSuccessBlock)successBlock
                      fail:(ServerResponseFailBlock)failBlock;
-
 /**
  *  @author Stenson, 16-08-17 09:08:56
  *

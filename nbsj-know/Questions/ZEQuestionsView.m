@@ -5,7 +5,7 @@
 //  Created by Stenson on 16/7/29.
 //  Copyright © 2016年 Hangzhou Zenith Electronic Technology Co., Ltd. All rights reserved.
 //
-#define kQuestionMarkFontSize       16.0f
+
 #define kQuestionTitleFontSize      kTiltlFontSize
 #define kQuestionSubTitleFontSize   kSubTiltlFontSize
 
@@ -196,7 +196,7 @@
     UILabel * QUESTIONEXPLAIN = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, SCREEN_WIDTH - 40, questionHeight)];
     QUESTIONEXPLAIN.numberOfLines = 0;
     QUESTIONEXPLAIN.text = QUESTIONEXPLAINStr;
-    QUESTIONEXPLAIN.font = [UIFont systemFontOfSize:kQuestionMarkFontSize];
+    QUESTIONEXPLAIN.font = [UIFont systemFontOfSize:kQuestionTitleFontSize];
     [questionsView addSubview:QUESTIONEXPLAIN];
     
     //  问题文字与用户信息之间间隔
@@ -239,8 +239,9 @@
     ZEQuestionTypeModel * questionTypeM = nil;
 
     for (NSDictionary * dic in [[ZEQuestionTypeCache instance] getQuestionTypeCaches]) {
+        NSLog(@">>>  %@",dic);
         ZEQuestionTypeModel * typeM = [ZEQuestionTypeModel getDetailWithDic:dic];
-        if ([typeM.SEQKEY isEqualToString:quesInfoM.QUESTIONTYPE]) {
+        if ([typeM.SEQKEY isEqualToString:quesInfoM.QUESTIONTYPECODE]) {
             questionTypeM = typeM;
         }
     }
@@ -295,7 +296,7 @@
     ZEQuestionTypeModel * questionTypeM = nil;
     for (NSDictionary * dic in [[ZEQuestionTypeCache instance] getQuestionTypeCaches]) {
         ZEQuestionTypeModel * typeM = [ZEQuestionTypeModel getDetailWithDic:dic];
-        if ([typeM.SEQKEY isEqualToString:quesInfoM.QUESTIONTYPE]) {
+        if ([typeM.SEQKEY isEqualToString:quesInfoM.QUESTIONTYPECODE]) {
             questionTypeM = typeM;
         }
     }

@@ -22,6 +22,15 @@
 -(void)goQuestionDetailVCWithQuestionInfo:(ZEQuestionInfoModel *)infoModel
                          withQuestionType:(ZEQuestionTypeModel *)typeModel;
 
+/**
+ *  刷新界面
+ */
+-(void)loadNewData;
+
+/**
+ *  加载更多数据
+ */
+-(void)loadMoreData;
 
 
 @end
@@ -31,6 +40,10 @@
 @property (nonatomic,weak) id <ZEShowQuestionViewDelegate> delegate;
 
 -(id)initWithFrame:(CGRect)frame;
+
+-(void)reloadFirstView:(NSArray *)array;
 -(void)reloadContentViewWithArr:(NSArray *)arr;
 
+-(void)headerEndRefreshing;
+-(void)loadNoMoreData;
 @end

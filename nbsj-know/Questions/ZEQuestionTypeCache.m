@@ -50,4 +50,9 @@ static ZEQuestionTypeCache * questionTypeCache = nil;
 }
 
 
+- (void)clear
+{
+    self.questionTypeArr = nil;
+}
+
 @end

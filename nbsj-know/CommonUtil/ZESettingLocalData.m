@@ -92,6 +92,9 @@ static NSString * kUSERINFODic      = @"kUSERINFODic";
 }
 +(NSString *)getUSERCODE
 {
+    if (![ZEUtil isStrNotEmpty:[[self getUSERINFO] objectForKey:@"USERCODE"]]) {
+        return @"";
+    }
      return [[self getUSERINFO] objectForKey:@"USERCODE"];
 }
 +(void)deleteUSERCODE
@@ -140,6 +143,9 @@ static NSString * kUSERINFODic      = @"kUSERINFODic";
 
 +(NSString *)getNICKNAME
 {
+    if (![ZEUtil isStrNotEmpty:[[self getUSERINFO] objectForKey:@"USERNAME"]]) {
+        return @"";
+    }
     return  [[self getUSERINFO] objectForKey:@"USERNAME"];
 }
 

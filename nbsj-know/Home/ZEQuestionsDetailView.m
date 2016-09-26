@@ -6,7 +6,6 @@
 //  Copyright © 2016年 Hangzhou Zenith Electronic Technology Co., Ltd. All rights reserved.
 //
 
-#define kDetailMarkFontSize       16.0f
 #define kDetailTitleFontSize      kTiltlFontSize
 #define kDetailSubTitleFontSize   kSubTiltlFontSize
 
@@ -95,7 +94,7 @@
     UILabel * questionsLab = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, SCREEN_WIDTH - 40, questionHeight)];
     questionsLab.numberOfLines = 0;
     questionsLab.text = _questionInfoModel.QUESTIONEXPLAIN;
-    questionsLab.font = [UIFont systemFontOfSize:kDetailMarkFontSize];
+    questionsLab.font = [UIFont systemFontOfSize:kDetailTitleFontSize];
     [questionsView addSubview:questionsLab];
     
     //  问题文字与用户信息之间间隔

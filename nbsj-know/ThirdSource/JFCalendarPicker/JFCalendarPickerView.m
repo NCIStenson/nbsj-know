@@ -8,16 +8,20 @@
 
 #import "JFCalendarPickerView.h"
 #import "JFCollectionViewCell.h"
+#import "JCAlertView.h"
+#import "ZEChooseMonthView.h"
 NSString *const JFCalendarCellIdentifier = @"cell";
 
 
-@interface JFCalendarPickerView ()
+@interface JFCalendarPickerView ()<ZEChooseMonthViewDelegate>
+{
+    JCAlertView * _alertView;
+    UIButton * signinBtn;
+    UIButton * monthBtn;
+    UILabel * titleLable;
+}
 @property (strong, nonatomic) UICollectionView *JFCollectionView;
 
-//- (IBAction)priviousButton:(id)sender;
-//- (IBAction)nextButton:(id)sender;
-
-//@property (weak, nonatomic)  UILabel *monthLabel;
 @property (nonatomic , strong) NSArray *weekDayArray;
 @property (nonatomic , strong) UIView *mask;
 
@@ -32,27 +36,67 @@ NSString *const JFCalendarCellIdentifier = @"cell";
     self = [super initWithFrame:frame];
     if (self) {
         [self initView];
-        [self addSwipe];
+//        [self addSwipe];
     }
     return self;
 }
 
-
 - (void)setDate:(NSDate *)date
 {
     _date = date;
-    [_JFCollectionView reloadData];
+    NSLog(@">>>  %@",date);
+//    [_JFCollectionView reloadData];
 }
 
 -(void)initView
 {
+    UIView * tipsView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 60.0f)];
+    [self addSubview:tipsView];
+    
+    monthBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    [monthBtn addTarget:self action:@selector(chooseMonth) forControlEvents:UIControlEventTouchUpInside];
+    [monthBtn setTitle:[ZEUtil getCurrentDate:@"MM月"] forState:UIControlStateNormal];
+    monthBtn.frame = CGRectMake(10, 15, 50, 30);
+    [tipsView addSubview:monthBtn];
+    [monthBtn setClipsToBounds: YES];
+    [monthBtn.layer setCornerRadius:5.0f];
+    [monthBtn.layer setBorderWidth:0.5];
+    [monthBtn.layer setBorderColor:[MAIN_NAV_COLOR CGColor]];
+    
+    titleLable = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH / 4, 0, SCREEN_WIDTH / 2, 60)];
+    titleLable.userInteractionEnabled = NO;
+    titleLable.textAlignment = NSTextAlignmentCenter;
+    titleLable.font = [UIFont systemFontOfSize:kTiltlFontSize];
+    titleLable.attributedText = [self getAttrText:@"活跃天数 0 天"];
+    [tipsView addSubview:titleLable];
+    
+    signinBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    signinBtn.alpha = 1;
+    signinBtn.enabled = YES;
+    [signinBtn setTitle:@"签到" forState:UIControlStateNormal];
+    [signinBtn addTarget:self action:@selector(viewGoSignin) forControlEvents:UIControlEventTouchUpInside];
+    signinBtn.titleLabel.font = [UIFont systemFontOfSize:kTiltlFontSize];
+    signinBtn.frame = CGRectMake(SCREEN_WIDTH - 70, 15, 60, 30);
+    signinBtn.backgroundColor = MAIN_NAV_COLOR;
+    [tipsView addSubview:signinBtn];
+    [signinBtn setClipsToBounds: YES];
+    [signinBtn.layer setCornerRadius:5.0f];
+    [signinBtn.layer setBorderWidth:0.5];
+    [signinBtn.layer setBorderColor:[MAIN_NAV_COLOR CGColor]];
+    
+    
+    CALayer * lineLayer = [CALayer layer];
+    lineLayer.frame = CGRectMake(0,59.0f, SCREEN_WIDTH, 1.0f);
+    [self.layer addSublayer:lineLayer];
+    [lineLayer setBackgroundColor:[MAIN_LINE_COLOR CGColor]];
+    
     _isSigninArr = [NSMutableArray array];
-    for (int i = 0; i < 32; i ++) {
-        NSDictionary * dic = @{@"date":@"2016-07-27",
-                               @"isSingin":[NSString stringWithFormat:@"%d",arc4random()%2]};
+    for (int i = 1; i < 32 ; i ++) {
+        BOOL isSign = NO;
+        NSDictionary * dic = @{@"isSingin":[NSString stringWithFormat:@"%d",isSign]};
         [_isSigninArr addObject:dic];
     }
-    
+
     CGFloat itemWidth = SCREEN_WIDTH / 7;
     CGFloat itemHeight = SCREEN_WIDTH / 7;
     
@@ -64,17 +108,75 @@ NSString *const JFCalendarCellIdentifier = @"cell";
 
     _JFCollectionView = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:layout];
     [_JFCollectionView registerClass:[JFCollectionViewCell class] forCellWithReuseIdentifier:JFCalendarCellIdentifier];
-    _JFCollectionView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH);
+    _JFCollectionView.frame = CGRectMake(0, 60, SCREEN_WIDTH, SCREEN_WIDTH);
     _JFCollectionView.backgroundColor = [UIColor whiteColor];
     _JFCollectionView.delegate = self;
     _JFCollectionView.dataSource  =self;
     [self addSubview:_JFCollectionView];
-    
     _weekDayArray = @[@"日",@"一",@"二",@"三",@"四",@"五",@"六"];
-
 }
 
+-(NSMutableAttributedString *)getAttrText:(NSString * )titleText
+{
+    NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:titleText];
+    
+    [AttributedStr addAttribute:NSFontAttributeName
+     
+                          value:[UIFont boldSystemFontOfSize:20.0f]
+     
+                          range:NSMakeRange(4,2)];
+    
+    [AttributedStr addAttribute:NSForegroundColorAttributeName
+     
+                          value:MAIN_NAV_COLOR
+     
+                          range:NSMakeRange(4, 2)];
+        
+    return AttributedStr;
+}
 
+#pragma mark - Public Method
+
+-(void)reloadDateData:(NSArray *)arr;
+{
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *todayString = [dateFormatter stringFromDate:_today];
+    NSString *dateString = [dateFormatter stringFromDate:self.date];
+
+    _isSigninArr = [NSMutableArray array];
+    for (int i = 1; i < 32 ; i ++) {
+        BOOL isSign = NO;
+        for (int j = 0; j < arr.count; j ++) {
+            NSDictionary * dic = arr[j];
+            NSString * dayStr = [[dic objectForKey:@"SIGNINDATE"] substringWithRange:NSMakeRange(8, 2)];
+            NSLog(@" SIGNINDATE >>>  %@",[[dic objectForKey:@"SIGNINDATE"] substringToIndex:10]);
+            if (i == [dayStr integerValue]) {
+                isSign = YES;
+                if([todayString isEqualToString:[[dic objectForKey:@"SIGNINDATE"] substringToIndex:10]]){
+                    signinBtn.alpha = 0.3;
+                    signinBtn.enabled = NO;
+                    [signinBtn setTitle:@"已签到" forState:UIControlStateNormal];
+                }
+            }
+        }
+        NSDictionary * dic = @{@"isSingin":[NSString stringWithFormat:@"%d",isSign]};
+        [_isSigninArr addObject:dic];
+    }
+
+    titleLable.attributedText = [self getAttrText:[NSString stringWithFormat:@"活跃天数 %ld 天",(long)arr.count]];
+
+    [_JFCollectionView reloadData];
+}
+
+-(void)signinSuccess
+{
+    signinBtn.alpha = 0.3;
+    signinBtn.enabled = NO;
+    [signinBtn setTitle:@"已签到" forState:UIControlStateNormal];
+    [monthBtn setTitle:[ZEUtil getCurrentDate:@"MM月"] forState:UIControlStateNormal];
+}
 #pragma mark - date
 //这个月的天数
 - (NSInteger)day:(NSDate *)date{
@@ -130,6 +232,15 @@ NSString *const JFCalendarCellIdentifier = @"cell";
     NSDate *newDate = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:date options:0];
     return newDate;
 }
+
+//下一个月的时间
+- (NSDate*)userChoosedMonth:(NSDate *)date withMonth:(NSString *)monthStr{
+    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+    dateComponents.month = [monthStr integerValue];
+    NSDate *newDate = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:date options:0];
+    return newDate;
+}
+
 #pragma -mark collectionView delegate
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
@@ -159,26 +270,33 @@ NSString *const JFCalendarCellIdentifier = @"cell";
         
         if (i < firstWeekday) {
             [cell.dateLabel setText:@""];
+            cell.dateLabel.backgroundColor = [UIColor whiteColor];
         }else if (i > firstWeekday + daysInThisMonth - 1){
             [cell.dateLabel setText:@""];
+            cell.dateLabel.backgroundColor = [UIColor whiteColor];
         }else{
             day = i - firstWeekday + 1;
             [cell.dateLabel setText:[NSString stringWithFormat:@"%li",(long)day]];
             [cell.dateLabel setTextColor:[ZEUtil colorWithHexString:@"#6f6f6f"]];
-            
+            [cell.dateLabel setBackgroundColor:[UIColor whiteColor]];
+
             cell.isSignin = [_isSigninArr[day-1] objectForKey:@"isSingin"] ;
             //this month
-            if ([_today isEqualToDate:_date]) {
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+            NSString *todayString = [dateFormatter stringFromDate:_today];
+            NSString *dateString = [dateFormatter stringFromDate:self.date];
+//            if ([_today isEqualToDate:_date]) {
+            if ([todayString isEqualToString:dateString]) {
                 if ([[_isSigninArr[day-1] objectForKey:@"isSingin"] boolValue])  {
                     [cell.dateLabel setBackgroundColor:MAIN_NAV_COLOR];
-                    cell.dateLabel.alpha = 0.5;
+                    cell.dateLabel.textColor = [UIColor whiteColor];
                 }else{
                     [cell.dateLabel setBackgroundColor:[UIColor whiteColor]];
                 }
 
                 if (day == [self day:_date]) {
                     cell.dateLabel.textColor = [UIColor redColor];
-                    cell.dateLabel.layer.borderWidth = 1;
                 } else if (day > [self day:_date]) {
                     [cell.dateLabel setTextColor:[UIColor blackColor]];
                     [cell.dateLabel setBackgroundColor:[UIColor whiteColor]];
@@ -186,6 +304,14 @@ NSString *const JFCalendarCellIdentifier = @"cell";
                 
             } else if ([_today compare:_date] == NSOrderedAscending) {
                 [cell.dateLabel setTextColor:[UIColor blackColor]];
+                [cell.dateLabel setBackgroundColor:[UIColor whiteColor]];
+            }else{
+                if ([[_isSigninArr[day-1] objectForKey:@"isSingin"] boolValue])  {
+                    [cell.dateLabel setBackgroundColor:MAIN_NAV_COLOR];
+                    cell.dateLabel.textColor = [UIColor whiteColor];
+                }else{
+                    [cell.dateLabel setBackgroundColor:[UIColor whiteColor]];
+                }
             }
         }
     }
@@ -223,9 +349,6 @@ NSString *const JFCalendarCellIdentifier = @"cell";
             self.calendarBlock(day, [comp month], [comp year]);
         }
     }
-
-    
-    
 }
 
 - (void)addSwipe
@@ -244,6 +367,13 @@ NSString *const JFCalendarCellIdentifier = @"cell";
 - (void)priviousButton:(id)sender {
     [UIView transitionWithView:self duration:0.5 options:UIViewAnimationOptionTransitionCurlDown animations:^(void) {
         self.date = [self lastMonth:self.date];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM"];
+        NSString *destDateString = [dateFormatter stringFromDate:self.date];
+
+        if ([self.delegate respondsToSelector:@selector(reloadDataWithMonth:)]) {
+            [self.delegate reloadDataWithMonth:destDateString];
+        }
     } completion:nil];
 
 }
@@ -251,7 +381,68 @@ NSString *const JFCalendarCellIdentifier = @"cell";
 - (void)nextButton:(id)sender {
     [UIView transitionWithView:self duration:0.5 options:UIViewAnimationOptionTransitionCurlUp animations:^(void) {
         self.date = [self nextMonth:self.date];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM"];
+        NSString *destDateString = [dateFormatter stringFromDate:self.date];
+        if ([self.delegate respondsToSelector:@selector(reloadDataWithMonth:)]) {
+            [self.delegate reloadDataWithMonth:destDateString];
+        }
     } completion:nil];
-
 }
+
+-(void)viewGoSignin
+{
+    if ([self.delegate respondsToSelector:@selector(goSignin)]) {
+        [self.delegate goSignin];
+    }
+}
+
+
+#pragma mark - SHOWALERTVIEW
+-(void)chooseMonth
+{
+    ZEChooseMonthView * showTypeView = [[ZEChooseMonthView alloc]initWithFrame:CGRectZero];
+    showTypeView.delegate = self;
+    _alertView = [[JCAlertView alloc]initWithCustomView:showTypeView dismissWhenTouchedBackground:YES];
+    [_alertView show];
+}
+
+#pragma mark - ZEChooseMonthViewDelegate
+-(void)cancelChooseCount
+{
+    [_alertView dismissWithCompletion:nil];
+}
+
+-(void)confirmChooseCount:(NSString *)countStr
+{
+    [_alertView dismissWithCompletion:nil];
+    [monthBtn setTitle:[NSString stringWithFormat:@"%@月",countStr] forState:UIControlStateNormal];
+
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HHmmss"];
+    NSString *destDateString = [dateFormatter stringFromDate:self.date];
+
+    [dateFormatter setDateFormat:@"-MM-"];
+    NSString * monthStr = [dateFormatter stringFromDate:self.date];
+    
+    NSString * choosedDate =[destDateString stringByReplacingOccurrencesOfString:monthStr withString:[NSString stringWithFormat:@"-%@-",countStr]];
+
+    NSDateFormatter*df = [[NSDateFormatter alloc]init];//格式化
+    [df setDateFormat:@"yyyy-MM-dd HHmmss"];
+    [df setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_CN"] ];
+    NSDate * date =[[NSDate alloc]init];
+    date =[df dateFromString:choosedDate];
+
+    self.date = date;
+    [dateFormatter setDateFormat:@"yyyy-MM"];
+    
+    NSString *choosedMonthStr = [dateFormatter stringFromDate:self.date];
+
+    NSLog(@" %@ ",choosedMonthStr);
+    
+    if ([self.delegate respondsToSelector:@selector(reloadDataWithMonth:)]) {
+        [self.delegate reloadDataWithMonth:choosedMonthStr];
+    }
+}
+
 @end

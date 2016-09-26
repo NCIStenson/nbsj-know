@@ -148,6 +148,7 @@
                                                                        withActionFlag:nil];
     [self progressBegin:nil];
     [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
                              success:^(id data) {
                                  [self progressEnd:nil];
                                  NSLog(@">>>>>   %@",data);
@@ -184,14 +185,14 @@
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{@"SEQKEY":@"",
-                                @"QUESTIONTYPE":askView.quesTypeSEQKEY,
+                                @"QUESTIONTYPECODE":askView.quesTypeSEQKEY,
                                 @"QUESTIONEXPLAIN":askView.inputView.text,
                                 @"QUESTIONIMAGE":@"",
                                 @"QUESTIONUSERCODE":[ZESettingLocalData getUSERCODE],
                                 @"QUESTIONUSERNAME":[ZESettingLocalData getNICKNAME],
                                 @"QUESTIONLEVEL":@"1",
-                                @"IMPORTLEVEL":@"",
-                                @"ISLOSE":@"1",
+                                @"IMPORTLEVEL":@"1",
+                                @"ISLOSE":@"0",
                                 @"ISEXPERTANSWER":@"0",
                                 @"ISSOLVE":@"0"};
     
@@ -201,6 +202,7 @@
                                                                        withActionFlag:nil];
     [self progressBegin:nil];
     [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
                              success:^(id data) {
                                  [self progressEnd:nil];
                                  [self showAlertView:@"问题发表成功" isBack:YES];

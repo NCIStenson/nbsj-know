@@ -18,5 +18,6 @@
 - (void)setQuestionTypeCaches:(NSArray *)typeArr;
 - (NSArray *)getQuestionTypeCaches;
 
+- (void)clear;
 
 @end

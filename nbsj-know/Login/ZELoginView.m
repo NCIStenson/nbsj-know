@@ -50,7 +50,6 @@
     UITextField * _usernameField;
     UITextField * _passwordField;
     
-    
 }
 @end
 

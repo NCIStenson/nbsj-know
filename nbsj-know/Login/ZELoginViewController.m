@@ -137,10 +137,14 @@
                                                                        withActionFlag:nil];
 
     [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
                              success:^(id data) {
-                                 NSDictionary * userinfoDic = [ZEUtil getServerData:data withTabelName:KLB_USER_BASE_INFO][0];
-                                 [ZESettingLocalData setUSERINFODic:userinfoDic];
-                                 NSLog(@">>  %@",data);
+                                 NSLog(@">>>  %@",data);
+                                 NSArray * arr = [ZEUtil getServerData:data withTabelName:KLB_USER_BASE_INFO];
+                                 if ([arr count] > 0) {
+                                     NSDictionary * userinfoDic = arr[0];
+                                     [ZESettingLocalData setUSERINFODic:userinfoDic];
+                                 }
                              } fail:^(NSError *errorCode) {
                                  NSLog(@">>  %@",errorCode);
                              }];
@@ -177,6 +181,7 @@
                                                                        withActionFlag:nil];
     
     [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
                              success:^(id data) {
                                  NSDictionary * dataDic = [ZEUtil getServerDic:data withTabelName:KLB_EXPERT_INFO];
                                  if ([[dataDic objectForKey:@"totalCount"] integerValue] == 0) {

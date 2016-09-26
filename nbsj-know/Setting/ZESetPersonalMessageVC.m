@@ -11,6 +11,9 @@
 #import "ZEUserServer.h"
 #import "ZELoginViewController.h"
 #import "ZEChangePersonalMsgVC.h"
+
+#import "ZEQuestionTypeCache.h"
+
 @interface ZESetPersonalMessageVC ()<ZESetPersonalMessageViewDelegate>
 
 @end
@@ -67,6 +70,7 @@
 -(void)logoutSuccess
 {
     [ZESettingLocalData clearLocalData];
+    [[ZEQuestionTypeCache instance] clear];
     UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
     
     ZELoginViewController * loginVC = [[ZELoginViewController alloc]init];

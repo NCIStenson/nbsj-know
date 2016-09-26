@@ -94,6 +94,7 @@
                                                                        withActionFlag:nil];
     
     [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
                              success:^(id data) {
                                  [self progressEnd:nil];
                                  [self showAlertView:@"保存成功"];
@@ -165,6 +166,7 @@
                                                                        withActionFlag:nil];
     
     [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
                              success:^(id data) {
                                  [self progressEnd:nil];
                                  [self showAlertView:@"保存成功"];

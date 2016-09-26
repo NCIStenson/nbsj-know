@@ -71,4 +71,12 @@
  */
 +(BOOL)isSuccess:(NSString *)dicStr;
 
+/**
+ *  @author Stenson, 16-08-16 09:08:20
+ *
+ *  获取当前日期
+ *
+ */
++(NSString *)getCurrentDate:(NSString *)dateFormatter;
+
 @end

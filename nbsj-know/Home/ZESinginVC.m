@@ -9,8 +9,10 @@
 #import "ZESinginVC.h"
 #import "JFCalendarPickerView.h"
 
-@interface ZESinginVC ()
-
+@interface ZESinginVC ()<JFCalendarPickerViewDelegate>
+{
+    JFCalendarPickerView *calendarPicker;
+}
 @end
 
 @implementation ZESinginVC
@@ -19,7 +21,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"签到";
-    [self setRightBtnTitle:@"签到"];
     [self initCalendarPickView];
 }
 
@@ -27,11 +28,51 @@
 {
     [super viewWillAppear:YES];
     self.tabBarController.tabBar.hidden = YES;
+    [self sendRequestWithMonth:[ZEUtil getCurrentDate:@"yyyy-MM"]];
 }
 
--(void)initCalendarPickView{
+-(void)sendRequestWithMonth:(NSString *)monthStr
+{
+    NSString * whereSQL = [NSString stringWithFormat:@"PERIOD='%@'",monthStr];
     
-    JFCalendarPickerView *calendarPicker = [[JFCalendarPickerView alloc]initWithFrame:CGRectZero];
+    NSDictionary * parametersDic = @{@"limit":@"32",
+                                     @"MASTERTABLE":KLB_SIGNIN_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":whereSQL,
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_SEARCH,
+                                     @"MASTERFIELD":@"USERCODE",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"DETAILTABLE":@"",};
+    
+
+    NSDictionary * fieldsDic =@{@"USERCODE":[ZESettingLocalData getUSERCODE],
+                                @"USERNAME":@"",
+                                @"SIGNINDATE":@"",
+                                @"PERIOD":@"",
+                                @"STATUS":@""};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_SIGNIN_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [self progressBegin:nil];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 [self progressEnd:nil];
+                                 [calendarPicker reloadDateData:[ZEUtil getServerData:data withTabelName:KLB_SIGNIN_INFO]];
+                             } fail:^(NSError *errorCode) {
+                                 [self progressEnd:nil];
+                             }];
+}
+
+-(void)initCalendarPickView
+{
+    calendarPicker = [[JFCalendarPickerView alloc]initWithFrame:CGRectZero];
+    calendarPicker.delegate = self;
     calendarPicker.today = [NSDate date];
     calendarPicker.date = calendarPicker.today;
     calendarPicker.frame = CGRectMake(0, 64, SCREEN_WIDTH, 360);
@@ -41,6 +82,49 @@
     [self.view addSubview:calendarPicker];
 }
 
+#pragma mark - JFCalendarPickerViewDelegate
+
+-(void)reloadDataWithMonth:(NSString *)monthStr
+{
+    [self sendRequestWithMonth:monthStr];
+}
+
+-(void)goSignin
+{
+    NSDictionary * parametersDic = @{@"limit":@"20",
+                                     @"MASTERTABLE":KLB_SIGNIN_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":@"addSave",
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{@"USERCODE":[ZESettingLocalData getUSERCODE],
+                                @"USERNAME":[ZESettingLocalData getUSERNAME],
+                                @"SIGNINDATE":[ZEUtil getCurrentDate:@"YYYY-MM-dd"],
+                                @"PERIOD":[ZEUtil getCurrentDate:@"YYYY-MM"],
+                                @"STATUS":@"1"};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_SIGNIN_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [self progressBegin:nil];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:YES
+                             success:^(id data) {
+                                 [self progressEnd:nil];
+                                 [self sendRequestWithMonth:[ZEUtil getCurrentDate:@"YYYY-MM"]];
+                                 [self showTips:@"签到成功"];
+                                 [calendarPicker signinSuccess];
+                             } fail:^(NSError *errorCode) {
+                                 [self progressEnd:nil];
+                             }];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

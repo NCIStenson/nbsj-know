@@ -11,7 +11,7 @@
 @interface ZEQuestionInfoModel : NSObject
 
 @property (nonatomic,copy) NSString * SEQKEY;
-@property (nonatomic,copy) NSString * QUESTIONTYPE;
+@property (nonatomic,copy) NSString * QUESTIONTYPECODE;
 @property (nonatomic,copy) NSString * QUESTIONEXPLAIN;
 @property (nonatomic,copy) NSString * QUESTIONIMAGE;
 @property (nonatomic,copy) NSString * QUESTIONUSERCODE;

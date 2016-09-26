@@ -8,8 +8,8 @@
 
 typedef NS_ENUM (NSInteger,SECTION_TITLE){
     SECTION_TITLE_ANSWER = 0,
-    SECTION_TITLE_EXPERT,
-    SECTION_TITLE_CASE
+    SECTION_TITLE_EXPERT = 1,
+    SECTION_TITLE_CASE = 2
 };
 
 #import <UIKit/UIKit.h>
@@ -51,7 +51,8 @@ typedef NS_ENUM (NSInteger,SECTION_TITLE){
  *
  *  @param indexPath 选择第几区第几个问题
  */
--(void)goQuestionDetailVCWithIndexPath:(NSIndexPath *)indexPath;
+-(void)goQuestionDetailVCWithQuestionInfo:(ZEQuestionInfoModel *)infoModel
+                         withQuestionType:(ZEQuestionTypeModel *)typeModel;
 
 @end
 
@@ -61,4 +62,8 @@ typedef NS_ENUM (NSInteger,SECTION_TITLE){
 
 -(id)initWithFrame:(CGRect)frame;
 
+/**** 已经签到过界面 ***/
+-(void)reloadSigninedView;
+
+-(void)reloadSection:(NSInteger)section withData:(NSArray *)arr;
 @end
