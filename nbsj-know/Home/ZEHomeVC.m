@@ -46,6 +46,7 @@
 
 #pragma mark - Request
 
+/************* 今日是否签到 *************/
 -(void)sendIsSignin{
     
     NSDictionary * parametersDic = @{@"limit":@"32",
@@ -79,13 +80,11 @@
                                  if ([[ZEUtil getServerData:data withTabelName:KLB_SIGNIN_INFO] count] >0) {
                                      [_homeView reloadSigninedView];
                                  }
-
-//                                 [calendarPicker reloadDateData:[ZEUtil getServerData:data withTabelName:KLB_SIGNIN_INFO]];
                              } fail:^(NSError *errorCode) {
                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
                              }];
 }
-
+/************* 查询最新问题 *************/
 -(void)sendNewestQuestionsRequest:(NSString *)searchStr
 {
     NSString * WHERESQL = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONLEVEL = 1 and ISEXPERTANSWER = 0 and QUESTIONEXPLAIN like '%%%@%%'",searchStr];
@@ -93,7 +92,7 @@
         WHERESQL = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONLEVEL = 1 and ISEXPERTANSWER = 0 and QUESTIONEXPLAIN like '%%'"];
     }
     NSDictionary * parametersDic = @{@"limit":@"4",
-                                     @"MASTERTABLE":KLB_QUESTION_INFO,
+                                     @"MASTERTABLE":V_KLB_QUESTION_INFO,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"SYSCREATEDATE desc",
                                      @"WHERESQL":WHERESQL,
@@ -106,7 +105,7 @@
     
     NSDictionary * fieldsDic =@{};
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_QUESTION_INFO]
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_QUESTION_INFO]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
@@ -115,7 +114,7 @@
                        showAlertView:NO
                              success:^(id data) {
                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
-                                 NSArray * arr = [ZEUtil getServerData:data withTabelName:KLB_QUESTION_INFO];
+                                 NSArray * arr = [ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_INFO];
                                  [_homeView reloadSection:0 withData:arr];
                              } fail:^(NSError *errorCode) {
                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -123,13 +122,14 @@
     
 }
 
+/************* 查询专家回答问题 *************/
 -(void)sendExpertQuestionsRequest:(NSString *)searchStr
 {
     NSString * WHERESQL = [NSString stringWithFormat:@"ISLOSE=0 and ISEXPERTANSWER = 1 and QUESTIONEXPLAIN like '%%%@%%'",searchStr];
     if (![ZEUtil isStrNotEmpty:searchStr]) {
         WHERESQL = [NSString stringWithFormat:@"ISLOSE=0 and ISEXPERTANSWER = 1  and QUESTIONEXPLAIN like '%%'"];
     }
-    NSLog(@">>  %@",WHERESQL);
+
     NSDictionary * parametersDic = @{@"limit":@"4",
                                      @"MASTERTABLE":KLB_QUESTION_INFO,
                                      @"MENUAPP":@"EMARK_APP",
@@ -160,13 +160,14 @@
     
 }
 
+/************* 查询典型案例 *************/
 -(void)sendCaseQuestionsRequest:(NSString *)searchStr
 {
     NSString * WHERESQL = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONLEVEL = 2 and QUESTIONEXPLAIN like '%%%@%%'",searchStr];
     if (![ZEUtil isStrNotEmpty:searchStr]) {
         WHERESQL = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONLEVEL = 2 and QUESTIONEXPLAIN like '%%'"];
     }
-    NSLog(@">>  %@",WHERESQL);
+
     NSDictionary * parametersDic = @{@"limit":@"4",
                                      @"MASTERTABLE":KLB_QUESTION_INFO,
                                      @"MENUAPP":@"EMARK_APP",

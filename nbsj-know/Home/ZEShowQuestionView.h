@@ -22,6 +22,8 @@
 -(void)goQuestionDetailVCWithQuestionInfo:(ZEQuestionInfoModel *)infoModel
                          withQuestionType:(ZEQuestionTypeModel *)typeModel;
 
+-(void)goSearch:(NSString *)str;
+
 /**
  *  刷新界面
  */

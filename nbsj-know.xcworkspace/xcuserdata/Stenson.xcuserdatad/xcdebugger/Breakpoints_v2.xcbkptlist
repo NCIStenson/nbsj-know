@@ -67,11 +67,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "nbsj-know/ThirdSource/JFCalendarPicker/JFCalendarPickerView.m"
-            timestampString = "496221190.153947"
+            timestampString = "496306560.933417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "284"
-            endingLineNumber = "284"
+            startingLineNumber = "282"
+            endingLineNumber = "282"
             landmarkName = "-collectionView:cellForItemAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -83,28 +83,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "nbsj-know/ThirdSource/JFCalendarPicker/JFCalendarPickerView.m"
-            timestampString = "496221190.153947"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "291"
-            endingLineNumber = "291"
-            landmarkName = "-collectionView:cellForItemAtIndexPath:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "nbsj-know/Home/ZEHomeView.m"
-            timestampString = "496222670.08268"
+            timestampString = "496306560.933417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "289"
             endingLineNumber = "289"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            landmarkName = "-collectionView:cellForItemAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

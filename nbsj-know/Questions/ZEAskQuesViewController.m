@@ -181,7 +181,7 @@
                                      @"METHOD":@"addSave",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"CLASSNAME":@"com.nci.app.biz.klb.Score",
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{@"SEQKEY":@"",

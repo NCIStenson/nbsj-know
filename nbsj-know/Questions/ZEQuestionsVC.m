@@ -57,9 +57,9 @@
     if (![ZEUtil isStrNotEmpty:searchStr]) {
         WHERESQL = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONEXPLAIN like '%%'"];
     }
-    NSLog(@">>  %@",WHERESQL);
+
     NSDictionary * parametersDic = @{@"limit":@"20",
-                                     @"MASTERTABLE":KLB_QUESTION_INFO,
+                                     @"MASTERTABLE":V_KLB_QUESTION_INFO,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"SYSCREATEDATE desc",
                                      @"WHERESQL":WHERESQL,
@@ -72,7 +72,7 @@
     
     NSDictionary * fieldsDic =@{};
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_QUESTION_INFO]
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_QUESTION_INFO]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
@@ -81,7 +81,7 @@
                        showAlertView:NO
                              success:^(id data) {
                                  [self progressEnd:nil];
-                                 [_questionView reloadContentViewWithArr:[ZEUtil getServerData:data withTabelName:KLB_QUESTION_INFO]];
+                                 [_questionView reloadContentViewWithArr:[ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_INFO]];
                              } fail:^(NSError *errorCode) {
                                  [self progressEnd:nil];
                              }];

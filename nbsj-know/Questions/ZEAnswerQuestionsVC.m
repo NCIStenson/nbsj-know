@@ -34,7 +34,7 @@
 
 -(void)rightBtnClick
 {
-    if (_answerQuesView.answerText.text.length == 0){
+    if (_answerQuesView.inputView.text.length == 0){
         return;
     }
     
@@ -47,7 +47,7 @@
                                      @"METHOD":@"addSave",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"CLASSNAME":@"com.nci.app.biz.klb.Score",
                                      @"DETAILTABLE":@"",};
     NSString * ANSWERLEVEL = nil;
     if ([ZESettingLocalData getISEXPERT]) {
@@ -56,8 +56,8 @@
         ANSWERLEVEL = @"1";
     }
     NSDictionary * fieldsDic =@{@"SEQKEY":@"",
-                                @"QUERTIONID":_questionSEQKEY,
-                                @"ANSWEREXPLAIN":_answerQuesView.answerText.text,
+                                @"QUESTIONID":_questionSEQKEY,
+                                @"ANSWEREXPLAIN":_answerQuesView.inputView.text,
                                 @"ANSWERIMAGE":@"",
                                 @"ANSWERUSERCODE":[ZESettingLocalData getUSERCODE],
                                 @"ANSWERUSERNAME":[ZESettingLocalData getNICKNAME],

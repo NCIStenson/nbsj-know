@@ -118,17 +118,18 @@
 //    userImg.clipsToBounds = YES;
 //    userImg.layer.cornerRadius = 10;
     
-    NSLog(@">>>  %@",_questionInfoModel.SYSCREATEDATE);
     UILabel * usernameLab = [[UILabel alloc]initWithFrame:CGRectMake(20,userY,100.0f,20.0f)];
     usernameLab.text = [ZEUtil compareCurrentTime:_questionInfoModel.SYSCREATEDATE];
     usernameLab.textColor = MAIN_SUBTITLE_COLOR;
     usernameLab.font = [UIFont systemFontOfSize:kDetailTitleFontSize];
     [questionsView addSubview:usernameLab];
     
-    float praiseNumWidth = [ZEUtil widthForString:@"10 回答" font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
+    NSString * praiseNumLabText =[NSString stringWithFormat:@"%ld 回答",(long)[_questionInfoModel.ANSWERSUM integerValue]];
+
+    float praiseNumWidth = [ZEUtil widthForString:praiseNumLabText font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
     
     UILabel * praiseNumLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - praiseNumWidth - 20,userY,praiseNumWidth,20.0f)];
-    praiseNumLab.text = @"10 回答";
+    praiseNumLab.text = praiseNumLabText;
     praiseNumLab.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
     praiseNumLab.textColor = MAIN_SUBTITLE_COLOR;
     [questionsView addSubview:praiseNumLab];
@@ -186,7 +187,9 @@
     ZEAnswerInfoModel * answerInfoM = [ZEAnswerInfoModel getDetailWithDic:_answerInfoArr[indexPath.row]];
 
     float answerHeight =[ZEUtil heightForString:answerInfoM.ANSWEREXPLAIN font:[UIFont systemFontOfSize:kDetailTitleFontSize] andWidth:SCREEN_WIDTH - 65];
-    
+    if ([answerInfoM.ISPASS boolValue]) {
+        return answerHeight + 85.0f;
+    }
     return answerHeight + 65.0f;
 }
 
@@ -215,9 +218,9 @@
     [userImageBtn addSubview:ANSWERUSERNAME];
     
     float answerHeight =[ZEUtil heightForString:answerInfoM.ANSWEREXPLAIN font:[UIFont systemFontOfSize:kDetailTitleFontSize] andWidth:SCREEN_WIDTH - 65];
-    
     UILabel * ANSWEREXPLAIN = [[UILabel alloc]initWithFrame:CGRectMake(55, 35, SCREEN_WIDTH - 65, answerHeight)];
     ANSWEREXPLAIN.numberOfLines = 0;
+    ANSWEREXPLAIN.userInteractionEnabled = YES;
     ANSWEREXPLAIN.text = answerInfoM.ANSWEREXPLAIN;
     ANSWEREXPLAIN.font = [UIFont systemFontOfSize:kDetailTitleFontSize];
     [cellContentView addSubview:ANSWEREXPLAIN];
@@ -228,11 +231,12 @@
     SYSCREATEDATE.textColor = MAIN_SUBTITLE_COLOR;
     SYSCREATEDATE.font = [UIFont systemFontOfSize:kDetailTitleFontSize];
     [cellContentView addSubview:SYSCREATEDATE];
+    SYSCREATEDATE.userInteractionEnabled = YES;
 
     float praiseNumWidth = [ZEUtil widthForString:answerInfoM.GOODNUMS font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
     
     UIImageView * praiseImg = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - praiseNumWidth - 40, answerHeight + 40.0f, 15, 15)];
-    praiseImg.image = [UIImage imageNamed:@"qb_praiseBtn_hand@2x.png"];
+    praiseImg.image = [UIImage imageNamed:@"qb_praiseBtn_hand.png"];
     [cellContentView addSubview:praiseImg];
     
     UILabel * praiseNumLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - praiseNumWidth - 20,answerHeight + 40.0f,praiseNumWidth,20.0f)];
@@ -240,12 +244,21 @@
     praiseNumLab.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
     praiseNumLab.textColor = MAIN_SUBTITLE_COLOR;
     [cellContentView addSubview:praiseNumLab];
-
+    
+    if ([answerInfoM.ISPASS boolValue]) {
+        UILabel * otherAnswers = [[UILabel alloc]initWithFrame:CGRectMake(0, answerHeight + 65.0f, SCREEN_WIDTH, 20.0f)];
+        otherAnswers.numberOfLines = 0;
+        otherAnswers.font = [UIFont systemFontOfSize:12];
+        otherAnswers.backgroundColor = MAIN_LINE_COLOR;
+        otherAnswers.textColor = MAIN_NAV_COLOR;
+        otherAnswers.text = @"      其他回答";
+        [cellContentView addSubview:otherAnswers];
+    }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (![_questionInfoModel.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
+    if (![_questionInfoModel.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]] || [_questionInfoModel.ISSOLVE boolValue] ) {
         return;
     }
     

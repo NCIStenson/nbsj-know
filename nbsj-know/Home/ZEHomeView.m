@@ -24,9 +24,9 @@
 #define kSearchTFHeight       30.0f
 
 #define kContentTableMarginLeft  0.0f
-#define kContentTableMarginTop   kNavBarHeight
+#define kContentTableMarginTop   kNavBarHeight + 70.0f
 #define kContentTableWidth       SCREEN_WIDTH
-#define kContentTableHeight      SCREEN_HEIGHT - kNavBarHeight - 49.0f
+#define kContentTableHeight      SCREEN_HEIGHT - kNavBarHeight - 49.0f - 70.0f
 
 #import "ZEHomeView.h"
 
@@ -67,7 +67,7 @@
 {
     [self initNavBar];
     [self initContentView];
-    
+    [self initSignInView:self];
 }
 
 -(void)initNavBar
@@ -117,13 +117,64 @@
     return searchTFView;
 }
 
+#pragma mark - 签到界面
+
+-(void)initSignInView:(UIView *)fView
+{
+    UIButton * singInView = [UIButton buttonWithType:UIButtonTypeCustom];
+    singInView.frame = CGRectMake(0, 64, SCREEN_WIDTH, 50);
+    singInView.backgroundColor = [UIColor whiteColor];
+    [singInView addTarget:self action:@selector(goSingInView) forControlEvents:UIControlEventTouchUpInside];
+    
+    CAGradientLayer *layer = [CAGradientLayer new];
+    layer.colors = @[(__bridge id)MAIN_NAV_COLOR.CGColor, (__bridge id) MAIN_LINE_COLOR.CGColor];
+    layer.startPoint = CGPointMake(0, 0);
+    layer.endPoint = CGPointMake(0, 1);
+    layer.frame = CGRectMake(0, 0, SCREEN_WIDTH, 70.0f);
+    [singInView.layer addSublayer:layer];
+    
+    signinLab = [[UILabel alloc]initWithFrame:CGRectMake(20, 15, 200, 20)];
+    signinLab.userInteractionEnabled = NO;
+    signinLab.font = [UIFont systemFontOfSize:kHomeTitleFontSize];
+    signinLab.text = @"今日未签到";
+    [singInView addSubview:signinLab];
+    
+    UILabel * subTitleLable = [[UILabel alloc]initWithFrame:CGRectMake(20, 35, 200, 20)];
+    subTitleLable.userInteractionEnabled = NO;
+    subTitleLable.font = [UIFont systemFontOfSize:kHomeTitleFontSize];
+    subTitleLable.attributedText = [self getAttrText:@"您已帮助了 1 位员工"];
+    [singInView addSubview:subTitleLable];
+    
+    goSignInLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 90, 10, 70, 50)];
+    goSignInLab.text = @"去签到 >";
+    goSignInLab.textColor = MAIN_NAV_COLOR;
+    goSignInLab.userInteractionEnabled = NO;
+    
+    goSignInLab.textAlignment = NSTextAlignmentRight;
+    goSignInLab.font = [UIFont systemFontOfSize:14];
+    [singInView addSubview:goSignInLab];
+    
+    CALayer * grayLine = [CALayer layer];
+    grayLine.frame = CGRectMake(0, 60, SCREEN_WIDTH, 10);
+    [singInView.layer addSublayer:grayLine];
+    grayLine.backgroundColor = [MAIN_LINE_COLOR CGColor];
+    
+    [fView addSubview:singInView];
+    
+    if (isSignin) {
+        signinLab.text = @"今日已签到";
+        goSignInLab.text = @"去看看 >";
+    }
+}
+
+
 -(void)initContentView
 {
     contentTableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
-    contentTableView.bounces = NO;
     contentTableView.delegate = self;
     contentTableView.dataSource = self;
     [self addSubview:contentTableView];
+    contentTableView.showsVerticalScrollIndicator = NO;
     
     [contentTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(kContentTableMarginLeft);
@@ -188,9 +239,6 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return 120;
-    }
     return 50;
 }
 
@@ -254,16 +302,9 @@
     [sectionView.layer addSublayer:lineLayer];
     lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
     
-    if (section == SECTION_TITLE_ANSWER) {
-        lineLayer.frame = CGRectMake(0, 110.0f, SCREEN_WIDTH, 10);
-        [self initSignInView:sectionView];
-        UIView * sectionTitleV = [self createSectionTitleView:SECTION_TITLE_ANSWER];
-        sectionTitleV.frame = CGRectMake(0, 70, SCREEN_WIDTH, 40);
-        [sectionView addSubview:sectionTitleV];
-    }else{
-        UIView * sectionTitleV = [self createSectionTitleView:section];
-        [sectionView addSubview:sectionTitleV];
-    }
+    UIView * sectionTitleV = [self createSectionTitleView:section];
+    [sectionView addSubview:sectionTitleV];
+    
     
     return sectionView;
 }
@@ -370,21 +411,18 @@
     QUESTIONUSERNAME.font = [UIFont systemFontOfSize:kQuestionTitleFontSize];
     [questionsView addSubview:QUESTIONUSERNAME];
     
-    float praiseNumWidth = [ZEUtil widthForString:@"10 回答" font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
-    
-    //    UIImageView * praiseImg = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - praiseNumWidth - 30, userY + 2.0f, 15, 15)];
-    //    praiseImg.image = [UIImage imageNamed:@"qb_praiseBtn_hand@2x.png"];
-    //    [questionsView addSubview:praiseImg];
+    NSString * praiseNumLabText =[NSString stringWithFormat:@"%ld 回答",(long)[quesInfoM.ANSWERSUM integerValue]];
+
+    float praiseNumWidth = [ZEUtil widthForString:praiseNumLabText font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
     
     UILabel * praiseNumLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - praiseNumWidth - 20,userY,praiseNumWidth,20.0f)];
-    praiseNumLab.text = @"10 回答";
+    praiseNumLab.text  = praiseNumLabText;
     praiseNumLab.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
     praiseNumLab.textColor = MAIN_SUBTITLE_COLOR;
     [questionsView addSubview:praiseNumLab];
     ZEQuestionTypeModel * questionTypeM = nil;
     
     for (NSDictionary * dic in [[ZEQuestionTypeCache instance] getQuestionTypeCaches]) {
-        NSLog(@">>>  %@",dic);
         ZEQuestionTypeModel * typeM = [ZEQuestionTypeModel getDetailWithDic:dic];
         if ([typeM.SEQKEY isEqualToString:quesInfoM.QUESTIONTYPECODE]) {
             questionTypeM = typeM;
@@ -437,56 +475,6 @@
     [caseView addSubview:caseContentLab];
 
     return caseView;
-}
-
-#pragma mark - 签到界面
-
--(void)initSignInView:(UIView *)fView
-{
-    UIButton * singInView = [UIButton buttonWithType:UIButtonTypeCustom];
-    singInView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 50);
-    singInView.backgroundColor = [UIColor whiteColor];
-    [singInView addTarget:self action:@selector(goSingInView) forControlEvents:UIControlEventTouchUpInside];
-    
-    CAGradientLayer *layer = [CAGradientLayer new];
-    layer.colors = @[(__bridge id)MAIN_NAV_COLOR.CGColor, (__bridge id)[UIColor whiteColor].CGColor];
-    layer.startPoint = CGPointMake(0, 0);
-    layer.endPoint = CGPointMake(0, 1);
-    layer.frame = CGRectMake(0, 0, SCREEN_WIDTH, 70.0f);
-    [singInView.layer addSublayer:layer];
-    
-    signinLab = [[UILabel alloc]initWithFrame:CGRectMake(20, 15, 200, 20)];
-    signinLab.userInteractionEnabled = NO;
-    signinLab.font = [UIFont systemFontOfSize:kHomeTitleFontSize];
-    signinLab.text = @"今日未签到";
-    [singInView addSubview:signinLab];
-    
-    UILabel * subTitleLable = [[UILabel alloc]initWithFrame:CGRectMake(20, 35, 200, 20)];
-    subTitleLable.userInteractionEnabled = NO;
-    subTitleLable.font = [UIFont systemFontOfSize:kHomeTitleFontSize];
-    subTitleLable.attributedText = [self getAttrText:@"您已帮助了 1 位员工"];
-    [singInView addSubview:subTitleLable];
-    
-    goSignInLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 90, 10, 70, 50)];
-    goSignInLab.text = @"去签到 >";
-    goSignInLab.textColor = MAIN_NAV_COLOR;
-    goSignInLab.userInteractionEnabled = NO;
-
-    goSignInLab.textAlignment = NSTextAlignmentRight;
-    goSignInLab.font = [UIFont systemFontOfSize:14];
-    [singInView addSubview:goSignInLab];
-    
-    CALayer * grayLine = [CALayer layer];
-    grayLine.frame = CGRectMake(0, 60, SCREEN_WIDTH, 10);
-    [singInView.layer addSublayer:grayLine];
-    grayLine.backgroundColor = [MAIN_LINE_COLOR CGColor];
-    
-    [fView addSubview:singInView];
-    
-    if (isSignin) {
-        signinLab.text = @"今日已签到";
-        goSignInLab.text = @"去看看 >";
-    }
 }
 
 -(NSMutableAttributedString *)getAttrText:(NSString * )titleText

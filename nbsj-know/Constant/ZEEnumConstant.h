@@ -18,6 +18,8 @@ typedef enum : NSUInteger {
 typedef enum:NSInteger{
     QUESTION_LIST_NEW, // 推荐列表
     QUESTION_LIST_TYPE,      // 问题分类
+    QUESTION_LIST_MY_QUESTION,  // 我的问题列表
+    QUESTION_LIST_MY_ANSWER     // 我的回答
 }QUESTION_LIST;
 
 #endif /* ZEEnumConstant_h */

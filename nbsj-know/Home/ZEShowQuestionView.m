@@ -251,14 +251,17 @@
     QUESTIONUSERNAME.font = [UIFont systemFontOfSize:kQuestionTitleFontSize];
     [questionsView addSubview:QUESTIONUSERNAME];
     
-    float praiseNumWidth = [ZEUtil widthForString:@"10 回答" font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
+    
+    NSString * praiseNumLabText =[NSString stringWithFormat:@"%ld 回答",(long)[quesInfoM.ANSWERSUM integerValue]];
+    
+    float praiseNumWidth = [ZEUtil widthForString:praiseNumLabText font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
     
     //    UIImageView * praiseImg = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - praiseNumWidth - 30, userY + 2.0f, 15, 15)];
     //    praiseImg.image = [UIImage imageNamed:@"qb_praiseBtn_hand@2x.png"];
     //    [questionsView addSubview:praiseImg];
     
     UILabel * praiseNumLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - praiseNumWidth - 20,userY,praiseNumWidth,20.0f)];
-    praiseNumLab.text = @"10 回答";
+    praiseNumLab.text = praiseNumLabText;
     praiseNumLab.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
     praiseNumLab.textColor = MAIN_SUBTITLE_COLOR;
     [questionsView addSubview:praiseNumLab];
@@ -317,9 +320,17 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    
     return YES;
 }
+
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if ([self.delegate respondsToSelector:@selector(goSearch:)]) {
+        [self.delegate goSearch:textField.text];
+    }
+    
+}
+
 
 #pragma mark - ZEQuestionsViewDelegate
 

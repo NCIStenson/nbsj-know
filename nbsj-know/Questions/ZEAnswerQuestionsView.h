@@ -45,8 +45,6 @@
 /************** 问题主键 *************/
 @property (nonatomic,copy) NSString * quesTypeSEQKEY;
 
-@property (nonatomic,copy) UITextView * answerText;
-
 -(id)initWithFrame:(CGRect)frame;
 
 -(void)reloadChoosedImageView:(id)choosedImage;

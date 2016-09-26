@@ -206,10 +206,14 @@
         {
             switch (indexPath.row) {
                 case 0:
-                    
+                    if ([self.delegate respondsToSelector:@selector(goMyQuestionList)]) {
+                        [self.delegate goMyQuestionList];
+                    }
                     break;
                 case 1:
-                    
+                    if ([self.delegate respondsToSelector:@selector(goMyAnswerList)]) {
+                        [self.delegate goMyAnswerList];
+                    }
                     break;
                     
                 default:

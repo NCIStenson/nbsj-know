@@ -52,7 +52,7 @@
                                      @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
                                      @"DETAILTABLE":@"",};
 
-    NSDictionary * fieldsDic =@{@"QUERTIONID":_questionInfoModel.SEQKEY,
+    NSDictionary * fieldsDic =@{@"QUESTIONID":_questionInfoModel.SEQKEY,
                                 @"SEQKEY":@"",
                                 @"ANSWEREXPLAIN":@"",
                                 @"ANSWERIMAGE":@"",
@@ -135,7 +135,7 @@
                                      @"METHOD":@"updateSave",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"CLASSNAME":@"com.nci.app.biz.klb.Score",
                                      @"DETAILTABLE":@"",};
     NSDictionary * fieldsDic =@{@"SEQKEY":answerModel.SEQKEY,
                                 @"ISPASS":@"1",
@@ -151,11 +151,45 @@
                              success:^(id data) {
                                  [self progressEnd:nil];
                                  NSLog(@">>  %@",data);
+                                 [self updateKLB_QUESTION_INFOWithQuestionInfo:infoModel];
                              } fail:^(NSError *errorCode) {
                                  [self progressEnd:nil];
                              }];
-
 }
+
+-(void)updateKLB_QUESTION_INFOWithQuestionInfo:(ZEQuestionInfoModel *)infoModel
+{
+    NSDictionary * parametersDic = @{@"limit":@"20",
+                                     @"MASTERTABLE":KLB_QUESTION_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":@"updateSave",
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"DETAILTABLE":@"",};
+    NSDictionary * fieldsDic =@{@"SEQKEY":infoModel.SEQKEY,
+                                @"ISSOLVE":@"1",
+                                };
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_QUESTION_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [self progressBegin:nil];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 [self progressEnd:nil];
+                                 [self sendSearchAnswerRequest];
+                             } fail:^(NSError *errorCode) {
+                                 [self progressEnd:nil];
+                             }];
+    
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

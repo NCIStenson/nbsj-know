@@ -95,6 +95,8 @@
 		989B2C531C4DE7AA00F14EFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 989B2C521C4DE7AA00F14EFA /* Assets.xcassets */; };
 		989B2C611C4DE7AA00F14EFA /* nbsj-knowTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 989B2C601C4DE7AA00F14EFA /* nbsj-knowTests.m */; };
 		989B2C6C1C4DE7AA00F14EFA /* nbsj-knowUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 989B2C6B1C4DE7AA00F14EFA /* nbsj-knowUITests.m */; };
+		98A64C911D94DC8D00A80E61 /* ZEMyQuestionsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A64C901D94DC8D00A80E61 /* ZEMyQuestionsVC.m */; };
+		98A64C941D94DCD200A80E61 /* ZEMyQuestionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A64C931D94DCD200A80E61 /* ZEMyQuestionsView.m */; };
 		98AB2A4C1D65A6AA00F4DBF8 /* ZEQuestionInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AB2A491D65A6AA00F4DBF8 /* ZEQuestionInfoModel.m */; };
 		98AB2A4D1D65A6AA00F4DBF8 /* ZEQuestionTypeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AB2A4B1D65A6AA00F4DBF8 /* ZEQuestionTypeModel.m */; };
 		98AB2A501D65A6C400F4DBF8 /* ZEAnswerInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AB2A4F1D65A6C400F4DBF8 /* ZEAnswerInfoModel.m */; };
@@ -271,6 +273,10 @@
 		989B2C671C4DE7AA00F14EFA /* nbsj-know.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "nbsj-know.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		989B2C6B1C4DE7AA00F14EFA /* nbsj-knowUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "nbsj-knowUITests.m"; sourceTree = "<group>"; };
 		989B2C6D1C4DE7AA00F14EFA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		98A64C8F1D94DC8D00A80E61 /* ZEMyQuestionsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEMyQuestionsVC.h; path = Setting/ZEMyQuestionsVC.h; sourceTree = "<group>"; };
+		98A64C901D94DC8D00A80E61 /* ZEMyQuestionsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEMyQuestionsVC.m; path = Setting/ZEMyQuestionsVC.m; sourceTree = "<group>"; };
+		98A64C921D94DCD200A80E61 /* ZEMyQuestionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEMyQuestionsView.h; path = Setting/ZEMyQuestionsView.h; sourceTree = "<group>"; };
+		98A64C931D94DCD200A80E61 /* ZEMyQuestionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEMyQuestionsView.m; path = Setting/ZEMyQuestionsView.m; sourceTree = "<group>"; };
 		98AB2A481D65A6AA00F4DBF8 /* ZEQuestionInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEQuestionInfoModel.h; path = Model/ZEQuestionInfoModel.h; sourceTree = "<group>"; };
 		98AB2A491D65A6AA00F4DBF8 /* ZEQuestionInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEQuestionInfoModel.m; path = Model/ZEQuestionInfoModel.m; sourceTree = "<group>"; };
 		98AB2A4A1D65A6AA00F4DBF8 /* ZEQuestionTypeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEQuestionTypeModel.h; path = Model/ZEQuestionTypeModel.h; sourceTree = "<group>"; };
@@ -364,6 +370,10 @@
 				9801DAFF1D6153EE008B1676 /* ZEChangePersonalMsgVC.m */,
 				9801DB011D61541B008B1676 /* ZEChangePersonalMsgView.h */,
 				9801DB021D61541B008B1676 /* ZEChangePersonalMsgView.m */,
+				98A64C8F1D94DC8D00A80E61 /* ZEMyQuestionsVC.h */,
+				98A64C901D94DC8D00A80E61 /* ZEMyQuestionsVC.m */,
+				98A64C921D94DCD200A80E61 /* ZEMyQuestionsView.h */,
+				98A64C931D94DCD200A80E61 /* ZEMyQuestionsView.m */,
 			);
 			name = Setting;
 			sourceTree = "<group>";
@@ -935,6 +945,7 @@
 				986C29461D9233FA0004778A /* NSAttributedString+RichText.m in Sources */,
 				98DB7C501C4F4FA70046D405 /* ZEUtil.m in Sources */,
 				9872575E1D59BAEA005C4AB9 /* ZESettingLocalData.m in Sources */,
+				98A64C911D94DC8D00A80E61 /* ZEMyQuestionsVC.m in Sources */,
 				987ACBCA1D4AE3E6006D692E /* ZEShowQuestionView.m in Sources */,
 				986C29471D9233FA0004778A /* NSString+Regular.m in Sources */,
 				9872544E1D587CD7005C4AB9 /* ZELoginView.m in Sources */,
@@ -976,6 +987,7 @@
 				982ED36C1D4208A900F87343 /* ZESettingRootVC.m in Sources */,
 				989AA68E1D52CDB500A08022 /* ZEQuestionsDetailVC.m in Sources */,
 				982ED3791D4209DD00F87343 /* ZEQuestionsVC.m in Sources */,
+				98A64C941D94DCD200A80E61 /* ZEMyQuestionsView.m in Sources */,
 				98AB2A4D1D65A6AA00F4DBF8 /* ZEQuestionTypeModel.m in Sources */,
 				9801DB031D61541B008B1676 /* ZEChangePersonalMsgView.m in Sources */,
 				989AA6911D52CDD600A08022 /* ZEQuestionsDetailView.m in Sources */,

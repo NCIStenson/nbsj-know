@@ -15,6 +15,7 @@
     ZEShowQuestionView * _questionsView;
     NSInteger _currentPage;
     
+    NSString * _currentInputStr;
 }
 @end
 
@@ -25,10 +26,15 @@
     // Do any additional setup after loading the view.
     if (_showQuestionListType == QUESTION_LIST_NEW) {
         self.title = @"最新问题";
-    }else{
+    }else if(_showQuestionListType == QUESTION_LIST_TYPE){
         self.title = _QUESTIONTYPENAME;
+    }else if(_showQuestionListType == QUESTION_LIST_MY_QUESTION){
+        self.title = @"我的问题";
+    }else if(_showQuestionListType == QUESTION_LIST_MY_ANSWER){
+        self.title = @"我的回答";
     }
     [self createWhereSQL:nil];
+    
     [self initView];
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -39,14 +45,29 @@
 
 -(void)createWhereSQL:(NSString *)searchStr
 {
-    NSString * searchCondition;
+    NSString * searchCondition = @"";
     if (_showQuestionListType == QUESTION_LIST_NEW) {
-        searchCondition = [NSString stringWithFormat:@"ISLOSE = 0"];
+        searchCondition = [NSString stringWithFormat:@"ISLOSE = 0 and QUESTIONEXPLAIN like '%%%@%%'",searchStr];
+        if (![ZEUtil isStrNotEmpty:searchStr]) {
+            searchCondition = [NSString stringWithFormat:@"ISLOSE = 0"];
+        }
     }else if (_showQuestionListType == QUESTION_LIST_TYPE){
-        searchCondition = [NSString stringWithFormat:@"ISLOSE = 0 and QUESTIONTYPECODE = %@ and QUESTIONEXPLAIN like '%%%@'",_typeSEQKEY,searchStr];
+        searchCondition = [NSString stringWithFormat:@"ISLOSE = 0 and QUESTIONTYPECODE = %@ and QUESTIONEXPLAIN like '%%%@%%'",_typeSEQKEY,searchStr];
         if (![ZEUtil isStrNotEmpty:searchStr]) {
             searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONTYPECODE = %@",_typeSEQKEY];
         }
+    }else if (_showQuestionListType == QUESTION_LIST_MY_QUESTION){
+        searchCondition = [NSString stringWithFormat:@"ISLOSE = 0 and QUESTIONUSERCODE = %@ and QUESTIONEXPLAIN like '%%%@%%'",[ZESettingLocalData getUSERCODE],searchStr];
+        if (![ZEUtil isStrNotEmpty:searchStr]) {
+            searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONUSERCODE = %@",[ZESettingLocalData getUSERCODE]];
+        }
+    }else if (_showQuestionListType == QUESTION_LIST_MY_ANSWER){
+        searchCondition = [NSString stringWithFormat:@"ISLOSE = 0  and QUESTIONEXPLAIN like '%%%@%%'",searchStr];
+        if (![ZEUtil isStrNotEmpty:searchStr]) {
+            searchCondition = [NSString stringWithFormat:@"ISLOSE=0"];
+        }
+        [self sendMyAnswerRequestWithCondition:searchCondition];
+        return;
     }
     
     [self sendRequestWithCondition:searchCondition];
@@ -54,7 +75,7 @@
 -(void)sendRequestWithCondition:(NSString *)conditionStr
 {
     NSDictionary * parametersDic = @{@"limit":@"20",
-                                     @"MASTERTABLE":KLB_QUESTION_INFO,
+                                     @"MASTERTABLE":V_KLB_QUESTION_INFO,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"SYSCREATEDATE desc",
                                      @"WHERESQL":conditionStr,
@@ -67,7 +88,7 @@
     
     NSDictionary * fieldsDic =@{};
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_QUESTION_INFO]
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_QUESTION_INFO]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
@@ -76,7 +97,70 @@
                        showAlertView:NO
                              success:^(id data) {
                                  [self progressEnd:nil];
-                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:KLB_QUESTION_INFO];
+                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_INFO];
+                                 if (dataArr.count > 0) {
+                                     if (_currentPage == 0) {
+                                         [_questionsView reloadFirstView:dataArr];
+                                     }else{
+                                         [_questionsView reloadContentViewWithArr:dataArr];
+                                     }
+                                     if (dataArr.count%20 == 0) {
+                                         _currentPage += 1;
+                                     }
+                                 }else{
+                                     if (_currentPage > 0) {
+                                         [_questionsView loadNoMoreData];
+                                         return ;
+                                     }
+                                     [_questionsView reloadFirstView:dataArr];
+                                     [_questionsView headerEndRefreshing];
+                                     [_questionsView loadNoMoreData];
+                                 }
+                             } fail:^(NSError *errorCode) {
+                                 [self progressEnd:nil];
+                             }];
+}
+-(void)sendMyAnswerRequestWithCondition:(NSString *)conditionStr
+{
+    NSDictionary * parametersDic = @{@"limit":@"20",
+                                     @"MASTERTABLE":V_KLB_QUESTION_INFO_LIST,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"SYSCREATEDATE desc",
+                                     @"WHERESQL":conditionStr,
+                                     @"start":[NSString stringWithFormat:@"%ld",(long)_currentPage * 20],
+                                     @"METHOD":@"search",
+                                     @"MASTERFIELD":@"USERCODE",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{@"USERCODE":[ZESettingLocalData getUSERCODE],
+                                @"SEQKEY":@"",
+                                @"QUESTIONTYPECODE":@"",
+                                @"QUESTIONEXPLAIN":@"",
+                                @"QUESTIONIMAGE":@"",
+                                @"QUESTIONUSERCODE":@"",
+                                @"QUESTIONUSERNAME":@"",
+                                @"QUESTIONLEVEL":@"",
+                                @"STATISTICALSRC":@"",
+                                @"IMPORTLEVEL":@"",
+                                @"ISLOSE":@"",
+                                @"ISEXPERTANSWER":@"",
+                                @"ISSOLVE":@"",
+                                @"SYSCREATEDATE":@"",
+                                @"ANSWERSUM":@"",
+                                };
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_QUESTION_INFO_LIST]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [self progressBegin:nil];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 [self progressEnd:nil];
+                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_INFO_LIST];
                                  if (dataArr.count > 0) {
                                      if (_currentPage == 0) {
                                          [_questionsView reloadFirstView:dataArr];
@@ -102,7 +186,6 @@
 
 
 
-
 #pragma mark -
 -(void)initView
 {
@@ -122,15 +205,22 @@
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 
+-(void)goSearch:(NSString *)str
+{
+    _currentInputStr = str;
+    [self createWhereSQL:_currentInputStr];
+}
+
 -(void)loadNewData
 {
+    _currentInputStr = @"";
     _currentPage = 0;
     [self createWhereSQL:nil];
 }
 
 -(void)loadMoreData
 {
-    [self createWhereSQL:nil];
+    [self createWhereSQL:_currentInputStr];
 }
 
 - (void)didReceiveMemoryWarning {

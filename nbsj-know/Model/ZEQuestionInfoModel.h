@@ -23,6 +23,7 @@
 @property (nonatomic,copy) NSString * ISEXPERTANSWER;
 @property (nonatomic,copy) NSString * ISSOLVE;
 @property (nonatomic,copy) NSString * SYSCREATEDATE;
+@property (nonatomic,copy) NSString * ANSWERSUM;
 
 +(ZEQuestionInfoModel *)getDetailWithDic:(NSDictionary *)dic;
 

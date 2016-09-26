@@ -143,7 +143,6 @@ NSString *const JFCalendarCellIdentifier = @"cell";
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     NSString *todayString = [dateFormatter stringFromDate:_today];
-    NSString *dateString = [dateFormatter stringFromDate:self.date];
 
     _isSigninArr = [NSMutableArray array];
     for (int i = 1; i < 32 ; i ++) {
@@ -151,7 +150,6 @@ NSString *const JFCalendarCellIdentifier = @"cell";
         for (int j = 0; j < arr.count; j ++) {
             NSDictionary * dic = arr[j];
             NSString * dayStr = [[dic objectForKey:@"SIGNINDATE"] substringWithRange:NSMakeRange(8, 2)];
-            NSLog(@" SIGNINDATE >>>  %@",[[dic objectForKey:@"SIGNINDATE"] substringToIndex:10]);
             if (i == [dayStr integerValue]) {
                 isSign = YES;
                 if([todayString isEqualToString:[[dic objectForKey:@"SIGNINDATE"] substringToIndex:10]]){

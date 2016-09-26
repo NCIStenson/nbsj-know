@@ -10,6 +10,9 @@
 #import "ZEUserCenterView.h"
 
 #import "ZESetPersonalMessageVC.h"
+
+#import "ZEShowQuestionVC.h"
+
 @interface ZEUserCenterVC ()<ZEUserCenterViewDelegate>
 
 @end
@@ -43,10 +46,21 @@
 -(void)goSettingVC
 {
     ZESetPersonalMessageVC * personalMsgVC = [[ZESetPersonalMessageVC alloc]init];
-    
     [self.navigationController pushViewController:personalMsgVC animated:YES];
 }
 
+-(void)goMyQuestionList
+{
+    ZEShowQuestionVC * showQuesVC = [[ZEShowQuestionVC alloc]init];
+    showQuesVC.showQuestionListType = QUESTION_LIST_MY_QUESTION;
+    [self.navigationController pushViewController:showQuesVC animated:YES];
+}
+-(void)goMyAnswerList
+{
+    ZEShowQuestionVC * showQuesVC = [[ZEShowQuestionVC alloc]init];
+    showQuesVC.showQuestionListType = QUESTION_LIST_MY_ANSWER;
+    [self.navigationController pushViewController:showQuesVC animated:YES];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

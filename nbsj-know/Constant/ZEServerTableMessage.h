@@ -14,6 +14,8 @@
 #define KLB_EXPERT_INFO                @"KLB_EXPERT_INFO"               /***   专家信息表   ***/
 #define KLB_QUESTION_TYPE              @"KLB_QUESTION_TYPE"             /***   问题分类信息表   ***/
 #define KLB_QUESTION_INFO              @"KLB_QUESTION_INFO"             /***   知识库问题信息表   ***/
+#define V_KLB_QUESTION_INFO            @"V_KLB_QUESTION_INFO"             /***   知识库问题信息视图   ***/
+#define V_KLB_QUESTION_INFO_LIST            @"V_KLB_QUESTION_INFO_LIST"             /***   知识库问题信息视图   ***/
 #define KLB_ANSWER_INFO                @"KLB_ANSWER_INFO"               /***   知识库回答问题信息表   ***/
 #define KLB_PROCIRCLE_INFO             @"KLB_PROCIRCLE_INFO"            /***   专业圈信息表   ***/
 #define KLB_PROCIRCLE_REL_USER         @"KLB_PROCIRCLE_REL_USER"        /***   专业圈人员关系表   ***/

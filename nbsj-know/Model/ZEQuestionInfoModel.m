@@ -27,6 +27,7 @@ static ZEQuestionInfoModel * quesInfoM = nil;
     quesInfoM.ISEXPERTANSWER   = [dic objectForKey:@"ISEXPERTANSWER"];
     quesInfoM.ISSOLVE          = [dic objectForKey:@"ISSOLVE"];
     quesInfoM.SYSCREATEDATE    = [dic objectForKey:@"SYSCREATEDATE"];
+    quesInfoM.ANSWERSUM        = [dic objectForKey:@"ANSWERSUM"];
 
     return quesInfoM;
 }
