@@ -239,6 +239,9 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    if(section != SECTION_TITLE_ANSWER){
+        return 60;
+    }
     return 50;
 }
 
@@ -264,17 +267,17 @@
     if (indexPath.section == SECTION_TITLE_ANSWER) {
        
         float questionHeight =[ZEUtil heightForString:QUESTIONEXPLAINStr font:[UIFont systemFontOfSize:kHomeTitleFontSize] andWidth:SCREEN_WIDTH - 40];
-//        UIImage * img = [UIImage imageNamed:@"banner.jpg"];
-//        float questionImgH =  ( SCREEN_WIDTH - 40 ) / img.size.width * img.size.height;
-        
+        if([ZEUtil isStrNotEmpty:quesInfoM.FILEURL]){
+            return questionHeight + kCellImgaeHeight + 60.0f;
+        }
        return questionHeight + 50.0f;
   
     }else if (indexPath.section == SECTION_TITLE_EXPERT){
         
         float questionHeight =[ZEUtil heightForString:QUESTIONEXPLAINStr font:[UIFont systemFontOfSize:kHomeTitleFontSize] andWidth:SCREEN_WIDTH - 40];
-//        UIImage * img = [UIImage imageNamed:@"banner.jpg"];
-//        float questionImgH =  ( SCREEN_WIDTH - 40 ) / img.size.width * img.size.height;
-        
+        if([ZEUtil isStrNotEmpty:quesInfoM.FILEURL]){
+            return questionHeight + 60.0f + kCellImgaeHeight;
+        }
         return questionHeight + 50.0f;
     }else{
         
@@ -289,7 +292,7 @@
         
         return questionImgH + 30.0f;
     }
-    return 40;
+    return 50.0f;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -302,10 +305,21 @@
     [sectionView.layer addSublayer:lineLayer];
     lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
     
+
+    
     UIView * sectionTitleV = [self createSectionTitleView:section];
     [sectionView addSubview:sectionTitleV];
     
-    
+    if(section != SECTION_TITLE_ANSWER){
+        sectionTitleV.frame = CGRectMake(0, 10, 0, 0);
+        lineLayer.frame = CGRectMake(0, 50.0f, SCREEN_WIDTH, 10);
+
+        CALayer * lineLayer = [CALayer layer];
+        lineLayer.frame = CGRectMake(0, 0, SCREEN_WIDTH, 10);
+        [sectionView.layer addSublayer:lineLayer];
+        lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
+    }
+
     return sectionView;
 }
 
@@ -388,16 +402,27 @@
     //  问题文字与用户信息之间间隔
     float userY = questionHeight + 20.0f;
     
-    //    if () {
-    //    UIImage * img = [UIImage imageNamed:@"banner.jpg"];
-    //    float questionImgH =  ( SCREEN_WIDTH - 40 ) / img.size.width * img.size.height;
-    //
-    //    UIImageView * questionImg = [[UIImageView alloc]initWithFrame:CGRectMake(20, userY, SCREEN_WIDTH - 40, questionImgH)];
-    //    questionImg.image = img;
-    //    questionImg.contentMode = UIViewContentModeScaleAspectFit;
-    //    [questionsView addSubview:questionImg];
-    //    userY += questionImgH + 10.0f;
-    //    }
+    NSArray * imgFileUrlArr;
+    
+    if([ZEUtil isStrNotEmpty:quesInfoM.FILEURL]){
+        imgFileUrlArr = [quesInfoM.FILEURL componentsSeparatedByString:@","];
+    }
+    
+    for (int i = 0; i < imgFileUrlArr.count; i ++) {
+        UIButton * questionImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        questionImageBtn.frame = CGRectMake(20 + (kCellImgaeHeight + 10) * i, userY, kCellImgaeHeight, kCellImgaeHeight);
+        questionImageBtn.tag = i;
+        questionImageBtn.imageView.contentMode = UIViewContentModeScaleAspectFill;
+        
+        [questionImageBtn  sd_setImageWithURL:ZENITH_IMAGEURL(imgFileUrlArr[i]) forState:UIControlStateNormal placeholderImage:ZENITH_PLACEHODLER_IMAGE];
+        
+        [questionsView addSubview:questionImageBtn];
+        questionImageBtn.clipsToBounds = YES;
+        
+        if (i == imgFileUrlArr.count - 1) {
+            userY += kCellImgaeHeight + 10.0f;
+        }
+    }
     
     UIImageView * userImg = [[UIImageView alloc]initWithFrame:CGRectMake(20, userY, 20, 20)];
     userImg.image = [UIImage imageNamed:@"avatar_default.jpg"];
@@ -453,15 +478,25 @@
     datasDic = self.caseQuestionArr[indexpath.row];
     
     ZEQuestionInfoModel * quesInfoM = [ZEQuestionInfoModel getDetailWithDic:datasDic];
+    
     NSString * QUESTIONEXPLAINStr = quesInfoM.QUESTIONEXPLAIN;
-
+    
     UIView *  caseView = [[UIView alloc]init];
 
     UIImage * img = [UIImage imageNamed:@"banner.jpg"];
     float questionImgH =  ( ( SCREEN_WIDTH - 40) / 2 - 10.0f   ) / img.size.width * img.size.height;
     
     UIImageView * questionImg = [[UIImageView alloc]initWithFrame:CGRectMake(20, 10, (SCREEN_WIDTH - 40) / 2 , questionImgH)];
-    questionImg.image = img;
+   
+    NSArray * imgFileUrlArr;
+
+    if([ZEUtil isStrNotEmpty:quesInfoM.FILEURL]){
+        imgFileUrlArr = [quesInfoM.FILEURL componentsSeparatedByString:@","];
+    }
+
+    if (imgFileUrlArr.count > 0) {
+        [questionImg sd_setImageWithURL:ZENITH_IMAGEURL(imgFileUrlArr[0]) placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
+    }
     questionImg.contentMode = UIViewContentModeScaleAspectFit;
     [caseView addSubview:questionImg];
     
@@ -512,6 +547,7 @@
 
 -(UIView * )createSectionTitleView:(SECTION_TITLE)sectionType
 {
+    
     UIButton * sectionTitleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     sectionTitleBtn.frame = CGRectMake(0, 0, SCREEN_WIDTH, 40);
     sectionTitleBtn.backgroundColor = [UIColor whiteColor];

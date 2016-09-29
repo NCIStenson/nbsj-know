@@ -89,6 +89,10 @@
 
 -(void)cacheQuestionType
 {
+    NSArray * typeArr = [[ZEQuestionTypeCache instance] getQuestionTypeCaches];
+    if (typeArr.count > 0) {
+        return;
+    }
     NSDictionary * parametersDic = @{@"limit":@"20",
                                      @"MASTERTABLE":KLB_QUESTION_TYPE,
                                      @"MENUAPP":@"EMARK_APP",

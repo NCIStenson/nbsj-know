@@ -32,7 +32,6 @@
     self = [super initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, kMaxHeight)];
     if (self) {
         _optionsArray = options;
-        NSLog(@" _optionsArray ===  %@",_optionsArray);
         _viewFrame = CGRectMake(0, 0, SCREEN_WIDTH - 40, kMaxHeight);
         self.backgroundColor = [UIColor whiteColor];
         self.clipsToBounds = YES;

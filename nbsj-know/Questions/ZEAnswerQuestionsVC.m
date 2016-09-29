@@ -9,10 +9,14 @@
 #import "ZEAnswerQuestionsVC.h"
 #import "ZEAnswerQuestionsView.h"
 
-@interface ZEAnswerQuestionsVC ()
+#import "ZELookViewController.h"
+@interface ZEAnswerQuestionsVC ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,ZELookViewControllerDelegate,ZEAnswerQuestionsViewDelegate>
 {
     ZEAnswerQuestionsView * _answerQuesView;
 }
+
+@property (nonatomic,strong) NSMutableArray * imagesArr;
+
 @end
 
 @implementation ZEAnswerQuestionsVC
@@ -23,13 +27,86 @@
     [self initView];
     self.title = @"回答";
     [self.rightBtn setTitle:@"提交" forState:UIControlStateNormal];
+    self.imagesArr = [NSMutableArray array];
 }
 
 -(void)initView
 {
     _answerQuesView = [[ZEAnswerQuestionsView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    _answerQuesView.delegate = self;
     [self.view addSubview:_answerQuesView];
     [self.view sendSubviewToBack:_answerQuesView];
+}
+
+#pragma mark - ZEAskQuesViewDelegate
+
+-(void)takePhotosOrChoosePictures
+{
+    
+    UIAlertController * alertCont= [UIAlertController alertControllerWithTitle:@"" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction * takeAction = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self showImagePickController:YES];
+    }];
+    UIAlertAction * chooseAction = [UIAlertAction actionWithTitle:@"选择一张照片" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self showImagePickController:NO];
+    }];
+    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    
+    [alertCont addAction:takeAction];
+    [alertCont addAction:chooseAction];
+    [alertCont addAction:cancelAction];
+    
+    [self presentViewController:alertCont animated:YES completion:^{
+        
+    }];
+}
+
+
+/**
+ *  @author Stenson, 16-08-01 16:08:07
+ *
+ *  选取照片
+ *
+ *  @param isTaking 是否拍照
+ */
+-(void)showImagePickController:(BOOL)isTaking;
+{
+    UIImagePickerController * imagePicker = [[UIImagePickerController alloc]init];
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] && isTaking) {
+        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    }else{
+        imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    }
+    imagePicker.delegate = self;
+    [self presentViewController:imagePicker animated:YES completion:^{
+        
+    }];
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
+{
+    UIImage * chooseImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    [_answerQuesView reloadChoosedImageView:chooseImage];
+    [self.imagesArr addObject:chooseImage];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)goLookImageView:(NSArray *)imageArr
+{
+    ZELookViewController * lookVC = [[ ZELookViewController alloc]init];
+    lookVC.delegate = self;
+    lookVC.imageArr = self.imagesArr;
+    [self.navigationController pushViewController:lookVC animated:YES];
+}
+
+-(void)goBackViewWithImages:(NSArray *)imageArr
+{
+    self.imagesArr = [NSMutableArray arrayWithArray:imageArr];
+    [_answerQuesView reloadChoosedImageView:imageArr];
 }
 
 -(void)rightBtnClick
@@ -71,15 +148,16 @@
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
     [self progressBegin:nil];
-    [ZEUserServer getDataWithJsonDic:packageDic
-                       showAlertView:NO
-                             success:^(id data) {
-                                 [self progressEnd:nil];
-                                 NSLog(@">>  %@",data);
-                                 [self showAlertView:@"回答成功" isBack:YES];
-                             } fail:^(NSError *errorCode) {
-                                 [self progressEnd:nil];
-                             }];
+    [ZEUserServer uploadImageWithJsonDic:packageDic
+                            withImageArr:self.imagesArr
+                           showAlertView:YES
+                                 success:^(id data) {
+                                     [self progressEnd:nil];
+                                     [self showAlertView:@"回答成功" isBack:YES];
+                                 } fail:^(NSError *error) {
+                                     [self progressEnd:nil];
+                                     
+                                 }];
     
 
 }

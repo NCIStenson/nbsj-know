@@ -85,7 +85,7 @@
                                      @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
                                      @"DETAILTABLE":@"",};
     
-    NSDictionary * fieldsDic =@{@"USERNAME":_changeMsgView.nicknameField.text,
+    NSDictionary * fieldsDic =@{@"NICKNAME":_changeMsgView.nicknameField.text,
                                 @"SEQKEY":[ZESettingLocalData getUSERSEQKEY]};
     
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_USER_BASE_INFO]
@@ -97,7 +97,7 @@
                        showAlertView:NO
                              success:^(id data) {
                                  [self progressEnd:nil];
-                                 [self showAlertView:@"保存成功"];
+                                 [self showTips:@"保存成功"];
                                  [ZESettingLocalData changeNICKNAME:_changeMsgView.nicknameField.text];
                                  [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_CHANGEPERSONALMSG_SUCCESS object:nil];
                                  NSLog(@">>  %@",data);
@@ -110,39 +110,36 @@
 
 -(void)searchIsExistWithAdvice:(NSString *)advice
 {
-    if (![ZEUtil isStrNotEmpty:advice]) {
-        [self.navigationController popViewControllerAnimated:YES];
-        return;
-    }
-
-    
-    [self progressBegin:nil];
-    [ZEUserServer searchDataISExistWithTableName:KLB_SETUP_RECORD
-                                 withMASTERFIELD:@"USERCODE"
-                                   withFieldsDic:@{@"USERCODE":[ZESettingLocalData getUSERCODE],
-                                                   @"SEQKEY":@""}
-                                        complete:^(BOOL isExist,NSString * SEQKEY) {
-                                            NSLog(@">>  %d",isExist);
-                                            [self submitAdvice:advice
-                                                       isExist:isExist
-                                                    withSEQKEY:SEQKEY];
-                                        }];
+//    if (![ZEUtil isStrNotEmpty:advice]) {
+//        [self.navigationController popViewControllerAnimated:YES];
+//        return;
+//    }
+//
+//    [self progressBegin:nil];
+//    [ZEUserServer searchDataISExistWithTableName:KLB_SETUP_RECORD
+//                                 withMASTERFIELD:@"USERCODE"
+//                                   withFieldsDic:@{@"USERCODE":[ZESettingLocalData getUSERCODE],
+//                                                   @"SEQKEY":@""}
+//                                        complete:^(BOOL isExist,NSString * SEQKEY) {
+//                                            NSLog(@">>  %d",isExist);
+    [self submitAdvice:advice];
+//                                        }];
 }
 
--(void)submitAdvice:(NSString *)advice isExist:(BOOL)isExist withSEQKEY:(NSString *)SEQKEY
+-(void)submitAdvice:(NSString *)advice
 {
-    NSString * method = @"addSave";
-    NSString * MASTERFIELD = @"USERCODE";
-    if (isExist) {
-        method = @"updateSave";
-        MASTERFIELD = @"SEQKEY";
-    }else{
-        method = @"addSave";
-        MASTERFIELD = @"USERCODE";
-    }
-    if (![ZEUtil isStrNotEmpty:SEQKEY]) {
-        SEQKEY = @"";
-    }
+//    NSString * method = @"addSave";
+//    NSString * MASTERFIELD = @"USERCODE";
+//    if (isExist) {
+//        method = @"updateSave";
+//        MASTERFIELD = @"SEQKEY";
+//    }else{
+//        method = @"addSave";
+//        MASTERFIELD = @"USERCODE";
+//    }
+//    if (![ZEUtil isStrNotEmpty:SEQKEY]) {
+//        SEQKEY = @"";
+//    }
     
     NSDictionary * parametersDic = @{@"limit":@"20",
                                      @"MASTERTABLE":KLB_SETUP_RECORD,
@@ -150,14 +147,14 @@
                                      @"ORDERSQL":@"",
                                      @"WHERESQL":@"",
                                      @"start":@"0",
-                                     @"METHOD":method,
-                                     @"MASTERFIELD":MASTERFIELD,
+                                     @"METHOD":@"addSave",
+                                     @"MASTERFIELD":@"USERCODE",
                                      @"DETAILFIELD":@"",
                                      @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{@"OPINION":advice,
-                                @"SEQKEY":SEQKEY,
+                                @"SEQKEY":@"",
                                 @"USERCODE":[ZESettingLocalData getUSERCODE]};
     
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_SETUP_RECORD]

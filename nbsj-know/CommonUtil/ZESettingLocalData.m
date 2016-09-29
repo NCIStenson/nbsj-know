@@ -137,7 +137,7 @@ static NSString * kUSERINFODic      = @"kUSERINFODic";
 +(void)changeNICKNAME:(NSString *)nickname
 {
     NSMutableDictionary * userinfoDic = [NSMutableDictionary dictionaryWithDictionary: [self getUSERINFO]];
-    [userinfoDic setValue:nickname forKey:@"USERNAME"];
+    [userinfoDic setValue:nickname forKey:@"NICKNAME"];
     [self Set:kUSERINFODic value:userinfoDic];
 }
 
@@ -146,7 +146,7 @@ static NSString * kUSERINFODic      = @"kUSERINFODic";
     if (![ZEUtil isStrNotEmpty:[[self getUSERINFO] objectForKey:@"USERNAME"]]) {
         return @"";
     }
-    return  [[self getUSERINFO] objectForKey:@"USERNAME"];
+    return  [[self getUSERINFO] objectForKey:@"NICKNAME"];
 }
 
 /********  用户主键 **********/

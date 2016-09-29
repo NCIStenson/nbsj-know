@@ -18,7 +18,7 @@
 
 @class ZEAnswerQuestionsView;
 
-@protocol ZEAskQuesViewDelegate <NSObject>
+@protocol ZEAnswerQuestionsViewDelegate <NSObject>
 
 /**
  *  @author Stenson, 16-08-17 15:08:49
@@ -39,7 +39,7 @@
 
 @interface ZEAnswerQuestionsView : UIView
 
-@property (nonatomic,weak) id <ZEAskQuesViewDelegate> delegate;
+@property (nonatomic,weak) id <ZEAnswerQuestionsViewDelegate> delegate;
 
 @property (nonatomic,strong) UITextView * inputView;
 /************** 问题主键 *************/

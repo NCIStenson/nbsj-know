@@ -98,7 +98,6 @@
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
-    NSLog(@"<  %@",info);
     UIImage * chooseImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     [askView reloadChoosedImageView:chooseImage];
     [self.imagesArr addObject:chooseImage];
@@ -127,7 +126,6 @@
         return;
     }
     
-    
     NSDictionary * parametersDic = @{@"limit":@"20",
                                      @"MASTERTABLE":KLB_QUESTION_TYPE,
                                      @"MENUAPP":@"EMARK_APP",
@@ -151,7 +149,6 @@
                        showAlertView:NO
                              success:^(id data) {
                                  [self progressEnd:nil];
-                                 NSLog(@">>>>>   %@",data);
                                  [askQuesView showQuestionTypeViewWithData:[ZEUtil getServerData:data withTabelName:KLB_QUESTION_TYPE]];
                              } fail:^(NSError *errorCode) {
                                  [self progressEnd:nil];
@@ -201,15 +198,17 @@
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
     [self progressBegin:nil];
-    [ZEUserServer getDataWithJsonDic:packageDic
-                       showAlertView:NO
-                             success:^(id data) {
-                                 [self progressEnd:nil];
-                                 [self showAlertView:@"问题发表成功" isBack:YES];
-                             } fail:^(NSError *errorCode) {
-                                 [self progressEnd:nil];
-                             }];
     
+    [ZEUserServer uploadImageWithJsonDic:packageDic
+                            withImageArr:self.imagesArr
+                           showAlertView:YES
+                                 success:^(id data) {
+                                     [self progressEnd:nil];
+                                     [self showAlertView:@"问题发表成功" isBack:YES];
+                                 } fail:^(NSError *error) {
+                                     [self progressEnd:nil];
+
+                                 }];
 }
 -(void)showAlertView:(NSString *)alertMsg isBack:(BOOL)isBack
 {

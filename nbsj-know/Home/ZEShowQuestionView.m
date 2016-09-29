@@ -163,14 +163,17 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary * datasDic = _datasArr[indexPath.row];
+    
+    ZEQuestionInfoModel * quesInfoM = [ZEQuestionInfoModel getDetailWithDic:datasDic];
     NSString * QUESTIONEXPLAINStr = [datasDic objectForKey:@"QUESTIONEXPLAIN"];
     
     
-        float questionHeight =[ZEUtil heightForString:QUESTIONEXPLAINStr font:[UIFont systemFontOfSize:kQuestionTitleFontSize] andWidth:SCREEN_WIDTH - 40];
-        //        UIImage * img = [UIImage imageNamed:@"banner.jpg"];
-        //        float questionImgH =  ( SCREEN_WIDTH - 40 ) / img.size.width * img.size.height;
-        
-        return questionHeight + 50.0f;
+    float questionHeight =[ZEUtil heightForString:QUESTIONEXPLAINStr font:[UIFont systemFontOfSize:kQuestionTitleFontSize] andWidth:SCREEN_WIDTH - 40];
+    if([ZEUtil isStrNotEmpty:quesInfoM.FILEURL]){
+        return questionHeight + kCellImgaeHeight + 60.0f;
+    }
+    
+    return questionHeight + 50.0f;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -228,16 +231,27 @@
     //  问题文字与用户信息之间间隔
     float userY = questionHeight + 20.0f;
     
-    //    if () {
-    //    UIImage * img = [UIImage imageNamed:@"banner.jpg"];
-    //    float questionImgH =  ( SCREEN_WIDTH - 40 ) / img.size.width * img.size.height;
-    //
-    //    UIImageView * questionImg = [[UIImageView alloc]initWithFrame:CGRectMake(20, userY, SCREEN_WIDTH - 40, questionImgH)];
-    //    questionImg.image = img;
-    //    questionImg.contentMode = UIViewContentModeScaleAspectFit;
-    //    [questionsView addSubview:questionImg];
-    //    userY += questionImgH + 10.0f;
-    //    }
+    NSArray * imgFileUrlArr;
+    
+    if([ZEUtil isStrNotEmpty:quesInfoM.FILEURL]){
+        imgFileUrlArr = [quesInfoM.FILEURL componentsSeparatedByString:@","];
+    }
+    
+    for (int i = 0; i < imgFileUrlArr.count; i ++) {
+        UIButton * questionImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        questionImageBtn.frame = CGRectMake(20 + (kCellImgaeHeight + 10) * i, userY, kCellImgaeHeight, kCellImgaeHeight);
+        questionImageBtn.tag = i;
+        questionImageBtn.imageView.contentMode = UIViewContentModeScaleAspectFill;
+        
+        [questionImageBtn  sd_setImageWithURL:ZENITH_IMAGEURL(imgFileUrlArr[i]) forState:UIControlStateNormal placeholderImage:ZENITH_PLACEHODLER_IMAGE];
+        
+        [questionsView addSubview:questionImageBtn];
+        questionImageBtn.clipsToBounds = YES;
+        
+        if (i == imgFileUrlArr.count - 1) {
+            userY += kCellImgaeHeight + 10.0f;
+        }
+    }
     
     UIImageView * userImg = [[UIImageView alloc]initWithFrame:CGRectMake(20, userY, 20, 20)];
     userImg.image = [UIImage imageNamed:@"avatar_default.jpg"];

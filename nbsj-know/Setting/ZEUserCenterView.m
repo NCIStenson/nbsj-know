@@ -120,7 +120,7 @@
             [cell.contentView.layer addSublayer:lineLayer];
             lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
             
-            logoImageView.image = [UIImage imageNamed:@"loadCycle.png" color:MAIN_NAV_COLOR];
+            logoImageView.image = [UIImage imageNamed:@"tab_circle.png" color:MAIN_NAV_COLOR];
             contentLabel.text = @"我的圈子";
         }else{
             logoImageView.image = [UIImage imageNamed:@"my_center_seting.png" color:MAIN_NAV_COLOR];

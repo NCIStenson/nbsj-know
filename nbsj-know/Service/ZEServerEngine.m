@@ -121,12 +121,96 @@ static ZEServerEngine *serverEngine = nil;
                  }];
 }
 
+-(void)requestWithJsonDic:(NSDictionary *)jsonDic
+             withImageArr:(NSArray *)arr
+        withServerAddress:(NSString *)serverAddress
+                  success:(ServerResponseSuccessBlock)successBlock
+                     fail:(ServerResponseFailBlock)failBlock
+{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.requestSerializer.timeoutInterval = 30.f;
+    
+    NSData *cookiesdata = [ZESettingLocalData getCookie];
+    if([cookiesdata length]) {
+        NSArray *cookies = [NSKeyedUnarchiver unarchiveObjectWithData:cookiesdata];
+        NSHTTPCookie *cookie;
+        for (cookie in cookies) {
+            [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
+        }
+    }
+//    arr = @[[UIImage imageNamed:@"1.jpg"],[UIImage imageNamed:@"1.jpg"],[UIImage imageNamed:@"1.jpg"]];
+    
+    [manager                  POST:serverAddress
+                        parameters:nil
+         constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+             [formData appendPartWithFormData:[[ZEServerEngine dictionaryToJson:jsonDic] dataUsingEncoding:NSUTF8StringEncoding]  name:@"JSONBODY"];
+             
+             for (int i = 0 ; i < arr.count; i ++) {
+                 UIImage *image = arr[i];
+                 NSData *imageData = UIImageJPEGRepresentation(image,0.1);
+                 NSLog(@" 图片大小 >>>  %ld",imageData.length / 1024);
+                 NSString *fileName = [NSString stringWithFormat:@"image%d.jpg",i];
+                 
+                 [formData appendPartWithFileData:imageData name:@"file" fileName:fileName mimeType:@"image/png"];
+             }
+             
+         }
+                          progress:^(NSProgress * _Nonnull uploadProgress) {
+             
+         }
+                           success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+             
+             NSArray *cookiesArray = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+             NSData *data = [NSKeyedArchiver archivedDataWithRootObject:cookiesArray];
+             if(![cookiesdata length]) {
+                 [ZESettingLocalData setCookie:data];
+             }
+             NSError * err = nil;
+             NSDictionary * responseDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:&err];
+             
+             if ([ZEUtil isNotNull:responseObject]) {
+                 successBlock(responseDic);
+             }
+             
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+             if (error != nil) {
+                 failBlock(error);
+             }
+         }];
+    
+}
+
++ (NSString*)dictionaryToJson:(NSDictionary *)dic
+{
+    NSError *parseError = nil;
+    
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:&parseError];
+    
+    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+}
+
+
++(NSData*)returnDataWithDictionary:(NSDictionary*)dict
+{
+    NSMutableData* data = [[NSMutableData alloc]init];
+    NSKeyedArchiver* archiver = [[NSKeyedArchiver alloc]initForWritingWithMutableData:data];
+    [archiver encodeObject:dict];
+    [archiver finishEncoding];
+    return data;
+}
+
+
 -(void)showLoginVC
 {
     ZELoginViewController * loginVC = [[ZELoginViewController alloc]init];
     UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
     [keyWindow setRootViewController:loginVC];
 }
+
 
 
 @end

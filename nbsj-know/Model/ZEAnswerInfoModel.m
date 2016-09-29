@@ -27,6 +27,7 @@ static ZEAnswerInfoModel * ansertInfoM = nil;
     ansertInfoM.ISENABLED      = [dic objectForKey:@"ISENABLED"];
     ansertInfoM.GOODNUMS       = [NSString stringWithFormat:@"%@",[dic objectForKey:@"GOODNUMS"]];
     ansertInfoM.SYSCREATEDATE  = [dic objectForKey:@"SYSCREATEDATE"];
+    ansertInfoM.FILEURL        = [[dic objectForKey:@"FILEURL"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
     
     return ansertInfoM;
 }

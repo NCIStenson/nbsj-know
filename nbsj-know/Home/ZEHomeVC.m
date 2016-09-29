@@ -26,6 +26,7 @@
     self.navigationController.navigationBarHidden = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     [self initView];
+    [self cacheQuestionType];
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -46,9 +47,44 @@
 
 #pragma mark - Request
 
+-(void)cacheQuestionType
+{
+    NSArray * typeArr = [[ZEQuestionTypeCache instance] getQuestionTypeCaches];
+    if (typeArr.count > 0) {
+        return;
+    }
+    
+    NSDictionary * parametersDic = @{@"limit":@"20",
+                                     @"MASTERTABLE":KLB_QUESTION_TYPE,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"ISENABLED=1",
+                                     @"start":@"0",
+                                     @"METHOD":@"search",
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_QUESTION_TYPE]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                 [[ZEQuestionTypeCache instance]setQuestionTypeCaches:[ZEUtil getServerData:data withTabelName:KLB_QUESTION_TYPE]];
+                             } fail:^(NSError *errorCode) {
+                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
+                             }];
+}
+
 /************* 今日是否签到 *************/
 -(void)sendIsSignin{
-    
     NSDictionary * parametersDic = @{@"limit":@"32",
                                      @"MASTERTABLE":KLB_SIGNIN_INFO,
                                      @"MENUAPP":@"EMARK_APP",
@@ -72,6 +108,7 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
+    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
@@ -131,7 +168,7 @@
     }
 
     NSDictionary * parametersDic = @{@"limit":@"4",
-                                     @"MASTERTABLE":KLB_QUESTION_INFO,
+                                     @"MASTERTABLE":V_KLB_QUESTION_INFO,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"SYSCREATEDATE desc",
                                      @"WHERESQL":WHERESQL,
@@ -144,7 +181,7 @@
     
     NSDictionary * fieldsDic =@{};
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_QUESTION_INFO]
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_QUESTION_INFO]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
@@ -152,7 +189,7 @@
                        showAlertView:NO
                              success:^(id data) {
                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
-                                 NSArray * arr = [ZEUtil getServerData:data withTabelName:KLB_QUESTION_INFO];
+                                 NSArray * arr = [ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_INFO];
                                  [_homeView reloadSection:1 withData:arr];
                              } fail:^(NSError *errorCode) {
                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -169,7 +206,7 @@
     }
 
     NSDictionary * parametersDic = @{@"limit":@"4",
-                                     @"MASTERTABLE":KLB_QUESTION_INFO,
+                                     @"MASTERTABLE":V_KLB_QUESTION_INFO,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"SYSCREATEDATE desc",
                                      @"WHERESQL":WHERESQL,
@@ -182,7 +219,7 @@
     
     NSDictionary * fieldsDic =@{};
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_QUESTION_INFO]
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_QUESTION_INFO]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
@@ -191,7 +228,7 @@
                        showAlertView:NO
                              success:^(id data) {
                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
-                                 NSArray * arr = [ZEUtil getServerData:data withTabelName:KLB_QUESTION_INFO];
+                                 NSArray * arr = [ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_INFO];
                                  [_homeView reloadSection:2 withData:arr];
                              } fail:^(NSError *errorCode) {
                                  [MBProgressHUD hideHUDForView:self.view animated:YES];

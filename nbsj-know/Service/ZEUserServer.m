@@ -75,6 +75,33 @@
                                                }];
 }
 
++(void)uploadImageWithJsonDic:(NSDictionary *)dic
+                 withImageArr:(NSArray *)arr
+                showAlertView:(BOOL)isShow
+                      success:(ServerResponseSuccessBlock)successBlock
+                         fail:(ServerResponseFailBlock)failBlock
+{
+    NSString * commonServer = [NSString stringWithFormat: @"%@/do/app/uiaction",Zenith_Server];
+    
+    [[ZEServerEngine sharedInstance]requestWithJsonDic:dic
+                                          withImageArr:arr
+                                     withServerAddress:commonServer
+                                               success:^(id data) {
+                                                   if ([ZEUtil isSuccess:[data objectForKey:@"RETMSG"]]) {
+                                                       successBlock(data);
+                                                   }else{
+                                                       [ZESettingLocalData clearLocalData];
+                                                       NSLog(@" failBlock ==  %@ ",[data objectForKey:@"RETMSG"]);
+                                                       NSLog(@" failData ==  %@ ",data);
+                                                       [ZEUserServer logoutSucce];
+                                                       NSError *errorCode = nil;
+                                                       failBlock(errorCode);
+                                                   }
+                                               } fail:^(NSError *errorCode) {
+                                                   NSLog(@" >>>   %@",errorCode);
+                                                   failBlock(errorCode);
+                                               }];
+}
 +(void)logoutSucce
 {
     UIAlertController * alertC = [UIAlertController alertControllerWithTitle:nil message:@"登陆过期，请重新登陆。" preferredStyle:UIAlertControllerStyleAlert];

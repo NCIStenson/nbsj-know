@@ -95,8 +95,6 @@
 		989B2C531C4DE7AA00F14EFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 989B2C521C4DE7AA00F14EFA /* Assets.xcassets */; };
 		989B2C611C4DE7AA00F14EFA /* nbsj-knowTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 989B2C601C4DE7AA00F14EFA /* nbsj-knowTests.m */; };
 		989B2C6C1C4DE7AA00F14EFA /* nbsj-knowUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 989B2C6B1C4DE7AA00F14EFA /* nbsj-knowUITests.m */; };
-		98A64C911D94DC8D00A80E61 /* ZEMyQuestionsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A64C901D94DC8D00A80E61 /* ZEMyQuestionsVC.m */; };
-		98A64C941D94DCD200A80E61 /* ZEMyQuestionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A64C931D94DCD200A80E61 /* ZEMyQuestionsView.m */; };
 		98AB2A4C1D65A6AA00F4DBF8 /* ZEQuestionInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AB2A491D65A6AA00F4DBF8 /* ZEQuestionInfoModel.m */; };
 		98AB2A4D1D65A6AA00F4DBF8 /* ZEQuestionTypeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AB2A4B1D65A6AA00F4DBF8 /* ZEQuestionTypeModel.m */; };
 		98AB2A501D65A6C400F4DBF8 /* ZEAnswerInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AB2A4F1D65A6C400F4DBF8 /* ZEAnswerInfoModel.m */; };
@@ -106,6 +104,15 @@
 		98DB7C531C4F52050046D405 /* UIImage+ZEImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DB7C521C4F52050046D405 /* UIImage+ZEImage.m */; };
 		98DB7C561C4F53EA0046D405 /* ZEMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DB7C551C4F53EA0046D405 /* ZEMainViewController.m */; };
 		98DB7C591C4F554E0046D405 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98DB7C571C4F554E0046D405 /* Main.storyboard */; };
+		98E485F51D98FDA900AA0278 /* ZEProfessionalCirVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E485F41D98FDA900AA0278 /* ZEProfessionalCirVC.m */; };
+		98E485F81D99085100AA0278 /* ZETeamCircleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E485F71D99085100AA0278 /* ZETeamCircleVC.m */; };
+		98E485FD1D9A14FE00AA0278 /* ZEProCirDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E485FC1D9A14FE00AA0278 /* ZEProCirDetailVC.m */; };
+		98E486001D9A151700AA0278 /* ZEProCirDeatilView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E485FF1D9A151700AA0278 /* ZEProCirDeatilView.m */; };
+		98E486031D9A5FAA00AA0278 /* icon_personal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98E486011D9A5FAA00AA0278 /* icon_personal@2x.png */; };
+		98E486041D9A5FAA00AA0278 /* icon_personal@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98E486021D9A5FAA00AA0278 /* icon_personal@3x.png */; };
+		98E486061D9A608600AA0278 /* tab_circle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98E486051D9A608600AA0278 /* tab_circle@2x.png */; };
+		98E486111D9B825700AA0278 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 98E486071D9B825700AA0278 /* 1.jpg */; };
+		98E4861C1D9BB78100AA0278 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 98E4861B1D9BB78100AA0278 /* placeholder.png */; };
 		98F094221D49AA42002D4E3B /* forum_list_post@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98F094211D49AA42002D4E3B /* forum_list_post@2x.png */; };
 		98F094241D49DB11002D4E3B /* avatar_default.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 98F094231D49DB11002D4E3B /* avatar_default.jpg */; };
 		98F094261D49DD2D002D4E3B /* qb_praiseBtn_hand@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98F094251D49DD2D002D4E3B /* qb_praiseBtn_hand@2x.png */; };
@@ -273,10 +280,6 @@
 		989B2C671C4DE7AA00F14EFA /* nbsj-know.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "nbsj-know.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		989B2C6B1C4DE7AA00F14EFA /* nbsj-knowUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "nbsj-knowUITests.m"; sourceTree = "<group>"; };
 		989B2C6D1C4DE7AA00F14EFA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		98A64C8F1D94DC8D00A80E61 /* ZEMyQuestionsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEMyQuestionsVC.h; path = Setting/ZEMyQuestionsVC.h; sourceTree = "<group>"; };
-		98A64C901D94DC8D00A80E61 /* ZEMyQuestionsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEMyQuestionsVC.m; path = Setting/ZEMyQuestionsVC.m; sourceTree = "<group>"; };
-		98A64C921D94DCD200A80E61 /* ZEMyQuestionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEMyQuestionsView.h; path = Setting/ZEMyQuestionsView.h; sourceTree = "<group>"; };
-		98A64C931D94DCD200A80E61 /* ZEMyQuestionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEMyQuestionsView.m; path = Setting/ZEMyQuestionsView.m; sourceTree = "<group>"; };
 		98AB2A481D65A6AA00F4DBF8 /* ZEQuestionInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEQuestionInfoModel.h; path = Model/ZEQuestionInfoModel.h; sourceTree = "<group>"; };
 		98AB2A491D65A6AA00F4DBF8 /* ZEQuestionInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEQuestionInfoModel.m; path = Model/ZEQuestionInfoModel.m; sourceTree = "<group>"; };
 		98AB2A4A1D65A6AA00F4DBF8 /* ZEQuestionTypeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEQuestionTypeModel.h; path = Model/ZEQuestionTypeModel.h; sourceTree = "<group>"; };
@@ -298,6 +301,19 @@
 		98DB7C541C4F53EA0046D405 /* ZEMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZEMainViewController.h; sourceTree = "<group>"; };
 		98DB7C551C4F53EA0046D405 /* ZEMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZEMainViewController.m; sourceTree = "<group>"; };
 		98DB7C581C4F554E0046D405 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		98E485F31D98FDA900AA0278 /* ZEProfessionalCirVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEProfessionalCirVC.h; path = Group/ZEProfessionalCirVC.h; sourceTree = "<group>"; };
+		98E485F41D98FDA900AA0278 /* ZEProfessionalCirVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEProfessionalCirVC.m; path = Group/ZEProfessionalCirVC.m; sourceTree = "<group>"; };
+		98E485F61D99085100AA0278 /* ZETeamCircleVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZETeamCircleVC.h; path = Group/ZETeamCircleVC.h; sourceTree = "<group>"; };
+		98E485F71D99085100AA0278 /* ZETeamCircleVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZETeamCircleVC.m; path = Group/ZETeamCircleVC.m; sourceTree = "<group>"; };
+		98E485FB1D9A14FE00AA0278 /* ZEProCirDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEProCirDetailVC.h; path = Group/ZEProCirDetailVC.h; sourceTree = "<group>"; };
+		98E485FC1D9A14FE00AA0278 /* ZEProCirDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEProCirDetailVC.m; path = Group/ZEProCirDetailVC.m; sourceTree = "<group>"; };
+		98E485FE1D9A151700AA0278 /* ZEProCirDeatilView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEProCirDeatilView.h; path = Group/ZEProCirDeatilView.h; sourceTree = "<group>"; };
+		98E485FF1D9A151700AA0278 /* ZEProCirDeatilView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEProCirDeatilView.m; path = Group/ZEProCirDeatilView.m; sourceTree = "<group>"; };
+		98E486011D9A5FAA00AA0278 /* icon_personal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_personal@2x.png"; sourceTree = "<group>"; };
+		98E486021D9A5FAA00AA0278 /* icon_personal@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_personal@3x.png"; sourceTree = "<group>"; };
+		98E486051D9A608600AA0278 /* tab_circle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab_circle@2x.png"; sourceTree = "<group>"; };
+		98E486071D9B825700AA0278 /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
+		98E4861B1D9BB78100AA0278 /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
 		98F094211D49AA42002D4E3B /* forum_list_post@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "forum_list_post@2x.png"; sourceTree = "<group>"; };
 		98F094231D49DB11002D4E3B /* avatar_default.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = avatar_default.jpg; sourceTree = "<group>"; };
 		98F094251D49DD2D002D4E3B /* qb_praiseBtn_hand@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qb_praiseBtn_hand@2x.png"; sourceTree = "<group>"; };
@@ -370,10 +386,6 @@
 				9801DAFF1D6153EE008B1676 /* ZEChangePersonalMsgVC.m */,
 				9801DB011D61541B008B1676 /* ZEChangePersonalMsgView.h */,
 				9801DB021D61541B008B1676 /* ZEChangePersonalMsgView.m */,
-				98A64C8F1D94DC8D00A80E61 /* ZEMyQuestionsVC.h */,
-				98A64C901D94DC8D00A80E61 /* ZEMyQuestionsVC.m */,
-				98A64C921D94DCD200A80E61 /* ZEMyQuestionsView.h */,
-				98A64C931D94DCD200A80E61 /* ZEMyQuestionsView.m */,
 			);
 			name = Setting;
 			sourceTree = "<group>";
@@ -383,6 +395,14 @@
 			children = (
 				982ED37A1D4209F200F87343 /* ZEGroupVC.h */,
 				982ED37B1D4209F200F87343 /* ZEGroupVC.m */,
+				98E485F31D98FDA900AA0278 /* ZEProfessionalCirVC.h */,
+				98E485F41D98FDA900AA0278 /* ZEProfessionalCirVC.m */,
+				98E485F61D99085100AA0278 /* ZETeamCircleVC.h */,
+				98E485F71D99085100AA0278 /* ZETeamCircleVC.m */,
+				98E485FB1D9A14FE00AA0278 /* ZEProCirDetailVC.h */,
+				98E485FC1D9A14FE00AA0278 /* ZEProCirDetailVC.m */,
+				98E485FE1D9A151700AA0278 /* ZEProCirDeatilView.h */,
+				98E485FF1D9A151700AA0278 /* ZEProCirDeatilView.m */,
 			);
 			name = Group;
 			sourceTree = "<group>";
@@ -452,6 +472,8 @@
 		982ED3B71D45A37A00F87343 /* SourceImg */ = {
 			isa = PBXGroup;
 			children = (
+				98E486071D9B825700AA0278 /* 1.jpg */,
+				98E4861B1D9BB78100AA0278 /* placeholder.png */,
 				987258E11D5C5C4B005C4AB9 /* setting */,
 				987ACBCE1D4AEDEC006D692E /* icon_questions */,
 				982ED41E1D48517600F87343 /* icon_home */,
@@ -493,6 +515,7 @@
 		982ED41E1D48517600F87343 /* icon_home */ = {
 			isa = PBXGroup;
 			children = (
+				98E486051D9A608600AA0278 /* tab_circle@2x.png */,
 				989AA6921D52D4BB00A08022 /* u24.png */,
 				989AA6931D52D4BB00A08022 /* u32.png */,
 				989AA6941D52D4BB00A08022 /* u2356.png */,
@@ -573,6 +596,8 @@
 		987258E11D5C5C4B005C4AB9 /* setting */ = {
 			isa = PBXGroup;
 			children = (
+				98E486011D9A5FAA00AA0278 /* icon_personal@2x.png */,
+				98E486021D9A5FAA00AA0278 /* icon_personal@3x.png */,
 				9801DBDF1D644BAC008B1676 /* askTa@2x.png */,
 				9801DBE01D644BAC008B1676 /* boy@2x.png */,
 				9801DBE11D644BAC008B1676 /* girl@2x.png */,
@@ -825,12 +850,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				9801DBDA1D6449A4008B1676 /* JCAlertView.bundle in Resources */,
+				98E486061D9A608600AA0278 /* tab_circle@2x.png in Resources */,
 				989AA68B1D50840500A08022 /* Trash@2x.png in Resources */,
 				982ED4341D48517600F87343 /* icon_down@3x.png in Resources */,
+				98E486041D9A5FAA00AA0278 /* icon_personal@3x.png in Resources */,
 				982ED4311D48517600F87343 /* icon_back@2x.png in Resources */,
+				98E486111D9B825700AA0278 /* 1.jpg in Resources */,
 				989AA6821D4F33E400A08022 /* TLdown@2x.png in Resources */,
 				982ED4431D48517600F87343 /* tab_homepage_normal@3x.png in Resources */,
 				98DB7C591C4F554E0046D405 /* Main.storyboard in Resources */,
+				98E4861C1D9BB78100AA0278 /* placeholder.png in Resources */,
 				9801DBE61D644BAC008B1676 /* boy@2x.png in Resources */,
 				98F094221D49AA42002D4E3B /* forum_list_post@2x.png in Resources */,
 				982ED4331D48517600F87343 /* icon_down@2x.png in Resources */,
@@ -852,6 +881,7 @@
 				982ED43F1D48517600F87343 /* logo.png in Resources */,
 				982ED43E1D48517600F87343 /* login_username@3x.png in Resources */,
 				982ED4441D48517600F87343 /* tab_setting_normal@2x.png in Resources */,
+				98E486031D9A5FAA00AA0278 /* icon_personal@2x.png in Resources */,
 				982ED4381D48517600F87343 /* icon_search@3x.png in Resources */,
 				987ACBD61D4AF051006D692E /* refresh_Rank@2x.png in Resources */,
 				98F094241D49DB11002D4E3B /* avatar_default.jpg in Resources */,
@@ -945,7 +975,6 @@
 				986C29461D9233FA0004778A /* NSAttributedString+RichText.m in Sources */,
 				98DB7C501C4F4FA70046D405 /* ZEUtil.m in Sources */,
 				9872575E1D59BAEA005C4AB9 /* ZESettingLocalData.m in Sources */,
-				98A64C911D94DC8D00A80E61 /* ZEMyQuestionsVC.m in Sources */,
 				987ACBCA1D4AE3E6006D692E /* ZEShowQuestionView.m in Sources */,
 				986C29471D9233FA0004778A /* NSString+Regular.m in Sources */,
 				9872544E1D587CD7005C4AB9 /* ZELoginView.m in Sources */,
@@ -966,9 +995,11 @@
 				98AB2A561D66945A00F4DBF8 /* ZETypeQuestionView.m in Sources */,
 				986C29441D9233FA0004778A /* ImageTextAttachment.m in Sources */,
 				982ED3EA1D4850E900F87343 /* JFCollectionViewCell.m in Sources */,
+				98E486001D9A151700AA0278 /* ZEProCirDeatilView.m in Sources */,
 				986C29451D9233FA0004778A /* NSAttributedString+html.m in Sources */,
 				986C29481D9233FA0004778A /* PictureModel.m in Sources */,
 				9872544F1D587CD7005C4AB9 /* ZELoginViewController.m in Sources */,
+				98E485F51D98FDA900AA0278 /* ZEProfessionalCirVC.m in Sources */,
 				985222F41D9133830063D667 /* ZEChooseMonthView.m in Sources */,
 				98F4719E1D5434F70016CD5A /* ZEAnswerQuestionsView.m in Sources */,
 				9801DB0E1D6170A8008B1676 /* ZEUserServer.m in Sources */,
@@ -980,6 +1011,7 @@
 				982ED3731D42095400F87343 /* ZEHomeVC.m in Sources */,
 				9801DBED1D644BF7008B1676 /* ZEShowQuestionTypeView.m in Sources */,
 				987ACBDA1D4AFC31006D692E /* ZEQuestionTableView.m in Sources */,
+				98E485FD1D9A14FE00AA0278 /* ZEProCirDetailVC.m in Sources */,
 				98DB7C561C4F53EA0046D405 /* ZEMainViewController.m in Sources */,
 				982ED3811D420A5000F87343 /* ZEUserCenterVC.m in Sources */,
 				989AA6801D4F186300A08022 /* ZEAskQuesView.m in Sources */,
@@ -987,7 +1019,7 @@
 				982ED36C1D4208A900F87343 /* ZESettingRootVC.m in Sources */,
 				989AA68E1D52CDB500A08022 /* ZEQuestionsDetailVC.m in Sources */,
 				982ED3791D4209DD00F87343 /* ZEQuestionsVC.m in Sources */,
-				98A64C941D94DCD200A80E61 /* ZEMyQuestionsView.m in Sources */,
+				98E485F81D99085100AA0278 /* ZETeamCircleVC.m in Sources */,
 				98AB2A4D1D65A6AA00F4DBF8 /* ZEQuestionTypeModel.m in Sources */,
 				9801DB031D61541B008B1676 /* ZEChangePersonalMsgView.m in Sources */,
 				989AA6911D52CDD600A08022 /* ZEQuestionsDetailView.m in Sources */,

@@ -97,7 +97,6 @@
                                 NSLog(@"登陆成功  %@",[data objectForKey:@"RETMSG"]);
                                [ZESettingLocalData setUSERNAME:username];
                                [self commonRequest];
-                               [self isExpert];
                                [self goHome];
                            }else{
                                [ZESettingLocalData deleteCookie];
@@ -115,7 +114,7 @@
 -(void)commonRequest
 {
     NSDictionary * parametersDic = @{@"limit":@"20",
-                                     @"MASTERTABLE":KLB_USER_BASE_INFO,
+                                     @"MASTERTABLE":V_KLB_USER_BASE_INFO,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"",
                                      @"WHERESQL":@"",
@@ -128,10 +127,15 @@
     
     NSDictionary * fieldsDic =@{@"USERCODE":@"",
                                 @"USERNAME":@"",
+                                @"NICKNAME":@"",
                                 @"SEQKEY":@"",
+                                @"EXPERTDATE":@"",
+                                @"EXPERTTYPE":@"",
+                                @"STATUS":@"",
+                                @"EXPERTFRADE":@"",
                                 @"USERACCOUNT":[ZESettingLocalData getUSERNAME]};
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_USER_BASE_INFO]
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_USER_BASE_INFO]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
@@ -140,10 +144,17 @@
                        showAlertView:NO
                              success:^(id data) {
                                  NSLog(@">>>  %@",data);
-                                 NSArray * arr = [ZEUtil getServerData:data withTabelName:KLB_USER_BASE_INFO];
+                                 NSArray * arr = [ZEUtil getServerData:data withTabelName:V_KLB_USER_BASE_INFO];
                                  if ([arr count] > 0) {
                                      NSDictionary * userinfoDic = arr[0];
                                      [ZESettingLocalData setUSERINFODic:userinfoDic];
+                                     NSLog(@">>>  %@",userinfoDic);
+                                     if ([[userinfoDic objectForKey:@"EXPERTTYPE"] integerValue] == 0) {
+                                         [ZESettingLocalData setISEXPERT:NO];
+                                     }else{
+                                         [ZESettingLocalData setISEXPERT:YES];
+                                     }
+
                                  }
                              } fail:^(NSError *errorCode) {
                                  NSLog(@">>  %@",errorCode);
@@ -230,12 +241,12 @@
     UINavigationController * quesetionsNav = [[UINavigationController alloc]initWithRootViewController:quesetionsVC];
     
     ZEGroupVC * groupVC = [[ZEGroupVC alloc]init];
-    groupVC.tabBarItem.image = [UIImage imageNamed:@"tab_homepage_normal"];
+    groupVC.tabBarItem.image = [UIImage imageNamed:@"tab_circle"];
     groupVC.tabBarItem.title = @"圈子";
     UINavigationController * groupNav = [[UINavigationController alloc]initWithRootViewController:groupVC];
     
     ZEUserCenterVC * userCenVC = [[ZEUserCenterVC alloc]init];
-    userCenVC.tabBarItem.image = [UIImage imageNamed:@"tab_homepage_normal"];
+    userCenVC.tabBarItem.image = [UIImage imageNamed:@"icon_personal"];
     userCenVC.tabBarItem.title = @"我的";
     UINavigationController * userCenNav = [[UINavigationController alloc]initWithRootViewController:userCenVC];
     

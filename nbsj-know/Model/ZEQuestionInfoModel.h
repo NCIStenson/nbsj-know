@@ -24,6 +24,7 @@
 @property (nonatomic,copy) NSString * ISSOLVE;
 @property (nonatomic,copy) NSString * SYSCREATEDATE;
 @property (nonatomic,copy) NSString * ANSWERSUM;
+@property (nonatomic,copy) NSString * FILEURL;
 
 +(ZEQuestionInfoModel *)getDetailWithDic:(NSDictionary *)dic;
 

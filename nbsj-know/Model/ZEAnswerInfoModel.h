@@ -21,6 +21,7 @@
 @property (nonatomic,copy) NSString * ISENABLED;
 @property (nonatomic,copy) NSString * GOODNUMS;
 @property (nonatomic,copy) NSString * SYSCREATEDATE;
+@property (nonatomic,copy) NSString * FILEURL;
 
 +(ZEAnswerInfoModel *)getDetailWithDic:(NSDictionary *)dic;
 

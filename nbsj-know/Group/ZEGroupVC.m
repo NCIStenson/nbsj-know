@@ -8,8 +8,16 @@
 
 #import "ZEGroupVC.h"
 
+#import "ZEProfessionalCirVC.h"
+#import "ZETeamCircleVC.h"
 @interface ZEGroupVC ()
-
+{
+    ZETeamCircleVC * teamCirVC;
+    ZEProfessionalCirVC * profCirVC;
+    
+    UIButton * _professionalBtn;
+    UIButton * _teamBtn;
+}
 @end
 
 @implementation ZEGroupVC
@@ -18,8 +26,89 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationController.navigationBarHidden = YES;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.title = @"圈子";
+    [self disableLeftBtn];
+    [self initView];
+    
+    teamCirVC =[[ZETeamCircleVC alloc]init];
+    profCirVC = [[ZEProfessionalCirVC alloc]init];
+    [self addChildViewController:teamCirVC];
+    [self addChildViewController:profCirVC];
+    
+    [self.view addSubview:profCirVC.view];
+    [self.view sendSubviewToBack:profCirVC.view];
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    self.tabBarController.tabBar.hidden = NO;
 }
 
+-(void)initView{
+    
+    UIView * segmentBGView = [[UIView alloc]initWithFrame:CGRectMake(40, NAV_HEIGHT, SCREEN_WIDTH - 80.0f, 40.0f)];
+    segmentBGView.backgroundColor = [UIColor redColor];
+    [self.view addSubview:segmentBGView];
+    segmentBGView.clipsToBounds = YES;
+    segmentBGView.layer.cornerRadius = 10;
+    segmentBGView.layer.borderWidth = 1;
+    segmentBGView.layer.borderColor = [MAIN_NAV_COLOR CGColor];
+    
+    CALayer * lineLayer = [CALayer layer];
+    [segmentBGView.layer addSublayer:lineLayer];
+    lineLayer.backgroundColor  = MAIN_LINE_COLOR.CGColor ;
+    
+    _professionalBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    _professionalBtn.frame = CGRectMake(0, 0, (SCREEN_WIDTH  - 80 ) / 2, 40.0f);
+    [_professionalBtn setTitle:@"专业圈" forState:UIControlStateNormal];
+    [_professionalBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    _professionalBtn.backgroundColor = MAIN_NAV_COLOR;
+    [segmentBGView addSubview:_professionalBtn];
+    [_professionalBtn addTarget:self action:@selector(transVC:) forControlEvents:UIControlEventTouchUpInside];
+    
+
+    _teamBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    _teamBtn.frame = CGRectMake((SCREEN_WIDTH  - 80 ) / 2, 0, (SCREEN_WIDTH  - 80 ) / 2, 40.0f);
+    _teamBtn.backgroundColor = [UIColor yellowColor];
+    [_teamBtn setTitle:@"班组圈" forState:UIControlStateNormal];
+    [_teamBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    _teamBtn.backgroundColor = [UIColor whiteColor];
+    [segmentBGView addSubview:_teamBtn];
+    [_teamBtn addTarget:self action:@selector(transVC:) forControlEvents:UIControlEventTouchUpInside];
+
+}
+
+-(void)transVC:(UIButton *)btn
+{
+    if ([btn isEqual:_professionalBtn]) {
+        [self transitionFromViewController:teamCirVC
+                          toViewController:profCirVC
+                                  duration:0
+                                   options:UIViewAnimationOptionCurveLinear
+                                animations:^{
+                                    _professionalBtn.backgroundColor = MAIN_NAV_COLOR;
+                                    [_professionalBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                                    _teamBtn.backgroundColor = [UIColor whiteColor];
+                                    [_teamBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+                                   } completion:^(BOOL finished) {
+                                       [self.view sendSubviewToBack:profCirVC.view];
+                                   }];
+    }else{
+        [self transitionFromViewController:profCirVC
+                          toViewController:teamCirVC
+                                  duration:0
+                                   options:UIViewAnimationOptionCurveLinear
+                                animations:^{
+                                    _teamBtn.backgroundColor = MAIN_NAV_COLOR;
+                                    [_teamBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                                    _professionalBtn.backgroundColor = [UIColor whiteColor];
+                                    [_professionalBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+                                } completion:^(BOOL finished) {
+                                    [self.view sendSubviewToBack:teamCirVC.view];
+                                }];
+    }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

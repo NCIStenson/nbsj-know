@@ -19,4 +19,6 @@
 #define MAIN_GREEN_COLOR      RGBA(40,165,101,1)
 #define MAIN_NAV_COLOR [UIColor colorWithRed:0/255.0 green:84/255.0 blue:74/255.0 alpha:1]
 
+#define MAIN_NAV_COLOR_A(a) [UIColor colorWithRed:0/255.0 green:84/255.0 blue:74/255.0 alpha:a]
+
 #endif /* ZEColorConstant_h */

@@ -17,6 +17,7 @@
 #import "ZEEnumConstant.h"
 #import "ZEUtil.h"
 #import "UIImageView+WebCache.h"
+#import "UIButton+WebCache.h"
 #import "ZEMarcoConstant.h"
 #import "UIImage+ZEImage.h"
 #import "Masonry.h"

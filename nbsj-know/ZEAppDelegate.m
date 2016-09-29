@@ -23,6 +23,12 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+//    [[ZEServerEngine sharedInstance] requestWithJsonDic:nil withImageArr:nil withServerAddress:nil success:^(id data) {
+//
+//    } fail:^(NSError *error) {
+//        
+//    }];
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     application.applicationSupportsShakeToEdit = YES;
@@ -41,12 +47,12 @@
         UINavigationController * quesetionsNav = [[UINavigationController alloc]initWithRootViewController:quesetionsVC];
         
         ZEGroupVC * groupVC = [[ZEGroupVC alloc]init];
-        groupVC.tabBarItem.image = [UIImage imageNamed:@"tab_homepage_normal"];
+        groupVC.tabBarItem.image = [UIImage imageNamed:@"tab_circle"];
         groupVC.tabBarItem.title = @"圈子";
         UINavigationController * groupNav = [[UINavigationController alloc]initWithRootViewController:groupVC];
         
         ZEUserCenterVC * userCenVC = [[ZEUserCenterVC alloc]init];
-        userCenVC.tabBarItem.image = [UIImage imageNamed:@"tab_homepage_normal"];
+        userCenVC.tabBarItem.image = [UIImage imageNamed:@"icon_personal"];
         userCenVC.tabBarItem.title = @"我的";
         UINavigationController * userCenNav = [[UINavigationController alloc]initWithRootViewController:userCenVC];
         

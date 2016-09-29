@@ -10,6 +10,7 @@
 #define ZEServerTableMessage_h
 
 #define KLB_USER_BASE_INFO             @"KLB_USER_BASE_INFO"            /***   用户个人基本信息表   ***/
+#define V_KLB_USER_BASE_INFO             @"V_KLB_USER_BASE_INFO"            /***   用户个人基本信息视图   ***/
 #define KLB_SIGNIN_INFO                @"KLB_SIGNIN_INFO"               /***   签到信息表   ***/
 #define KLB_EXPERT_INFO                @"KLB_EXPERT_INFO"               /***   专家信息表   ***/
 #define KLB_QUESTION_TYPE              @"KLB_QUESTION_TYPE"             /***   问题分类信息表   ***/

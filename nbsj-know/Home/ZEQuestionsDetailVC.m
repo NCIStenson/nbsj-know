@@ -47,7 +47,7 @@
                                      @"WHERESQL":@"",
                                      @"start":@"0",
                                      @"METHOD":@"search",
-                                     @"MASTERFIELD":@"QUERTIONID",
+                                     @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
                                      @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
                                      @"DETAILTABLE":@"",};
@@ -60,9 +60,10 @@
                                 @"ANSWERUSERNAME":@"",
                                 @"ANSWERLEVEL":@"",
                                 @"ISPASS":@"",
-                                @"ISENABLED":@"0",
+                                @"ISENABLED":@"",
                                 @"GOODNUMS":@"",
-                                @"SYSCREATEDATE":@""};
+                                @"SYSCREATEDATE":@"",
+                                @"FILEURL":@""};
     
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_ANSWER_INFO]
                                                                            withFields:@[fieldsDic]
@@ -150,7 +151,6 @@
                        showAlertView:NO
                              success:^(id data) {
                                  [self progressEnd:nil];
-                                 NSLog(@">>  %@",data);
                                  [self updateKLB_QUESTION_INFOWithQuestionInfo:infoModel];
                              } fail:^(NSError *errorCode) {
                                  [self progressEnd:nil];

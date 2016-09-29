@@ -71,4 +71,12 @@
                       withMASTERFIELD:(NSString *)MASTERFIELD
                         withFieldsDic:(NSDictionary *)fieldsDic
                              complete:(void(^)(BOOL isExist,NSString * SEQKEY))complete;
+
+
++(void)uploadImageWithJsonDic:(NSDictionary *)dic
+                 withImageArr:(NSArray *)arr
+                showAlertView:(BOOL)isShow
+                      success:(ServerResponseSuccessBlock)successBlock
+                         fail:(ServerResponseFailBlock)failBlock;
+
 @end

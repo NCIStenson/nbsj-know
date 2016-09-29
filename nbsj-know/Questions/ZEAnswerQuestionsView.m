@@ -43,17 +43,7 @@
     return self;
 }
 -(void)initView
-{
-//    NSString * questionStr = @"这个问题将有你来回答。";
-//    float questionTitleHeight = [ZEUtil heightForString:questionStr font:[UIFont systemFontOfSize:kTiltlFontSize] andWidth:SCREEN_WIDTH - 20];
-//    
-//    UILabel * questionLab = [[UILabel alloc]initWithFrame:CGRectMake(20, NAV_HEIGHT + 10.0f, SCREEN_WIDTH - 20, questionTitleHeight)];
-//    questionLab.numberOfLines = 0;
-//    questionLab.text = questionStr;
-//    questionLab.font = [UIFont systemFontOfSize:kTiltlFontSize];
-//    questionLab.textColor = [UIColor lightGrayColor];
-//    [self addSubview:questionLab];
-    
+{    
     self.inputView = [[UITextView alloc]initWithFrame:CGRectZero];
     _inputView.text = textViewStr;
     _inputView.font = [UIFont systemFontOfSize:14];

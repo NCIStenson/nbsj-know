@@ -52,14 +52,14 @@
             searchCondition = [NSString stringWithFormat:@"ISLOSE = 0"];
         }
     }else if (_showQuestionListType == QUESTION_LIST_TYPE){
-        searchCondition = [NSString stringWithFormat:@"ISLOSE = 0 and QUESTIONTYPECODE = %@ and QUESTIONEXPLAIN like '%%%@%%'",_typeSEQKEY,searchStr];
+        searchCondition = [NSString stringWithFormat:@"ISLOSE = 0 and QUESTIONTYPECODE = '%@' and QUESTIONEXPLAIN like '%%%@%%'",_typeSEQKEY,searchStr];
         if (![ZEUtil isStrNotEmpty:searchStr]) {
-            searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONTYPECODE = %@",_typeSEQKEY];
+            searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONTYPECODE = '%@'",_typeSEQKEY];
         }
     }else if (_showQuestionListType == QUESTION_LIST_MY_QUESTION){
-        searchCondition = [NSString stringWithFormat:@"ISLOSE = 0 and QUESTIONUSERCODE = %@ and QUESTIONEXPLAIN like '%%%@%%'",[ZESettingLocalData getUSERCODE],searchStr];
+        searchCondition = [NSString stringWithFormat:@"ISLOSE = 0 and QUESTIONUSERCODE = '%@' and QUESTIONEXPLAIN like '%%%@%%'",[ZESettingLocalData getUSERCODE],searchStr];
         if (![ZEUtil isStrNotEmpty:searchStr]) {
-            searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONUSERCODE = %@",[ZESettingLocalData getUSERCODE]];
+            searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONUSERCODE = '%@'",[ZESettingLocalData getUSERCODE]];
         }
     }else if (_showQuestionListType == QUESTION_LIST_MY_ANSWER){
         searchCondition = [NSString stringWithFormat:@"ISLOSE = 0  and QUESTIONEXPLAIN like '%%%@%%'",searchStr];

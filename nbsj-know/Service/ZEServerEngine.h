@@ -37,4 +37,9 @@ typedef void (^ServerErrorRecordBlock) (void);  // 记录服务器错误block
                    success:(ServerResponseSuccessBlock)successBlock
                       fail:(ServerResponseFailBlock)failBlock;
 
+-(void)requestWithJsonDic:(NSDictionary *)jsonDic
+             withImageArr:(NSArray *)arr
+        withServerAddress:(NSString *)serverAddress
+                  success:(ServerResponseSuccessBlock)successBlock
+                     fail:(ServerResponseFailBlock)failBlock;
 @end
