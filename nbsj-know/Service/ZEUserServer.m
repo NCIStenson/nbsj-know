@@ -91,7 +91,6 @@
                                                        successBlock(data);
                                                    }else{
                                                        [ZESettingLocalData clearLocalData];
-                                                       NSLog(@" failBlock ==  %@ ",[data objectForKey:@"RETMSG"]);
                                                        NSLog(@" failData ==  %@ ",data);
                                                        [ZEUserServer logoutSucce];
                                                        NSError *errorCode = nil;

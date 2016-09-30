@@ -19,11 +19,18 @@
 /************** 个人信息设置列表 ****************/
 -(void)goSettingVC;
 
+/************** 个人信息设置列表 ****************/
+-(void)goMyGroup;
+
+/************** 头像上传 ****************/
+-(void)takePhotosOrChoosePictures;
+
 @end
 
 @interface ZEUserCenterView : UIView<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,weak) id <ZEUserCenterViewDelegate> delegate;
 
+-(void)reloadHeaderB;
 
 @end

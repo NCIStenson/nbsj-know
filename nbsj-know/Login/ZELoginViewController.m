@@ -95,8 +95,7 @@
                            [self progressEnd:nil];
                            if ([[data objectForKey:@"RETMSG"] isEqualToString:@"null"]) {
                                 NSLog(@"登陆成功  %@",[data objectForKey:@"RETMSG"]);
-                               [ZESettingLocalData setUSERNAME:username];
-                               [self commonRequest];
+                               [self commonRequest:username];
                                [self goHome];
                            }else{
                                [ZESettingLocalData deleteCookie];
@@ -111,7 +110,7 @@
 
 #pragma mark - 获取个人信息
 
--(void)commonRequest
+-(void)commonRequest:(NSString *)username
 {
     NSDictionary * parametersDic = @{@"limit":@"20",
                                      @"MASTERTABLE":V_KLB_USER_BASE_INFO,
@@ -133,7 +132,8 @@
                                 @"EXPERTTYPE":@"",
                                 @"STATUS":@"",
                                 @"EXPERTFRADE":@"",
-                                @"USERACCOUNT":[ZESettingLocalData getUSERNAME]};
+                                @"USERACCOUNT":username,
+                                @"FILEURL":@""};
     
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_USER_BASE_INFO]
                                                                            withFields:@[fieldsDic]

@@ -32,9 +32,7 @@
  *  用户名
  *
  */
-+(void)setUSERNAME:(NSString *)str;
 +(NSString *)getUSERNAME;
-+(void)deleteUSERNAME;
 
 /**
  *  @author Stenson, 16-08-12 15:08:00
@@ -56,6 +54,14 @@
 +(void)deleteISEXPERT;
 
 /**
+ *  @author Stenson, 16-08-12 15:08:00
+ *
+ *  用户权限
+ *
+ */
++(NSString *)getUSERTYPE;
+
+/**
  *  @author Stenson, 16-08-17 13:08:23
  *
  *  存储个人用户数据信息
@@ -68,6 +74,10 @@
 +(void)changeNICKNAME:(NSString *)nickname;
 /*********** 获取用户昵称 ********/
 +(NSString *)getNICKNAME;
+
+/*********** 获取用户头像路径 ********/
++(void)changeUSERHHEADURL:(NSString *)headUrl;
++(NSString *)getUSERHHEADURL;
 
 /********  用户主键 **********/
 +(NSString *)getUSERSEQKEY;

@@ -25,7 +25,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self initView];
-    self.title = [NSString stringWithFormat:@"%@的提问",_questionInfoModel.QUESTIONUSERNAME];
+    self.title = [NSString stringWithFormat:@"%@的提问",_questionInfoModel.NICKNAME];
     [self.rightBtn setTitle:@"回答" forState:UIControlStateNormal];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -41,10 +41,10 @@
 -(void)sendSearchAnswerRequest
 {
     NSDictionary * parametersDic = @{@"limit":@"20",
-                                     @"MASTERTABLE":KLB_ANSWER_INFO,
+                                     @"MASTERTABLE":V_KLB_ANSWER_INFO,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"ISPASS desc",
-                                     @"WHERESQL":@"",
+                                     @"WHERESQL":[NSString stringWithFormat:@"QUESTIONID='%@'",_questionInfoModel.SEQKEY],
                                      @"start":@"0",
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",
@@ -52,20 +52,9 @@
                                      @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
                                      @"DETAILTABLE":@"",};
 
-    NSDictionary * fieldsDic =@{@"QUESTIONID":_questionInfoModel.SEQKEY,
-                                @"SEQKEY":@"",
-                                @"ANSWEREXPLAIN":@"",
-                                @"ANSWERIMAGE":@"",
-                                @"ANSWERUSERCODE":@"",
-                                @"ANSWERUSERNAME":@"",
-                                @"ANSWERLEVEL":@"",
-                                @"ISPASS":@"",
-                                @"ISENABLED":@"",
-                                @"GOODNUMS":@"",
-                                @"SYSCREATEDATE":@"",
-                                @"FILEURL":@""};
+    NSDictionary * fieldsDic =@{};
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_ANSWER_INFO]
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_ANSWER_INFO]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
@@ -74,8 +63,8 @@
                        showAlertView:NO
                              success:^(id data) {
                                  [self progressEnd:nil];
-                                 _datasArr = [ZEUtil getServerData:data withTabelName:KLB_ANSWER_INFO];
-                                 [_quesDetailView reloadData:[ZEUtil getServerData:data withTabelName:KLB_ANSWER_INFO]];
+                                 _datasArr = [ZEUtil getServerData:data withTabelName:V_KLB_ANSWER_INFO];
+                                 [_quesDetailView reloadData:_datasArr];
                              } fail:^(NSError *errorCode) {
                                  [self progressEnd:nil];
                              }];

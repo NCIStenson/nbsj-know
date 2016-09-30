@@ -22,6 +22,8 @@
 @property (nonatomic,copy) NSString * GOODNUMS;
 @property (nonatomic,copy) NSString * SYSCREATEDATE;
 @property (nonatomic,copy) NSString * FILEURL;
+@property (nonatomic,copy) NSString * NICKNAME;
+@property (nonatomic,copy) NSString * HEADIMAGE;
 
 +(ZEAnswerInfoModel *)getDetailWithDic:(NSDictionary *)dic;
 

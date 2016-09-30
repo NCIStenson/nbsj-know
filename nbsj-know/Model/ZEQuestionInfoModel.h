@@ -25,6 +25,8 @@
 @property (nonatomic,copy) NSString * SYSCREATEDATE;
 @property (nonatomic,copy) NSString * ANSWERSUM;
 @property (nonatomic,copy) NSString * FILEURL;
+@property (nonatomic,copy) NSString * HEADIMAGE;
+@property (nonatomic,copy) NSString * NICKNAME;
 
 +(ZEQuestionInfoModel *)getDetailWithDic:(NSDictionary *)dic;
 

@@ -10,4 +10,8 @@
 
 @interface ZEProCirDetailVC : ZESettingRootVC
 
+@property(nonatomic,assign) ENTER_GROUP_TYPE enter_group_type;
+@property(nonatomic,copy) NSString * PROCIRCLECODE;
+@property(nonatomic,copy) NSString * PROCIRCLENAME;
+
 @end

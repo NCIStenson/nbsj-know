@@ -271,7 +271,6 @@
         
         for (int j = 0; j < 3; j ++ ) {
             UILabel * contentLab = [[UILabel alloc]initWithFrame:CGRectMake(40 + (SCREEN_WIDTH - 40) / 3 * j, 40 + kMemberHeight * i , (SCREEN_WIDTH - 40) / 3, kMemberHeight)];
-//            contentLab.backgroundColor = MAIN_ARM_COLOR;
             contentLab.textAlignment = NSTextAlignmentCenter;
             contentLab.font = [UIFont systemFontOfSize:14];
             [superView addSubview:contentLab];

@@ -71,17 +71,20 @@ static NSString * kUSERINFODic      = @"kUSERINFODic";
 }
 
 #pragma mark - USERNAME
-+(void)setUSERNAME:(NSString *)str
-{
-    [self Set:kUSERNAME value:str];
-}
 +(NSString *)getUSERNAME
 {
-    return [self Get:kUSERNAME];
+    return [[self Get:kUSERINFODic] objectForKey:@"USERNAME"];
 }
-+(void)deleteUSERNAME
+#pragma mark - getUSERHHEADURL
++(void)changeUSERHHEADURL:(NSString *)headUrl
 {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUSERNAME];
+    NSMutableDictionary * userinfoDic = [NSMutableDictionary dictionaryWithDictionary: [self getUSERINFO]];
+    [userinfoDic setValue:headUrl forKey:@"FILEURL"];
+    [self Set:kUSERINFODic value:userinfoDic];
+}
++(NSString *)getUSERHHEADURL
+{
+    return [[[self Get:kUSERINFODic] objectForKey:@"FILEURL"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
 }
 
 #pragma mark - USERCODE
@@ -102,6 +105,15 @@ static NSString * kUSERINFODic      = @"kUSERINFODic";
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUSERCODE];
 }
 
+#pragma mark - USERTYPE
+
++(NSString *)getUSERTYPE
+{
+    if (![ZEUtil isStrNotEmpty:[[self getUSERINFO] objectForKey:@"EXPERTTYPE"]]) {
+        return @"";
+    }
+    return [[self getUSERINFO] objectForKey:@"EXPERTTYPE"];
+}
 
 #pragma mark - ISEXPERT
 +(void)setISEXPERT:(BOOL)isExpert
@@ -160,7 +172,6 @@ static NSString * kUSERINFODic      = @"kUSERINFODic";
 {
     [ZESettingLocalData deleteCookie];
     [ZESettingLocalData deleteUSERCODE];
-    [ZESettingLocalData deleteUSERNAME];
     [ZESettingLocalData deleteISEXPERT];
     [ZESettingLocalData deleteUSERINFODic];
 }

@@ -12,9 +12,13 @@
 #import "ZESetPersonalMessageVC.h"
 
 #import "ZEShowQuestionVC.h"
+#import "ZEGroupVC.h"
 
-@interface ZEUserCenterVC ()<ZEUserCenterViewDelegate>
-
+#import "ZELookViewController.h"
+@interface ZEUserCenterVC ()<ZEUserCenterViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
+{
+    ZEUserCenterView * usView;
+}
 @end
 
 @implementation ZEUserCenterVC
@@ -36,7 +40,7 @@
 
 -(void)initView
 {
-    ZEUserCenterView * usView = [[ZEUserCenterView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
+    usView = [[ZEUserCenterView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
     usView.delegate = self;
     [self.view addSubview:usView];
 }
@@ -61,6 +65,143 @@
     showQuesVC.showQuestionListType = QUESTION_LIST_MY_ANSWER;
     [self.navigationController pushViewController:showQuesVC animated:YES];
 }
+
+-(void)goMyGroup
+{
+    ZEGroupVC * groupVC = [[ZEGroupVC alloc]init];
+    groupVC.enter_group_type = 1;
+    [self.navigationController pushViewController:groupVC animated:YES];
+}
+
+#pragma mark - 上传头像
+-(void)takePhotosOrChoosePictures
+{
+    
+    UIAlertController * alertCont= [UIAlertController alertControllerWithTitle:@"" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction * takeAction = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self showImagePickController:YES];
+    }];
+    UIAlertAction * chooseAction = [UIAlertAction actionWithTitle:@"选择一张照片" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self showImagePickController:NO];
+    }];
+    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    
+    [alertCont addAction:takeAction];
+    [alertCont addAction:chooseAction];
+    [alertCont addAction:cancelAction];
+    
+    [self presentViewController:alertCont animated:YES completion:^{
+        
+    }];
+}
+
+
+/**
+ *  @author Stenson, 16-08-01 16:08:07
+ *
+ *  选取照片
+ *
+ *  @param isTaking 是否拍照
+ */
+-(void)showImagePickController:(BOOL)isTaking;
+{
+    UIImagePickerController * imagePicker = [[UIImagePickerController alloc]init];
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] && isTaking) {
+        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    }else{
+        imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    }
+    imagePicker.allowsEditing = YES;
+    imagePicker.delegate = self;
+    [self presentViewController:imagePicker animated:YES completion:^{
+        
+    }];
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
+{
+    UIImage * _choosedImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    NSDictionary * parametersDic = @{@"limit":@"20",
+                                     @"MASTERTABLE":KLB_USER_BASE_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":@"updateSave",
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{@"USERCODE":[ZESettingLocalData getUSERCODE],
+                                @"FILEURL":@""};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_USER_BASE_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [ZEUserServer uploadImageWithJsonDic:packageDic
+                            withImageArr:@[_choosedImage]
+                           showAlertView:YES
+                                 success:^(id data) {
+                                     [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                     NSArray * arr = [ZEUtil getServerData:data withTabelName:KLB_USER_BASE_INFO];
+                                     if (arr.count > 0) {
+                                         [self updateSaveUserinfo:[arr[0] objectForKey:@"FILEURL"]];
+                                     }
+                                 } fail:^(NSError *error) {
+                                     [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                 }];
+
+}
+
+-(void)updateSaveUserinfo:(NSString * )imageUrl
+{
+    NSDictionary * parametersDic = @{@"limit":@"20",
+                                     @"MASTERTABLE":KLB_USER_BASE_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":@"updateSave",
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{@"SEQKEY":[ZESettingLocalData getUSERSEQKEY],
+                                @"FILEURL":imageUrl};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_USER_BASE_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:YES
+                             success:^(id data) {
+                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                 NSArray * arr = [ZEUtil getServerData:data withTabelName:KLB_USER_BASE_INFO];
+                                 if (arr.count > 0) {
+                                     [ZESettingLocalData changeUSERHHEADURL:[arr[0] objectForKey:@"FILEURL"]];
+                                     [usView reloadHeaderB];
+                                 }
+                       }
+                                fail:^(NSError *error) {
+                                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                       }];
+}
+
+
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

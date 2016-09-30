@@ -254,13 +254,13 @@
     }
     
     UIImageView * userImg = [[UIImageView alloc]initWithFrame:CGRectMake(20, userY, 20, 20)];
-    userImg.image = [UIImage imageNamed:@"avatar_default.jpg"];
+    [userImg sd_setImageWithURL:ZENITH_IMAGEURL(quesInfoM.HEADIMAGE) placeholderImage:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
     [questionsView addSubview:userImg];
     userImg.clipsToBounds = YES;
     userImg.layer.cornerRadius = 10;
     
     UILabel * QUESTIONUSERNAME = [[UILabel alloc]initWithFrame:CGRectMake(45,userY,100.0f,20.0f)];
-    QUESTIONUSERNAME.text = quesInfoM.QUESTIONUSERNAME;
+    QUESTIONUSERNAME.text = quesInfoM.NICKNAME;
     QUESTIONUSERNAME.textColor = MAIN_SUBTITLE_COLOR;
     QUESTIONUSERNAME.font = [UIFont systemFontOfSize:kQuestionTitleFontSize];
     [questionsView addSubview:QUESTIONUSERNAME];

@@ -17,6 +17,7 @@
 @interface ZEUserCenterView ()
 {
     UITableView * userCenterTable;
+    UIButton * userHEAD;
 }
 
 @end
@@ -58,6 +59,10 @@
     [userCenterTable reloadData];
 }
 
+-(void)reloadHeaderB
+{
+    [userHEAD sd_setImageWithURL:ZENITH_IMAGEURL([ZESettingLocalData getUSERHHEADURL]) forState:UIControlStateNormal placeholderImage:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
+}
 #pragma mark - UITableViewDataSource
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -152,10 +157,12 @@
     UIView * userMessage = [[UIView alloc]init];
     userMessage.backgroundColor = MAIN_NAV_COLOR;
     
-    UIImageView * userHEAD = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
+    userHEAD = [UIButton buttonWithType:UIButtonTypeCustom];
+    userHEAD.frame =CGRectMake(0, 0, 100, 100);
     userHEAD.center = CGPointMake(SCREEN_WIDTH / 2, 95.0f);
-    [userHEAD setImage:[UIImage imageNamed:@"avatar_default.jpg"]];
+    [userHEAD sd_setImageWithURL:ZENITH_IMAGEURL([ZESettingLocalData getUSERHHEADURL]) forState:UIControlStateNormal placeholderImage:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
     [userMessage addSubview:userHEAD];
+    [userHEAD addTarget:self action:@selector(goChooseImage) forControlEvents:UIControlEventTouchUpInside];
     userMessage.contentMode = UIViewContentModeScaleAspectFit;
     userHEAD.backgroundColor =[UIColor redColor];
     userHEAD.clipsToBounds = YES;
@@ -163,18 +170,20 @@
     userHEAD.layer.borderColor = [MAIN_LINE_COLOR CGColor];
     userHEAD.layer.borderWidth = 2;
     
-    UILabel * lvLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 25, 10)];
-    lvLabel.center = CGPointMake(SCREEN_WIDTH / 2 + 30.0f, 138.0f);
-    lvLabel.text = @"Lv 2";
-    lvLabel.alpha = .9f;
-    lvLabel.font = [UIFont systemFontOfSize:8.0f];
-    lvLabel.textAlignment = NSTextAlignmentCenter;
-    lvLabel.textColor = [UIColor redColor];
-    lvLabel.clipsToBounds = YES;
-    lvLabel.layer.cornerRadius = lvLabel.frame.size.height / 2;
-
-    lvLabel.backgroundColor = [UIColor yellowColor];
-    [userMessage addSubview:lvLabel];
+    
+    
+//    UILabel * lvLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 25, 10)];
+//    lvLabel.center = CGPointMake(SCREEN_WIDTH / 2 + 30.0f, 138.0f);
+//    lvLabel.text = @"Lv 2";
+//    lvLabel.alpha = .9f;
+//    lvLabel.font = [UIFont systemFontOfSize:8.0f];
+//    lvLabel.textAlignment = NSTextAlignmentCenter;
+//    lvLabel.textColor = [UIColor redColor];
+//    lvLabel.clipsToBounds = YES;
+//    lvLabel.layer.cornerRadius = lvLabel.frame.size.height / 2;
+//
+//    lvLabel.backgroundColor = [UIColor yellowColor];
+//    [userMessage addSubview:lvLabel];
     
     NSString * username = [ZESettingLocalData getNICKNAME];
     float usernameWidth = [ZEUtil widthForString:username font:[UIFont systemFontOfSize:16] maxSize:CGSizeMake(SCREEN_WIDTH - 60, 20)];
@@ -227,7 +236,9 @@
             switch (indexPath.row) {
                 case 0:
                 {
-                    
+                    if ([self.delegate respondsToSelector:@selector(goMyGroup)]) {
+                        [self.delegate goMyGroup];
+                    }
                 }
                     break;
                 case 1:
@@ -246,6 +257,12 @@
             
         default:
             break;
+    }
+}
+
+-(void)goChooseImage{
+    if ([self.delegate respondsToSelector:@selector(takePhotosOrChoosePictures)]) {
+        [self.delegate takePhotosOrChoosePictures];
     }
 }
 

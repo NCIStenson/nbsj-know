@@ -110,20 +110,11 @@
 
 -(void)searchIsExistWithAdvice:(NSString *)advice
 {
-//    if (![ZEUtil isStrNotEmpty:advice]) {
-//        [self.navigationController popViewControllerAnimated:YES];
-//        return;
-//    }
-//
-//    [self progressBegin:nil];
-//    [ZEUserServer searchDataISExistWithTableName:KLB_SETUP_RECORD
-//                                 withMASTERFIELD:@"USERCODE"
-//                                   withFieldsDic:@{@"USERCODE":[ZESettingLocalData getUSERCODE],
-//                                                   @"SEQKEY":@""}
-//                                        complete:^(BOOL isExist,NSString * SEQKEY) {
-//                                            NSLog(@">>  %d",isExist);
+    if (![ZEUtil isStrNotEmpty:advice]) {
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
     [self submitAdvice:advice];
-//                                        }];
 }
 
 -(void)submitAdvice:(NSString *)advice

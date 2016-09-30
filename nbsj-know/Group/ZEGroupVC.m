@@ -27,12 +27,20 @@
     // Do any additional setup after loading the view.
     self.navigationController.navigationBarHidden = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.title = @"圈子";
-    [self disableLeftBtn];
+    if (_enter_group_type == ENTER_GROUP_TYPE_DEFAULT) {
+        self.title = @"圈子";
+        [self disableLeftBtn];
+        
+    }else if (_enter_group_type == ENTER_GROUP_TYPE_SETTING){
+        self.title = @"我的圈子";
+    }
     [self initView];
+    
+    
     
     teamCirVC =[[ZETeamCircleVC alloc]init];
     profCirVC = [[ZEProfessionalCirVC alloc]init];
+    profCirVC.enter_group_type = _enter_group_type;
     [self addChildViewController:teamCirVC];
     [self addChildViewController:profCirVC];
     
@@ -42,40 +50,44 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    self.tabBarController.tabBar.hidden = NO;
+    if (_enter_group_type == ENTER_GROUP_TYPE_DEFAULT) {
+        self.tabBarController.tabBar.hidden = NO;
+    }else if (_enter_group_type == ENTER_GROUP_TYPE_SETTING){
+        self.tabBarController.tabBar.hidden = YES;
+    }
 }
 
 -(void)initView{
     
-    UIView * segmentBGView = [[UIView alloc]initWithFrame:CGRectMake(40, NAV_HEIGHT, SCREEN_WIDTH - 80.0f, 40.0f)];
-    segmentBGView.backgroundColor = [UIColor redColor];
-    [self.view addSubview:segmentBGView];
-    segmentBGView.clipsToBounds = YES;
-    segmentBGView.layer.cornerRadius = 10;
-    segmentBGView.layer.borderWidth = 1;
-    segmentBGView.layer.borderColor = [MAIN_NAV_COLOR CGColor];
-    
-    CALayer * lineLayer = [CALayer layer];
-    [segmentBGView.layer addSublayer:lineLayer];
-    lineLayer.backgroundColor  = MAIN_LINE_COLOR.CGColor ;
+//    UIView * segmentBGView = [[UIView alloc]initWithFrame:CGRectMake(40, NAV_HEIGHT, SCREEN_WIDTH - 80.0f, 40.0f)];
+//    segmentBGView.backgroundColor = [UIColor redColor];
+//    [self.view addSubview:segmentBGView];
+//    segmentBGView.clipsToBounds = YES;
+//    segmentBGView.layer.cornerRadius = 10;
+//    segmentBGView.layer.borderWidth = 1;
+//    segmentBGView.layer.borderColor = [MAIN_NAV_COLOR CGColor];
+//    
+//    CALayer * lineLayer = [CALayer layer];
+//    [segmentBGView.layer addSublayer:lineLayer];
+//    lineLayer.backgroundColor  = MAIN_LINE_COLOR.CGColor ;
     
     _professionalBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-    _professionalBtn.frame = CGRectMake(0, 0, (SCREEN_WIDTH  - 80 ) / 2, 40.0f);
+    _professionalBtn.frame = CGRectMake(0, NAV_HEIGHT, (SCREEN_WIDTH  - 80 ) / 2, 45.0f);
     [_professionalBtn setTitle:@"专业圈" forState:UIControlStateNormal];
     [_professionalBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    _professionalBtn.backgroundColor = MAIN_NAV_COLOR;
-    [segmentBGView addSubview:_professionalBtn];
+    _professionalBtn.backgroundColor = MAIN_NAV_COLOR_A(0.5);
+    [self.view addSubview:_professionalBtn];
     [_professionalBtn addTarget:self action:@selector(transVC:) forControlEvents:UIControlEventTouchUpInside];
     
 
-    _teamBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-    _teamBtn.frame = CGRectMake((SCREEN_WIDTH  - 80 ) / 2, 0, (SCREEN_WIDTH  - 80 ) / 2, 40.0f);
-    _teamBtn.backgroundColor = [UIColor yellowColor];
-    [_teamBtn setTitle:@"班组圈" forState:UIControlStateNormal];
-    [_teamBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    _teamBtn.backgroundColor = [UIColor whiteColor];
-    [segmentBGView addSubview:_teamBtn];
-    [_teamBtn addTarget:self action:@selector(transVC:) forControlEvents:UIControlEventTouchUpInside];
+//    _teamBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+//    _teamBtn.frame = CGRectMake((SCREEN_WIDTH  - 80 ) / 2, 0, (SCREEN_WIDTH  - 80 ) / 2, 40.0f);
+//    _teamBtn.backgroundColor = [UIColor yellowColor];
+//    [_teamBtn setTitle:@"班组圈" forState:UIControlStateNormal];
+//    [_teamBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    _teamBtn.backgroundColor = [UIColor whiteColor];
+//    [segmentBGView addSubview:_teamBtn];
+//    [_teamBtn addTarget:self action:@selector(transVC:) forControlEvents:UIControlEventTouchUpInside];
 
 }
 

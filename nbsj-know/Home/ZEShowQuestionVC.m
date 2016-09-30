@@ -62,9 +62,9 @@
             searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONUSERCODE = '%@'",[ZESettingLocalData getUSERCODE]];
         }
     }else if (_showQuestionListType == QUESTION_LIST_MY_ANSWER){
-        searchCondition = [NSString stringWithFormat:@"ISLOSE = 0  and QUESTIONEXPLAIN like '%%%@%%'",searchStr];
+        searchCondition = [NSString stringWithFormat:@"ISLOSE = 0 and USERCODE = '%@'  and QUESTIONEXPLAIN like '%%%@%%'",[ZESettingLocalData getUSERCODE],searchStr];
         if (![ZEUtil isStrNotEmpty:searchStr]) {
-            searchCondition = [NSString stringWithFormat:@"ISLOSE=0"];
+            searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and USERCODE = '%@'",[ZESettingLocalData getUSERCODE]];
         }
         [self sendMyAnswerRequestWithCondition:searchCondition];
         return;
@@ -129,27 +129,12 @@
                                      @"WHERESQL":conditionStr,
                                      @"start":[NSString stringWithFormat:@"%ld",(long)_currentPage * 20],
                                      @"METHOD":@"search",
-                                     @"MASTERFIELD":@"USERCODE",
+                                     @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
                                      @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
                                      @"DETAILTABLE":@"",};
     
-    NSDictionary * fieldsDic =@{@"USERCODE":[ZESettingLocalData getUSERCODE],
-                                @"SEQKEY":@"",
-                                @"QUESTIONTYPECODE":@"",
-                                @"QUESTIONEXPLAIN":@"",
-                                @"QUESTIONIMAGE":@"",
-                                @"QUESTIONUSERCODE":@"",
-                                @"QUESTIONUSERNAME":@"",
-                                @"QUESTIONLEVEL":@"",
-                                @"STATISTICALSRC":@"",
-                                @"IMPORTLEVEL":@"",
-                                @"ISLOSE":@"",
-                                @"ISEXPERTANSWER":@"",
-                                @"ISSOLVE":@"",
-                                @"SYSCREATEDATE":@"",
-                                @"ANSWERSUM":@"",
-                                };
+    NSDictionary * fieldsDic =@{};
     
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_QUESTION_INFO_LIST]
                                                                            withFields:@[fieldsDic]

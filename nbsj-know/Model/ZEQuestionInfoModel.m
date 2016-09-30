@@ -28,6 +28,8 @@ static ZEQuestionInfoModel * quesInfoM = nil;
     quesInfoM.ISSOLVE          = [dic objectForKey:@"ISSOLVE"];
     quesInfoM.SYSCREATEDATE    = [dic objectForKey:@"SYSCREATEDATE"];
     quesInfoM.ANSWERSUM        = [dic objectForKey:@"ANSWERSUM"];
+    quesInfoM.NICKNAME         = [dic objectForKey:@"NICKNAME"];
+    quesInfoM.HEADIMAGE        = [[dic objectForKey:@"HEADIMAGE"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
     quesInfoM.FILEURL          = [[dic objectForKey:@"FILEURL"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
 
     return quesInfoM;

@@ -42,6 +42,7 @@
 
 #define ZENITH_IMAGEURL(fileURL) [NSURL URLWithString:[NSString stringWithFormat:@"%@/file/%@",Zenith_Server,fileURL]]
 #define ZENITH_PLACEHODLER_IMAGE [UIImage imageNamed:@"placeholder.png"]
+#define ZENITH_PLACEHODLER_USERHEAD_IMAGE [UIImage imageNamed:@"avatar_default.jpg"]
 #define kCellImgaeHeight    (SCREEN_WIDTH - 60)/3
 
 #define kNOTI_CHANGEPERSONALMSG_SUCCESS @"NOTI_CHANGEPERSONALMSG_SUCCESS"

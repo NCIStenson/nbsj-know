@@ -82,6 +82,11 @@
  */
 -(void)showImagePickController:(BOOL)isTaking;
 {
+    if (self.imagesArr.count == 3) {
+        [self showTips:@"最多上传三张照片"];
+        return;
+    }
+
     UIImagePickerController * imagePicker = [[UIImagePickerController alloc]init];
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] && isTaking) {
         imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -185,6 +190,7 @@
                                 @"QUESTIONTYPECODE":askView.quesTypeSEQKEY,
                                 @"QUESTIONEXPLAIN":askView.inputView.text,
                                 @"QUESTIONIMAGE":@"",
+                                @"USERHEADIMAGE":[ZESettingLocalData getUSERHHEADURL],
                                 @"QUESTIONUSERCODE":[ZESettingLocalData getUSERCODE],
                                 @"QUESTIONUSERNAME":[ZESettingLocalData getNICKNAME],
                                 @"QUESTIONLEVEL":@"1",

@@ -217,19 +217,20 @@
     
     UIButton * userImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     userImageBtn.frame = CGRectMake(20, 5, 200, 30);
+//    [userImageBtn sd_setImageWithURL:ZENITH_IMAGEURL(_questionInfoModel.HEADIMAGE) forState:UIControlStateNormal placeholderImage:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
     userImageBtn.backgroundColor = [UIColor clearColor];
     [userImageBtn addTarget:self action:@selector(showUserMessage) forControlEvents:UIControlEventTouchUpInside];
     [cellContentView addSubview:userImageBtn];
 
     UIImageView * userImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 5, 30, 30)];
     userImg.userInteractionEnabled = YES;
-    userImg.image = [UIImage imageNamed:@"avatar_default.jpg"];
+    [userImg sd_setImageWithURL:ZENITH_IMAGEURL(answerInfoM.HEADIMAGE) placeholderImage:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
     [userImageBtn addSubview:userImg];
     userImg.clipsToBounds = YES;
     userImg.layer.cornerRadius = 15;
     
     UILabel * ANSWERUSERNAME = [[UILabel alloc]initWithFrame:CGRectMake(35,0,100.0f,30.0f)];
-    ANSWERUSERNAME.text = answerInfoM.ANSWERUSERNAME;
+    ANSWERUSERNAME.text = answerInfoM.NICKNAME;
     ANSWERUSERNAME.userInteractionEnabled = YES;
     ANSWERUSERNAME.textColor = MAIN_SUBTITLE_COLOR;
     ANSWERUSERNAME.font = [UIFont systemFontOfSize:kDetailTitleFontSize];

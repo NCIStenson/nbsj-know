@@ -22,4 +22,9 @@ typedef enum:NSInteger{
     QUESTION_LIST_MY_ANSWER     // 我的回答
 }QUESTION_LIST;
 
+typedef enum : NSUInteger {
+    ENTER_GROUP_TYPE_DEFAULT,
+    ENTER_GROUP_TYPE_SETTING,
+} ENTER_GROUP_TYPE;
+
 #endif /* ZEEnumConstant_h */

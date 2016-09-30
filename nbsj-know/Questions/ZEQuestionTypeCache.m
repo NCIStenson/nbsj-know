@@ -12,6 +12,7 @@
     
 }
 @property (nonatomic,strong) NSArray * questionTypeArr;
+@property (nonatomic,strong) NSArray * proCircleArr;
 
 @end
 
@@ -48,6 +49,16 @@ static ZEQuestionTypeCache * questionTypeCache = nil;
 {
     return self.questionTypeArr;
 }
+
+- (void)setProCircleCaches:(NSArray *)typeArr
+{
+    self.proCircleArr = typeArr;
+}
+- (NSArray *)getProCircleCaches
+{
+    return self.proCircleArr;
+}
+
 
 
 - (void)clear

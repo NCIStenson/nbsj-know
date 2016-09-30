@@ -99,12 +99,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "nbsj-know/Home/ZEShowQuestionVC.m"
-            timestampString = "496746329.787189"
+            timestampString = "496894286.506013"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "162"
-            endingLineNumber = "162"
-            landmarkName = "-sendMyAnswerRequestWithCondition:"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
+            landmarkName = "-sendRequestWithCondition:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "nbsj-know/Group/ZEProCirDetailVC.m"
+            timestampString = "496913202.174712"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "-isShowJoin"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
