@@ -38,12 +38,16 @@
 
 -(void)sendRequest
 {
-    NSString * WHERESQL = [NSString stringWithFormat:@""];
+    NSString * WHERESQL = @"";
+    NSString * ORDERSQL = @"";
     NSString * tableName = KLB_PROCIRCLE_INFO;
     if (_enter_group_type == ENTER_GROUP_TYPE_SETTING) {
         WHERESQL = [NSString stringWithFormat:@"USERCODE='%@'",[ZESettingLocalData getUSERCODE]];
         tableName = KLB_PROCIRCLE_REL_USER;
+        ORDERSQL = @"SYSCREATEDATE desc";
     }else{
+        tableName = V_KLB_PROCIRCLE_POSITION;
+        ORDERSQL = @"procirclepoints desc";
         NSArray * dataArr = [[ZEQuestionTypeCache instance]getProCircleCaches];
         if (dataArr.count > 0) {
             self.datasArr = [NSMutableArray arrayWithArray:dataArr];
@@ -53,13 +57,13 @@
     NSDictionary * parametersDic = @{@"limit":@"10",
                                      @"MASTERTABLE":tableName,
                                      @"MENUAPP":@"EMARK_APP",
-                                     @"ORDERSQL":@"SYSCREATEDATE desc",
+                                     @"ORDERSQL":ORDERSQL,
                                      @"WHERESQL":WHERESQL,
                                      @"start":@"0",
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{};
@@ -68,10 +72,12 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
+                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
+
                                  NSArray * arr = [NSMutableArray arrayWithArray:[ZEUtil getServerData:data withTabelName:tableName]];
                                  if (_enter_group_type == ENTER_GROUP_TYPE_SETTING) {
                                      [self reloadMyCircleView:arr];

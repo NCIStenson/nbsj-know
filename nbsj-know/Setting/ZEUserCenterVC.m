@@ -13,8 +13,9 @@
 
 #import "ZEShowQuestionVC.h"
 #import "ZEGroupVC.h"
-
+#import "ZESinginVC.h"
 #import "ZELookViewController.h"
+#import "ZETypicalCaseVC.h"
 @interface ZEUserCenterVC ()<ZEUserCenterViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 {
     ZEUserCenterView * usView;
@@ -69,7 +70,7 @@
 -(void)goMyGroup
 {
     ZEGroupVC * groupVC = [[ZEGroupVC alloc]init];
-    groupVC.enter_group_type = 1;
+    groupVC.enter_group_type = ENTER_GROUP_TYPE_SETTING;
     [self.navigationController pushViewController:groupVC animated:YES];
 }
 
@@ -77,7 +78,7 @@
 -(void)takePhotosOrChoosePictures
 {
     
-    UIAlertController * alertCont= [UIAlertController alertControllerWithTitle:@"" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController * alertCont= [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction * takeAction = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self showImagePickController:YES];
     }];
@@ -136,10 +137,11 @@
                                      @"METHOD":@"updateSave",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"CLASSNAME":@"com.nci.klb.app.userinfo.UserInfo",
                                      @"DETAILTABLE":@"",};
     
-    NSDictionary * fieldsDic =@{@"USERCODE":[ZESettingLocalData getUSERCODE],
+    NSDictionary * fieldsDic =@{@"SEQKEY":[ZESettingLocalData getUSERCODE],
+                                @"USERCODE":[ZESettingLocalData getUSERCODE],
                                 @"FILEURL":@""};
     
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_USER_BASE_INFO]
@@ -154,13 +156,53 @@
                                      [MBProgressHUD hideHUDForView:self.view animated:YES];
                                      NSArray * arr = [ZEUtil getServerData:data withTabelName:KLB_USER_BASE_INFO];
                                      if (arr.count > 0) {
-                                         [self updateSaveUserinfo:[arr[0] objectForKey:@"FILEURL"]];
+                                         NSMutableArray * fileUrlArr = [NSMutableArray arrayWithArray:[[arr[0] objectForKey:@"FILEURL"] componentsSeparatedByString:@","]];
+                                         [self getHeadImgUrl];
                                      }
                                  } fail:^(NSError *error) {
                                      [MBProgressHUD hideHUDForView:self.view animated:YES];
                                  }];
 
 }
+
+-(void)getHeadImgUrl
+{
+    NSDictionary * parametersDic = @{@"limit":@"20",
+                                     @"MASTERTABLE":V_KLB_USER_BASE_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_SEARCH,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.userinfo.UserInfo",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{@"USERCODE":[ZESettingLocalData getUSERCODE],
+                                @"FILEURL":@""};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_USER_BASE_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:YES
+                             success:^(id data) {
+                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                 NSArray * arr = [ZEUtil getServerData:data withTabelName:V_KLB_USER_BASE_INFO];
+                                 if (arr.count > 0) {
+                                     NSArray * headUrlArr = [[arr[0] objectForKey:@"FILEURL"] componentsSeparatedByString:@","];
+                                     [ZESettingLocalData changeUSERHHEADURL:headUrlArr[1]];
+                                     [usView reloadHeaderB];
+                                 }
+                             }
+                                fail:^(NSError *error) {
+                                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                }];
+}
+
 
 -(void)updateSaveUserinfo:(NSString * )imageUrl
 {
@@ -173,7 +215,7 @@
                                      @"METHOD":@"updateSave",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"CLASSNAME":@"com.nci.klb.app.userinfo.UserInfo",
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{@"SEQKEY":[ZESettingLocalData getUSERSEQKEY],
@@ -200,7 +242,18 @@
 }
 
 
+-(void)goSinginVC
+{
+    ZESinginVC * singVC = [[ZESinginVC alloc]init];
+    [self.navigationController pushViewController:singVC animated:YES];
+}
 
+-(void)goMyCollect
+{
+    ZETypicalCaseVC * caseVC = [[ZETypicalCaseVC alloc]init];
+    caseVC.enterType = ENTER_CASE_TYPE_SETTING;
+    [self.navigationController pushViewController:caseVC animated:YES];
+}
 
 
 - (void)didReceiveMemoryWarning {

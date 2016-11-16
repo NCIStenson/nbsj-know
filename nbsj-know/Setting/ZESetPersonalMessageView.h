@@ -29,4 +29,6 @@
 @property(nonatomic,weak) id <ZESetPersonalMessageViewDelegate> delegate;
 -(id)initWithFrame:(CGRect)frame;
 
+-(void)reloadDataWithDic:(NSDictionary *)dic;
+
 @end

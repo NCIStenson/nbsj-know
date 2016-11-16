@@ -28,6 +28,8 @@
 @property (nonatomic,copy) NSString * HEADIMAGE;
 @property (nonatomic,copy) NSString * NICKNAME;
 
+@property (nonatomic,strong) NSArray * FILEURLARR;
+
 +(ZEQuestionInfoModel *)getDetailWithDic:(NSDictionary *)dic;
 
 @end

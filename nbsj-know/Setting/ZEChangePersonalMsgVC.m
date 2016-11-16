@@ -82,7 +82,7 @@
                                      @"METHOD":@"updateSave",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{@"NICKNAME":_changeMsgView.nicknameField.text,
@@ -141,7 +141,7 @@
                                      @"METHOD":@"addSave",
                                      @"MASTERFIELD":@"USERCODE",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{@"OPINION":advice,

@@ -95,11 +95,15 @@
                            [self progressEnd:nil];
                            if ([[data objectForKey:@"RETMSG"] isEqualToString:@"null"]) {
                                 NSLog(@"登陆成功  %@",[data objectForKey:@"RETMSG"]);
+                               [ZESettingLocalData setUSERNAME:username];
+                               [ZESettingLocalData setUSERPASSWORD:pwd];
                                [self commonRequest:username];
-                               [self goHome];
                            }else{
                                [ZESettingLocalData deleteCookie];
+                               [ZESettingLocalData deleteUSERNAME];
+                               [ZESettingLocalData deleteUSERPASSWORD];
                                NSLog(@"登陆失败   %@",[data objectForKey:@"RETMSG"]);
+                               [ZEUtil showAlertView:[data objectForKey:@"RETMSG"] viewController:self];
                            }
 
                        } fail:^(NSError *errorCode) {
@@ -121,7 +125,7 @@
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{@"USERCODE":@"",
@@ -143,19 +147,23 @@
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 NSLog(@">>>  %@",data);
                                  NSArray * arr = [ZEUtil getServerData:data withTabelName:V_KLB_USER_BASE_INFO];
                                  if ([arr count] > 0) {
-                                     NSDictionary * userinfoDic = arr[0];
+                                     NSMutableDictionary * userinfoDic = [NSMutableDictionary dictionaryWithDictionary:arr[0]];
+                                     [userinfoDic setObject:[userinfoDic objectForKey:@"USERNAME"] forKey:@"NAME"];
                                      [ZESettingLocalData setUSERINFODic:userinfoDic];
                                      NSLog(@">>>  %@",userinfoDic);
-                                     if ([[userinfoDic objectForKey:@"EXPERTTYPE"] integerValue] == 0) {
-                                         [ZESettingLocalData setISEXPERT:NO];
-                                     }else{
-                                         [ZESettingLocalData setISEXPERT:YES];
-                                     }
+                                     
+                                     NSArray * headUrlArr = [[userinfoDic objectForKey:@"FILEURL"] componentsSeparatedByString:@","];
+                                     [ZESettingLocalData changeUSERHHEADURL:headUrlArr[1]];
 
+//                                     if ([[userinfoDic objectForKey:@"EXPERTTYPE"] integerValue] == 0) {
+//                                         [ZESettingLocalData setISEXPERT:NO];
+//                                     }else{
+//                                         [ZESettingLocalData setISEXPERT:YES];
+//                                     }
                                  }
+                                 [self goHome];
                              } fail:^(NSError *errorCode) {
                                  NSLog(@">>  %@",errorCode);
                              }];
@@ -164,47 +172,47 @@
 
 #pragma mark - 查询该用户是否为专家
 
--(void)isExpert
-{
-    NSDictionary * parametersDic = @{@"limit":@"20",
-                                     @"MASTERTABLE":KLB_EXPERT_INFO,
-                                     @"MENUAPP":@"EMARK_APP",
-                                     @"ORDERSQL":@"",
-                                     @"WHERESQL":@"",
-                                     @"start":@"0",
-                                     @"METHOD":@"search",
-                                     @"MASTERFIELD":@"SEQKEY",
-                                     @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
-                                     @"DETAILTABLE":@"",};
-    
-    NSDictionary * fieldsDic =@{@"USERCODE":[ZESettingLocalData getUSERNAME],
-                                @"USERNAME":@"",
-                                @"EXPERTDATE":@"",
-                                @"EXPERTTYPE":@"",
-                                @"STATUS":@"",
-                                @"EXPERTFRADE":@"",
-                                @"SEQKEY":@""};
-    
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_EXPERT_INFO]
-                                                                           withFields:@[fieldsDic]
-                                                                       withPARAMETERS:parametersDic
-                                                                       withActionFlag:nil];
-    
-    [ZEUserServer getDataWithJsonDic:packageDic
-                       showAlertView:NO
-                             success:^(id data) {
-                                 NSDictionary * dataDic = [ZEUtil getServerDic:data withTabelName:KLB_EXPERT_INFO];
-                                 if ([[dataDic objectForKey:@"totalCount"] integerValue] == 0) {
-                                     [ZESettingLocalData setISEXPERT:NO];
-                                 }else{
-                                     [ZESettingLocalData setISEXPERT:YES];
-                                 }
-                                 
-                             } fail:^(NSError *errorCode) {
-                                 NSLog(@">>  %@",errorCode);
-                             }];
-}
+//-(void)isExpert
+//{
+//    NSDictionary * parametersDic = @{@"limit":@"20",
+//                                     @"MASTERTABLE":KLB_EXPERT_INFO,
+//                                     @"MENUAPP":@"EMARK_APP",
+//                                     @"ORDERSQL":@"",
+//                                     @"WHERESQL":@"",
+//                                     @"start":@"0",
+//                                     @"METHOD":@"search",
+//                                     @"MASTERFIELD":@"SEQKEY",
+//                                     @"DETAILFIELD":@"",
+//                                     @"CLASSNAME":BASIC_CLASS_NAME,
+//                                     @"DETAILTABLE":@"",};
+//    
+//    NSDictionary * fieldsDic =@{@"USERCODE":[ZESettingLocalData getUSERNAME],
+//                                @"USERNAME":@"",
+//                                @"EXPERTDATE":@"",
+//                                @"EXPERTTYPE":@"",
+//                                @"STATUS":@"",
+//                                @"EXPERTFRADE":@"",
+//                                @"SEQKEY":@""};
+//    
+//    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_EXPERT_INFO]
+//                                                                           withFields:@[fieldsDic]
+//                                                                       withPARAMETERS:parametersDic
+//                                                                       withActionFlag:nil];
+//    
+//    [ZEUserServer getDataWithJsonDic:packageDic
+//                       showAlertView:NO
+//                             success:^(id data) {
+//                                 NSDictionary * dataDic = [ZEUtil getServerDic:data withTabelName:KLB_EXPERT_INFO];
+//                                 if ([[dataDic objectForKey:@"totalCount"] integerValue] == 0) {
+//                                     [ZESettingLocalData setISEXPERT:NO];
+//                                 }else{
+//                                     [ZESettingLocalData setISEXPERT:YES];
+//                                 }
+//                                 
+//                             } fail:^(NSError *errorCode) {
+//                                 NSLog(@">>  %@",errorCode);
+//                             }];
+//}
 
 
 -(void)showAlertView:(NSString *)alertMes

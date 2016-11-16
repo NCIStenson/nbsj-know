@@ -81,18 +81,18 @@
     cameraBtn.layer.borderColor = [MAIN_GREEN_COLOR CGColor];
     [cameraBtn addTarget:self action:@selector(showCondition) forControlEvents:UIControlEventTouchUpInside];
     
-    questionTypeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    questionTypeBtn.frame = CGRectMake(10.0f, kInputViewHeight + NAV_HEIGHT + 50.0f, SCREEN_WIDTH - 20.0f, 40);
+//    questionTypeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    questionTypeBtn.frame = CGRectMake(10.0f, kInputViewHeight + NAV_HEIGHT + 50.0f, SCREEN_WIDTH - 20.0f, 40);
 //    [questionTypeBtn setImage:[UIImage imageNamed:@"camera_gray" color:MAIN_GREEN_COLOR] forState:UIControlStateNormal];
-    [questionTypeBtn setTitle:@"选择问题分类" forState:UIControlStateNormal];
-    [questionTypeBtn setTitleColor:MAIN_GREEN_COLOR forState:UIControlStateNormal];
-    questionTypeBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-    [self addSubview:questionTypeBtn];
-    questionTypeBtn.clipsToBounds = YES;
-    questionTypeBtn.layer.cornerRadius = 5.0f;
-    questionTypeBtn.layer.borderWidth = 1.5f;
-    questionTypeBtn.layer.borderColor = [MAIN_GREEN_COLOR CGColor];
-    [questionTypeBtn addTarget:self action:@selector(showQuestionType) forControlEvents:UIControlEventTouchUpInside];
+//    [questionTypeBtn setTitle:@"选择问题分类" forState:UIControlStateNormal];
+//    [questionTypeBtn setTitleColor:MAIN_GREEN_COLOR forState:UIControlStateNormal];
+//    questionTypeBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+//    [self addSubview:questionTypeBtn];
+//    questionTypeBtn.clipsToBounds = YES;
+//    questionTypeBtn.layer.cornerRadius = 5.0f;
+//    questionTypeBtn.layer.borderWidth = 1.5f;
+//    questionTypeBtn.layer.borderColor = [MAIN_GREEN_COLOR CGColor];
+//    [questionTypeBtn addTarget:self action:@selector(showQuestionType) forControlEvents:UIControlEventTouchUpInside];
 
 }
 
@@ -170,8 +170,6 @@
     _alertView = [[JCAlertView alloc]initWithCustomView:showTypeView dismissWhenTouchedBackground:YES];
     [_alertView show];
 }
-
-
 
 #pragma mark - UITextViewDelegate
 

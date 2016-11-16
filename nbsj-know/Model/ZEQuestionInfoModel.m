@@ -29,9 +29,14 @@ static ZEQuestionInfoModel * quesInfoM = nil;
     quesInfoM.SYSCREATEDATE    = [dic objectForKey:@"SYSCREATEDATE"];
     quesInfoM.ANSWERSUM        = [dic objectForKey:@"ANSWERSUM"];
     quesInfoM.NICKNAME         = [dic objectForKey:@"NICKNAME"];
-    quesInfoM.HEADIMAGE        = [[dic objectForKey:@"HEADIMAGE"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
+    quesInfoM.HEADIMAGE        = [[[dic objectForKey:@"HEADIMAGE"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"] stringByReplacingOccurrencesOfString:@"," withString:@""];
     quesInfoM.FILEURL          = [[dic objectForKey:@"FILEURL"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
 
+    NSArray * urlArr = [quesInfoM.FILEURL componentsSeparatedByString:@","];
+    NSMutableArray * imageUrlArr = [NSMutableArray arrayWithArray:urlArr];
+    [imageUrlArr removeObjectAtIndex:0];
+    quesInfoM.FILEURLARR = imageUrlArr;
+    
     return quesInfoM;
 }
 

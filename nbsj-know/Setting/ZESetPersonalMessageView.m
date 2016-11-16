@@ -12,7 +12,7 @@
 {
     UITableView * contentTable;
 }
-
+@property (nonatomic,strong) NSDictionary * userInfoDic;
 @end
 
 @implementation ZESetPersonalMessageView
@@ -37,6 +37,14 @@
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeSuccess) name:kNOTI_CHANGEPERSONALMSG_SUCCESS object:nil];
 }
+
+-(void)reloadDataWithDic:(NSDictionary *)dic
+{
+    self.userInfoDic = dic;
+    
+    [contentTable reloadData];
+}
+
 -(void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNOTI_CHANGEPERSONALMSG_SUCCESS object:nil];
@@ -111,7 +119,7 @@
 //                    break;
                 case 1:
                     cell.textLabel.text = @"当前等级";
-                    cell.detailTextLabel.text = @"Lv 10";
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@",[self.userInfoDic objectForKey:@"LEVELNAME"],[self.userInfoDic objectForKey:@"LEVELCODE"]];
                     cell.accessoryType = UITableViewCellAccessoryNone;
                     break;
                     

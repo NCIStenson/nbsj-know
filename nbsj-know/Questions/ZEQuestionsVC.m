@@ -19,6 +19,10 @@
 
 #import "ZEQuestionTypeModel.h"
 
+#import "ZEShowQuestionVC.h"
+
+#import "ZEScoreView.h"
+
 @interface ZEQuestionsVC ()<ZEQuestionsViewDelegate,ZEShowQuestionTypeViewDelegate>
 {
     ZEQuestionsView * _questionView;
@@ -34,14 +38,13 @@
     self.navigationController.navigationBarHidden = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.title = @"问答";
-    [self.leftBtn setTitle:@"分类" forState:UIControlStateNormal];
+//    [self.leftBtn setTitle:@"分类" forState:UIControlStateNormal];
     [self.leftBtn setImage:nil forState:UIControlStateNormal];
     [self.leftBtn setImage:nil forState:UIControlStateHighlighted];
     [self.rightBtn setTitle:@"提问" forState:UIControlStateNormal];
     self.rightBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     
     [self initView];
-    [self cacheQuestionType];
 //    [self sendRequestWithStr:nil];
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -67,7 +70,7 @@
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{};
@@ -87,37 +90,6 @@
                              }];
 }
 
--(void)cacheQuestionType
-{
-    NSArray * typeArr = [[ZEQuestionTypeCache instance] getQuestionTypeCaches];
-    if (typeArr.count > 0) {
-        return;
-    }
-    NSDictionary * parametersDic = @{@"limit":@"20",
-                                     @"MASTERTABLE":KLB_QUESTION_TYPE,
-                                     @"MENUAPP":@"EMARK_APP",
-                                     @"ORDERSQL":@"",
-                                     @"WHERESQL":@"ISENABLED=1",
-                                     @"start":@"0",
-                                     @"METHOD":@"search",
-                                     @"MASTERFIELD":@"SEQKEY",
-                                     @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
-                                     @"DETAILTABLE":@"",};
-    
-    NSDictionary * fieldsDic =@{};
-    
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_QUESTION_TYPE]
-                                                                           withFields:@[fieldsDic]
-                                                                       withPARAMETERS:parametersDic
-                                                                       withActionFlag:nil];
-    [ZEUserServer getDataWithJsonDic:packageDic
-                       showAlertView:NO
-                             success:^(id data) {
-                                 [[ZEQuestionTypeCache instance]setQuestionTypeCaches:[ZEUtil getServerData:data withTabelName:KLB_QUESTION_TYPE]];
-                             } fail:^(NSError *errorCode) {
-                             }];
-}
 
 
 -(void)initView
@@ -180,12 +152,23 @@
 
 -(void)goSearchWithStr:(NSString *)inputStr
 {
-    [self sendRequestWithStr:inputStr];
+//    [self sendRequestWithStr:inputStr];
+    
+    ZEShowQuestionVC * showQuestionsList = [[ZEShowQuestionVC alloc]init];
+    showQuestionsList.showQuestionListType = QUESTION_LIST_NEW;
+    showQuestionsList.currentInputStr = inputStr;
+    [self.navigationController pushViewController:showQuestionsList animated:YES];
+
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    
+    [[SDImageCache sharedImageCache] setValue:nil forKey:@"memCache"];
+    [[SDImageCache sharedImageCache] clearDisk];
+
 }
 
 /*

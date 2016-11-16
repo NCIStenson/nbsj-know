@@ -40,6 +40,7 @@
 @interface ZEShowQuestionView : UIView
 
 @property (nonatomic,weak) id <ZEShowQuestionViewDelegate> delegate;
+@property (nonatomic,copy) NSString * searchStr;
 
 -(id)initWithFrame:(CGRect)frame;
 

@@ -15,7 +15,9 @@
 #import "ZEQuestionTypeCache.h"
 
 @interface ZESetPersonalMessageVC ()<ZESetPersonalMessageViewDelegate>
-
+{
+    ZESetPersonalMessageView * personalMsgView;
+}
 @end
 
 @implementation ZESetPersonalMessageVC
@@ -30,11 +32,50 @@
 {
     [super viewWillAppear:YES];
     self.tabBarController.tabBar.hidden = YES;
+    
+    [self getCurrentUserLevel];
 }
+
+
+-(void)getCurrentUserLevel
+{
+    NSDictionary * parametersDic = @{@"limit":@"20",
+                                     @"stary":@"0",
+                                     @"MASTERTABLE":V_KLB_USER_BASE_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":[NSString stringWithFormat:@"USERCODE = '%@'",[ZESettingLocalData getUSERCODE]],
+                                     @"METHOD":METHOD_SEARCH,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.userinfo.UserInfo",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_USER_BASE_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:YES
+                             success:^(id data) {
+                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                 NSArray * arr = [ZEUtil getServerData:data withTabelName:V_KLB_USER_BASE_INFO];
+                                 if(arr.count > 0){
+                                     [personalMsgView reloadDataWithDic:arr[0]];
+                                 }
+                             }
+                                fail:^(NSError *error) {
+                                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                }];
+}
+
 
 -(void)initView
 {
-    ZESetPersonalMessageView * personalMsgView = [[ZESetPersonalMessageView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
+    personalMsgView = [[ZESetPersonalMessageView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
     personalMsgView.delegate = self;
     [self.view addSubview:personalMsgView];
 }

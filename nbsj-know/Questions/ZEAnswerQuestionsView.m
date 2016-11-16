@@ -133,7 +133,6 @@
     [lineView.layer addSublayer:shapeLayer];
 }
 
-
 #pragma mark - Public Method
 
 -(void)reloadChoosedImageView:(UIImage *)choosedImage

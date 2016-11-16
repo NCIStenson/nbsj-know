@@ -13,6 +13,7 @@
 @interface ZEQuestionsDetailVC ()<ZEQuestionsDetailViewDelegate>
 {
     ZEQuestionsDetailView * _quesDetailView;
+    UIAlertController * alertC;
 }
 
 @property (nonnull,nonatomic,strong) NSArray * datasArr;
@@ -40,7 +41,7 @@
 
 -(void)sendSearchAnswerRequest
 {
-    NSDictionary * parametersDic = @{@"limit":@"20",
+    NSDictionary * parametersDic = @{@"limit":@"-1",
                                      @"MASTERTABLE":V_KLB_ANSWER_INFO,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"ISPASS desc",
@@ -49,7 +50,7 @@
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
                                      @"DETAILTABLE":@"",};
 
     NSDictionary * fieldsDic =@{};
@@ -82,13 +83,18 @@
 
 -(void)rightBtnClick
 {
-    for (NSDictionary * dic in _datasArr) {
-        ZEAnswerInfoModel * answerInfo = [ZEAnswerInfoModel getDetailWithDic:dic];
-        if ([answerInfo.ANSWERUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
-            [self showTips:@"您已回答过该问题"];
-            self.rightBtn.enabled = NO;
-            return;
-        }
+//    for (NSDictionary * dic in _datasArr) {
+//        ZEAnswerInfoModel * answerInfo = [ZEAnswerInfoModel getDetailWithDic:dic];
+//        if ([answerInfo.ANSWERUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
+//            [self showTips:@"您已回答过该问题"];
+//            self.rightBtn.enabled = NO;
+//            return;
+//        }
+//    }
+    
+    if ([_questionInfoModel.ISSOLVE boolValue]) {
+        [self showTips:@"该问题已有答案被采纳"];
+        return;
     }
     
     ZEAnswerQuestionsVC * answerQuesVC = [[ZEAnswerQuestionsVC alloc]init];
@@ -101,38 +107,45 @@
 -(void)acceptTheAnswerWithQuestionInfo:(ZEQuestionInfoModel *)infoModel
                         withAnswerInfo:(ZEAnswerInfoModel *)answerModel
 {
-    UIAlertController * alertC = [UIAlertController alertControllerWithTitle:nil message:@"确定采纳该建议为答案？" preferredStyle:UIAlertControllerStyleAlert];
+    if (!alertC) {
+        alertC = [UIAlertController alertControllerWithTitle:nil message:@"确定采纳该建议为答案？" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self updateKLB_ANSWER_INFOWithQuestionInfo:infoModel withAnswerInfo:answerModel];
+        }];
+        UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+        [alertC addAction:confirmAction];
+        [alertC addAction:cancelAction];
+    }
     
-    UIAlertAction * confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self updateKLB_ANSWER_INFOWithQuestionInfo:infoModel withAnswerInfo:answerModel];
-    }];
-    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-    }];
-    [alertC addAction:confirmAction];
-    [alertC addAction:cancelAction];
     [self presentViewController:alertC animated:YES completion:nil];
 }
+
+
 
 -(void)updateKLB_ANSWER_INFOWithQuestionInfo:(ZEQuestionInfoModel *)infoModel
                               withAnswerInfo:(ZEAnswerInfoModel *)answerModel
 {
     NSDictionary * parametersDic = @{@"limit":@"20",
                                      @"MASTERTABLE":KLB_ANSWER_INFO,
+                                     @"DETAILTABLE":KLB_QUESTION_INFO,
+                                     @"MASTERFIELD":@"QUESTIONID",
+                                     @"DETAILFIELD":@"SEQKEY",
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"",
                                      @"WHERESQL":@"",
                                      @"start":@"0",
-                                     @"METHOD":@"updateSave",
-                                     @"MASTERFIELD":@"SEQKEY",
-                                     @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.app.biz.klb.Score",
-                                     @"DETAILTABLE":@"",};
+                                     @"METHOD":METHOD_UPDATE,
+                                     @"CLASSNAME":@"com.nci.klb.app.answer.AnswerTake",
+                                     };
+
     NSDictionary * fieldsDic =@{@"SEQKEY":answerModel.SEQKEY,
+                                @"QUESTIONID":answerModel.QUESTIONID,
                                 @"ISPASS":@"1",
                                 };
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_ANSWER_INFO]
-                                                                           withFields:@[fieldsDic]
+    NSDictionary * fieldsDic2 =@{@"ISSOLVE":@"1"};
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_ANSWER_INFO,KLB_QUESTION_INFO]
+                                                                           withFields:@[fieldsDic,fieldsDic2]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
     [self progressBegin:nil];
@@ -140,30 +153,37 @@
                        showAlertView:NO
                              success:^(id data) {
                                  [self progressEnd:nil];
-                                 [self updateKLB_QUESTION_INFOWithQuestionInfo:infoModel];
+                                 
+                                 [_quesDetailView disableSelect];
+                                 [self sendSearchAnswerRequest];
+
                              } fail:^(NSError *errorCode) {
                                  [self progressEnd:nil];
                              }];
 }
 
--(void)updateKLB_QUESTION_INFOWithQuestionInfo:(ZEQuestionInfoModel *)infoModel
+#pragma mark - 点赞
+
+-(void)giveLikes:(NSString *)answerSeqkey
 {
     NSDictionary * parametersDic = @{@"limit":@"20",
-                                     @"MASTERTABLE":KLB_QUESTION_INFO,
+                                     @"MASTERTABLE":KLB_ANSWER_GOOD,
+                                     @"DETAILTABLE":@"",
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"",
                                      @"WHERESQL":@"",
                                      @"start":@"0",
-                                     @"METHOD":@"updateSave",
-                                     @"MASTERFIELD":@"SEQKEY",
-                                     @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
-                                     @"DETAILTABLE":@"",};
-    NSDictionary * fieldsDic =@{@"SEQKEY":infoModel.SEQKEY,
-                                @"ISSOLVE":@"1",
+                                     @"METHOD":METHOD_INSERT,
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     };
+    NSDictionary * fieldsDic =@{@"USERCODE":[ZESettingLocalData getUSERCODE],
+                                @"QUESTIONID":_questionInfoModel.SEQKEY,
+                                @"ANSWERID":answerSeqkey,
                                 };
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_QUESTION_INFO]
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_ANSWER_GOOD]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
@@ -172,17 +192,20 @@
                        showAlertView:NO
                              success:^(id data) {
                                  [self progressEnd:nil];
+                                 
                                  [self sendSearchAnswerRequest];
                              } fail:^(NSError *errorCode) {
                                  [self progressEnd:nil];
                              }];
-    
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    
+    [[SDImageCache sharedImageCache] setValue:nil forKey:@"memCache"];
+    [[SDImageCache sharedImageCache] clearDisk];
+
 }
 
 /*

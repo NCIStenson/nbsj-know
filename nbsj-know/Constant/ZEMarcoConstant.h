@@ -37,15 +37,18 @@
 #define kSubTiltlFontSize 12.0f
 
 #define NAV_HEIGHT 64.0f
+#define MAX_PAGE_COUNT 20
 
 #define Zenith_Server [[[NSBundle mainBundle] infoDictionary] objectForKey:@"ZenithServerAddress"]
 
-#define ZENITH_IMAGEURL(fileURL) [NSURL URLWithString:[NSString stringWithFormat:@"%@/file/%@",Zenith_Server,fileURL]]
+#define ZENITH_IMAGEURL(fileURL) [NSURL URLWithString:[ZEUtil changeURLStrFormat:[NSString stringWithFormat:@"%@/file/%@",Zenith_Server,fileURL]]]
+#define ZENITH_IMAGE_FILESTR(fileStr) [NSString stringWithFormat:@"%@/file/%@",Zenith_Server,fileStr]
 #define ZENITH_PLACEHODLER_IMAGE [UIImage imageNamed:@"placeholder.png"]
 #define ZENITH_PLACEHODLER_USERHEAD_IMAGE [UIImage imageNamed:@"avatar_default.jpg"]
 #define kCellImgaeHeight    (SCREEN_WIDTH - 60)/3
 
 #define kNOTI_CHANGEPERSONALMSG_SUCCESS @"NOTI_CHANGEPERSONALMSG_SUCCESS"
 
-
+#define kRelogin @"kRelogin"
+#define kVerifyLogin @"kVerifyLogin"
 #endif /* ZEMarcoConstant_h */

@@ -12,7 +12,11 @@
 #import "ZEProCirDeatilView.h"
 
 @interface ZEProCirDeatilView ()<UITableViewDataSource,UITableViewDelegate>
-
+{
+    UITableView * contentView;
+}
+@property (nonatomic,strong) NSDictionary * scoreDic;
+@property (nonatomic,strong) NSArray * memberArr;
 @end
 
 @implementation ZEProCirDeatilView
@@ -27,26 +31,36 @@
 }
 
 -(void)initView{
-    UITableView * contentView = [[UITableView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT) style:UITableViewStylePlain];
+    contentView = [[UITableView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT) style:UITableViewStylePlain];
     contentView.separatorStyle = UITableViewCellSeparatorStyleNone;
     contentView.delegate = self;
     contentView.dataSource = self;
     [self addSubview:contentView];
 }
 
+-(void)reloadSection:(NSInteger)section
+            scoreDic:(NSDictionary *)dic
+          memberData:(id)data
+{
+    self.scoreDic = dic;
+    self.memberArr = data;
+    
+    [contentView reloadData];
+}
+
 #pragma mark - UITableViewDelegate
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return 2;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
+    if (indexPath.section == 0) {
         return 121;
-    }else if (indexPath.row == 1){
-        return 3 * kDynamicsHeight;
+    }else if (indexPath.section == 1){
+        return self.memberArr.count * kMemberHeight + 40 ;
     }
     return 11 * kMemberHeight + 40 ;
 }
@@ -73,8 +87,6 @@
     if (indexpath.row == 0) {
         [self initCircleMessage:superView indexPath:indexpath];
     }else if (indexpath.row == 1){
-        [self initNewestCircleDynamics:superView indexPath:indexpath];
-    }else{
         [self initMember:superView indexPath:indexpath];
     }
 }
@@ -88,6 +100,17 @@
     rowTitleLab.font = [UIFont systemFontOfSize:16];
     [superView addSubview:rowTitleLab];
     
+//    UIButton * secondRowTitleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    secondRowTitleBtn.frame = CGRectMake(SCREEN_WIDTH - 80, 0, 80, 40);
+//    [secondRowTitleBtn setTitle:@"圈子动态" forState:UIControlStateNormal];
+//    secondRowTitleBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+//    secondRowTitleBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+//    [secondRowTitleBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    [secondRowTitleBtn addTarget:self action:@selector(goDynamic) forControlEvents:UIControlEventTouchUpInside];
+//    [superView addSubview:secondRowTitleBtn];
+//    secondRowTitleBtn.backgroundColor = MAIN_NAV_COLOR_A(0.5);
+
+    
     CALayer * lineLayer = [CALayer layer];
     lineLayer.frame = CGRectMake(0, 40, SCREEN_WIDTH, 1);
     [superView.layer addSublayer:lineLayer];
@@ -98,20 +121,13 @@
     [superView.layer addSublayer:sLineLayer];
     sLineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
 
-    UILabel * rankingTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 45, 80, 40)];
-    rankingTitleLab.text = @"圈子排名\n1";
+    UILabel * rankingTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 45, 80, 80)];
+    rankingTitleLab.text = [NSString stringWithFormat:@"圈子排名\n%@",[self.scoreDic objectForKey:@"PROCIRCLEPOSITION"]];
     rankingTitleLab.numberOfLines = 0;
     rankingTitleLab.textAlignment = NSTextAlignmentCenter;
     rankingTitleLab.font = [UIFont systemFontOfSize:16];
     [superView addSubview:rankingTitleLab];
     
-    UILabel * secondRowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 90, 80, 30)];
-    secondRowTitleLab.text = @"圈子动态";
-    secondRowTitleLab.textAlignment = NSTextAlignmentCenter;
-    secondRowTitleLab.font = [UIFont systemFontOfSize:16];
-    [superView addSubview:secondRowTitleLab];
-    secondRowTitleLab.backgroundColor = MAIN_NAV_COLOR_A(0.5);
-
     CALayer * detailLineLayer = [CALayer layer];
     detailLineLayer.frame = CGRectMake(80, 80,(SCREEN_WIDTH - 80) / 5 * 3, 1);
     [superView.layer addSublayer:detailLineLayer];
@@ -145,15 +161,15 @@
         switch (i) {
             case 0:
                 detailLab.text = @"回答数";
-                detailContentLab.text = @"1234";
+                detailContentLab.text = [self.scoreDic objectForKey:@"ANSWERSUM"];
                 break;
             case 1:
                 detailLab.text = @"采纳数";
-                detailContentLab.text = @"1234";
+                detailContentLab.text = [self.scoreDic objectForKey:@"ANSWERTAKE"];
                 break;
             case 2:
                 detailLab.text = @"团队积分";
-                detailContentLab.text = @"1234";
+                detailContentLab.text = [self.scoreDic objectForKey:@"PROCIRCLEPOINTS"];
                 break;
 
                 
@@ -165,14 +181,18 @@
     UILabel * currentRankingLab = [[UILabel alloc]initWithFrame:CGRectMake(80 + (SCREEN_WIDTH - 80) / 5 * 3, 40, (SCREEN_WIDTH - 80) / 5, 80)];
     currentRankingLab.text = @"本\n月\n成\n绩";
     currentRankingLab.numberOfLines = 0;
-    currentRankingLab.backgroundColor = MAIN_NAV_COLOR_A(0.5);
+//    currentRankingLab.backgroundColor = MAIN_NAV_COLOR_A(0.5);
     currentRankingLab.textAlignment = NSTextAlignmentCenter;
     currentRankingLab.font = [UIFont systemFontOfSize:16];
     [superView addSubview:currentRankingLab];
     
+    CALayer * rankingLineLayer = [CALayer layer];
+    rankingLineLayer.frame = CGRectMake(currentRankingLab.frame.origin.x + currentRankingLab.frame.size.width - 1, 40, 1, 80);
+    [superView.layer addSublayer:rankingLineLayer];
+    rankingLineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
     
     UILabel * sumAnswerLab = [[UILabel alloc]initWithFrame:CGRectMake(80 + (SCREEN_WIDTH - 80) / 5 * 4, 40, (SCREEN_WIDTH - 80) / 5, 40)];
-    sumAnswerLab.text = @"回答数\n1999";
+    sumAnswerLab.text = [NSString stringWithFormat:@"回答数\n%@",[self.scoreDic objectForKey:@"MONTHANSWERSUM"]];
     sumAnswerLab.numberOfLines = 0;
     sumAnswerLab.textAlignment = NSTextAlignmentCenter;
     sumAnswerLab.font = [UIFont systemFontOfSize:13];
@@ -184,7 +204,7 @@
     sumLineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
     
     UILabel * sumAdoptLab = [[UILabel alloc]initWithFrame:CGRectMake(80 + (SCREEN_WIDTH - 80) / 5 * 4, 80, (SCREEN_WIDTH - 80) / 5, 40)];
-    sumAdoptLab.text = @"采纳数\n1999";
+    sumAdoptLab.text = [NSString stringWithFormat:@"采纳数\n%@",[self.scoreDic objectForKey:@"MONTHANSWERTAKE"]];
     sumAdoptLab.numberOfLines = 0;
     sumAdoptLab.textAlignment = NSTextAlignmentCenter;
     sumAdoptLab.font = [UIFont systemFontOfSize:13];
@@ -231,22 +251,22 @@
     lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
     
     CALayer * fLineLayer = [CALayer layer];
-    fLineLayer.frame = CGRectMake(40, 40, 1, kMemberHeight * 11);
+    fLineLayer.frame = CGRectMake(40, 40, 1, kMemberHeight * (self.memberArr.count + 1));
     [superView.layer addSublayer:fLineLayer];
     fLineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
 
     CALayer * sLineLayer = [CALayer layer];
-    sLineLayer.frame = CGRectMake(40 + (SCREEN_WIDTH - 40) / 3 , 40, 1, kMemberHeight * 11);
+    sLineLayer.frame = CGRectMake(40 + (SCREEN_WIDTH - 40) / 3 , 40, 1, kMemberHeight * (self.memberArr.count + 1));
     [superView.layer addSublayer:sLineLayer];
     sLineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
 
     CALayer * tLineLayer = [CALayer layer];
-    tLineLayer.frame = CGRectMake(40 + (SCREEN_WIDTH - 40) / 3 * 2, 40, 1, kMemberHeight * 11);
+    tLineLayer.frame = CGRectMake(40 + (SCREEN_WIDTH - 40) / 3 * 2, 40, 1, kMemberHeight * (self.memberArr.count + 1));
     [superView.layer addSublayer:tLineLayer];
     tLineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
 
     
-    for (int i = 0; i < 11;  i ++) {
+    for (int i = 0; i < self.memberArr.count + 1;  i ++) {
         
         CALayer * sumLineLayer = [CALayer layer];
         sumLineLayer.frame = CGRectMake(0, 40 + kMemberHeight * (i + 1), SCREEN_WIDTH, 1);
@@ -290,10 +310,31 @@
                         break;
                 }
             }else{
-                
+                NSDictionary * dic = self.memberArr[i - 1];
+                switch (j) {
+                    case 0:
+                        contentLab.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"USERNAME"]];
+                        break;
+                    case 1:
+                        contentLab.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"SUMPOINTS"]];
+                        break;
+                    case 2:
+                        contentLab.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"ANSWERSUM"]];
+                        break;
+                    default:
+                        break;
+                }
             }
         }
         
+    }
+}
+
+
+-(void)goDynamic
+{
+    if ([self.delegate respondsToSelector:@selector(goDynamic)]) {
+        [self.delegate goDynamic];
     }
 }
 

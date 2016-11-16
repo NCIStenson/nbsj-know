@@ -11,7 +11,7 @@
 @interface ZEAnswerInfoModel : NSObject
 
 @property (nonatomic,copy) NSString * SEQKEY;
-@property (nonatomic,copy) NSString * QUERTIONID;
+@property (nonatomic,copy) NSString * QUESTIONID;
 @property (nonatomic,copy) NSString * ANSWEREXPLAIN;
 @property (nonatomic,copy) NSString * ANSWERIMAGE;
 @property (nonatomic,copy) NSString * ANSWERUSERCODE;
@@ -24,6 +24,8 @@
 @property (nonatomic,copy) NSString * FILEURL;
 @property (nonatomic,copy) NSString * NICKNAME;
 @property (nonatomic,copy) NSString * HEADIMAGE;
+
+@property (nonatomic,strong) NSArray * FILEURLARR;
 
 +(ZEAnswerInfoModel *)getDetailWithDic:(NSDictionary *)dic;
 

@@ -11,6 +11,7 @@
 static NSString * kUserInformation  = @"keyUserInformation";
 static NSString * kSignCookie       = @"keySIGNCOOKIE";
 static NSString * kUSERNAME         = @"kUSERNAME";
+static NSString * kUSERPASSWORD     = @"kUSERPASSWORD";
 static NSString * kUSERCODE         = @"kUSERCODE";
 static NSString * kISEXPERT         = @"kISEXPERT";
 static NSString * kUSERINFODic      = @"kUSERINFODic";
@@ -71,10 +72,41 @@ static NSString * kUSERINFODic      = @"kUSERINFODic";
 }
 
 #pragma mark - USERNAME
+
++(void)setUSERNAME:(NSString *)username
+{
+    [self Set:kUSERNAME value:username];
+}
 +(NSString *)getUSERNAME
 {
-    return [[self Get:kUSERINFODic] objectForKey:@"USERNAME"];
+    return [self Get:kUSERNAME];
 }
++(void)deleteUSERNAME
+{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUSERNAME];
+}
+
+#pragma mark - setUSERPASSWORD
+
+/**
+ *  @author Stenson, 16-08-12 15:08:26
+ *
+ *  用户密码
+ *
+ */
++(void)setUSERPASSWORD:(NSString *)str
+{
+    [self Set:kUSERPASSWORD value:str];
+}
++(NSString *)getUSERPASSWORD
+{
+    return [self Get:kUSERPASSWORD];
+}
++(void)deleteUSERPASSWORD
+{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUSERPASSWORD];
+}
+
 #pragma mark - getUSERHHEADURL
 +(void)changeUSERHHEADURL:(NSString *)headUrl
 {
@@ -85,6 +117,11 @@ static NSString * kUSERINFODic      = @"kUSERINFODic";
 +(NSString *)getUSERHHEADURL
 {
     return [[[self Get:kUSERINFODic] objectForKey:@"FILEURL"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
+}
+
++(NSString *)getNAME
+{
+    return [[self Get:kUSERINFODic] objectForKey:@"NAME"];
 }
 
 #pragma mark - USERCODE
@@ -171,6 +208,8 @@ static NSString * kUSERINFODic      = @"kUSERINFODic";
 +(void)clearLocalData
 {
     [ZESettingLocalData deleteCookie];
+    [ZESettingLocalData deleteUSERNAME];
+    [ZESettingLocalData deleteUSERPASSWORD];
     [ZESettingLocalData deleteUSERCODE];
     [ZESettingLocalData deleteISEXPERT];
     [ZESettingLocalData deleteUSERINFODic];

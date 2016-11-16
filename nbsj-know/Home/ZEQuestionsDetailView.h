@@ -22,6 +22,8 @@
 -(void)acceptTheAnswerWithQuestionInfo:(ZEQuestionInfoModel *)infoModel
                         withAnswerInfo:(ZEAnswerInfoModel *)answerModel;
 
+-(void)giveLikes:(NSString *)answerSeqkey;
+
 @end
 
 @interface ZEQuestionsDetailView : UIView
@@ -33,5 +35,7 @@
   withQuestionType:(ZEQuestionTypeModel *)typeModel;
 
 -(void)reloadData:(NSArray *)arr;
+
+-(void)disableSelect;
 
 @end

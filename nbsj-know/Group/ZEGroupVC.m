@@ -36,8 +36,6 @@
     }
     [self initView];
     
-    
-    
     teamCirVC =[[ZETeamCircleVC alloc]init];
     profCirVC = [[ZEProfessionalCirVC alloc]init];
     profCirVC.enter_group_type = _enter_group_type;
@@ -77,7 +75,7 @@
     [_professionalBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _professionalBtn.backgroundColor = MAIN_NAV_COLOR_A(0.5);
     [self.view addSubview:_professionalBtn];
-    [_professionalBtn addTarget:self action:@selector(transVC:) forControlEvents:UIControlEventTouchUpInside];
+//    [_professionalBtn addTarget:self action:@selector(transVC:) forControlEvents:UIControlEventTouchUpInside];
     
 
 //    _teamBtn = [UIButton buttonWithType:UIButtonTypeSystem];

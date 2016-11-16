@@ -42,7 +42,7 @@
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{};
@@ -254,7 +254,6 @@
             UIButton * professionalBtn =[UIButton buttonWithType:UIButtonTypeSystem];
             professionalBtn.frame = CGRectMake((SCREEN_WIDTH / 3 * (j - 1)), 5 + 60 * i, SCREEN_WIDTH / 3, 60.0f);
             professionalBtn.tag = i * 3 + j;
-            [professionalBtn addTarget:self action:@selector(goDeatailVC:) forControlEvents:UIControlEventTouchUpInside];
             professionalBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
             [professionalBtn setTitle:@"变电运输一班" forState:UIControlStateNormal];
             [professionalBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];

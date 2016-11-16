@@ -20,6 +20,8 @@ static ZEQuestionTypeModel * _quesTypeM = nil;
     _quesTypeM.QUESTIONTYPEREMARK = [dic objectForKey:@"QUESTIONTYPEREMARK"];
     _quesTypeM.ISENABLED          = [dic objectForKey:@"ISENABLED"];
     _quesTypeM.SYSCREATEDATE      = [dic objectForKey:@"SYSCREATEDATE"];
+    _quesTypeM.NAME      = [dic objectForKey:@"NAME"];
+    _quesTypeM.CODE      = [dic objectForKey:@"CODE"];
 
     return _quesTypeM;
 }

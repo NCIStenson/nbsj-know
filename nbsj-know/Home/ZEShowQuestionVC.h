@@ -16,4 +16,6 @@
 @property (nonatomic,copy) NSString * QUESTIONTYPENAME;
 @property (nonatomic,copy) NSString * typeSEQKEY;
 
+@property (nonatomic,copy) NSString * currentInputStr;
+
 @end

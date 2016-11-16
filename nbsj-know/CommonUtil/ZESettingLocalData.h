@@ -32,7 +32,18 @@
  *  用户名
  *
  */
++(void)setUSERNAME:(NSString *)username;
 +(NSString *)getUSERNAME;
++(void)deleteUSERNAME;
+/**
+ *  @author Stenson, 16-08-12 15:08:26
+ *
+ *  用户密码
+ *
+ */
++(void)setUSERPASSWORD:(NSString *)str;
++(NSString *)getUSERPASSWORD;
++(void)deleteUSERPASSWORD;
 
 /**
  *  @author Stenson, 16-08-12 15:08:00
@@ -74,6 +85,8 @@
 +(void)changeNICKNAME:(NSString *)nickname;
 /*********** 获取用户昵称 ********/
 +(NSString *)getNICKNAME;
+
++(NSString *)getNAME;
 
 /*********** 获取用户头像路径 ********/
 +(void)changeUSERHHEADURL:(NSString *)headUrl;

@@ -42,4 +42,11 @@ typedef void (^ServerErrorRecordBlock) (void);  // 记录服务器错误block
         withServerAddress:(NSString *)serverAddress
                   success:(ServerResponseSuccessBlock)successBlock
                      fail:(ServerResponseFailBlock)failBlock;
+
+-(void)downloadFiletWithJsonDic:(NSDictionary *)jsonDic
+              withServerAddress:(NSString *)serverAddress
+                       fileName:(NSString *)fileName
+                   withProgress:(void (^)(CGFloat progress))progressBlock
+                        success:(ServerResponseSuccessBlock)successBlock
+                           fail:(ServerResponseFailBlock)failBlock;
 @end

@@ -124,13 +124,13 @@ NSString *const JFCalendarCellIdentifier = @"cell";
      
                           value:[UIFont boldSystemFontOfSize:20.0f]
      
-                          range:NSMakeRange(4,2)];
+                          range:NSMakeRange(4,3)];
     
     [AttributedStr addAttribute:NSForegroundColorAttributeName
      
                           value:MAIN_NAV_COLOR
      
-                          range:NSMakeRange(4, 2)];
+                          range:NSMakeRange(4, 3 )];
         
     return AttributedStr;
 }

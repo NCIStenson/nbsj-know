@@ -21,9 +21,13 @@
 
 /************** 个人信息设置列表 ****************/
 -(void)goMyGroup;
+/************** 我的收藏 ****************/
+-(void)goMyCollect;
 
 /************** 头像上传 ****************/
 -(void)takePhotosOrChoosePictures;
+
+-(void)goSinginVC;
 
 @end
 

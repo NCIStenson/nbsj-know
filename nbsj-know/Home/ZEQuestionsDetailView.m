@@ -60,11 +60,18 @@
     }];
     
 }
+#pragma mark - Public Method
 
 -(void)reloadData:(NSArray *)arr
 {
     _answerInfoArr = arr;
+
     [contentTableView reloadData];
+}
+
+-(void)disableSelect
+{
+    _questionInfoModel.ISSOLVE = @"1";
 }
 
 #pragma mark - UITableViewDelegate
@@ -90,39 +97,34 @@
 -(UIView *)createQuestionDetailView
 {
     UIView *  questionsView = [[UIView alloc]init];
-    questionsView.backgroundColor = [UIColor cyanColor];
-    float questionHeight =[ZEUtil heightForString:_questionInfoModel.QUESTIONEXPLAIN font:[UIFont systemFontOfSize:kDetailTitleFontSize] andWidth:SCREEN_WIDTH - 40];
+
+    float questionHeight =[ZEUtil heightForString:_questionInfoModel.QUESTIONEXPLAIN font:[UIFont boldSystemFontOfSize:kDetailTitleFontSize] andWidth:SCREEN_WIDTH - 40];
     
     UILabel * questionsLab = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, SCREEN_WIDTH - 40, questionHeight)];
     questionsLab.numberOfLines = 0;
     questionsLab.text = _questionInfoModel.QUESTIONEXPLAIN;
-    questionsLab.font = [UIFont systemFontOfSize:kDetailTitleFontSize];
+    questionsLab.font = [UIFont boldSystemFontOfSize:kDetailTitleFontSize];
     [questionsView addSubview:questionsLab];
     
     //  问题文字与用户信息之间间隔
     float userY = questionHeight + 20.0f;
     
-    NSArray * imgFileUrlArr;
     
-    if([ZEUtil isStrNotEmpty:_questionInfoModel.FILEURL]){
-        imgFileUrlArr = [_questionInfoModel.FILEURL componentsSeparatedByString:@","];
+    NSMutableArray * urlsArr = [NSMutableArray array];
+    for (NSString * str in _questionInfoModel.FILEURLARR) {
+        [urlsArr addObject:[NSString stringWithFormat:@"%@/file/%@",Zenith_Server,str]];
     }
-
     
-    for (int i = 0; i < imgFileUrlArr.count; i ++) {
-        UIButton * questionImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        questionImageBtn.frame = CGRectMake(20 + (kCellImgaeHeight + 10) * i, userY, kCellImgaeHeight, kCellImgaeHeight);
-        questionImageBtn.tag = i;
-        questionImageBtn.imageView.contentMode = UIViewContentModeScaleAspectFill;
+    if (_questionInfoModel.FILEURLARR.count > 0) {
+        PYPhotosView *linePhotosView = [PYPhotosView photosViewWithThumbnailUrls:urlsArr originalUrls:urlsArr layoutType:PYPhotosViewLayoutTypeLine];
+        // 设置Frame
+        linePhotosView.py_y = userY;
+        linePhotosView.py_x = PYMargin;
+        linePhotosView.py_width = SCREEN_WIDTH - 40;
+        // 3. 添加到指定视图中
+        [questionsView addSubview:linePhotosView];
         
-        [questionImageBtn  sd_setImageWithURL:ZENITH_IMAGEURL(imgFileUrlArr[i]) forState:UIControlStateNormal placeholderImage:ZENITH_PLACEHODLER_IMAGE];
-
-        [questionsView addSubview:questionImageBtn];
-        questionImageBtn.clipsToBounds = YES;
-        
-        if (i == imgFileUrlArr.count - 1) {
-            userY += kCellImgaeHeight + 10.0f;
-        }
+        userY += kCellImgaeHeight + 10.0f;
     }
     
     
@@ -144,14 +146,14 @@
     
     // 圈组分类最右边
     float circleTypeR = SCREEN_WIDTH - praiseNumWidth - 30;
-    float circleWidth = [ZEUtil widthForString:_questionTypeModel.QUESTIONTYPENAME font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
+    float circleWidth = [ZEUtil widthForString:_questionTypeModel.NAME font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
     
     UIImageView * circleImg = [[UIImageView alloc]initWithFrame:CGRectMake(circleTypeR - circleWidth - 20.0f, userY + 2.0f, 15, 15)];
     circleImg.image = [UIImage imageNamed:@"rateTa.png"];
     [questionsView addSubview:circleImg];
     
     UILabel * circleLab = [[UILabel alloc]initWithFrame:CGRectMake(circleImg.frame.origin.x + 20,userY,circleWidth,20.0f)];
-    circleLab.text = _questionTypeModel.QUESTIONTYPENAME;
+    circleLab.text = _questionTypeModel.NAME;
     circleLab.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
     circleLab.textColor = MAIN_SUBTITLE_COLOR;
     [questionsView addSubview:circleLab];
@@ -161,14 +163,16 @@
     [lineLayer setBackgroundColor:[MAIN_LINE_COLOR CGColor]];
     [questionsView.layer addSublayer:lineLayer];
     
+    questionsView.frame = CGRectMake(0, 0, SCREEN_WIDTH, userY + 20.0f);
+
     return questionsView;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    float questionHeight =[ZEUtil heightForString:_questionInfoModel.QUESTIONEXPLAIN font:[UIFont systemFontOfSize:kDetailTitleFontSize] andWidth:SCREEN_WIDTH - 40];
+    float questionHeight =[ZEUtil heightForString:_questionInfoModel.QUESTIONEXPLAIN font:[UIFont boldSystemFontOfSize:kDetailTitleFontSize] andWidth:SCREEN_WIDTH - 40];
     
-    if([ZEUtil isStrNotEmpty:_questionInfoModel.FILEURL]){
+    if ([_questionInfoModel.FILEURLARR count] > 0) {
         return questionHeight + 70.0f + kCellImgaeHeight;
     }
 
@@ -198,14 +202,14 @@
 {
     ZEAnswerInfoModel * answerInfoM = [ZEAnswerInfoModel getDetailWithDic:_answerInfoArr[indexPath.row]];
 
-    float answerHeight =[ZEUtil heightForString:answerInfoM.ANSWEREXPLAIN font:[UIFont systemFontOfSize:kDetailTitleFontSize] andWidth:SCREEN_WIDTH - 65];
+    float answerHeight =[ZEUtil heightForString:answerInfoM.ANSWEREXPLAIN font:[UIFont boldSystemFontOfSize:kDetailTitleFontSize] andWidth:SCREEN_WIDTH - 65];
     if ([answerInfoM.ISPASS boolValue]) {
-        if ([ZEUtil isStrNotEmpty:answerInfoM.FILEURL]) {
+        if ([answerInfoM.FILEURLARR count] > 0) {
             return answerHeight + 95.0f + kCellImgaeHeight;
         }
         return answerHeight + 85.0f;
     }
-    if ([ZEUtil isStrNotEmpty:answerInfoM.FILEURL]) {
+    if ([answerInfoM.FILEURLARR count] > 0) {
         return answerHeight + 75.0f + kCellImgaeHeight;
     }
     return answerHeight + 65.0f;
@@ -236,37 +240,33 @@
     ANSWERUSERNAME.font = [UIFont systemFontOfSize:kDetailTitleFontSize];
     [userImageBtn addSubview:ANSWERUSERNAME];
     
-    float answerHeight =[ZEUtil heightForString:answerInfoM.ANSWEREXPLAIN font:[UIFont systemFontOfSize:kDetailTitleFontSize] andWidth:SCREEN_WIDTH - 65];
+    float answerHeight =[ZEUtil heightForString:answerInfoM.ANSWEREXPLAIN font:[UIFont boldSystemFontOfSize:kDetailTitleFontSize] andWidth:SCREEN_WIDTH - 65];
     
     UILabel * ANSWEREXPLAIN = [[UILabel alloc]initWithFrame:CGRectMake(55, 35, SCREEN_WIDTH - 65, answerHeight)];
     ANSWEREXPLAIN.numberOfLines = 0;
     ANSWEREXPLAIN.userInteractionEnabled = YES;
     ANSWEREXPLAIN.text = answerInfoM.ANSWEREXPLAIN;
-    ANSWEREXPLAIN.font = [UIFont systemFontOfSize:kDetailTitleFontSize];
+    ANSWEREXPLAIN.font = [UIFont boldSystemFontOfSize:kDetailTitleFontSize];
     [cellContentView addSubview:ANSWEREXPLAIN];
     
     float userY = answerHeight + 40.0f;
     
-    NSArray * imgFileUrlArr;
-
-    if([ZEUtil isStrNotEmpty:answerInfoM.FILEURL]){
-        imgFileUrlArr = [answerInfoM.FILEURL componentsSeparatedByString:@","];
+    
+    NSMutableArray * urlsArr = [NSMutableArray array];
+    for (NSString * str in answerInfoM.FILEURLARR) {
+        [urlsArr addObject:[NSString stringWithFormat:@"%@/file/%@",Zenith_Server,str]];
     }
     
-    for (int i = 0; i < imgFileUrlArr.count; i ++) {
-        UIButton * questionImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        questionImageBtn.frame = CGRectMake(20 + (kCellImgaeHeight + 10) * i, userY, kCellImgaeHeight, kCellImgaeHeight);
-        questionImageBtn.tag = i;
-        questionImageBtn.imageView.contentMode = UIViewContentModeScaleAspectFill;
+    if (answerInfoM.FILEURLARR.count > 0) {
+        PYPhotosView *linePhotosView = [PYPhotosView photosViewWithThumbnailUrls:urlsArr originalUrls:urlsArr layoutType:PYPhotosViewLayoutTypeLine];
+        // 设置Frame
+        linePhotosView.py_y = userY;
+        linePhotosView.py_x = PYMargin;
+        linePhotosView.py_width = SCREEN_WIDTH - 40;
+        // 3. 添加到指定视图中
+        [cellContentView addSubview:linePhotosView];
         
-        [questionImageBtn  sd_setImageWithURL:ZENITH_IMAGEURL(imgFileUrlArr[i]) forState:UIControlStateNormal placeholderImage:ZENITH_PLACEHODLER_IMAGE];
-        
-        [cellContentView addSubview:questionImageBtn];
-        questionImageBtn.clipsToBounds = YES;
-        
-        if (i == imgFileUrlArr.count - 1) {
-            userY += kCellImgaeHeight + 10.0f;
-        }
+        userY += kCellImgaeHeight + 10.0f;
     }
 
     
@@ -281,17 +281,18 @@
     if([ZEUtil isStrNotEmpty:answerInfoM.FILEURL]){
         SYSCREATEDATE.frame = CGRectMake(20,userY,100.0f,20.0f);
     }
-    float praiseNumWidth = [ZEUtil widthForString:answerInfoM.GOODNUMS font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
     
-    UIImageView * praiseImg = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - praiseNumWidth - 40, userY, 15, 15)];
-    praiseImg.image = [UIImage imageNamed:@"qb_praiseBtn_hand.png"];
-    [cellContentView addSubview:praiseImg];
-    
-    UILabel * praiseNumLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - praiseNumWidth - 20,userY,praiseNumWidth,20.0f)];
-    praiseNumLab.text = answerInfoM.GOODNUMS;
-    praiseNumLab.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
-    praiseNumLab.textColor = MAIN_SUBTITLE_COLOR;
-    [cellContentView addSubview:praiseNumLab];
+    float praiseNumWidth = [ZEUtil widthForString:[NSString stringWithFormat:@"  %@",answerInfoM.GOODNUMS] font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
+#warning 点赞
+//    UIButton * praiseNumBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    praiseNumBtn.frame = CGRectMake(SCREEN_WIDTH - praiseNumWidth - 30.0f,userY - 5,praiseNumWidth + 20,30.0f);
+//    [praiseNumBtn setTitle:[NSString stringWithFormat:@"  %@",answerInfoM.GOODNUMS] forState:UIControlStateNormal];
+//    praiseNumBtn.titleLabel.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
+//    [praiseNumBtn setTitleColor:MAIN_SUBTITLE_COLOR forState:UIControlStateNormal];
+//    [cellContentView addSubview:praiseNumBtn];
+//    [praiseNumBtn setImage:[UIImage imageNamed:@"qb_praiseBtn_hand.png"] forState:UIControlStateNormal];
+//    [praiseNumBtn addTarget:self action:@selector(giveLikes:) forControlEvents:UIControlEventTouchUpInside];
+//    praiseNumBtn.tag = indexPath.row;
     
     if ([answerInfoM.ISPASS boolValue]) {
         UILabel * otherAnswers = [[UILabel alloc]initWithFrame:CGRectMake(0, userY + 25.0f, SCREEN_WIDTH, 20.0f)];
@@ -302,11 +303,14 @@
         otherAnswers.text = @"      其他回答";
         [cellContentView addSubview:otherAnswers];
     }
+    
+    cellContentView.frame = CGRectMake(0, 0, SCREEN_WIDTH, userY + 20.0f);
+
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (![_questionInfoModel.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]] || [_questionInfoModel.ISSOLVE boolValue] ) {
+    if (![_questionInfoModel.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]] | [_questionInfoModel.ISSOLVE boolValue] ) {
         return;
     }
     
@@ -315,6 +319,18 @@
         [self.delegate acceptTheAnswerWithQuestionInfo:_questionInfoModel withAnswerInfo:answerInfoM];
     }
 }
+
+-(void)giveLikes:(UIButton *)btn
+{
+    NSLog(@">>>>>>>>>>>>>>>>>>>>>>  %@",@"点赞");
+    ZEAnswerInfoModel * answerInfoM = [ZEAnswerInfoModel getDetailWithDic:_answerInfoArr[btn.tag]];
+
+    if([self.delegate respondsToSelector:@selector(giveLikes:)]){
+        [self.delegate giveLikes:answerInfoM.SEQKEY];
+    }
+    
+}
+
 
 
 #pragma mark - ZEQuestionsDetailViewDelegate

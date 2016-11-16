@@ -10,6 +10,9 @@
 #import "ZEAnswerQuestionsView.h"
 
 #import "ZELookViewController.h"
+
+#define textViewStr @"这个问题将由您来解答。"
+
 @interface ZEAnswerQuestionsVC ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,ZELookViewControllerDelegate,ZEAnswerQuestionsViewDelegate>
 {
     ZEAnswerQuestionsView * _answerQuesView;
@@ -37,12 +40,34 @@
     [self.view addSubview:_answerQuesView];
     [self.view sendSubviewToBack:_answerQuesView];
 }
+#pragma mark - 确认输入信息
+
+-(void)leftBtnClick
+{
+    if ([_answerQuesView.inputView.text isEqualToString:textViewStr] || _answerQuesView.inputView.text.length == 0) {
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
+    
+    UIAlertController * alertCont= [UIAlertController alertControllerWithTitle:@"现在退出编辑，你输入的内容将不会被保存" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    
+    [alertCont addAction:okAction];
+    [alertCont addAction:cancelAction];
+    
+    [self presentViewController:alertCont animated:YES completion:nil];
+}
+
 
 #pragma mark - ZEAskQuesViewDelegate
 
 -(void)takePhotosOrChoosePictures
 {
-    
     UIAlertController * alertCont= [UIAlertController alertControllerWithTitle:@"" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction * takeAction = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self showImagePickController:YES];
@@ -116,20 +141,37 @@
 
 -(void)rightBtnClick
 {
-    if (_answerQuesView.inputView.text.length == 0){
+    if (_answerQuesView.inputView.text.length == 0 || [_answerQuesView.inputView.text isEqualToString:textViewStr]){
+        [self showTips:@"请输入回答内容"];
         return;
+    }else{
+        UIAlertController * alertCont= [UIAlertController alertControllerWithTitle:@"是否确定提交问题答案" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self insertData];
+        }];
+        UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        
+        [alertCont addAction:okAction];
+        [alertCont addAction:cancelAction];
+        
+        [self presentViewController:alertCont animated:YES completion:nil];
     }
-    
+}
+
+-(void)insertData
+{
     NSDictionary * parametersDic = @{@"limit":@"20",
                                      @"MASTERTABLE":KLB_ANSWER_INFO,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"",
                                      @"WHERESQL":@"",
                                      @"start":@"0",
-                                     @"METHOD":@"addSave",
+                                     @"METHOD":METHOD_INSERT,
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.app.biz.klb.Score",
+                                     @"CLASSNAME":@"com.nci.klb.app.answer.AnswerPoints",
                                      @"DETAILTABLE":@"",};
     NSString * ANSWERLEVEL = nil;
     if ([ZESettingLocalData getISEXPERT]) {
@@ -146,8 +188,7 @@
                                 @"ANSWERUSERNAME":[ZESettingLocalData getNICKNAME],
                                 @"ANSWERLEVEL":ANSWERLEVEL,
                                 @"ISPASS":@"0",
-                                @"ISENABLED":@"0",
-                                @"GOODNUMS":@"0"};
+                                @"ISENABLED":@"0"};
     
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_ANSWER_INFO]
                                                                            withFields:@[fieldsDic]
@@ -162,10 +203,7 @@
                                      [self showAlertView:@"回答成功" isBack:YES];
                                  } fail:^(NSError *error) {
                                      [self progressEnd:nil];
-                                     
                                  }];
-    
-
 }
 
 -(void)showAlertView:(NSString *)alertMsg isBack:(BOOL)isBack

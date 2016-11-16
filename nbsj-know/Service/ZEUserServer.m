@@ -62,10 +62,9 @@
                                                    if ([ZEUtil isSuccess:[data objectForKey:@"RETMSG"]]) {
                                                        successBlock(data);
                                                    }else{
-                                                       [ZESettingLocalData clearLocalData];
                                                        NSLog(@" failBlock ==  %@ ",[data objectForKey:@"RETMSG"]);
                                                        NSLog(@" failData ==  %@ ",data);
-                                                       [ZEUserServer logoutSucce];
+                                                       [ZEUserServer operationFailed];
                                                        NSError *errorCode = nil;
                                                        failBlock(errorCode);
                                                    }
@@ -90,33 +89,24 @@
                                                    if ([ZEUtil isSuccess:[data objectForKey:@"RETMSG"]]) {
                                                        successBlock(data);
                                                    }else{
-                                                       [ZESettingLocalData clearLocalData];
-                                                       NSLog(@" failData ==  %@ ",data);
-                                                       [ZEUserServer logoutSucce];
+                                                       [ZEUserServer operationFailed];
                                                        NSError *errorCode = nil;
                                                        failBlock(errorCode);
                                                    }
                                                } fail:^(NSError *errorCode) {
-                                                   NSLog(@" >>>   %@",errorCode);
+                                                   [ZEUserServer operationFailed];
                                                    failBlock(errorCode);
                                                }];
 }
-+(void)logoutSucce
++(void)operationFailed
+
 {
-    UIAlertController * alertC = [UIAlertController alertControllerWithTitle:nil message:@"登陆过期，请重新登陆。" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController * alertC = [UIAlertController alertControllerWithTitle:nil message:@"操作失败!" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
     }];
     [alertC addAction:action];
-
-    [ZESettingLocalData clearLocalData];
-    [[ZEQuestionTypeCache instance] clear];
     
-    UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
-    
-    ZELoginViewController * loginVC = [[ZELoginViewController alloc]init];
-    keyWindow.rootViewController = loginVC;
-    
-    [loginVC presentViewController:alertC animated:YES completion:nil];
+    [[ZEUtil getCurrentVC] presentViewController:alertC animated:YES completion:nil];
 
 }
 
@@ -136,7 +126,7 @@
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":MASTERFIELD,
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
                                      @"DETAILTABLE":@"",};
     
     

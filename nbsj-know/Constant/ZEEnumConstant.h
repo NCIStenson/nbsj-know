@@ -16,15 +16,23 @@ typedef enum : NSUInteger {
 
 
 typedef enum:NSInteger{
-    QUESTION_LIST_NEW, // 推荐列表
-    QUESTION_LIST_TYPE,      // 问题分类
+    QUESTION_LIST_NEW,          // 推荐列表
+    QUESTION_LIST_TYPE,         // 问题分类
     QUESTION_LIST_MY_QUESTION,  // 我的问题列表
-    QUESTION_LIST_MY_ANSWER     // 我的回答
+    QUESTION_LIST_MY_ANSWER,    // 我的回答
+    QUESTION_LIST_EXPERT,       // 专家解答
+    QUESTION_LIST_CASE,         // 经典案例列表
+    QUESTION_LIST_RECOMMAND,    // 推荐列表
 }QUESTION_LIST;
 
 typedef enum : NSUInteger {
     ENTER_GROUP_TYPE_DEFAULT,
     ENTER_GROUP_TYPE_SETTING,
 } ENTER_GROUP_TYPE;
+
+typedef enum : NSUInteger {
+    ENTER_CASE_TYPE_DEFAULT,
+    ENTER_CASE_TYPE_SETTING,
+} ENTER_CASE_TYPE;
 
 #endif /* ZEEnumConstant_h */

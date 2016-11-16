@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "989B2C421C4DE7AA00F14EFA"
-               BuildableName = "nbsj-know.app"
+               BuildableName = "&#x77e5;&#x9053;&#x95ee;&#x7b54;.app"
                BlueprintName = "nbsj-know"
                ReferencedContainer = "container:nbsj-know.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "989B2C421C4DE7AA00F14EFA"
-            BuildableName = "nbsj-know.app"
+            BuildableName = "&#x77e5;&#x9053;&#x95ee;&#x7b54;.app"
             BlueprintName = "nbsj-know"
             ReferencedContainer = "container:nbsj-know.xcodeproj">
          </BuildableReference>
@@ -57,7 +57,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "989B2C421C4DE7AA00F14EFA"
-            BuildableName = "nbsj-know.app"
+            BuildableName = "&#x77e5;&#x9053;&#x95ee;&#x7b54;.app"
             BlueprintName = "nbsj-know"
             ReferencedContainer = "container:nbsj-know.xcodeproj">
          </BuildableReference>
@@ -88,7 +88,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "989B2C421C4DE7AA00F14EFA"
-            BuildableName = "nbsj-know.app"
+            BuildableName = "&#x77e5;&#x9053;&#x95ee;&#x7b54;.app"
             BlueprintName = "nbsj-know"
             ReferencedContainer = "container:nbsj-know.xcodeproj">
          </BuildableReference>

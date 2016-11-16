@@ -17,7 +17,7 @@ static ZEAnswerInfoModel * ansertInfoM = nil;
     ansertInfoM = [[ZEAnswerInfoModel alloc]init];
     
     ansertInfoM.SEQKEY         = [dic objectForKey:@"SEQKEY"];
-    ansertInfoM.QUERTIONID     = [dic objectForKey:@"QUERTIONID"];
+    ansertInfoM.QUESTIONID     = [dic objectForKey:@"QUESTIONID"];
     ansertInfoM.ANSWEREXPLAIN  = [dic objectForKey:@"ANSWEREXPLAIN"];
     ansertInfoM.ANSWERIMAGE    = [dic objectForKey:@"ANSWERIMAGE"];
     ansertInfoM.ANSWERUSERCODE = [dic objectForKey:@"ANSWERUSERCODE"];
@@ -28,10 +28,15 @@ static ZEAnswerInfoModel * ansertInfoM = nil;
     ansertInfoM.GOODNUMS       = [NSString stringWithFormat:@"%@",[dic objectForKey:@"GOODNUMS"]];
     ansertInfoM.SYSCREATEDATE  = [dic objectForKey:@"SYSCREATEDATE"];
     ansertInfoM.NICKNAME       = [dic objectForKey:@"NICKNAME"];
-    ansertInfoM.HEADIMAGE      = [[dic objectForKey:@"HEADIMAGE"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
+    ansertInfoM.HEADIMAGE        = [[[dic objectForKey:@"HEADIMAGE"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"] stringByReplacingOccurrencesOfString:@"," withString:@""];
     
     ansertInfoM.FILEURL        = [[dic objectForKey:@"FILEURL"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
     
+    NSArray * urlArr = [ansertInfoM.FILEURL componentsSeparatedByString:@","];
+    NSMutableArray * imageUrlArr = [NSMutableArray arrayWithArray:urlArr];
+    [imageUrlArr removeObjectAtIndex:0];
+    ansertInfoM.FILEURLARR = imageUrlArr;
+
     return ansertInfoM;
 }
 

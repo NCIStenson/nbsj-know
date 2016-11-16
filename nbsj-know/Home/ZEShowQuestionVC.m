@@ -32,8 +32,12 @@
         self.title = @"我的问题";
     }else if(_showQuestionListType == QUESTION_LIST_MY_ANSWER){
         self.title = @"我的回答";
+    }else if (_showQuestionListType == QUESTION_LIST_EXPERT){
+        self.title = @"专家解答";
+    }else if (_showQuestionListType == QUESTION_LIST_CASE){
+        self.title = @"典型案例";
     }
-    [self createWhereSQL:nil];
+    [self createWhereSQL:_currentInputStr];
     
     [self initView];
 }
@@ -68,6 +72,16 @@
         }
         [self sendMyAnswerRequestWithCondition:searchCondition];
         return;
+    }else if (_showQuestionListType == QUESTION_LIST_EXPERT){
+        searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and ISEXPERTANSWER = 1 and QUESTIONEXPLAIN like '%%%@%%'",searchStr];
+        if (![ZEUtil isStrNotEmpty:searchStr]) {
+            searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and ISEXPERTANSWER = 1  and QUESTIONEXPLAIN like '%%'"];
+        }
+    }else if (_showQuestionListType == QUESTION_LIST_CASE){
+        searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONLEVEL = 2 and QUESTIONEXPLAIN like '%%%@%%'",searchStr];
+        if (![ZEUtil isStrNotEmpty:searchStr]) {
+            searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONLEVEL = 2 and QUESTIONEXPLAIN like '%%'"];
+        }
     }
     
     [self sendRequestWithCondition:searchCondition];
@@ -83,7 +97,7 @@
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{};
@@ -131,7 +145,7 @@
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{};
@@ -172,11 +186,13 @@
 
 
 #pragma mark -
+
 -(void)initView
 {
     _questionsView = [[ZEShowQuestionView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
     _questionsView.delegate = self;
     [self.view addSubview:_questionsView];
+    _questionsView.searchStr = _currentInputStr;
 }
 
 #pragma mark - ZEShowQuestionViewDelegate
@@ -192,6 +208,10 @@
 
 -(void)goSearch:(NSString *)str
 {
+    _currentPage = 0;
+    [_questionsView reloadFirstView:nil];
+    _questionsView.searchStr = str;
+    
     _currentInputStr = str;
     [self createWhereSQL:_currentInputStr];
 }
@@ -200,7 +220,7 @@
 {
     _currentInputStr = @"";
     _currentPage = 0;
-    [self createWhereSQL:nil];
+    [self createWhereSQL:_currentInputStr];
 }
 
 -(void)loadMoreData
@@ -211,6 +231,10 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    [[SDImageCache sharedImageCache] setValue:nil forKey:@"memCache"];
+    
+    [[SDImageCache sharedImageCache] clearDisk];
+
 }
 
 /*

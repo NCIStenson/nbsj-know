@@ -17,6 +17,10 @@
 @property (nonatomic,copy) NSString * ISENABLED;
 @property (nonatomic,copy) NSString * SYSCREATEDATE;
 
+@property (nonatomic,copy) NSString * NAME;
+@property (nonatomic,copy) NSString * CODE;
+
+
 +(ZEQuestionTypeModel *)getDetailWithDic:(NSDictionary *)dic;
 
 @end

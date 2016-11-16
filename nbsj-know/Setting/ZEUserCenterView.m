@@ -67,7 +67,10 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    if (section == 0) {
+        return 3;
+    }
+    return 1;
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -105,29 +108,27 @@
     [cell.contentView addSubview:contentLabel];
     contentLabel.userInteractionEnabled = YES;
     
+    CALayer * lineLayer = [CALayer layer];
+    lineLayer.frame = CGRectMake(45, 43.5f, SCREEN_WIDTH - 45.0f, 0.5f);
+    [cell.contentView.layer addSublayer:lineLayer];
+    lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
+    
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
-            CALayer * lineLayer = [CALayer layer];
-            lineLayer.frame = CGRectMake(45, 43.5f, SCREEN_WIDTH - 45.0f, 0.5f);
-            [cell.contentView.layer addSublayer:lineLayer];
-            lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
-            
             logoImageView.image = [UIImage imageNamed:@"question_icon" color:MAIN_NAV_COLOR];
             contentLabel.text = @"我的提问";
-        }else{
+        }else if(indexPath.row == 1){
             logoImageView.image = [UIImage imageNamed:@"askTa.png" color:MAIN_NAV_COLOR];
             contentLabel.text = @"我的回答";
+        }else if(indexPath.row == 2){
+            logoImageView.image = [UIImage imageNamed:@"tab_circle.png" color:MAIN_NAV_COLOR];
+            contentLabel.text = @"我的圈子";
+        }else if(indexPath.row == 3){
+            logoImageView.image = [UIImage imageNamed:@"askTa.png" color:MAIN_NAV_COLOR];
+            contentLabel.text = @"我的收藏";
         }
     }else if (indexPath.section == 1){
         if (indexPath.row == 0) {
-            CALayer * lineLayer = [CALayer layer];
-            lineLayer.frame = CGRectMake(45, 43.5f, SCREEN_WIDTH - 45.0f, 0.5f);
-            [cell.contentView.layer addSublayer:lineLayer];
-            lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
-            
-            logoImageView.image = [UIImage imageNamed:@"tab_circle.png" color:MAIN_NAV_COLOR];
-            contentLabel.text = @"我的圈子";
-        }else{
             logoImageView.image = [UIImage imageNamed:@"my_center_seting.png" color:MAIN_NAV_COLOR];
             contentLabel.text = @"设置";
         }
@@ -139,7 +140,7 @@
     if (section == 1) {
         return 10.0f;
     }
-    return 210.0f;
+    return 254.0f;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
@@ -170,8 +171,6 @@
     userHEAD.layer.borderColor = [MAIN_LINE_COLOR CGColor];
     userHEAD.layer.borderWidth = 2;
     
-    
-    
 //    UILabel * lvLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 25, 10)];
 //    lvLabel.center = CGPointMake(SCREEN_WIDTH / 2 + 30.0f, 138.0f);
 //    lvLabel.text = @"Lv 2";
@@ -186,6 +185,9 @@
 //    [userMessage addSubview:lvLabel];
     
     NSString * username = [ZESettingLocalData getNICKNAME];
+    if (![ZEUtil isStrNotEmpty:username]) {
+        username = [ZESettingLocalData getNAME];
+    }
     float usernameWidth = [ZEUtil widthForString:username font:[UIFont systemFontOfSize:16] maxSize:CGSizeMake(SCREEN_WIDTH - 60, 20)];
     
     UILabel * usernameLabel = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH - usernameWidth ) / 2, 155, usernameWidth, 20.0f)];
@@ -200,8 +202,34 @@
     sexImage.image = [UIImage imageNamed:@"boy"];
     [userMessage addSubview:sexImage];
     
-    grayView.frame = CGRectMake(0, 200, SCREEN_WIDTH, 10);
+    grayView.frame = CGRectMake(0, 244, SCREEN_WIDTH, 10);
     [userMessage addSubview:grayView];
+    
+    UIButton * personalMsgBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    personalMsgBtn.frame = CGRectMake(0, 200, SCREEN_WIDTH / 2, 44.0f);
+    [userMessage addSubview:personalMsgBtn];
+    [personalMsgBtn setTitle:@"  个人信息" forState:UIControlStateNormal];
+    personalMsgBtn.backgroundColor = [UIColor whiteColor];
+    [personalMsgBtn setImage:[UIImage imageNamed:@"myTab_userInfo"] forState:UIControlStateNormal];
+    personalMsgBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+    [personalMsgBtn setTitleColor:MAIN_NAV_COLOR forState:UIControlStateNormal];
+    [personalMsgBtn addTarget:self action:@selector(goSettingVC) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton * signInBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [signInBtn setTitleColor:MAIN_NAV_COLOR forState:UIControlStateNormal];
+    signInBtn.frame = CGRectMake(SCREEN_WIDTH / 2, 200, SCREEN_WIDTH / 2, 44.0f);
+    [userMessage addSubview:signInBtn];
+    signInBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+    [signInBtn setTitle:@"  签到" forState:UIControlStateNormal];
+    [signInBtn setImage:[UIImage imageNamed:@"myTab_singin"] forState:UIControlStateNormal];
+    signInBtn.backgroundColor = [UIColor whiteColor];
+    [signInBtn addTarget:self action:@selector(goSinginVC) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    CALayer * lineLayer = [CALayer layer];
+    lineLayer.frame = CGRectMake(SCREEN_WIDTH / 2 - 0.5f, 200.0f, 1.0f, 44.0f);
+    [userMessage.layer addSublayer:lineLayer];
+    lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
     
     return userMessage;
 }
@@ -224,7 +252,16 @@
                         [self.delegate goMyAnswerList];
                     }
                     break;
-                    
+                case 2:
+                    if ([self.delegate respondsToSelector:@selector(goMyGroup)]) {
+                        [self.delegate goMyGroup];
+                    }
+                    break;
+                case 3:
+                    if ([self.delegate respondsToSelector:@selector(goMyCollect)]) {
+                        [self.delegate goMyCollect];
+                    }
+                    break;
                 default:
                     break;
             }
@@ -235,13 +272,6 @@
         {
             switch (indexPath.row) {
                 case 0:
-                {
-                    if ([self.delegate respondsToSelector:@selector(goMyGroup)]) {
-                        [self.delegate goMyGroup];
-                    }
-                }
-                    break;
-                case 1:
                 {
                     if ([self.delegate respondsToSelector:@selector(goSettingVC)]) {
                         [self.delegate goSettingVC];
@@ -257,6 +287,20 @@
             
         default:
             break;
+    }
+}
+
+-(void)goSinginVC
+{
+    if ([self.delegate respondsToSelector:@selector(goSinginVC)]) {
+        [self.delegate goSinginVC];
+    }
+}
+
+-(void)goSettingVC
+{
+    if ([self.delegate respondsToSelector:@selector(goSettingVC)]) {
+        [self.delegate goSettingVC];
     }
 }
 

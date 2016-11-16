@@ -23,6 +23,12 @@ typedef NS_ENUM (NSInteger,SECTION_TITLE){
  *  去签到
  */
 -(void)goSinginView;
+/**
+ *  @author Stenson, 16-07-27 10:07:18
+ *
+ *  去经典案例详情
+ */
+-(void)goTypicalDetail:(NSDictionary *)detailDic;
 
 /**
  *  @author Stenson, 16-07-29 09:07:17
@@ -54,6 +60,14 @@ typedef NS_ENUM (NSInteger,SECTION_TITLE){
 -(void)goQuestionDetailVCWithQuestionInfo:(ZEQuestionInfoModel *)infoModel
                          withQuestionType:(ZEQuestionTypeModel *)typeModel;
 
+
+/**
+ 搜索
+
+ @param str 
+ */
+-(void)goSearch:(NSString *)str;
+
 @end
 
 @interface ZEHomeView : UIView<UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource>
@@ -63,7 +77,12 @@ typedef NS_ENUM (NSInteger,SECTION_TITLE){
 -(id)initWithFrame:(CGRect)frame;
 
 /**** 已经签到过界面 ***/
--(void)reloadSigninedView;
+-(void)reloadSigninedViewDay:(NSString *)dayStr numbers:(NSString *)number;
 
 -(void)reloadSection:(NSInteger)section withData:(NSArray *)arr;
+
+-(void)reloadSectionView:(NSArray *)data;
+
+-(void)hiddenSinginView;
+
 @end

@@ -44,7 +44,7 @@
                                      @"METHOD":METHOD_SEARCH,
                                      @"MASTERFIELD":@"USERCODE",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.app.operation.business.AppBizOperation",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
                                      @"DETAILTABLE":@"",};
     
 
@@ -100,7 +100,7 @@
                                      @"METHOD":@"addSave",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.app.biz.klb.Score",
+                                     @"CLASSNAME":@"com.nci.klb.app.signin.SigninPoints",
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{@"USERCODE":[ZESettingLocalData getUSERCODE],
