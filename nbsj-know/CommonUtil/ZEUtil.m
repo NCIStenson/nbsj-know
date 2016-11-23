@@ -81,7 +81,7 @@
 {
     const char* original_str=[string UTF8String];
     unsigned char digist[CC_MD5_DIGEST_LENGTH]; //CC_MD5_DIGEST_LENGTH = 16
-    CC_MD5(original_str, strlen(original_str), digist);
+    CC_MD5(original_str, (CC_LONG)strlen(original_str), digist);
     
     NSMutableString* outPutStr = [NSMutableString stringWithCapacity:10];
     for(int  i =0; i<CC_MD5_DIGEST_LENGTH;i++){

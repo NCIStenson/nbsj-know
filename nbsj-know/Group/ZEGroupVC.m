@@ -34,12 +34,12 @@
     }else if (_enter_group_type == ENTER_GROUP_TYPE_SETTING){
         self.title = @"我的圈子";
     }
-    [self initView];
+//    [self initView];
     
-    teamCirVC =[[ZETeamCircleVC alloc]init];
+//    teamCirVC =[[ZETeamCircleVC alloc]init];
     profCirVC = [[ZEProfessionalCirVC alloc]init];
     profCirVC.enter_group_type = _enter_group_type;
-    [self addChildViewController:teamCirVC];
+//    [self addChildViewController:teamCirVC];
     [self addChildViewController:profCirVC];
     
     [self.view addSubview:profCirVC.view];

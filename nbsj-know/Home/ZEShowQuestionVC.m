@@ -97,7 +97,7 @@
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"CLASSNAME":@"com.nci.klb.app.question.QuestionPoints",
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{};

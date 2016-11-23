@@ -42,8 +42,12 @@
             scoreDic:(NSDictionary *)dic
           memberData:(id)data
 {
-    self.scoreDic = dic;
-    self.memberArr = data;
+    if([ZEUtil isNotNull:dic]){
+        self.scoreDic = dic;
+    }
+    if ([ZEUtil isNotNull:data]) {
+        self.memberArr = data;
+    }
     
     [contentView reloadData];
 }
@@ -298,7 +302,7 @@
             if(i == 0){
                 switch (j) {
                     case 0:
-                        contentLab.text = @"姓名";
+                        contentLab.text = @"昵称";
                         break;
                     case 1:
                         contentLab.text = @"月度个人积分";
@@ -319,7 +323,11 @@
                         contentLab.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"SUMPOINTS"]];
                         break;
                     case 2:
-                        contentLab.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"ANSWERSUM"]];
+                        if([[dic objectForKey:@"ANSWERSUM"] integerValue] > 0 ){
+                            contentLab.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"ANSWERSUM"]];
+                        }else{
+                            contentLab.text = [NSString stringWithFormat:@"0"];
+                        }
                         break;
                     default:
                         break;

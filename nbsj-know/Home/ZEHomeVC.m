@@ -264,7 +264,7 @@
         return;
     }
     
-    NSDictionary * parametersDic = @{@"limit":@"20",
+    NSDictionary * parametersDic = @{@"limit":@"-1",
                                      @"MASTERTABLE":V_KLB_QUESTION_TYPE,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"",
@@ -374,7 +374,7 @@
 {
     NSString * WHERESQL = [NSString stringWithFormat:@"ISLOSE = 0 and QUESTIONEXPLAIN like '%%%@%%'",searchStr];
     if (![ZEUtil isStrNotEmpty:searchStr]) {
-        WHERESQL = [NSString stringWithFormat:@"ISLOSE = 0 and QUESTIONEXPLAIN like '%%'"];
+        WHERESQL = [NSString stringWithFormat:@"ISLOSE = 0 and ISSOLVE = 0 and QUESTIONEXPLAIN like '%%'"];
     }
     NSDictionary * parametersDic = @{@"limit":@"10",
                                      @"MASTERTABLE":V_KLB_QUESTION_INFO,
@@ -385,7 +385,7 @@
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"CLASSNAME":@"com.nci.klb.app.question.QuestionPoints",
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{};
@@ -419,7 +419,7 @@
                                      @"METHOD":METHOD_SEARCH,
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"CLASSNAME":@"com.nci.klb.app.classiccase.ClassicCase",
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{};
@@ -491,6 +491,11 @@
     [self.navigationController pushViewController:showQuestionsList animated:YES];
 }
 
+-(void)loadNewData
+{
+    [self sendNewestQuestionsRequest:@""];
+    [self sendCaseQuestionsRequest];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -43,11 +43,11 @@
 
 -(void)initContentView
 {
-    UIView * searchBackView = [[UIView alloc]initWithFrame:CGRectMake(10, -1, SCREEN_WIDTH - 20, 50)];
+    UIView * searchBackView = [[UIView alloc]initWithFrame:CGRectMake(0, -1, SCREEN_WIDTH, 50)];
     searchBackView.backgroundColor = MAIN_NAV_COLOR;
     
     UIView * searchTF = [self searchTextfieldView];
-    searchTF.frame = CGRectMake(10, 10, SCREEN_WIDTH - 50, 30);
+    searchTF.frame = CGRectMake(25, 10, SCREEN_WIDTH - 50, 30);
     [searchBackView addSubview:searchTF];
     [self addSubview:searchBackView];
     

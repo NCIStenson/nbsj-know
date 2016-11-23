@@ -37,12 +37,14 @@ static ZEKLB_CLASSICCASE_INFOModel * model;
     model.SYSCREATEDATE         = [dic objectForKey:@"SYSCREATEDATE"];
     model.SEQKEY                = [dic objectForKey:@"SEQKEY"];
     
-    model.COURSEFILEURL               = [[dic objectForKey:@"COURSEFILEURL"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
-    NSArray * courseUrlStrArr = [model.COURSEFILEURL componentsSeparatedByString:@","];
-    NSMutableArray * courseUrlArr = [NSMutableArray arrayWithArray:courseUrlStrArr];
-    [courseUrlArr removeObjectAtIndex:0];
-    if (courseUrlArr.count > 0) {
-        model.COURSEFILEURLARR = courseUrlArr;
+    if ([ZEUtil isStrNotEmpty:[dic objectForKey:@"COURSEFILEURL"]]) {
+        model.COURSEFILEURL               = [[dic objectForKey:@"COURSEFILEURL"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
+        NSArray * courseUrlStrArr = [model.COURSEFILEURL componentsSeparatedByString:@","];
+        NSMutableArray * courseUrlArr = [NSMutableArray arrayWithArray:courseUrlStrArr];
+        [courseUrlArr removeObjectAtIndex:0];
+        if (courseUrlArr.count > 0) {
+            model.COURSEFILEURLARR = courseUrlArr;
+        }
     }
     
     model.COURSEFILENAMEARR             = [[dic objectForKey:@"COURSEFILENAME"] componentsSeparatedByString:@","];

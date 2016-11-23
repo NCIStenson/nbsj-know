@@ -22,6 +22,8 @@
 
 @property (nonnull,nonatomic,strong) NSMutableArray * datasArr;
 
+@property (nonnull,nonatomic,strong) NSMutableArray * myCircleArr;
+
 @end
 
 @implementation ZEProfessionalCirVC
@@ -29,8 +31,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.automaticallyAdjustsScrollViewInsets = NO;
     self.datasArr = [NSMutableArray array];
     [self initView];
+
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
     [self sendRequest];
 }
 
@@ -41,20 +48,60 @@
     NSString * WHERESQL = @"";
     NSString * ORDERSQL = @"";
     NSString * tableName = KLB_PROCIRCLE_INFO;
-    if (_enter_group_type == ENTER_GROUP_TYPE_SETTING) {
-        WHERESQL = [NSString stringWithFormat:@"USERCODE='%@'",[ZESettingLocalData getUSERCODE]];
-        tableName = KLB_PROCIRCLE_REL_USER;
-        ORDERSQL = @"SYSCREATEDATE desc";
-    }else{
-        tableName = V_KLB_PROCIRCLE_POSITION;
-        ORDERSQL = @"procirclepoints desc";
-        NSArray * dataArr = [[ZEQuestionTypeCache instance]getProCircleCaches];
-        if (dataArr.count > 0) {
-            self.datasArr = [NSMutableArray arrayWithArray:dataArr];
-            return;
-        }
+    tableName = V_KLB_PROCIRCLE_POSITION;
+    ORDERSQL = @"procirclepoints desc";
+    NSArray * dataArr = [[ZEQuestionTypeCache instance]getProCircleCaches];
+    if (dataArr.count > 0) {
+        self.datasArr = [NSMutableArray arrayWithArray:dataArr];
+        [self myCircleRequest];
+        return;
     }
-    NSDictionary * parametersDic = @{@"limit":@"10",
+    
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":tableName,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":ORDERSQL,
+                                     @"WHERESQL":WHERESQL,
+                                     @"start":@"0",
+                                     @"METHOD":@"search",
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[tableName]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+                                 NSArray * arr = [NSMutableArray arrayWithArray:[ZEUtil getServerData:data withTabelName:tableName]];
+                                 self.datasArr = [NSMutableArray arrayWithArray:arr];
+                                 [self myCircleRequest];
+                                
+                                 [[ZEQuestionTypeCache instance] setProCircleCaches:arr];
+                                 
+                             } fail:^(NSError *errorCode) {
+                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
+                             }];
+}
+
+-(void)myCircleRequest
+{
+    NSString * WHERESQL = @"";
+    NSString * ORDERSQL = @"";
+    NSString * tableName = KLB_PROCIRCLE_INFO;
+    
+    WHERESQL = [NSString stringWithFormat:@"USERCODE='%@'",[ZESettingLocalData getUSERCODE]];
+    tableName = KLB_PROCIRCLE_REL_USER;
+    ORDERSQL = @"SYSCREATEDATE desc";
+
+    NSDictionary * parametersDic = @{@"limit":@"-1",
                                      @"MASTERTABLE":tableName,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":ORDERSQL,
@@ -77,22 +124,21 @@
                        showAlertView:NO
                              success:^(id data) {
                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
-
                                  NSArray * arr = [NSMutableArray arrayWithArray:[ZEUtil getServerData:data withTabelName:tableName]];
+                                 self.myCircleArr = [NSMutableArray arrayWithArray:arr];
                                  if (_enter_group_type == ENTER_GROUP_TYPE_SETTING) {
-                                     [self reloadMyCircleView:arr];
-                                 }else if (_enter_group_type == ENTER_GROUP_TYPE_DEFAULT){
-                                     self.datasArr = [NSMutableArray arrayWithArray:arr];
-                                     [[ZEQuestionTypeCache instance] setProCircleCaches:arr];
-                                     [contentView reloadData];
+                                     [self reloadMyCircleView:self.myCircleArr];
                                  }
+                                 [contentView reloadData];
                              } fail:^(NSError *errorCode) {
                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
                              }];
 }
 
+
 -(void)reloadMyCircleView:(NSArray *)arr
 {
+    self.datasArr = [NSMutableArray array];
     NSArray * cacheArr = [[ZEQuestionTypeCache instance] getProCircleCaches];
     for (int i = 0; i < arr.count; i ++) {
         NSDictionary * dic = arr[i];
@@ -108,11 +154,11 @@
 }
 
 -(void)initView{
-    float cellHeight = SCREEN_HEIGHT - NAV_HEIGHT - 89.0f;
+    float cellHeight = SCREEN_HEIGHT - NAV_HEIGHT - 49.0f;
     if (_enter_group_type == ENTER_GROUP_TYPE_SETTING) {
         cellHeight = SCREEN_HEIGHT - NAV_HEIGHT - 49.0f;
     }
-    contentView = [[UITableView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT + 40.0f, SCREEN_WIDTH, cellHeight) style:UITableViewStylePlain];
+    contentView = [[UITableView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT - 49.0f) style:UITableViewStylePlain];
     contentView.delegate = self;
     contentView.dataSource = self;
     [self.view addSubview:contentView];
@@ -124,6 +170,13 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 1;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 0.1;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.1;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -146,6 +199,10 @@
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
+    for (UIView * view in cell.contentView.subviews) {
+        [view removeFromSuperview];
+    }
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
     [self initCellView:cell.contentView indexPath:indexPath];
@@ -163,16 +220,16 @@
     }
     
     for (int i = 0 ; i < count; i ++) {
-        CALayer * lineLayer = [CALayer layer];
-        lineLayer.frame = CGRectMake(0, 5 + 60 * i, SCREEN_WIDTH, 1);
-        [superView.layer addSublayer:lineLayer];
-        lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
+        UIView * lineLayer = [UIView new];
+        lineLayer.frame = CGRectMake(0,  60 * i, SCREEN_WIDTH, 1);
+        [superView addSubview:lineLayer];
+        lineLayer.backgroundColor = MAIN_LINE_COLOR;
         
         if (i == count - 1) {
-            CALayer * lastLineLayer = [CALayer layer];
-            lastLineLayer.frame = CGRectMake(0, 5 + 60 * (i + 1), SCREEN_WIDTH, 1);
-            [superView.layer addSublayer:lastLineLayer];
-            lastLineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
+            UIView * lineLayer = [UIView new];
+            lineLayer.frame = CGRectMake(0,  60 * (i + 1), SCREEN_WIDTH, 1);
+            [superView addSubview:lineLayer];
+            lineLayer.backgroundColor = MAIN_LINE_COLOR;
         }
         
         for (int j = 1; j < 4; j ++ ) {
@@ -180,7 +237,7 @@
                 return;
             }else if (i * 3 + j < 4){
                 UILabel * listLabel;
-                listLabel = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH / 3 * (j - 1)), 5 + 60 * i, 35, 30)];
+                listLabel = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH / 3 * (j - 1)),  60 * i, 35, 30)];
                 [superView addSubview:listLabel];
                 listLabel.font = [UIFont boldSystemFontOfSize:18];
                 listLabel.textAlignment = NSTextAlignmentCenter;
@@ -202,17 +259,20 @@
                     default:
                         break;
                 }
+                if (_enter_group_type == ENTER_GROUP_TYPE_SETTING) {
+                    listLabel.hidden = YES;
+                }
 
             }
-            CALayer * lineLayer = [CALayer layer];
-            lineLayer.frame = CGRectMake(SCREEN_WIDTH / 3 * j, 5 + 60 * i, 1, 60);
-            [superView.layer addSublayer:lineLayer];
-            lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
+            UIView * lineLayer = [UIView new];
+            lineLayer.frame = CGRectMake(SCREEN_WIDTH / 3 * j,  60 * i, 1, 60);
+            [superView addSubview:lineLayer];
+            lineLayer.backgroundColor = MAIN_LINE_COLOR;
 
             UIButton * professionalBtn =[UIButton buttonWithType:UIButtonTypeSystem];
-            professionalBtn.frame = CGRectMake((SCREEN_WIDTH / 3 * (j - 1)), 15 + 60 * i, SCREEN_WIDTH / 3, 50.0f);
+            professionalBtn.frame = CGRectMake((SCREEN_WIDTH / 3 * (j - 1)),  60 * i, SCREEN_WIDTH / 3, 60.0f);
             if (i * 3 + j > 4){
-                professionalBtn.frame = CGRectMake((SCREEN_WIDTH / 3 * (j - 1)), 5 + 60 * i, SCREEN_WIDTH / 3, 60.0f);
+                professionalBtn.frame = CGRectMake((SCREEN_WIDTH / 3 * (j - 1)),  60 * i, SCREEN_WIDTH / 3, 60.0f);
             }
             professionalBtn.tag = i * 3 + j;
             [professionalBtn addTarget:self action:@selector(goDeatailVC:) forControlEvents:UIControlEventTouchUpInside];
@@ -220,6 +280,16 @@
             [professionalBtn setTitle:PROCIRCLENAME(self.datasArr[i*3+j-1]) forState:UIControlStateNormal];
             [professionalBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             [superView addSubview:professionalBtn];
+            professionalBtn.titleLabel.numberOfLines = 0;
+            
+            for (int k = 0; k < self.myCircleArr.count ; k ++) {
+                NSDictionary * myCircleDic = self.myCircleArr[k];
+                if ([PROCIRCLECODE(myCircleDic) isEqualToString:PROCIRCLECODE(self.datasArr[i*3+j-1])]) {
+                    UIImageView * iconImage = [[UIImageView alloc]initWithFrame:CGRectMake(professionalBtn.frame.origin.x + professionalBtn.frame.size.width - 20, professionalBtn.frame.origin.y, 20, 20)];
+                    iconImage.image = [UIImage imageNamed:@"hornView" color:MAIN_NAV_COLOR];
+                    [superView addSubview:iconImage];
+                }
+            }
             
         }
     }

@@ -10,4 +10,6 @@
 
 @interface ZESetPersonalMessageVC : ZESettingRootVC
 
+@property(nonatomic,assign) ENTER_SETTING_TYPE enterType;
+
 @end

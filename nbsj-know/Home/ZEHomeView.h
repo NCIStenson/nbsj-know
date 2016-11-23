@@ -61,6 +61,11 @@ typedef NS_ENUM (NSInteger,SECTION_TITLE){
                          withQuestionType:(ZEQuestionTypeModel *)typeModel;
 
 
+
+/**
+ 加载新数据
+ */
+-(void)loadNewData;
 /**
  搜索
 

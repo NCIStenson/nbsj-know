@@ -122,10 +122,10 @@
                                      @"ORDERSQL":@"",
                                      @"WHERESQL":@"",
                                      @"start":@"0",
-                                     @"METHOD":@"search",
+                                     @"METHOD":METHOD_SEARCH,
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"CLASSNAME":@"com.nci.klb.app.userinfo.UserInfo",
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{@"USERCODE":@"",
@@ -153,15 +153,10 @@
                                      [userinfoDic setObject:[userinfoDic objectForKey:@"USERNAME"] forKey:@"NAME"];
                                      [ZESettingLocalData setUSERINFODic:userinfoDic];
                                      NSLog(@">>>  %@",userinfoDic);
-                                     
-                                     NSArray * headUrlArr = [[userinfoDic objectForKey:@"FILEURL"] componentsSeparatedByString:@","];
-                                     [ZESettingLocalData changeUSERHHEADURL:headUrlArr[1]];
-
-//                                     if ([[userinfoDic objectForKey:@"EXPERTTYPE"] integerValue] == 0) {
-//                                         [ZESettingLocalData setISEXPERT:NO];
-//                                     }else{
-//                                         [ZESettingLocalData setISEXPERT:YES];
-//                                     }
+                                     if([ZEUtil isStrNotEmpty:[userinfoDic objectForKey:@"FILEURL"]]){
+                                         NSArray * headUrlArr = [[userinfoDic objectForKey:@"FILEURL"] componentsSeparatedByString:@","];
+                                         [ZESettingLocalData changeUSERHHEADURL:headUrlArr[1]];
+                                     }
                                  }
                                  [self goHome];
                              } fail:^(NSError *errorCode) {
@@ -239,22 +234,22 @@
 -(void)goHome
 {
     ZEHomeVC * homeVC = [[ZEHomeVC alloc]init];
-    homeVC.tabBarItem.image = [UIImage imageNamed:@"ic_titlebar_home_normal_flat.png"];
+    homeVC.tabBarItem.image = [UIImage imageNamed:@"icon_home"];
     homeVC.tabBarItem.title = @"首页";
     UINavigationController * homeNav = [[UINavigationController alloc]initWithRootViewController:homeVC];
     
     ZEQuestionsVC * quesetionsVC = [[ZEQuestionsVC alloc]init];
-    quesetionsVC.tabBarItem.image = [UIImage imageNamed:@"refresh_Rank.png"];
+    quesetionsVC.tabBarItem.image = [UIImage imageNamed:@"icon_question"];
     quesetionsVC.tabBarItem.title = @"问答";
     UINavigationController * quesetionsNav = [[UINavigationController alloc]initWithRootViewController:quesetionsVC];
     
     ZEGroupVC * groupVC = [[ZEGroupVC alloc]init];
-    groupVC.tabBarItem.image = [UIImage imageNamed:@"tab_circle"];
+    groupVC.tabBarItem.image = [UIImage imageNamed:@"icon_circle"];
     groupVC.tabBarItem.title = @"圈子";
     UINavigationController * groupNav = [[UINavigationController alloc]initWithRootViewController:groupVC];
     
     ZEUserCenterVC * userCenVC = [[ZEUserCenterVC alloc]init];
-    userCenVC.tabBarItem.image = [UIImage imageNamed:@"icon_personal"];
+    userCenVC.tabBarItem.image = [UIImage imageNamed:@"icon_user"];
     userCenVC.tabBarItem.title = @"我的";
     UINavigationController * userCenNav = [[UINavigationController alloc]initWithRootViewController:userCenVC];
     

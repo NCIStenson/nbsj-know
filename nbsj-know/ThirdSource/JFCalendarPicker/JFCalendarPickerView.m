@@ -55,13 +55,14 @@ NSString *const JFCalendarCellIdentifier = @"cell";
     
     monthBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     [monthBtn addTarget:self action:@selector(chooseMonth) forControlEvents:UIControlEventTouchUpInside];
-    [monthBtn setTitle:[ZEUtil getCurrentDate:@"MM月"] forState:UIControlStateNormal];
-    monthBtn.frame = CGRectMake(10, 15, 50, 30);
+    [monthBtn setTitle:[ZEUtil getCurrentDate:@"yyyy-MM"] forState:UIControlStateNormal];
+    monthBtn.frame = CGRectMake(10, 15, 70, 30);
     [tipsView addSubview:monthBtn];
     [monthBtn setClipsToBounds: YES];
     [monthBtn.layer setCornerRadius:5.0f];
     [monthBtn.layer setBorderWidth:0.5];
     [monthBtn.layer setBorderColor:[MAIN_NAV_COLOR CGColor]];
+    [monthBtn.titleLabel setFont:[UIFont systemFontOfSize:12]];
     
     titleLable = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH / 4, 0, SCREEN_WIDTH / 2, 60)];
     titleLable.userInteractionEnabled = NO;
@@ -173,7 +174,15 @@ NSString *const JFCalendarCellIdentifier = @"cell";
     signinBtn.alpha = 0.3;
     signinBtn.enabled = NO;
     [signinBtn setTitle:@"已签到" forState:UIControlStateNormal];
-    [monthBtn setTitle:[ZEUtil getCurrentDate:@"MM月"] forState:UIControlStateNormal];
+    
+    NSDateFormatter*df = [[NSDateFormatter alloc]init];//格式化
+    [df setDateFormat:@"yyyy-MM-dd HHmmss"];
+    [df setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_CN"] ];
+    NSDate * date =[[NSDate alloc]init];
+    date =[df dateFromString:[ZEUtil getCurrentDate:@"yyyy-MM-dd HHmmss"]];
+    self.date = date;
+    
+    [monthBtn setTitle:[ZEUtil getCurrentDate:@"yyyy-MM"] forState:UIControlStateNormal];
 }
 #pragma mark - date
 //这个月的天数
@@ -414,16 +423,15 @@ NSString *const JFCalendarCellIdentifier = @"cell";
 -(void)confirmChooseCount:(NSString *)countStr
 {
     [_alertView dismissWithCompletion:nil];
-    [monthBtn setTitle:[NSString stringWithFormat:@"%@月",countStr] forState:UIControlStateNormal];
+    [monthBtn setTitle:[NSString stringWithFormat:@"%@",countStr] forState:UIControlStateNormal];
 
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HHmmss"];
     NSString *destDateString = [dateFormatter stringFromDate:self.date];
 
-    [dateFormatter setDateFormat:@"-MM-"];
-    NSString * monthStr = [dateFormatter stringFromDate:self.date];
+    [dateFormatter setDateFormat:@"yyyy-MM"];
     
-    NSString * choosedDate =[destDateString stringByReplacingOccurrencesOfString:monthStr withString:[NSString stringWithFormat:@"-%@-",countStr]];
+    NSString * choosedDate =[destDateString stringByReplacingCharactersInRange:NSMakeRange(0, 7) withString:countStr];
 
     NSDateFormatter*df = [[NSDateFormatter alloc]init];//格式化
     [df setDateFormat:@"yyyy-MM-dd HHmmss"];

@@ -116,6 +116,9 @@ static NSString * kUSERINFODic      = @"kUSERINFODic";
 }
 +(NSString *)getUSERHHEADURL
 {
+    if (![ZEUtil isStrNotEmpty:[[self Get:kUSERINFODic] objectForKey:@"FILEURL"]]) {
+        return @"";
+    }
     return [[[self Get:kUSERINFODic] objectForKey:@"FILEURL"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
 }
 
@@ -160,7 +163,7 @@ static NSString * kUSERINFODic      = @"kUSERINFODic";
 }
 +(BOOL)getISEXPERT
 {
-    return [self Get:kISEXPERT];
+    return [[self Get:kISEXPERT] boolValue];
 }
 +(void)deleteISEXPERT
 {

@@ -35,4 +35,10 @@ typedef enum : NSUInteger {
     ENTER_CASE_TYPE_SETTING,
 } ENTER_CASE_TYPE;
 
+typedef enum : NSUInteger {
+    ENTER_SETTING_TYPE_PERSONAL,
+    ENTER_SETTING_TYPE_SETTING,
+} ENTER_SETTING_TYPE;
+
+
 #endif /* ZEEnumConstant_h */

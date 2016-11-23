@@ -46,6 +46,38 @@
     [self isCollected];
 }
 
+-(void)reloadViewData
+{
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":V_KLB_CLASSICCASE_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":[NSString stringWithFormat:@"SEQKEY = '%@'",[self.classicalCaseDetailDic objectForKey:@"SEQKEY"]],
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_SEARCH,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.classiccase.ClassicCase",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_CLASSICCASE_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 if([[ZEUtil getServerData:data withTabelName:V_KLB_CLASSICCASE_INFO] count] > 0){
+                                     self.classicalCaseDetailDic = [ZEUtil getServerData:data withTabelName:V_KLB_CLASSICCASE_INFO][0];
+                                     [detailView reloadSectionView:self.classicalCaseDetailDic];
+                                 }
+                             } fail:^(NSError *error) {
+                                 
+                             }];
+}
+
 -(void)sendRequest
 {
     NSDictionary * parametersDic = @{@"limit":@"20",
@@ -135,10 +167,10 @@
                              success:^(id data) {
                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
                                  if ([[ZEUtil getServerData:data withTabelName:KLB_CLASSICCASE_COLLECT ] count] > 0) {
-                                     UIView * collectBtn = [self.leftBtn.superview viewWithTag:101];
-                                     UIView * scoreBtn = [self.leftBtn.superview viewWithTag:100];
-                                     scoreBtn.frame = collectBtn.frame;
-                                     [[self.leftBtn.superview viewWithTag:101] removeFromSuperview];
+                                     UIButton * collectBtn = [self.leftBtn.superview viewWithTag:101];
+                                     [collectBtn setImage:[UIImage imageNamed:@"detail_nav_star_pressed"] forState:UIControlStateNormal];
+                                     [collectBtn removeTarget:self action:@selector(didCollect) forControlEvents:UIControlEventTouchUpInside];
+                                     [collectBtn addTarget:self action:@selector(cancelCollect) forControlEvents:UIControlEventTouchUpInside];
                                  }
                              } fail:^(NSError *errorCode) {
                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -213,6 +245,8 @@
                                  [self dismissTheScoreView];
 
                                  [[self.leftBtn.superview viewWithTag:100] removeFromSuperview];
+                                 [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_SCORE_SUCCESS object:nil];
+                                 [self reloadViewData];
                                  
                              } fail:^(NSError *errorCode) {
                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -248,17 +282,52 @@
                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
                                  [self showTips:@"收藏成功"];
                                  
-                                 UIView * collectBtn = [self.leftBtn.superview viewWithTag:101];
-                                 UIView * scoreBtn = [self.leftBtn.superview viewWithTag:100];
-                                 scoreBtn.frame = collectBtn.frame;
+                                 UIButton * collectBtn = [self.leftBtn.superview viewWithTag:101];
+                                 [collectBtn setImage:[UIImage imageNamed:@"detail_nav_star_pressed"] forState:UIControlStateNormal];
+                                 [collectBtn removeTarget:self action:@selector(didCollect) forControlEvents:UIControlEventTouchUpInside];
+                                 [collectBtn addTarget:self action:@selector(cancelCollect) forControlEvents:UIControlEventTouchUpInside];
 
-                                 [[self.leftBtn.superview viewWithTag:101] removeFromSuperview];
-                                 
                              } fail:^(NSError *errorCode) {
                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
                              }];
+}
 
+-(void)cancelCollect
+{
+    NSDictionary * parametersDic = @{@"limit":@"20",
+                                     @"MASTERTABLE":KLB_CLASSICCASE_COLLECT,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_DELETE,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"DETAILTABLE":@"",};
     
+    NSDictionary * fieldsDic =@{@"CASECODE":[self.classicalCaseDetailDic objectForKey:@"SEQKEY"],
+                                @"USERCODE":[ZESettingLocalData getUSERCODE]};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_CLASSICCASE_COLLECT]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                 [self showTips:@"取消收藏"];
+                                 
+                                 UIButton * collectBtn = [self.leftBtn.superview viewWithTag:101];
+                                 [collectBtn setImage:[UIImage imageNamed:@"detail_nav_star"] forState:UIControlStateNormal];
+                                 [collectBtn removeTarget:self action:@selector(cancelCollect) forControlEvents:UIControlEventTouchUpInside];
+                                 [collectBtn addTarget:self action:@selector(didCollect) forControlEvents:UIControlEventTouchUpInside];
+
+                             } fail:^(NSError *errorCode) {
+                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
+                             }];
 }
 
 
@@ -298,7 +367,7 @@
                                      @"METHOD":METHOD_SEARCH,
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"CLASSNAME":@"com.nci.klb.app.classiccase.CaseComment",
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{};

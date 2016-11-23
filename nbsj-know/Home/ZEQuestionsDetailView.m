@@ -283,16 +283,21 @@
     }
     
     float praiseNumWidth = [ZEUtil widthForString:[NSString stringWithFormat:@"  %@",answerInfoM.GOODNUMS] font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
-#warning 点赞
-//    UIButton * praiseNumBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    praiseNumBtn.frame = CGRectMake(SCREEN_WIDTH - praiseNumWidth - 30.0f,userY - 5,praiseNumWidth + 20,30.0f);
-//    [praiseNumBtn setTitle:[NSString stringWithFormat:@"  %@",answerInfoM.GOODNUMS] forState:UIControlStateNormal];
-//    praiseNumBtn.titleLabel.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
-//    [praiseNumBtn setTitleColor:MAIN_SUBTITLE_COLOR forState:UIControlStateNormal];
-//    [cellContentView addSubview:praiseNumBtn];
-//    [praiseNumBtn setImage:[UIImage imageNamed:@"qb_praiseBtn_hand.png"] forState:UIControlStateNormal];
-//    [praiseNumBtn addTarget:self action:@selector(giveLikes:) forControlEvents:UIControlEventTouchUpInside];
-//    praiseNumBtn.tag = indexPath.row;
+
+    UIButton * praiseNumBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    praiseNumBtn.frame = CGRectMake(SCREEN_WIDTH - praiseNumWidth - 30.0f,userY - 5,praiseNumWidth + 20,30.0f);
+    [praiseNumBtn setTitle:[NSString stringWithFormat:@"  %@",answerInfoM.GOODNUMS] forState:UIControlStateNormal];
+    praiseNumBtn.titleLabel.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
+    [praiseNumBtn setTitleColor:MAIN_SUBTITLE_COLOR forState:UIControlStateNormal];
+    [cellContentView addSubview:praiseNumBtn];
+    [praiseNumBtn setImage:[UIImage imageNamed:@"qb_praiseBtn_hand.png"] forState:UIControlStateNormal];
+    [praiseNumBtn addTarget:self action:@selector(giveLikes:) forControlEvents:UIControlEventTouchUpInside];
+    praiseNumBtn.tag = indexPath.row;
+    if([answerInfoM.ISGOOD boolValue]){
+        praiseNumBtn.enabled = NO;
+        [praiseNumBtn setTitleColor:RGBA(253, 179, 43, 1) forState:UIControlStateNormal];
+        [praiseNumBtn setImage:[UIImage imageNamed:@"qb_praiseBtn_hand.png" color:RGBA(253, 179, 43, 1)] forState:UIControlStateNormal];
+    }
     
     if ([answerInfoM.ISPASS boolValue]) {
         UILabel * otherAnswers = [[UILabel alloc]initWithFrame:CGRectMake(0, userY + 25.0f, SCREEN_WIDTH, 20.0f)];
@@ -322,7 +327,6 @@
 
 -(void)giveLikes:(UIButton *)btn
 {
-    NSLog(@">>>>>>>>>>>>>>>>>>>>>>  %@",@"点赞");
     ZEAnswerInfoModel * answerInfoM = [ZEAnswerInfoModel getDetailWithDic:_answerInfoArr[btn.tag]];
 
     if([self.delegate respondsToSelector:@selector(giveLikes:)]){

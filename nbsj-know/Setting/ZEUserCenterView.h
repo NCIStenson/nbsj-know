@@ -17,7 +17,7 @@
 /************** 我的回答列表  ****************/
 -(void)goMyAnswerList;
 /************** 个人信息设置列表 ****************/
--(void)goSettingVC;
+-(void)goSettingVC:(ENTER_SETTING_TYPE)type;
 
 /************** 个人信息设置列表 ****************/
 -(void)goMyGroup;

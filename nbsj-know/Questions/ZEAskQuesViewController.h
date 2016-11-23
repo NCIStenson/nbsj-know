@@ -10,4 +10,6 @@
 
 @interface ZEAskQuesViewController : ZESettingRootVC
 
+@property (nonatomic,assign) ENTER_GROUP_TYPE enterType;
+
 @end

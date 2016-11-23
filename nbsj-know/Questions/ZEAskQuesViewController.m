@@ -10,6 +10,8 @@
 #import "ZEAskQuesView.h"
 #import "ZEAskQuestionTypeView.h"
 
+#import "ZEShowQuestionVC.h"
+
 #import "ZELookViewController.h"
 #import "ZEQuestionTypeCache.h"
 
@@ -51,8 +53,8 @@
         return;
     }
     [MBProgressHUD showHUDAddedTo:self.view animated:YES ];
-    NSDictionary * parametersDic = @{@"limit":@"20",
-                                     @"MASTERTABLE":KLB_QUESTION_TYPE,
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":V_KLB_QUESTION_TYPE,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"",
                                      @"WHERESQL":@"ISENABLED=1",
@@ -65,7 +67,7 @@
     
     NSDictionary * fieldsDic =@{};
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_QUESTION_TYPE]
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_QUESTION_TYPE]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
@@ -73,7 +75,7 @@
                        showAlertView:NO
                              success:^(id data) {
                                  [MBProgressHUD hideHUDForView:self.view animated:YES ];
-                                 [[ZEQuestionTypeCache instance]setQuestionTypeCaches:[ZEUtil getServerData:data withTabelName:KLB_QUESTION_TYPE]];
+                                 [[ZEQuestionTypeCache instance]setQuestionTypeCaches:[ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_TYPE]];
                                  [askTypeView reloadData];
                              } fail:^(NSError *errorCode) {
                                  [MBProgressHUD hideHUDForView:self.view animated:YES ];
@@ -114,8 +116,16 @@
 -(void)didSelectType:(NSString *)typeName typeCode:(NSString *)typeCode
 {
     questionTypeCode = typeCode;
-    [askTypeView removeFromSuperview];
-    [self initView];
+    if (_enterType == ENTER_GROUP_TYPE_SETTING) {
+        ZEShowQuestionVC * showQuestionsList = [[ZEShowQuestionVC alloc]init];
+        showQuestionsList.showQuestionListType = QUESTION_LIST_TYPE;
+        showQuestionsList.QUESTIONTYPENAME = typeName;
+        showQuestionsList.typeSEQKEY = typeCode;
+        [self.navigationController pushViewController:showQuestionsList animated:YES];
+    }else if (_enterType == ENTER_GROUP_TYPE_DEFAULT){
+        [askTypeView removeFromSuperview];
+        [self initView];
+    }
 }
 
 #pragma mark - ZEAskQuesViewDelegate
@@ -202,8 +212,8 @@
         return;
     }
     
-    NSDictionary * parametersDic = @{@"limit":@"20",
-                                     @"MASTERTABLE":KLB_QUESTION_TYPE,
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":V_KLB_QUESTION_TYPE,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"",
                                      @"WHERESQL":@"ISENABLED=1",
@@ -216,7 +226,7 @@
     
     NSDictionary * fieldsDic =@{};
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_QUESTION_TYPE]
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_QUESTION_TYPE]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
@@ -225,7 +235,7 @@
                        showAlertView:NO
                              success:^(id data) {
                                  [self progressEnd:nil];
-                                 [askQuesView showQuestionTypeViewWithData:[ZEUtil getServerData:data withTabelName:KLB_QUESTION_TYPE]];
+                                 [askQuesView showQuestionTypeViewWithData:[ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_TYPE]];
                              } fail:^(NSError *errorCode) {
                                  [self progressEnd:nil];
                              }];

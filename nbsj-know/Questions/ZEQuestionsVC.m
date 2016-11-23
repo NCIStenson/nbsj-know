@@ -14,19 +14,14 @@
 #import "ZEAskQuesViewController.h"
 #import "ZEQuestionsDetailVC.h"
 #import "ZEQuestionTypeCache.h"
-#import "JCAlertView.h"
-#import "ZEShowQuestionTypeView.h"
 
 #import "ZEQuestionTypeModel.h"
-
 #import "ZEShowQuestionVC.h"
-
 #import "ZEScoreView.h"
 
-@interface ZEQuestionsVC ()<ZEQuestionsViewDelegate,ZEShowQuestionTypeViewDelegate>
+@interface ZEQuestionsVC ()<ZEQuestionsViewDelegate>
 {
     ZEQuestionsView * _questionView;
-    JCAlertView * _alertView;
 }
 @end
 
@@ -38,7 +33,7 @@
     self.navigationController.navigationBarHidden = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.title = @"问答";
-//    [self.leftBtn setTitle:@"分类" forState:UIControlStateNormal];
+    [self.leftBtn setTitle:@"分类" forState:UIControlStateNormal];
     [self.leftBtn setImage:nil forState:UIControlStateNormal];
     [self.leftBtn setImage:nil forState:UIControlStateHighlighted];
     [self.rightBtn setTitle:@"提问" forState:UIControlStateNormal];
@@ -70,7 +65,7 @@
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"CLASSNAME":@"com.nci.klb.app.question.QuestionPoints",
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{};
@@ -101,35 +96,15 @@
 
 -(void)leftBtnClick
 {
-    [self showQuestionTypeViewWithData:[[ZEQuestionTypeCache instance] getQuestionTypeCaches]];
+    ZEAskQuesViewController * askQues = [[ZEAskQuesViewController alloc]init];
+    askQues.enterType = ENTER_GROUP_TYPE_SETTING;
+    [self.navigationController pushViewController:askQues animated:YES];
 }
--(void)showQuestionTypeViewWithData:(NSArray *)optionArr
-{
-    ZEShowQuestionTypeView * showTypeView = [[ZEShowQuestionTypeView alloc]initWithOptionArr:optionArr];
-    showTypeView.delegate = self;
-    _alertView = [[JCAlertView alloc]initWithCustomView:showTypeView dismissWhenTouchedBackground:YES];
-    [_alertView show];
-}
-
-#pragma mark - ZEShowQuesTypeVIewDelegate
-
--(void)didSeclect:(ZEShowQuestionTypeView *)showTypeView withData:(NSDictionary *)dic
-{
-    ZEQuestionTypeModel * typeM = [ZEQuestionTypeModel getDetailWithDic:dic];
-    
-    ZEShowQuestionVC * showQuestionsList = [[ZEShowQuestionVC alloc]init];
-    showQuestionsList.showQuestionListType = QUESTION_LIST_TYPE;
-    showQuestionsList.QUESTIONTYPENAME = typeM.QUESTIONTYPENAME;
-    showQuestionsList.typeSEQKEY = typeM.SEQKEY;
-    [self.navigationController pushViewController:showQuestionsList animated:YES];
-    
-    [_alertView dismissWithCompletion:nil];
-}
-
 
 -(void)rightBtnClick
 {
     ZEAskQuesViewController * askQues = [[ZEAskQuesViewController alloc]init];
+    askQues.enterType = ENTER_GROUP_TYPE_DEFAULT;
     [self.navigationController pushViewController:askQues animated:YES];
 }
 
@@ -152,8 +127,6 @@
 
 -(void)goSearchWithStr:(NSString *)inputStr
 {
-//    [self sendRequestWithStr:inputStr];
-    
     ZEShowQuestionVC * showQuestionsList = [[ZEShowQuestionVC alloc]init];
     showQuestionsList.showQuestionListType = QUESTION_LIST_NEW;
     showQuestionsList.currentInputStr = inputStr;

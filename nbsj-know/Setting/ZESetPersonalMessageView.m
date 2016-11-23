@@ -11,16 +11,18 @@
 @interface ZESetPersonalMessageView ()
 {
     UITableView * contentTable;
+    ENTER_SETTING_TYPE _enterType;
 }
 @property (nonatomic,strong) NSDictionary * userInfoDic;
 @end
 
 @implementation ZESetPersonalMessageView
 
--(id)initWithFrame:(CGRect)frame
+-(id)initWithFrame:(CGRect)frame withEnterType:(ENTER_SETTING_TYPE)type
 {
     self = [super initWithFrame:frame];
     if (self) {
+        _enterType = type;
         [self initView];
     }
     return self;
@@ -60,6 +62,9 @@
 {
     switch (section) {
         case 0:
+            if(_enterType == ENTER_SETTING_TYPE_SETTING){
+                return 0;
+            }
             return 2;
             break;
         case 1:
@@ -75,10 +80,16 @@
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if (_enterType == ENTER_SETTING_TYPE_PERSONAL) {
+        return 1;
+    }
     return 3;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    if(_enterType == ENTER_SETTING_TYPE_SETTING && section == 0){
+        return 0.0f;
+    }
     return 10.0f;
 }
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -133,13 +144,15 @@
             switch (indexPath.row) {
                 case 0:
                     cell.textLabel.text = @"清除缓存";
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%.1f M",[self cacheFilePath] + [self downloadFilePath]];
+                    cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
                     break;
                     
                 case 1:
                     cell.textLabel.text = @"意见反馈";
                     break;
                 case 2:
-                    cell.textLabel.text = @"关于知道";
+                    cell.textLabel.text = @"修改密码";
                     break;
                 default:
                     break;
@@ -184,7 +197,7 @@
         case 1:{
             switch (indexPath.row) {
                 case 0:{
-                    
+                    [self clearFile];
                 }
                     break;
 
@@ -196,7 +209,9 @@
                     break;
 
                 case 2:{
-                    
+                    if ([self.delegate respondsToSelector:@selector(changePassword)]) {
+                        [self.delegate changePassword];
+                    }
                 }
                     break;
 
@@ -217,6 +232,101 @@
             break;
     }
     
+}
+// 下载文件大小
+-( float )downloadFilePath{
+    NSString * cachPath = [NSString stringWithFormat:@"%@/Documents/Downloads",NSHomeDirectory()];
+    
+    return [ self folderSizeAtPath :cachPath];
+}
+
+// 显示缓存大小
+-( float )cacheFilePath
+{
+    NSLog(@"%@" , NSSearchPathForDirectoriesInDomains ( NSCachesDirectory , NSUserDomainMask , YES ) );
+    NSString * cachPath = [ NSSearchPathForDirectoriesInDomains ( NSCachesDirectory , NSUserDomainMask , YES ) firstObject ];
+    
+    return [ self folderSizeAtPath :cachPath];
+    
+}
+//1:首先我们计算一下 单个文件的大小
+
+- ( long long ) fileSizeAtPath:( NSString *) filePath{
+    
+    NSFileManager * manager = [ NSFileManager defaultManager ];
+    
+    if ([manager fileExistsAtPath :filePath]){
+        
+        return [[manager attributesOfItemAtPath :filePath error : nil ] fileSize ];
+    }
+    
+    return 0 ;
+    
+}
+//2:遍历文件夹获得文件夹大小，返回多少 M（提示：你可以在工程界设置（)m）
+
+- ( float ) folderSizeAtPath:( NSString *) folderPath{
+    
+    NSFileManager * manager = [ NSFileManager defaultManager ];
+    
+    if (![manager fileExistsAtPath :folderPath]) return 0 ;
+    
+    NSEnumerator *childFilesEnumerator = [[manager subpathsAtPath :folderPath] objectEnumerator ];
+    
+    NSString * fileName;
+    
+    long long folderSize = 0 ;
+    
+    while ((fileName = [childFilesEnumerator nextObject ]) != nil ){
+        
+        NSString * fileAbsolutePath = [folderPath stringByAppendingPathComponent :fileName];
+        
+        folderSize += [ self fileSizeAtPath :fileAbsolutePath];
+        
+    }
+    
+    return folderSize/( 1000.0 * 1000.0 );
+    
+}
+
+
+
+
+// 清理缓存
+
+- (void)clearFile
+{
+    NSString * cachPath = [ NSSearchPathForDirectoriesInDomains ( NSCachesDirectory , NSUserDomainMask , YES ) firstObject ];
+    
+    NSArray * files = [[ NSFileManager defaultManager ] subpathsAtPath :cachPath];
+    
+    NSLog ( @"cachpath = %@" , cachPath);
+    
+    for ( NSString * p in files) {
+        
+        NSError * error = nil ;
+        
+        NSString * path = [cachPath stringByAppendingPathComponent :p];
+        
+        if ([[ NSFileManager defaultManager ] fileExistsAtPath :path]) {
+            
+            [[ NSFileManager defaultManager ] removeItemAtPath :path error :&error];
+            
+        }
+        
+    }
+    [MBProgressHUD showHUDAddedTo:self animated:YES];
+    
+    [ self performSelectorOnMainThread : @selector (clearCachSuccess) withObject : nil waitUntilDone : YES ];
+    
+}
+-(void)clearCachSuccess
+{
+    NSLog ( @" 清理成功 " );
+    [MBProgressHUD hideAllHUDsForView:self animated:YES];
+
+    NSIndexPath *index=[NSIndexPath indexPathForRow:0 inSection:1];//刷新
+    [contentTable reloadRowsAtIndexPaths:[NSArray arrayWithObjects:index,nil] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 

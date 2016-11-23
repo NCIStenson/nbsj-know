@@ -9,7 +9,9 @@
 #import "ZETypicalCaseWebVC.h"
 
 @interface ZETypicalCaseWebVC ()<UIWebViewDelegate>
-
+{
+    UIWebView * web;
+}
 @end
 
 @implementation ZETypicalCaseWebVC
@@ -19,8 +21,12 @@
     // Do any additional setup after loading the view.
     
     self.title = nil;
-    UIWebView * web = [[UIWebView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
+    
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    web = [[UIWebView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
     [self.view addSubview:web];
+    web.backgroundColor = [UIColor redColor];
     web.delegate = self;
     [web setScalesPageToFit:YES];
     
@@ -29,13 +35,34 @@
     
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:YES];
+    
+    web.delegate = nil;
+    [web loadHTMLString:@"" baseURL:nil];
+    [web stopLoading];
+    [web removeFromSuperview];
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];    
+}
+
 -(void)webViewDidStartLoad:(UIWebView *)webView
 {
-    [self progressBegin:@""];
+    [MBProgressHUD showHUDAddedTo:webView animated:YES];
 }
 -(void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    [self showTips:@"加载完成"];
+    [MBProgressHUD hideHUDForView:webView animated:YES];
+    MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud3.mode = MBProgressHUDModeText;
+    hud3.labelText = @"加载完成";
+    [hud3 hide:YES afterDelay:1.0f];
+    
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitDiskImageCacheEnabled"];//自己添加的，原文没有提到。
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitOfflineWebApplicationCacheEnabled"];//自己添加的，原文没有提到。
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
 }
 
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error

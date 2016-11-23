@@ -39,6 +39,7 @@
 -(void)reloadFirstView:(NSArray *)arrData;
 -(void)reloadMoreDataView:(NSArray *)arrData;
 
+-(void)reloadSectionView:(NSDictionary *)detailDic;
 
 /**
  *  停止刷新

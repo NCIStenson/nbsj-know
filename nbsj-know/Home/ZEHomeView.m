@@ -259,6 +259,9 @@
 
     contentTableView.showsVerticalScrollIndicator = NO;
     contentTableView.frame = CGRectMake(kContentTableMarginLeft, kContentTableMarginTop, kContentTableWidth, kContentTableHeight);
+    
+    MJRefreshGifHeader *header = [MJRefreshGifHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+    contentTableView.mj_header = header;
 }
 
 #pragma mark - Public Method
@@ -267,8 +270,12 @@
 {
     isSignin = YES;
     signinLab.text = [NSString stringWithFormat:@"本月已签到%@天",dayStr];
-    signinLab.attributedText = [self getAttrText:[NSString stringWithFormat:@"本月已签到 %@ 天",dayStr]];
-    subSigninLab.attributedText = [self getAttrText:[NSString stringWithFormat:@"您已帮助了 %@ 位员工",number]];
+    if ([dayStr integerValue] > 0){
+        signinLab.attributedText = [self getAttrText:[NSString stringWithFormat:@"本月已签到 %@ 天",dayStr]];
+    }
+    if ([number integerValue] > 0){
+        subSigninLab.attributedText = [self getAttrText:[NSString stringWithFormat:@"您已帮助了 %@ 位员工",number]];
+    }
     goSignInLab.text = @"去看看 >";
 }
 
@@ -287,7 +294,7 @@
         default:
             break;
     }
-    
+    [contentTableView.mj_header endRefreshingWithCompletionBlock:nil];
     [contentTableView reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
@@ -576,7 +583,6 @@
     
     UIImageView * questionImg = [[UIImageView alloc]initWithFrame:CGRectMake(20, 10, (SCREEN_WIDTH - 40) / 2 , questionImgH)];
    
-#warning ---------
     NSMutableArray * imgFileUrlArr;
 
     if([ZEUtil isStrNotEmpty:quesInfoM.FILEURL]){
@@ -652,7 +658,7 @@
     switch (sectionType) {
         case SECTION_TITLE_ANSWER:
             sectionIcon.image = [UIImage imageNamed:@"forum_list_post.png"];
-            sectionTitleLab.text = @"您来解答";
+            sectionTitleLab.text = @"您来挑战";
             break;
         case SECTION_TITLE_EXPERT:
             sectionIcon.image = [UIImage imageNamed:@"forum_list_post.png"];
@@ -660,7 +666,7 @@
             break;
         case SECTION_TITLE_CASE:
             sectionIcon.image = [UIImage imageNamed:@"forum_list_post.png"];
-            sectionTitleLab.text = @"典型案例";
+            sectionTitleLab.text = @"技能充电桩";
             break;
             
         default:
@@ -697,6 +703,13 @@
 
 
 #pragma mark - ZEHomeViewDelegate
+
+-(void)loadNewData
+{
+    if([self.delegate respondsToSelector:@selector(loadNewData)]){
+        [self.delegate loadNewData];
+    }
+}
 
 -(void)goTypicalCaseDetail:(UIButton *)btn
 {

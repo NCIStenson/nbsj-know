@@ -14,7 +14,6 @@
 
 -(void)changePersonalMsg:(CHANGE_PERSONALMSG_TYPE)type;
 
-
 /**
  *  @author Stenson, 16-08-15 09:08:28
  *
@@ -22,12 +21,13 @@
  */
 -(void)logout;
 
+-(void)changePassword;
 @end
 
 @interface ZESetPersonalMessageView : UIView<UITableViewDelegate,UITableViewDataSource>
 
 @property(nonatomic,weak) id <ZESetPersonalMessageViewDelegate> delegate;
--(id)initWithFrame:(CGRect)frame;
+-(id)initWithFrame:(CGRect)frame withEnterType:(ENTER_SETTING_TYPE)type;
 
 -(void)reloadDataWithDic:(NSDictionary *)dic;
 

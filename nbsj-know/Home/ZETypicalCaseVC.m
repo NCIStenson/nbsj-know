@@ -20,6 +20,8 @@
     NSString * _currentWHERESQL;
     NSString * sortOrderSQL;// 最热 最新排序
 }
+
+
 @end
 
 @implementation ZETypicalCaseVC
@@ -27,19 +29,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self initView];
-    self.title = @"典型案例";
     sortOrderSQL = @"SYSCREATEDATE desc";
     _currentPage = 0;
-
+    self.automaticallyAdjustsScrollViewInsets = NO;
     _currentWHERESQL = @"";
     if (_enterType == ENTER_CASE_TYPE_DEFAULT) {
+        self.title = @"典型案例";
         [self sendRequestWithCurrentPage];
     }else{
+        self.title = @"我的收藏";
         [self myCollectRequest];
     }
+    [self initView];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scoreSuccess) name:kNOTI_SCORE_SUCCESS object:nil];
 }
+
+-(void)scoreSuccess
+{
+    _currentPage = 0;
+    [self sendRequestWithCurrentPage];
+}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
@@ -57,7 +68,7 @@
                                      @"METHOD":METHOD_SEARCH,
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"CLASSNAME":@"com.nci.klb.app.classiccase.ClassicCase",
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{};
@@ -98,20 +109,20 @@
 -(void)myCollectRequest
 {
     NSDictionary * parametersDic = @{@"limit":[NSString stringWithFormat:@"%ld",(long)MAX_PAGE_COUNT],
-                                     @"MASTERTABLE":KLB_CLASSICCASE_INFO,
+                                     @"MASTERTABLE":V_KLB_CLASSICCASE_COLLECT,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"SYSCREATEDATE DESC",
-                                     @"WHERESQL":[NSString stringWithFormat:@"USERCODE = %@",[ZESettingLocalData getUSERCODE]],
+                                     @"WHERESQL":[NSString stringWithFormat:@"COLLECTUSERCODE = %@",[ZESettingLocalData getUSERCODE]],
                                      @"start":[NSString stringWithFormat:@"%ld",(long)_currentPage * MAX_PAGE_COUNT],
                                      @"METHOD":METHOD_SEARCH,
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"CLASSNAME":@"com.nci.klb.app.classiccase.CollectCase",
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{};
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_CLASSICCASE_INFO]
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_CLASSICCASE_COLLECT]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
@@ -120,7 +131,7 @@
                        showAlertView:NO
                              success:^(id data) {
                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
-                                 NSArray * dataArr =  [ZEUtil getServerData:data withTabelName:KLB_CLASSICCASE_INFO];
+                                 NSArray * dataArr =  [ZEUtil getServerData:data withTabelName:V_KLB_CLASSICCASE_COLLECT];
                                  if (dataArr.count > 0) {
                                      if (_currentPage == 0) {
                                          [caseView reloadFirstView:dataArr];
@@ -157,12 +168,21 @@
 
 -(void)loadNewData
 {
-    _currentPage = 0;
-    [self sendRequestWithCurrentPage];
+    if (_enterType == ENTER_CASE_TYPE_DEFAULT) {
+        _currentPage = 0;
+        [self sendRequestWithCurrentPage];
+    }else if (_enterType == ENTER_CASE_TYPE_SETTING){
+        _currentPage = 0;
+        [self myCollectRequest];
+    }
 }
 -(void)loadMoreData
 {
-    [self sendRequestWithCurrentPage];
+    if (_enterType == ENTER_CASE_TYPE_DEFAULT) {
+        [self sendRequestWithCurrentPage];
+    }else if (_enterType == ENTER_CASE_TYPE_SETTING){
+        [self myCollectRequest];
+    }
 }
 
 -(void)goTypicalCaseDetailVC:(id)obj
@@ -172,9 +192,7 @@
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 -(void)screenFileType:(NSString *)fileType
-{
-    NSLog(@" =================>>>>>>   %@ ",fileType);
-    
+{    
     if ([fileType isEqualToString:@"视频"]) {
         _currentWHERESQL = [NSString stringWithFormat:@"COURSEFILETYPE like '%%.mp4%%'"];
     }else if ([fileType isEqualToString:@"图片"]){
@@ -187,7 +205,6 @@
     
     _currentPage = 0;
     [self sendRequestWithCurrentPage];
-
 }
 
 -(void)sortConditon:(NSString *)condition

@@ -99,11 +99,12 @@
 -(void)initContentView
 {
     _contentView = [[UITableView alloc]initWithFrame:CGRectMake(kContentViewMarginLeft, kContentViewMarginTop, kContentViewWidth, kContentViewHeight) style:UITableViewStylePlain];
+
     _contentView.delegate = self;
     _contentView.dataSource = self;
     [self addSubview:_contentView];
     if (_enterCaseType == ENTER_CASE_TYPE_SETTING) {
-        _contentView.frame = CGRectMake(kContentViewMarginLeft, kContentViewMarginTop, kContentViewWidth, kContentViewHeight);
+        _contentView.frame = CGRectMake(kContentViewMarginLeft, NAV_HEIGHT, kContentViewWidth, SCREEN_HEIGHT - NAV_HEIGHT);
     }
     MJRefreshHeader * header = [MJRefreshGifHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshView)];
     _contentView.mj_header = header;

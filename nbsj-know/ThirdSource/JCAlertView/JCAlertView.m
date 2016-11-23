@@ -8,6 +8,8 @@
 
 #import "JCAlertView.h"
 #import <Accelerate/Accelerate.h>
+#import <QuartzCore/QuartzCore.h>
+#import <QuartzCore/CAAnimation.h>
 
 NSString *const JCAlertViewWillShowNotification = @"JCAlertViewWillShowNotification";
 NSString *const JCAlertViewDidShowNotification = @"JCAlertViewDidShowNotification";

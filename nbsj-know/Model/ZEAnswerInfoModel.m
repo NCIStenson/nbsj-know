@@ -25,6 +25,7 @@ static ZEAnswerInfoModel * ansertInfoM = nil;
     ansertInfoM.ANSWERLEVEL    = [dic objectForKey:@"ANSWERLEVEL"];
     ansertInfoM.ISPASS         = [dic objectForKey:@"ISPASS"];
     ansertInfoM.ISENABLED      = [dic objectForKey:@"ISENABLED"];
+    ansertInfoM.ISGOOD      = [dic objectForKey:@"ISGOOD"];
     ansertInfoM.GOODNUMS       = [NSString stringWithFormat:@"%@",[dic objectForKey:@"GOODNUMS"]];
     ansertInfoM.SYSCREATEDATE  = [dic objectForKey:@"SYSCREATEDATE"];
     ansertInfoM.NICKNAME       = [dic objectForKey:@"NICKNAME"];

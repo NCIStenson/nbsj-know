@@ -20,6 +20,7 @@
 @property (nonatomic,copy) NSString * ISPASS;
 @property (nonatomic,copy) NSString * ISENABLED;
 @property (nonatomic,copy) NSString * GOODNUMS;
+@property (nonatomic,copy) NSString * ISGOOD;
 @property (nonatomic,copy) NSString * SYSCREATEDATE;
 @property (nonatomic,copy) NSString * FILEURL;
 @property (nonatomic,copy) NSString * NICKNAME;

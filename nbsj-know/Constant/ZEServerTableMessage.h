@@ -29,11 +29,13 @@
 #define V_KLB_CLASSICCASE_COMMENT            @"V_KLB_CLASSICCASE_COMMENT"             /***   经典案例评论表   ***/
 #define KLB_CLASSICCASE_SCORE            @"KLB_CLASSICCASE_SCORE"             /***   经典案例评分表   ***/
 #define KLB_CLASSICCASE_COLLECT            @"KLB_CLASSICCASE_COLLECT"             /***   经典案例收藏表 ***/
+#define V_KLB_CLASSICCASE_COLLECT            @"V_KLB_CLASSICCASE_COLLECT"             /***   经典案例收藏表 ***/
 #define V_KLB_QUESTION_INFO_LIST       @"V_KLB_QUESTION_INFO_LIST"             /***   知识库问题信息视图   ***/
 #define KLB_ANSWER_INFO                @"KLB_ANSWER_INFO"               /***   知识库回答问题信息表   ***/
 #define V_KLB_ANSWER_INFO              @"V_KLB_ANSWER_INFO"               /***   知识库回答问题信息表   ***/
 #define KLB_PROCIRCLE_INFO             @"KLB_PROCIRCLE_INFO"            /***   专业圈信息表   ***/
 #define V_KLB_PROCIRCLE_POSITION             @"V_KLB_PROCIRCLE_POSITION"            /***   专业圈信息表排名   ***/
+#define KLB_PROCIRCLE_POSITION             @"KLB_PROCIRCLE_POSITION"            /***   专业圈信息表排名   ***/
 #define V_KLB_PROCIRCLESCORE_INFO             @"V_KLB_PROCIRCLESCORE_INFO"            /***   专业圈信息表   ***/
 
 #define V_KLB_PROCIRCLEMEMBER_INFO             @"V_KLB_PROCIRCLEMEMBER_INFO"            /***   圈子成员表   ***/

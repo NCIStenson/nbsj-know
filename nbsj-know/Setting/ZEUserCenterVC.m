@@ -48,9 +48,10 @@
 
 #pragma mark - ZEUserCenterViewDelegate
 
--(void)goSettingVC
+-(void)goSettingVC:(ENTER_SETTING_TYPE)type;
 {
     ZESetPersonalMessageVC * personalMsgVC = [[ZESetPersonalMessageVC alloc]init];
+    personalMsgVC.enterType = type;
     [self.navigationController pushViewController:personalMsgVC animated:YES];
 }
 
@@ -156,7 +157,6 @@
                                      [MBProgressHUD hideHUDForView:self.view animated:YES];
                                      NSArray * arr = [ZEUtil getServerData:data withTabelName:KLB_USER_BASE_INFO];
                                      if (arr.count > 0) {
-                                         NSMutableArray * fileUrlArr = [NSMutableArray arrayWithArray:[[arr[0] objectForKey:@"FILEURL"] componentsSeparatedByString:@","]];
                                          [self getHeadImgUrl];
                                      }
                                  } fail:^(NSError *error) {
@@ -193,54 +193,17 @@
                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
                                  NSArray * arr = [ZEUtil getServerData:data withTabelName:V_KLB_USER_BASE_INFO];
                                  if (arr.count > 0) {
-                                     NSArray * headUrlArr = [[arr[0] objectForKey:@"FILEURL"] componentsSeparatedByString:@","];
-                                     [ZESettingLocalData changeUSERHHEADURL:headUrlArr[1]];
-                                     [usView reloadHeaderB];
+                                     if ([ZEUtil isStrNotEmpty:[arr[0] objectForKey:@"FILEURL"]]) {
+                                         NSArray * headUrlArr = [[arr[0] objectForKey:@"FILEURL"] componentsSeparatedByString:@","];
+                                         [ZESettingLocalData changeUSERHHEADURL:headUrlArr[1]];
+                                         [usView reloadHeaderB];
+                                     }
                                  }
                              }
                                 fail:^(NSError *error) {
                                     [MBProgressHUD hideHUDForView:self.view animated:YES];
                                 }];
 }
-
-
--(void)updateSaveUserinfo:(NSString * )imageUrl
-{
-    NSDictionary * parametersDic = @{@"limit":@"20",
-                                     @"MASTERTABLE":KLB_USER_BASE_INFO,
-                                     @"MENUAPP":@"EMARK_APP",
-                                     @"ORDERSQL":@"",
-                                     @"WHERESQL":@"",
-                                     @"start":@"0",
-                                     @"METHOD":@"updateSave",
-                                     @"MASTERFIELD":@"SEQKEY",
-                                     @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.klb.app.userinfo.UserInfo",
-                                     @"DETAILTABLE":@"",};
-    
-    NSDictionary * fieldsDic =@{@"SEQKEY":[ZESettingLocalData getUSERSEQKEY],
-                                @"FILEURL":imageUrl};
-    
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_USER_BASE_INFO]
-                                                                           withFields:@[fieldsDic]
-                                                                       withPARAMETERS:parametersDic
-                                                                       withActionFlag:nil];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [ZEUserServer getDataWithJsonDic:packageDic
-                       showAlertView:YES
-                             success:^(id data) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
-                                 NSArray * arr = [ZEUtil getServerData:data withTabelName:KLB_USER_BASE_INFO];
-                                 if (arr.count > 0) {
-                                     [ZESettingLocalData changeUSERHHEADURL:[arr[0] objectForKey:@"FILEURL"]];
-                                     [usView reloadHeaderB];
-                                 }
-                       }
-                                fail:^(NSError *error) {
-                                    [MBProgressHUD hideHUDForView:self.view animated:YES];
-                       }];
-}
-
 
 -(void)goSinginVC
 {

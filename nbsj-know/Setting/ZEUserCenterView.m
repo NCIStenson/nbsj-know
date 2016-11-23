@@ -68,7 +68,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return 3;
+        return 4;
     }
     return 1;
 }
@@ -124,7 +124,7 @@
             logoImageView.image = [UIImage imageNamed:@"tab_circle.png" color:MAIN_NAV_COLOR];
             contentLabel.text = @"我的圈子";
         }else if(indexPath.row == 3){
-            logoImageView.image = [UIImage imageNamed:@"askTa.png" color:MAIN_NAV_COLOR];
+            logoImageView.image = [UIImage imageNamed:@"detail_nav_star.png" color:MAIN_NAV_COLOR];
             contentLabel.text = @"我的收藏";
         }
     }else if (indexPath.section == 1){
@@ -273,8 +273,8 @@
             switch (indexPath.row) {
                 case 0:
                 {
-                    if ([self.delegate respondsToSelector:@selector(goSettingVC)]) {
-                        [self.delegate goSettingVC];
+                    if ([self.delegate respondsToSelector:@selector(goSettingVC:)]) {
+                        [self.delegate goSettingVC:ENTER_SETTING_TYPE_SETTING];
                     }
                 }
                     break;
@@ -299,8 +299,8 @@
 
 -(void)goSettingVC
 {
-    if ([self.delegate respondsToSelector:@selector(goSettingVC)]) {
-        [self.delegate goSettingVC];
+    if ([self.delegate respondsToSelector:@selector(goSettingVC:)]) {
+        [self.delegate goSettingVC:ENTER_SETTING_TYPE_PERSONAL];
     }
 }
 

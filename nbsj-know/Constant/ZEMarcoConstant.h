@@ -49,6 +49,8 @@
 
 #define kNOTI_CHANGEPERSONALMSG_SUCCESS @"NOTI_CHANGEPERSONALMSG_SUCCESS"
 
+#define kNOTI_SCORE_SUCCESS @"NOTI_SCORE_SUCCESS"
+
 #define kRelogin @"kRelogin"
 #define kVerifyLogin @"kVerifyLogin"
 #endif /* ZEMarcoConstant_h */

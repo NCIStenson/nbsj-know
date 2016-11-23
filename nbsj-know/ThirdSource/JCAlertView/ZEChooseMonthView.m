@@ -6,6 +6,8 @@
 //  Copyright © 2016年 Zenith Electronic. All rights reserved.
 //
 
+#define START_YEAR 2015
+
 #import "ZEChooseMonthView.h"
 
 @interface ZEChooseMonthView ()<UIPickerViewDelegate,UIPickerViewDataSource>
@@ -13,7 +15,8 @@
     UIPickerView * _picker;
     CGRect _viewFrame;
     
-    NSString * _currentCount;
+    NSString * _currentMonth;
+    NSString * _currentYear;
 }
 @end
 
@@ -45,6 +48,11 @@
     _picker.delegate = self;
     _picker.dataSource = self;
     [self addSubview:_picker];
+    _currentMonth = [ZEUtil getCurrentDate:@"MM"];
+    _currentYear = [ZEUtil getCurrentDate:@"yyyy"];
+    
+    [_picker selectRow:[[ZEUtil getCurrentDate:@"yyyy"] integerValue] - START_YEAR inComponent:0 animated:YES];
+    [_picker selectRow:[[ZEUtil getCurrentDate:@"MM"] integerValue] - 1 inComponent:1 animated:YES];
     
     for (int i = 0; i < 2; i ++) {
         UIButton * optionBtn = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -71,26 +79,37 @@
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
-    return 1;
+    return 2;
 }
 
 // returns the # of rows in each component..
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
+    if(component == 0){
+        return 30;
+    }
     return 12;
 }
 
 - (nullable NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component __TVOS_PROHIBITED
 {
+    if(component == 0){
+        return [NSString stringWithFormat:@"%ld年",(long)row + START_YEAR];
+    }
+
     return [NSString stringWithFormat:@"%ld月",(long)row + 1];
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component __TVOS_PROHIBITED
 {
-    if (row < 9) {
-        _currentCount = [NSString stringWithFormat:@"0%ld",(long)row + 1];
+    if(component == 0){
+        _currentYear = [NSString stringWithFormat:@"%ld",(long)row + START_YEAR];
     }else{
-        _currentCount = [NSString stringWithFormat:@"%ld",(long)row + 1];
+        if (row < 9) {
+            _currentMonth = [NSString stringWithFormat:@"0%ld",(long)row + 1];
+        }else{
+            _currentMonth = [NSString stringWithFormat:@"%ld",(long)row + 1];
+        }
     }
 }
 #pragma mark - selfDelegate
@@ -102,11 +121,11 @@
             [self.delegate cancelChooseCount];
         }
     }else{
-        if (![ZEUtil isStrNotEmpty:_currentCount]) {
-            _currentCount = @"01";
+        if (![ZEUtil isStrNotEmpty:_currentMonth]) {
+            _currentMonth = @"01";
         }
         if ([self.delegate respondsToSelector:@selector(confirmChooseCount:)]) {
-            [self.delegate confirmChooseCount:_currentCount];
+            [self.delegate confirmChooseCount:[NSString stringWithFormat:@"%@-%@",_currentYear,_currentMonth]];
         }
     }
     
