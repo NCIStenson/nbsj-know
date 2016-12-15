@@ -253,7 +253,7 @@ static ZEServerEngine *serverEngine = nil;
              for (int i = 0 ; i < arr.count; i ++) {
                  UIImage *image = arr[i];
                  NSData *imageData = UIImageJPEGRepresentation([self fixOrientation:image],0.1);
-                 NSLog(@" 图片大小 >>>  %ld",imageData.length / 1024);
+//                 NSLog(@" 图片大小 >>>  %ld",imageData.length / 1024);
                  NSString *fileName = [NSString stringWithFormat:@"image%d.jpg",i];
                  
                  [formData appendPartWithFileData:imageData name:@"file" fileName:fileName mimeType:@"image/png"];

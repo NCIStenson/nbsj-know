@@ -40,7 +40,16 @@
     self.rightBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     
     [self initView];
-//    [self sendRequestWithStr:nil];
+    
+    UITapGestureRecognizer *tapGr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
+    tapGr.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapGr];
+    
+}
+
+-(void)viewTapped:(UITapGestureRecognizer*)tapGr
+{
+    [_questionView endEditing:YES];
 }
 -(void)viewWillAppear:(BOOL)animated
 {

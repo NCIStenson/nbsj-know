@@ -10,6 +10,8 @@
 #import "ZEQuestionsDetailView.h"
 #import "ZEAnswerQuestionsVC.h"
 
+#import "ZEChatVC.h"
+
 @interface ZEQuestionsDetailVC ()<ZEQuestionsDetailViewDelegate>
 {
     ZEQuestionsDetailView * _quesDetailView;
@@ -31,12 +33,24 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
     
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(acceptSuccess) name:kNOTI_ACCEPT_SUCCESS object:nil];
+    
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
     self.tabBarController.tabBar.hidden = YES;
     [self sendSearchAnswerRequest];
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:YES];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNOTI_ACCEPT_SUCCESS object:nil];
+}
+
+-(void)acceptSuccess{
+    _questionInfoModel.ISSOLVE = @"1";
 }
 
 -(void)sendSearchAnswerRequest
@@ -83,14 +97,20 @@
 
 -(void)rightBtnClick
 {
-//    for (NSDictionary * dic in _datasArr) {
-//        ZEAnswerInfoModel * answerInfo = [ZEAnswerInfoModel getDetailWithDic:dic];
-//        if ([answerInfo.ANSWERUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
-//            [self showTips:@"您已回答过该问题"];
-//            self.rightBtn.enabled = NO;
-//            return;
-//        }
-//    }
+
+    if ([_questionInfoModel.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
+        [self showTips:@"您不能对自己的提问进行回答"];
+        return;
+    }
+    
+    for (NSDictionary * dic in _datasArr) {
+        ZEAnswerInfoModel * answerInfo = [ZEAnswerInfoModel getDetailWithDic:dic];
+        if ([answerInfo.ANSWERUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
+            [self acceptTheAnswerWithQuestionInfo:_questionInfoModel
+                                   withAnswerInfo:answerInfo];
+            return;
+        }
+    }
     
     if ([_questionInfoModel.ISSOLVE boolValue]) {
         [self showTips:@"该问题已有答案被采纳"];
@@ -107,59 +127,11 @@
 -(void)acceptTheAnswerWithQuestionInfo:(ZEQuestionInfoModel *)infoModel
                         withAnswerInfo:(ZEAnswerInfoModel *)answerModel
 {
-    if (!alertC) {
-        alertC = [UIAlertController alertControllerWithTitle:nil message:@"确定采纳该建议为答案？" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction * confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self updateKLB_ANSWER_INFOWithQuestionInfo:infoModel withAnswerInfo:answerModel];
-        }];
-        UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
-        [alertC addAction:confirmAction];
-        [alertC addAction:cancelAction];
-    }
+    ZEChatVC * chatVC = [[ZEChatVC alloc]init];
+    chatVC.questionInfo = infoModel;
+    chatVC.answerInfo = answerModel;
+    [self.navigationController pushViewController:chatVC animated:YES];
     
-    [self presentViewController:alertC animated:YES completion:nil];
-}
-
-
-
--(void)updateKLB_ANSWER_INFOWithQuestionInfo:(ZEQuestionInfoModel *)infoModel
-                              withAnswerInfo:(ZEAnswerInfoModel *)answerModel
-{
-    NSDictionary * parametersDic = @{@"limit":@"20",
-                                     @"MASTERTABLE":KLB_ANSWER_INFO,
-                                     @"DETAILTABLE":KLB_QUESTION_INFO,
-                                     @"MASTERFIELD":@"QUESTIONID",
-                                     @"DETAILFIELD":@"SEQKEY",
-                                     @"MENUAPP":@"EMARK_APP",
-                                     @"ORDERSQL":@"",
-                                     @"WHERESQL":@"",
-                                     @"start":@"0",
-                                     @"METHOD":METHOD_UPDATE,
-                                     @"CLASSNAME":@"com.nci.klb.app.answer.AnswerTake",
-                                     };
-
-    NSDictionary * fieldsDic =@{@"SEQKEY":answerModel.SEQKEY,
-                                @"QUESTIONID":answerModel.QUESTIONID,
-                                @"ISPASS":@"1",
-                                };
-    
-    NSDictionary * fieldsDic2 =@{@"ISSOLVE":@"1"};
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_ANSWER_INFO,KLB_QUESTION_INFO]
-                                                                           withFields:@[fieldsDic,fieldsDic2]
-                                                                       withPARAMETERS:parametersDic
-                                                                       withActionFlag:nil];
-    [self progressBegin:nil];
-    [ZEUserServer getDataWithJsonDic:packageDic
-                       showAlertView:NO
-                             success:^(id data) {
-                                 [self progressEnd:nil];
-                                 
-                                 [_quesDetailView disableSelect];
-                                 [self sendSearchAnswerRequest];
-
-                             } fail:^(NSError *errorCode) {
-                                 [self progressEnd:nil];
-                             }];
 }
 
 #pragma mark - 点赞

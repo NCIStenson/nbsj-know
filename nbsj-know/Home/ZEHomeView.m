@@ -186,7 +186,7 @@
     [typicalCaseView addSubview:newestComment];
     
     UILabel * newestLab = [[UILabel alloc]initWithFrame:CGRectMake(20.0f, 0.0f, SCREEN_WIDTH - 100.0f, 20.0f)];
-    newestLab.text = @"经典案例";
+    newestLab.text = @"技能充电桩";
     newestLab.numberOfLines = 0;
     newestLab.font = [UIFont systemFontOfSize:12];
     [typicalCaseView addSubview:newestLab];
@@ -264,6 +264,8 @@
     contentTableView.mj_header = header;
 }
 
+
+
 #pragma mark - Public Method
 
 -(void)reloadSigninedViewDay:(NSString *)dayStr numbers:(NSString *)number
@@ -309,6 +311,10 @@
     contentTableView.frame = CGRectMake(kContentTableMarginLeft, kContentTableMarginTop - 60.0, kContentTableWidth, kContentTableHeight + 60.0f);
     
     [signinLab.superview removeFromSuperview];
+}
+-(void)endRefreshing
+{
+    [contentTableView.mj_header endRefreshing];
 }
 
 #pragma mark - UITableViewDelegate
@@ -471,6 +477,10 @@
     if ([self.delegate respondsToSelector:@selector(goQuestionDetailVCWithQuestionInfo:withQuestionType:)]) {
         [self.delegate goQuestionDetailVCWithQuestionInfo:quesInfoM withQuestionType:questionTypeM];
     }
+}
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    [self endEditing:YES];
 }
 
 #pragma mark - 回答问题

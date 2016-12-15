@@ -168,9 +168,9 @@
 
 -(void)textViewDidChange:(UITextView *)textView
 {
-    if (textView.text.length > 50) {
-        textView.text = [textView.text substringToIndex:50];
-    }
+//    if (textView.text.length > 50) {
+//        textView.text = [textView.text substringToIndex:50];
+//    }
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event

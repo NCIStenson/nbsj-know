@@ -27,6 +27,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.backgroundColor = [UIColor whiteColor];
         _currentSelectType = -1;
         [self initView];
     }
@@ -40,7 +41,7 @@
     [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
     
     _collectionView=[[UICollectionView alloc] initWithFrame:CGRectMake(100, NAV_HEIGHT , SCREEN_WIDTH - 100, SCREEN_HEIGHT - NAV_HEIGHT) collectionViewLayout:flowLayout];
-    _collectionView.backgroundColor = [UIColor clearColor];
+    _collectionView.backgroundColor = [UIColor whiteColor];
     _collectionView.dataSource=self;
     _collectionView.delegate=self;
     

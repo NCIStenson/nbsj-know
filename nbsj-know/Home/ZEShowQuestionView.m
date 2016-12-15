@@ -237,6 +237,7 @@
     for (NSString * str in quesInfoM.FILEURLARR) {
         [urlsArr addObject:[NSString stringWithFormat:@"%@/file/%@",Zenith_Server,str]];
     }
+    NSLog(@">>>  %@",urlsArr);
 
     if (quesInfoM.FILEURLARR.count > 0) {
         PYPhotosView *linePhotosView = [PYPhotosView photosViewWithThumbnailUrls:urlsArr originalUrls:urlsArr layoutType:PYPhotosViewLayoutTypeLine];

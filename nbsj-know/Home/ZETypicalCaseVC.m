@@ -8,17 +8,23 @@
 
 #import "ZETypicalCaseVC.h"
 #import "ZETypicalCaseView.h"
-
+#import "ZEAskQuestionTypeView.h"
 #import "ZETypicalCaseDetailVC.h"
 
-@interface ZETypicalCaseVC ()<ZETypicalCaseViewDelegate>
+@interface ZETypicalCaseVC ()<ZETypicalCaseViewDelegate,ZEAskQuestionTypeViewDelegate>
 {
     ZETypicalCaseView * caseView;
-    
+    ZEAskQuestionTypeView * askTypeView;
+
     NSInteger _currentPage;
     
     NSString * _currentWHERESQL;
     NSString * sortOrderSQL;// 最热 最新排序
+    
+    NSString * questionTypeCode; //  选择的经典案例分类code
+    NSString * questionTypeName; //  选择的经典案例分类Name
+    
+    BOOL _isShowTypicalTypeView;
 }
 
 
@@ -34,13 +40,19 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     _currentWHERESQL = @"";
     if (_enterType == ENTER_CASE_TYPE_DEFAULT) {
-        self.title = @"典型案例";
+        self.title = @"技能充电桩";
         [self sendRequestWithCurrentPage];
+        
+        questionTypeName = @"";
+        questionTypeCode = @"";
+        [self.rightBtn setTitle:@"分类" forState:UIControlStateNormal];
+        [self.rightBtn addTarget:self action:@selector(initAskTypeView) forControlEvents:UIControlEventTouchUpInside];
     }else{
         self.title = @"我的收藏";
         [self myCollectRequest];
     }
     [self initView];
+    _isShowTypicalTypeView = NO;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scoreSuccess) name:kNOTI_SCORE_SUCCESS object:nil];
 }
@@ -55,6 +67,43 @@
 {
     [super viewWillAppear:YES];
     self.tabBarController.tabBar.hidden = YES;
+    [self cacheQuestionType];
+    
+}
+-(void)cacheQuestionType
+{
+    NSArray * typeArr = [[ZEQuestionTypeCache instance] getQuestionTypeCaches];
+    if (typeArr.count > 0) {
+        return;
+    }
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES ];
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":V_KLB_QUESTION_TYPE,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"ISENABLED=1",
+                                     @"start":@"0",
+                                     @"METHOD":@"search",
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_QUESTION_TYPE]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 [MBProgressHUD hideHUDForView:self.view animated:YES ];
+                                 [[ZEQuestionTypeCache instance]setQuestionTypeCaches:[ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_TYPE]];
+                                 [askTypeView reloadData];
+                             } fail:^(NSError *errorCode) {
+                                 [MBProgressHUD hideHUDForView:self.view animated:YES ];
+                             }];
 }
 
 -(void)sendRequestWithCurrentPage
@@ -77,11 +126,9 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                                  NSArray * dataArr =  [ZEUtil getServerData:data withTabelName:V_KLB_CLASSICCASE_INFO];
                                  if (dataArr.count > 0) {
                                      if (_currentPage == 0) {
@@ -103,7 +150,7 @@
                                  }
                                  
                              } fail:^(NSError *errorCode) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
+
                              }];
 }
 -(void)myCollectRequest
@@ -164,6 +211,58 @@
     [self.view sendSubviewToBack:caseView];
 }
 
+#pragma mark - 根据分类 选择经典案例类型
+-(void)initAskTypeView
+{
+    if(_isShowTypicalTypeView){
+        self.title = questionTypeName;
+//        questionTypeCode = @"";
+        [askTypeView removeFromSuperview];
+        askTypeView = nil;
+        [self sendRequestWithCurrentPage];
+    }else{
+        self.title = @"技能分类";
+        
+        askTypeView = [[ZEAskQuestionTypeView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
+        askTypeView.delegate = self;
+        
+        [self.view addSubview:askTypeView];
+        
+        [self.view bringSubviewToFront:self.navBar];
+        
+        NSArray * typeArr = [[ZEQuestionTypeCache instance] getQuestionTypeCaches];
+        if (typeArr.count > 0) {
+            [askTypeView reloadData];
+        }
+    }
+    _isShowTypicalTypeView = !_isShowTypicalTypeView;
+}
+#pragma mark - 选择分类
+
+#pragma mark - ZEAskQuestionTypeViewDelegate
+
+-(void)didSelectType:(NSString *)typeName typeCode:(NSString *)typeCode
+{
+    _isShowTypicalTypeView = NO;
+    
+    questionTypeCode = typeCode;
+    questionTypeName = typeName;
+    self.title = typeName;
+
+    _currentPage = 0;
+
+    [askTypeView removeFromSuperview];
+    askTypeView = nil;
+    if (_currentWHERESQL.length > 0 && ![_currentWHERESQL containsString:@"QUESTIONTYPECODE"]) {
+        _currentWHERESQL = [NSString stringWithFormat:@"QUESTIONTYPECODE = '%@' and (%@)",questionTypeCode,_currentWHERESQL];
+    }else{
+        _currentWHERESQL = [NSString stringWithFormat:@"QUESTIONTYPECODE = '%@'",questionTypeCode];
+    }
+    
+    
+    [self sendRequestWithCurrentPage];
+}
+
 #pragma mark - ZETypicalCaseViewDelegate
 
 -(void)loadNewData
@@ -201,6 +300,12 @@
         _currentWHERESQL = [NSString stringWithFormat:@"COURSEFILETYPE like '%%.doc%%' or COURSEFILETYPE like '%%.xls%%' or COURSEFILETYPE like '%%.ppt%%' or COURSEFILETYPE like '%%.pdf%%'"];
     }else if([fileType isEqualToString:@"其他"] || [fileType isEqualToString:@"全部"]){
         _currentWHERESQL = @"";
+    }
+    
+    if (_currentWHERESQL.length > 0 & questionTypeCode.length > 0) {
+        _currentWHERESQL = [NSString stringWithFormat:@"QUESTIONTYPECODE = '%@' and (%@)",questionTypeCode,_currentWHERESQL];
+    }else if (questionTypeCode.length > 0){
+        _currentWHERESQL = [NSString stringWithFormat:@"QUESTIONTYPECODE = '%@'",questionTypeCode];
     }
     
     _currentPage = 0;

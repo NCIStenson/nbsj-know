@@ -35,7 +35,7 @@
     }else if (_showQuestionListType == QUESTION_LIST_EXPERT){
         self.title = @"专家解答";
     }else if (_showQuestionListType == QUESTION_LIST_CASE){
-        self.title = @"典型案例";
+        self.title = @"技能充电桩";
     }
     [self createWhereSQL:_currentInputStr];
     
@@ -88,12 +88,12 @@
 }
 -(void)sendRequestWithCondition:(NSString *)conditionStr
 {
-    NSDictionary * parametersDic = @{@"limit":@"20",
+    NSDictionary * parametersDic = @{@"limit":[NSString stringWithFormat:@"%d",MAX_PAGE_COUNT],
                                      @"MASTERTABLE":V_KLB_QUESTION_INFO,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"SYSCREATEDATE desc",
                                      @"WHERESQL":conditionStr,
-                                     @"start":[NSString stringWithFormat:@"%ld",(long)_currentPage * 20],
+                                     @"start":[NSString stringWithFormat:@"%ld",(long)_currentPage * MAX_PAGE_COUNT],
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
@@ -118,7 +118,7 @@
                                      }else{
                                          [_questionsView reloadContentViewWithArr:dataArr];
                                      }
-                                     if (dataArr.count%20 == 0) {
+                                     if (dataArr.count%MAX_PAGE_COUNT == 0) {
                                          _currentPage += 1;
                                      }
                                  }else{
@@ -136,16 +136,16 @@
 }
 -(void)sendMyAnswerRequestWithCondition:(NSString *)conditionStr
 {
-    NSDictionary * parametersDic = @{@"limit":@"20",
+    NSDictionary * parametersDic = @{@"limit":[NSString stringWithFormat:@"%d",MAX_PAGE_COUNT],
                                      @"MASTERTABLE":V_KLB_QUESTION_INFO_LIST,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"SYSCREATEDATE desc",
                                      @"WHERESQL":conditionStr,
-                                     @"start":[NSString stringWithFormat:@"%ld",(long)_currentPage * 20],
+                                     @"start":[NSString stringWithFormat:@"%ld",(long)_currentPage * MAX_PAGE_COUNT],
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"CLASSNAME":@"com.nci.klb.app.answer.MyAnswer",
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{};
@@ -166,7 +166,7 @@
                                      }else{
                                          [_questionsView reloadContentViewWithArr:dataArr];
                                      }
-                                     if (dataArr.count%20 == 0) {
+                                     if (dataArr.count%MAX_PAGE_COUNT == 0) {
                                          _currentPage += 1;
                                      }
                                  }else{

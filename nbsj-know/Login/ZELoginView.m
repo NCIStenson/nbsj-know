@@ -92,7 +92,7 @@
     for (int i = 0 ; i < 2; i ++) {
 
         CALayer * vLineLayer = [CALayer layer];
-        vLineLayer.frame = CGRectMake(kLoginBtnToLeft + i * kLoginBtnWidth, kUsernameFieldMarginTop, 0.5, 100);
+        vLineLayer.frame = CGRectMake(kLoginBtnToLeft + i * (kLoginBtnWidth - 1), kUsernameFieldMarginTop, 1, 100);
         vLineLayer.backgroundColor = LINECOLOR;
         [self.layer addSublayer:vLineLayer];
         

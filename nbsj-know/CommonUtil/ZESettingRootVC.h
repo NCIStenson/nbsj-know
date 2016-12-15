@@ -19,6 +19,7 @@
     NSString *_rightBtnTitleStr;
 }
 
+@property (nonatomic,strong) UIView *navBar;
 @property (nonatomic,strong) UILabel * titleLabel;
 @property (nonatomic,strong) UIButton * leftBtn;
 @property (nonatomic,strong) UIButton * rightBtn;

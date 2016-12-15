@@ -13,6 +13,8 @@
 
 #define IS_IOS7 [[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0
 #define IS_IOS8 [[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0
+#define IS_IOS9 [[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0
+#define IS_IOS10 [[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0
 
 #define SCREEN_HEIGHT   [[UIScreen mainScreen] bounds].size.height
 #define SCREEN_WIDTH     [[UIScreen mainScreen] bounds].size.width
@@ -25,6 +27,9 @@
 #define IPHONE6     ([[UIScreen mainScreen] bounds].size.height == 667)
 #define IPHONE6P     ([[UIScreen mainScreen] bounds].size.height == 736)
 
+#define TYPEIMAGE @"ZEIMAGE"
+#define TYPETEXT @"ZETEXT"
+
 #define HTTPMETHOD_GET @"GET"
 #define HTTPMETHOD_POST @"POST"
 
@@ -35,6 +40,11 @@
 
 #define kTiltlFontSize 14.0f
 #define kSubTiltlFontSize 12.0f
+
+//追问界面字体大小
+#define kFontSize 16.0f
+//追问界面行间距
+#define kLabel_LineSpace 3.0f
 
 #define NAV_HEIGHT 64.0f
 #define MAX_PAGE_COUNT 20
@@ -49,7 +59,8 @@
 
 #define kNOTI_CHANGEPERSONALMSG_SUCCESS @"NOTI_CHANGEPERSONALMSG_SUCCESS"
 
-#define kNOTI_SCORE_SUCCESS @"NOTI_SCORE_SUCCESS"
+#define kNOTI_SCORE_SUCCESS @"NOTI_SCORE_SUCCESS"  // 经典案例打分成功通知
+#define kNOTI_ACCEPT_SUCCESS @"NOTI_ACCEPT_SUCCESS" // 采纳答案成功通知
 
 #define kRelogin @"kRelogin"
 #define kVerifyLogin @"kVerifyLogin"

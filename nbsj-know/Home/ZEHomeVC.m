@@ -402,6 +402,7 @@
                                  NSArray * arr = [ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_INFO];
                                  [_homeView reloadSection:0 withData:arr];
                              } fail:^(NSError *errorCode) {
+                                 [_homeView endRefreshing];
                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
                              }];
     

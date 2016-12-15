@@ -64,7 +64,12 @@
                                                    }else{
                                                        NSLog(@" failBlock ==  %@ ",[data objectForKey:@"RETMSG"]);
                                                        NSLog(@" failData ==  %@ ",data);
-                                                       [ZEUserServer operationFailed];
+                                                       static NSInteger i = 0;
+                                                       i ++;
+                                                       
+                                                       if (i > 3) {
+                                                           [ZEUserServer operationFailed];
+                                                       }
                                                        NSError *errorCode = nil;
                                                        failBlock(errorCode);
                                                    }

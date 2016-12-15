@@ -7,4 +7,5 @@ target 'nbsj-know' do
     pod 'SDWebImage', '~> 3.7.4'
     pod 'AFNetworking', '~> 3.0.4'
     pod 'LwScanningByZBar', '~> 0.0.2'
+    pod 'YYKit', '~> 1.0.7'
 end

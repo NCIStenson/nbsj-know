@@ -26,7 +26,6 @@
     
     web = [[UIWebView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
     [self.view addSubview:web];
-    web.backgroundColor = [UIColor redColor];
     web.delegate = self;
     [web setScalesPageToFit:YES];
     

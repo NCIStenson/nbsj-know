@@ -7,7 +7,11 @@
 //
 
 #import "ZEQuestionInfoModel.h"
+
 static ZEQuestionInfoModel * quesInfoM = nil;
+static ZEQuesAnsDetail * quesAnsM = nil;
+
+
 @implementation ZEQuestionInfoModel
 
 
@@ -34,10 +38,39 @@ static ZEQuestionInfoModel * quesInfoM = nil;
 
     NSArray * urlArr = [quesInfoM.FILEURL componentsSeparatedByString:@","];
     NSMutableArray * imageUrlArr = [NSMutableArray arrayWithArray:urlArr];
-    [imageUrlArr removeObjectAtIndex:0];
+    if(imageUrlArr.count > 0){
+        [imageUrlArr removeObjectAtIndex:0];
+    }
     quesInfoM.FILEURLARR = imageUrlArr;
     
     return quesInfoM;
 }
 
 @end
+
+@implementation ZEQuesAnsDetail
+
++(ZEQuesAnsDetail *)getDetailWithDic:(NSDictionary *)dic
+{
+    quesAnsM = [[ZEQuesAnsDetail alloc]init];
+    
+    quesAnsM.SEQKEY           = [dic objectForKey:@"SEQKEY"];
+    quesAnsM.SYSCREATORID = [dic objectForKey:@"SYSCREATORID"];
+    quesAnsM.SYSCREATEDATE  = [dic objectForKey:@"SYSCREATEDATE"];
+    quesAnsM.ANSWERCODE    = [dic objectForKey:@"ANSWERCODE"];
+    quesAnsM.FILEURL = [dic objectForKey:@"FILEURL"];
+    quesAnsM.EXPLAIN = [dic objectForKey:@"EXPLAIN"];
+    quesAnsM.HEADIMAGE        = [[[dic objectForKey:@"HEADIMAGE"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"] stringByReplacingOccurrencesOfString:@"," withString:@""];
+    
+    NSArray * urlArr = [quesAnsM.FILEURL componentsSeparatedByString:@","];
+    NSMutableArray * imageUrlArr = [NSMutableArray arrayWithArray:urlArr];
+    if(imageUrlArr.count > 0){
+        [imageUrlArr removeObjectAtIndex:0];
+    }
+    quesAnsM.FILEURLARR = imageUrlArr;
+    
+    return quesAnsM;
+}
+
+@end
+

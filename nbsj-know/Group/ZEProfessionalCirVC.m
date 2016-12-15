@@ -47,8 +47,8 @@
 {
     NSString * WHERESQL = @"";
     NSString * ORDERSQL = @"";
-    NSString * tableName = KLB_PROCIRCLE_INFO;
-    tableName = V_KLB_PROCIRCLE_POSITION;
+    NSString * tableName = KLB_PROCIRCLE_POSITION;
+    tableName = KLB_PROCIRCLE_POSITION;
     ORDERSQL = @"procirclepoints desc";
     NSArray * dataArr = [[ZEQuestionTypeCache instance]getProCircleCaches];
     if (dataArr.count > 0) {
@@ -66,7 +66,7 @@
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"CLASSNAME":@"com.nci.klb.app.procirclestatus.ProcirclePosition",
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{};
@@ -75,6 +75,7 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
@@ -82,9 +83,21 @@
 
                                  NSArray * arr = [NSMutableArray arrayWithArray:[ZEUtil getServerData:data withTabelName:tableName]];
                                  self.datasArr = [NSMutableArray arrayWithArray:arr];
+                                 
+                                 //  整理数据 加入圈子排名字段
+
+                                 NSMutableArray * rankingArr = [NSMutableArray array];
+                                 long i = 1;
+                                 for (NSDictionary * dic in arr) {
+                                     NSMutableDictionary * rankingDic = [NSMutableDictionary dictionaryWithDictionary:dic];
+                                     [rankingDic setObject:[NSString stringWithFormat:@"%ld",i] forKey:@"PROCIRCLERANKING"];
+                                     i ++;
+                                     [rankingArr addObject:rankingDic];
+                                 }
+                                 self.datasArr = rankingArr;
+                                 
                                  [self myCircleRequest];
-                                
-                                 [[ZEQuestionTypeCache instance] setProCircleCaches:arr];
+                                 [[ZEQuestionTypeCache instance] setProCircleCaches:rankingArr];
                                  
                              } fail:^(NSError *errorCode) {
                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -280,7 +293,18 @@
             [professionalBtn setTitle:PROCIRCLENAME(self.datasArr[i*3+j-1]) forState:UIControlStateNormal];
             [professionalBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             [superView addSubview:professionalBtn];
-            professionalBtn.titleLabel.numberOfLines = 0;
+
+            float PROCIRCLENAMEWIDTH  = [ZEUtil widthForString:PROCIRCLENAME(self.datasArr[i*3+j-1]) font:[UIFont systemFontOfSize:14] maxSize:CGSizeMake(SCREEN_WIDTH, 60.0f)] ;
+
+            if (PROCIRCLENAMEWIDTH >= SCREEN_WIDTH / 3)  {
+                professionalBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+                
+                PROCIRCLENAMEWIDTH  = [ZEUtil widthForString:PROCIRCLENAME(self.datasArr[i*3+j-1]) font:[UIFont systemFontOfSize:12] maxSize:CGSizeMake(SCREEN_WIDTH, 60.0f)];
+                if (PROCIRCLENAMEWIDTH >= SCREEN_WIDTH / 3) {
+                    professionalBtn.titleLabel.font = [UIFont systemFontOfSize:10];
+                }
+
+            }
             
             for (int k = 0; k < self.myCircleArr.count ; k ++) {
                 NSDictionary * myCircleDic = self.myCircleArr[k];
@@ -301,6 +325,8 @@
     
     ZEProCirDetailVC * detailVC = [[ZEProCirDetailVC alloc]init];
     detailVC.enter_group_type = self.enter_group_type;
+    NSMutableDictionary * dic = [NSMutableDictionary dictionaryWithDictionary:self.datasArr[btn.tag - 1]];
+    detailVC.PROCIRCLEDataDic = dic;
     detailVC.PROCIRCLECODE = [self.datasArr[btn.tag - 1] objectForKey:@"PROCIRCLECODE"];
     detailVC.PROCIRCLENAME = [self.datasArr[btn.tag - 1] objectForKey:@"PROCIRCLENAME"];
     [self.navigationController pushViewController:detailVC animated:YES];

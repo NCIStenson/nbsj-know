@@ -41,6 +41,7 @@
     if (self) {
         _questionInfoModel = infoModel;
         _questionTypeModel = typeModel;
+                
         [self initView];
     }
     return self;
@@ -192,7 +193,6 @@
         [lastView removeFromSuperview];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     [self initCellContentView:cell.contentView withIndexPath:indexPath];
     
     return cell;
@@ -221,13 +221,12 @@
     
     UIButton * userImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     userImageBtn.frame = CGRectMake(20, 5, 200, 30);
-//    [userImageBtn sd_setImageWithURL:ZENITH_IMAGEURL(_questionInfoModel.HEADIMAGE) forState:UIControlStateNormal placeholderImage:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
     userImageBtn.backgroundColor = [UIColor clearColor];
     [userImageBtn addTarget:self action:@selector(showUserMessage) forControlEvents:UIControlEventTouchUpInside];
     [cellContentView addSubview:userImageBtn];
 
     UIImageView * userImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 5, 30, 30)];
-    userImg.userInteractionEnabled = YES;
+    userImg.userInteractionEnabled = NO;
     [userImg sd_setImageWithURL:ZENITH_IMAGEURL(answerInfoM.HEADIMAGE) placeholderImage:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
     [userImageBtn addSubview:userImg];
     userImg.clipsToBounds = YES;
@@ -235,7 +234,7 @@
     
     UILabel * ANSWERUSERNAME = [[UILabel alloc]initWithFrame:CGRectMake(35,0,100.0f,30.0f)];
     ANSWERUSERNAME.text = answerInfoM.NICKNAME;
-    ANSWERUSERNAME.userInteractionEnabled = YES;
+    ANSWERUSERNAME.userInteractionEnabled = NO;
     ANSWERUSERNAME.textColor = MAIN_SUBTITLE_COLOR;
     ANSWERUSERNAME.font = [UIFont systemFontOfSize:kDetailTitleFontSize];
     [userImageBtn addSubview:ANSWERUSERNAME];
@@ -244,7 +243,7 @@
     
     UILabel * ANSWEREXPLAIN = [[UILabel alloc]initWithFrame:CGRectMake(55, 35, SCREEN_WIDTH - 65, answerHeight)];
     ANSWEREXPLAIN.numberOfLines = 0;
-    ANSWEREXPLAIN.userInteractionEnabled = YES;
+    ANSWEREXPLAIN.userInteractionEnabled = NO;
     ANSWEREXPLAIN.text = answerInfoM.ANSWEREXPLAIN;
     ANSWEREXPLAIN.font = [UIFont boldSystemFontOfSize:kDetailTitleFontSize];
     [cellContentView addSubview:ANSWEREXPLAIN];
@@ -272,7 +271,7 @@
     
     UILabel * SYSCREATEDATE = [[UILabel alloc]initWithFrame:CGRectMake(55,userY,100.0f,20.0f)];
     SYSCREATEDATE.text = [ZEUtil compareCurrentTime:answerInfoM.SYSCREATEDATE];
-    SYSCREATEDATE.userInteractionEnabled = YES;
+    SYSCREATEDATE.userInteractionEnabled = NO;
     SYSCREATEDATE.textColor = MAIN_SUBTITLE_COLOR;
     SYSCREATEDATE.font = [UIFont systemFontOfSize:kDetailTitleFontSize];
     [cellContentView addSubview:SYSCREATEDATE];
@@ -315,10 +314,6 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (![_questionInfoModel.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]] | [_questionInfoModel.ISSOLVE boolValue] ) {
-        return;
-    }
-    
     ZEAnswerInfoModel * answerInfoM = [ZEAnswerInfoModel getDetailWithDic:_answerInfoArr[indexPath.row]];
     if ([self.delegate respondsToSelector:@selector(acceptTheAnswerWithQuestionInfo:withAnswerInfo:)]) {
         [self.delegate acceptTheAnswerWithQuestionInfo:_questionInfoModel withAnswerInfo:answerInfoM];

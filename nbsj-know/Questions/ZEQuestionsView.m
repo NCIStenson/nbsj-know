@@ -313,6 +313,10 @@
     }
 }
 
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    [self endEditing:YES];
+}
+
 #pragma mark -  区头文字
 
 -(UIView * )createSectionTitleView:(QUESTION_SECTION_TYPE)sectionType

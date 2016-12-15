@@ -87,9 +87,9 @@
 #pragma mark - View init
 - (void)initNavBar
 {
-    UIView *navBar = [[UIView alloc] initWithFrame:CGRectMake(kNavBarMarginLeft, kNavBarMarginTop, kNavBarWidth, kNavBarHeight)];
-    navBar.backgroundColor = MAIN_NAV_COLOR;
-    navBar.clipsToBounds = YES;
+    _navBar = [[UIView alloc] initWithFrame:CGRectMake(kNavBarMarginLeft, kNavBarMarginTop, kNavBarWidth, kNavBarHeight)];
+    _navBar.backgroundColor = MAIN_NAV_COLOR;
+    _navBar.clipsToBounds = YES;
     
     _leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _leftBtn.frame = CGRectMake(kLeftButtonMarginLeft, kLeftButtonMarginTop, kLeftButtonWidth, kLeftButtonHeight);
@@ -100,7 +100,7 @@
     [_leftBtn setImage:[UIImage imageNamed:@"icon_back" tintColor:[UIColor whiteColor]] forState:UIControlStateHighlighted];
     [_leftBtn addTarget:self action:@selector(leftBtnClick) forControlEvents:UIControlEventTouchUpInside];
     
-    [navBar addSubview:_leftBtn];
+    [_navBar addSubview:_leftBtn];
     
     _rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _rightBtn.frame = CGRectMake(kRightButtonMarginLeft, kRightButtonMarginTop, kRightButtonWidth, kRightButtonHeight);
@@ -113,7 +113,7 @@
     [_rightBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
     [_rightBtn setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
     [_rightBtn addTarget:self action:@selector(rightBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [navBar addSubview:_rightBtn];
+    [_navBar addSubview:_rightBtn];
     
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kNavTitleLabelMarginLeft, kNavTitleLabelMarginTop, kNavTitleLabelWidth, kNavTitleLabelHeight)];
     _titleLabel.backgroundColor = [UIColor clearColor];
@@ -122,15 +122,15 @@
     _titleLabel.font = [UIFont systemFontOfSize:22.0f];
     _titleLabel.text = [ZEUtil isStrNotEmpty:_titleStr] ? _titleStr : @"标题";
     
-    [navBar addSubview:_titleLabel];
+    [_navBar addSubview:_titleLabel];
     
     line = [CALayer layer];
     line.frame = CGRectMake(0, kNavBarHeight - 0.5f, kNavBarWidth, 0.5f);
     line.backgroundColor = [[UIColor lightGrayColor] CGColor];
-    [navBar.layer addSublayer:line];
+    [_navBar.layer addSublayer:line];
     
     
-    [self.view addSubview:navBar];
+    [self.view addSubview:_navBar];
 }
 
 #pragma mark - Btn event

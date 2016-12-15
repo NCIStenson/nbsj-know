@@ -33,12 +33,16 @@
 #define V_KLB_QUESTION_INFO_LIST       @"V_KLB_QUESTION_INFO_LIST"             /***   知识库问题信息视图   ***/
 #define KLB_ANSWER_INFO                @"KLB_ANSWER_INFO"               /***   知识库回答问题信息表   ***/
 #define V_KLB_ANSWER_INFO              @"V_KLB_ANSWER_INFO"               /***   知识库回答问题信息表   ***/
+#define V_KLB_QUE_ANS_DETAIL             @"V_KLB_QUE_ANS_DETAIL"               /***   追问追答视图   ***/
+#define V_KLB_QUEANS_DETAIL             @"V_KLB_QUEANS_DETAIL"               /***   追问追答视图   ***/
+#define KLB_QUE_ANS_DETAIL             @"KLB_QUE_ANS_DETAIL"               /***   追问表   ***/
 #define KLB_PROCIRCLE_INFO             @"KLB_PROCIRCLE_INFO"            /***   专业圈信息表   ***/
 #define V_KLB_PROCIRCLE_POSITION             @"V_KLB_PROCIRCLE_POSITION"            /***   专业圈信息表排名   ***/
 #define KLB_PROCIRCLE_POSITION             @"KLB_PROCIRCLE_POSITION"            /***   专业圈信息表排名   ***/
 #define V_KLB_PROCIRCLESCORE_INFO             @"V_KLB_PROCIRCLESCORE_INFO"            /***   专业圈信息表   ***/
 
 #define V_KLB_PROCIRCLEMEMBER_INFO             @"V_KLB_PROCIRCLEMEMBER_INFO"            /***   圈子成员表   ***/
+#define KLB_PROCIRCLE_USER_POS             @"KLB_PROCIRCLE_USER_POS"            /***   圈子成员表   ***/
 #define KLB_PROCIRCLEPOINT_INFO             @"KLB_PROCIRCLEPOINT_INFO"            /***   圈子成员表   ***/
 #define KLB_DYNAMIC_INFO             @"KLB_DYNAMIC_INFO"            /***   圈子动态表   ***/
 

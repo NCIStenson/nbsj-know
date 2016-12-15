@@ -110,4 +110,9 @@
  @return <#return value description#>
  */
 +(NSString *)notRounding:(float)price afterPoint:(int)position;
+
+#pragma mark - 设置Label行间距
+
++(NSAttributedString *)getAttributedStringWithString:(NSString *)string lineSpace:(CGFloat)lineSpace;
++(float)boundingRectWithSize:(CGSize)size WithStr:(NSString*)string andFont:(UIFont *)font andLinespace:(CGFloat)space;
 @end

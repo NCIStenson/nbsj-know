@@ -90,4 +90,6 @@ typedef NS_ENUM (NSInteger,SECTION_TITLE){
 
 -(void)hiddenSinginView;
 
+-(void)endRefreshing;
+
 @end

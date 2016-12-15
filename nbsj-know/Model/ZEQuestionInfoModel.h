@@ -33,3 +33,20 @@
 +(ZEQuestionInfoModel *)getDetailWithDic:(NSDictionary *)dic;
 
 @end
+
+@interface ZEQuesAnsDetail : NSObject
+
+@property (nonatomic,copy) NSString * ANSWERCODE;
+@property (nonatomic,copy) NSString * EXPLAIN;
+@property (nonatomic,copy) NSString * FILEURL;
+@property (nonatomic,copy) NSString * SEQKEY;
+@property (nonatomic,copy) NSString * SYSCREATORID;
+@property (nonatomic,copy) NSString * SYSCREATEDATE;
+@property (nonatomic,copy) NSString * HEADIMAGE;
+
+@property (nonatomic,strong) NSArray * FILEURLARR;
+
++(ZEQuesAnsDetail *)getDetailWithDic:(NSDictionary *)dic;
+
+
+@end

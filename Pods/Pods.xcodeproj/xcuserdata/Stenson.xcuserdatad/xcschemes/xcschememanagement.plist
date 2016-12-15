@@ -54,6 +54,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>YYKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>libqrencode.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -62,7 +67,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>295C752FA193A8D8BCD290231B473429</key>
+		<key>3953F3499641389E6B197E7CB12D33F3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>4F1DE61D62F7DDAD16E380EE3F2BA879</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -77,12 +87,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>633D29C1C04E18EA6BAD8411AA59B88D</key>
+		<key>5AF889C9BD154B8A9C9710EFE94B278C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>63BDBFEB649CDBE05978EC9812C3AC59</key>
+		<key>5FBE220B8EBAB93690BC7405B85B755E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>67E43B66148FF258090794D06380F654</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -92,32 +107,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>770E847B598F5499A6D904697C9F212B</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>8D55F55CCDB8866DD65E6752DD203B51</key>
+		<key>89DD1F5A3E217F1777CD79D2C8C04674</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>928353533005A4198EBDA5B700D37B64</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>982CEA2664FAF6CBA29ABD09B13985BC</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>C5DC46BD9DDA66DED4936CA53486ADBF</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>D058B89EB3B3DF45457A2DCD3971AFFE</key>
 		<dict>
 			<key>primary</key>
 			<true/>

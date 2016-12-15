@@ -538,5 +538,41 @@
     
 }
 
+#pragma mark - 设置Label行间距
+
++(NSAttributedString *)getAttributedStringWithString:(NSString *)string lineSpace:(CGFloat)lineSpace
+{
+    if(string.length == 0){
+        return nil;
+    }
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:string];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineSpacing = lineSpace; // 调整行间距
+    NSRange range = NSMakeRange(0, [string length]);
+    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:range];
+    [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:kFontSize] range:range];
+    return attributedString;
+}
+
++(float)boundingRectWithSize:(CGSize)size WithStr:(NSString*)string andFont:(UIFont *)font andLinespace:(CGFloat)space
+{
+    if(string.length == 0){
+        return 0;
+    }
+
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc]init];
+    [style setLineSpacing:space];
+    NSDictionary *attribute = @{NSFontAttributeName:font,NSParagraphStyleAttributeName:style};
+    CGSize retSize = [string boundingRectWithSize:size
+                                          options:
+                      NSStringDrawingTruncatesLastVisibleLine |
+                      NSStringDrawingUsesLineFragmentOrigin |
+                      NSStringDrawingUsesFontLeading
+                                       attributes:attribute
+                                          context:nil].size;
+    
+    return retSize.height;
+}
+
 
 @end
