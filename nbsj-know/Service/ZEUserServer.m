@@ -36,7 +36,6 @@
                 fail:(ServerResponseFailBlock)failBlock
 {
     NSDictionary * dataDic = [ZEPackageServerData getLogoutServerData];
-    NSLog(@">>  %@",dataDic);
     NSString * logoutServer = [NSString stringWithFormat: @"%@/do/app/logout",Zenith_Server];
     [[ZEServerEngine sharedInstance]requestWithJsonDic:dataDic
                                      withServerAddress:logoutServer

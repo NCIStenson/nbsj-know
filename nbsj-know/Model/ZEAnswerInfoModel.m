@@ -27,6 +27,7 @@ static ZEAnswerInfoModel * ansertInfoM = nil;
     ansertInfoM.ISENABLED      = [dic objectForKey:@"ISENABLED"];
     ansertInfoM.ISGOOD      = [dic objectForKey:@"ISGOOD"];
     ansertInfoM.GOODNUMS       = [NSString stringWithFormat:@"%@",[dic objectForKey:@"GOODNUMS"]];
+    ansertInfoM.QACOUNT       = [NSString stringWithFormat:@"%@",[dic objectForKey:@"QACOUNT"]];
     ansertInfoM.SYSCREATEDATE  = [dic objectForKey:@"SYSCREATEDATE"];
     ansertInfoM.NICKNAME       = [dic objectForKey:@"NICKNAME"];
     ansertInfoM.HEADIMAGE        = [[[dic objectForKey:@"HEADIMAGE"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"] stringByReplacingOccurrencesOfString:@"," withString:@""];

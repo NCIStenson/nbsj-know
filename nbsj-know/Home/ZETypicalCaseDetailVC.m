@@ -98,13 +98,10 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                              } fail:^(NSError *errorCode) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                              }];
 }
 
@@ -128,17 +125,14 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                                  if ([[ZEUtil getServerData:data withTabelName:KLB_CLASSICCASE_SCORE ] count] > 0) {
                                      [[self.leftBtn.superview viewWithTag:100] removeFromSuperview];
                                  }
                                  
                              } fail:^(NSError *errorCode) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                              }];
 
 }
@@ -165,7 +159,6 @@
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                                  if ([[ZEUtil getServerData:data withTabelName:KLB_CLASSICCASE_COLLECT ] count] > 0) {
                                      UIButton * collectBtn = [self.leftBtn.superview viewWithTag:101];
                                      [collectBtn setImage:[UIImage imageNamed:@"detail_nav_star_pressed"] forState:UIControlStateNormal];
@@ -173,7 +166,6 @@
                                      [collectBtn addTarget:self action:@selector(cancelCollect) forControlEvents:UIControlEventTouchUpInside];
                                  }
                              } fail:^(NSError *errorCode) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                              }];
     
 }
@@ -236,11 +228,9 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                                  [self showTips:@"评分成功"];
                                  [self dismissTheScoreView];
 
@@ -249,7 +239,6 @@
                                  [self reloadViewData];
                                  
                              } fail:^(NSError *errorCode) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                                  [_alertView dismissWithCompletion:nil];
                              }];
 }
@@ -275,11 +264,9 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                                  [self showTips:@"收藏成功"];
                                  
                                  UIButton * collectBtn = [self.leftBtn.superview viewWithTag:101];
@@ -288,7 +275,6 @@
                                  [collectBtn addTarget:self action:@selector(cancelCollect) forControlEvents:UIControlEventTouchUpInside];
 
                              } fail:^(NSError *errorCode) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                              }];
 }
 
@@ -313,11 +299,9 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                                  [self showTips:@"取消收藏"];
                                  
                                  UIButton * collectBtn = [self.leftBtn.superview viewWithTag:101];
@@ -326,7 +310,6 @@
                                  [collectBtn addTarget:self action:@selector(didCollect) forControlEvents:UIControlEventTouchUpInside];
 
                              } fail:^(NSError *errorCode) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                              }];
 }
 
@@ -376,11 +359,9 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                                  NSArray * dataArr =  [ZEUtil getServerData:data withTabelName:V_KLB_CLASSICCASE_COMMENT];
                                  if (dataArr.count > 0) {
                                      if (_currentPage == 0) {
@@ -401,7 +382,6 @@
                                      [detailView loadNoMoreData];
                                  }
                              } fail:^(NSError *errorCode) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                                  [_alertView dismissWithCompletion:nil];
                              }];
 }
@@ -432,18 +412,15 @@ NSDictionary * fieldsDic =@{@"CASECODE":[self.classicalCaseDetailDic objectForKe
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                                  [self showTips:@"发表成功"];
                                  [detailView publishCommentSuccess];
 
                                  _currentPage = 0;
                                  [self sendRequestWithCurrentPage];
                              } fail:^(NSError *errorCode) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                                  [_alertView dismissWithCompletion:nil];
                              }];
 }

@@ -58,14 +58,14 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [self progressBegin:nil];
+
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [self progressEnd:nil];
+
                                  [calendarPicker reloadDateData:[ZEUtil getServerData:data withTabelName:KLB_SIGNIN_INFO]];
                              } fail:^(NSError *errorCode) {
-                                 [self progressEnd:nil];
+
                              }];
 }
 
@@ -113,16 +113,15 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [self progressBegin:nil];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:YES
                              success:^(id data) {
-                                 [self progressEnd:nil];
+
                                  [self sendRequestWithMonth:[ZEUtil getCurrentDate:@"YYYY-MM"]];
                                  [self showTips:@"签到成功"];
                                  [calendarPicker signinSuccess];
                              } fail:^(NSError *errorCode) {
-                                 [self progressEnd:nil];
+
                              }];
 }
 

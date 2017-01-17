@@ -194,15 +194,15 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [self progressBegin:nil];
+
     [ZEUserServer uploadImageWithJsonDic:packageDic
                             withImageArr:self.imagesArr
                            showAlertView:YES
                                  success:^(id data) {
-                                     [self progressEnd:nil];
+    
                                      [self showAlertView:@"回答成功" isBack:YES];
                                  } fail:^(NSError *error) {
-                                     [self progressEnd:nil];
+    
                                  }];
 }
 

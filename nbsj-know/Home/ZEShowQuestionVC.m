@@ -106,11 +106,11 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [self progressBegin:nil];
+
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [self progressEnd:nil];
+
                                  NSArray * dataArr = [ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_INFO];
                                  if (dataArr.count > 0) {
                                      if (_currentPage == 0) {
@@ -131,7 +131,7 @@
                                      [_questionsView loadNoMoreData];
                                  }
                              } fail:^(NSError *errorCode) {
-                                 [self progressEnd:nil];
+
                              }];
 }
 -(void)sendMyAnswerRequestWithCondition:(NSString *)conditionStr
@@ -154,11 +154,11 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [self progressBegin:nil];
+
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [self progressEnd:nil];
+
                                  NSArray * dataArr = [ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_INFO_LIST];
                                  if (dataArr.count > 0) {
                                      if (_currentPage == 0) {
@@ -179,7 +179,7 @@
                                      [_questionsView loadNoMoreData];
                                  }
                              } fail:^(NSError *errorCode) {
-                                 [self progressEnd:nil];
+
                              }];
 }
 

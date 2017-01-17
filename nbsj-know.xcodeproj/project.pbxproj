@@ -398,7 +398,7 @@
 		989AA6931D52D4BB00A08022 /* u32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = u32.png; sourceTree = "<group>"; };
 		989AA6941D52D4BB00A08022 /* u2356.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = u2356.png; sourceTree = "<group>"; };
 		989AA6951D52D4BB00A08022 /* u2364.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = u2364.png; sourceTree = "<group>"; };
-		989B2C431C4DE7AA00F14EFA /* 知新.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "知新.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		989B2C431C4DE7AA00F14EFA /* 电知道.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "电知道.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		989B2C471C4DE7AA00F14EFA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		989B2C491C4DE7AA00F14EFA /* ZEAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZEAppDelegate.h; sourceTree = "<group>"; };
 		989B2C4A1C4DE7AA00F14EFA /* ZEAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZEAppDelegate.m; sourceTree = "<group>"; };
@@ -940,7 +940,7 @@
 		989B2C441C4DE7AA00F14EFA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				989B2C431C4DE7AA00F14EFA /* 知新.app */,
+				989B2C431C4DE7AA00F14EFA /* 电知道.app */,
 				989B2C5C1C4DE7AA00F14EFA /* nbsj-know.xctest */,
 				989B2C671C4DE7AA00F14EFA /* nbsj-know.xctest */,
 			);
@@ -1141,7 +1141,7 @@
 			);
 			name = "nbsj-know";
 			productName = NewCentury;
-			productReference = 989B2C431C4DE7AA00F14EFA /* 知新.app */;
+			productReference = 989B2C431C4DE7AA00F14EFA /* 电知道.app */;
 			productType = "com.apple.product-type.application";
 		};
 		989B2C5B1C4DE7AA00F14EFA /* nbsj-knowTests */ = {
@@ -1684,8 +1684,8 @@
 					"-framework",
 					"\"UIKit\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zenith.QRScan;
-				PRODUCT_NAME = "知新";
+				PRODUCT_BUNDLE_IDENTIFIER = com.zenitnElec.know;
+				PRODUCT_NAME = "电知道";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SHARED_PRECOMPS_DIR = "";
@@ -1754,8 +1754,8 @@
 					"-framework",
 					"\"UIKit\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zenith.QRScan;
-				PRODUCT_NAME = "知新";
+				PRODUCT_BUNDLE_IDENTIFIER = com.zenitnElec.know;
+				PRODUCT_NAME = "电知道";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SHARED_PRECOMPS_DIR = "";
@@ -1763,7 +1763,7 @@
 				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = "com.zenith.app-Release";
-				ZENITH_SERVER = "http://117.149.2.229:8056/emarkspg_klb";
+				ZENITH_SERVER = "http://120.27.152.63:8888/emarkspg_nbsjzd";
 			};
 			name = Release;
 		};

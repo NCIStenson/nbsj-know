@@ -57,19 +57,16 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:YES
                              success:^(id data) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                                  NSArray * arr = [ZEUtil getServerData:data withTabelName:V_KLB_USER_BASE_INFO];
                                  if(arr.count > 0){
                                      [personalMsgView reloadDataWithDic:arr[0]];
                                  }
                              }
                                 fail:^(NSError *error) {
-                                    [MBProgressHUD hideHUDForView:self.view animated:YES];
-                                }];
+                                   }];
 }
 
 
@@ -100,10 +97,7 @@
     [self progressBegin:@"正在退出登录"];
     [ZEUserServer logoutSuccess:^(id data) {
         [self progressEnd:nil];
-        NSLog(@" 正在退出登录 >>  %@",data);
-//        if ([ZEUtil isSuccess:[data objectForKey:@"RETMSG"]]) {
         [self logoutSuccess];
-//        }
     } fail:^(NSError *error) {
         [self progressEnd:nil];
     }];
@@ -196,7 +190,6 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:YES
                              success:^(id data) {
@@ -210,7 +203,6 @@
                                      }
                                  }
                              } fail:^(NSError *errorCode) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                              }];
 }
 

@@ -75,11 +75,9 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
 
                                  NSArray * arr = [NSMutableArray arrayWithArray:[ZEUtil getServerData:data withTabelName:tableName]];
                                  self.datasArr = [NSMutableArray arrayWithArray:arr];
@@ -100,7 +98,6 @@
                                  [[ZEQuestionTypeCache instance] setProCircleCaches:rankingArr];
                                  
                              } fail:^(NSError *errorCode) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                              }];
 }
 
@@ -132,11 +129,9 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                                  NSArray * arr = [NSMutableArray arrayWithArray:[ZEUtil getServerData:data withTabelName:tableName]];
                                  self.myCircleArr = [NSMutableArray arrayWithArray:arr];
                                  if (_enter_group_type == ENTER_GROUP_TYPE_SETTING) {
@@ -144,7 +139,6 @@
                                  }
                                  [contentView reloadData];
                              } fail:^(NSError *errorCode) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                              }];
 }
 

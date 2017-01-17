@@ -65,18 +65,15 @@
                                                                            withFields:@[fieldsDic]
                                                                         withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                                  
                                  NSArray * memberArr = [ZEUtil getServerData:data withTabelName:KLB_PROCIRCLE_USER_POS];
                                  if ([memberArr isKindOfClass:[NSArray class]]) {
                                      [detailView reloadSection:1 scoreDic:nil memberData:memberArr];
                                  }
                              } fail:^(NSError *errorCode) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                              }];
 }
 
@@ -103,7 +100,6 @@
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                                  NSArray * arr = [ZEUtil getServerData:data withTabelName:KLB_PROCIRCLE_REL_USER];
                                  if(arr.count == 0){
                                      self.rightBtn.hidden = NO;
@@ -113,7 +109,6 @@
                                      [self.rightBtn addTarget:self action:@selector(exitCircle) forControlEvents:UIControlEventTouchUpInside];
                                  }
                              } fail:^(NSError *errorCode) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                              }];
 }
 
@@ -142,7 +137,6 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
@@ -155,7 +149,6 @@
                                  [self proCirecleMember];
                                  
                              } fail:^(NSError *errorCode) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                              }];
 }
 
@@ -180,7 +173,6 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
@@ -190,7 +182,6 @@
                                  [self.rightBtn addTarget:self action:@selector(rightBtnClick) forControlEvents:UIControlEventTouchUpInside];
                                  [self proCirecleMember];
                              } fail:^(NSError *errorCode) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                              }];
 
 }

@@ -108,22 +108,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "nbsj-know/Home/ZEHomeVC.m"
-            timestampString = "503207575.972903"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "492"
-            endingLineNumber = "492"
-            landmarkName = "-goSearch:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "nbsj-know/Model/ZEKLB_CLASSICCASE_INFOModel.m"
             timestampString = "500978602.801172"
             startingColumnNumber = "9223372036854775807"
@@ -157,11 +141,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "nbsj-know/Home/ZETypicalCaseDetailView.m"
-            timestampString = "501400228.260404"
+            timestampString = "505362594.126474"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "461"
-            endingLineNumber = "461"
+            startingLineNumber = "460"
+            endingLineNumber = "460"
             landmarkName = "-initCommentCellView:withIndexpath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -172,13 +156,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "nbsj-know/Home/ZEShowQuestionVC.m"
-            timestampString = "502960328.910712"
+            filePath = "nbsj-know/Service/ZEUserServer.m"
+            timestampString = "505725395.237916"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
-            landmarkName = "-sendRequestWithCondition:"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "+loginWithNum:withPassword:success:fail:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "nbsj-know/Service/ZEUserServer.m"
+            timestampString = "505807490.194013"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "+getDataWithJsonDic:showAlertView:success:fail:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

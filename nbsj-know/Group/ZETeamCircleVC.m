@@ -58,7 +58,6 @@
                                  self.datasArr = [ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_INFO];
                                  [_contentView reloadData];
                              } fail:^(NSError *errorCode) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                              }];
 }
 

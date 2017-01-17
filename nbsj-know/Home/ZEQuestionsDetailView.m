@@ -297,6 +297,18 @@
         [praiseNumBtn setTitleColor:RGBA(253, 179, 43, 1) forState:UIControlStateNormal];
         [praiseNumBtn setImage:[UIImage imageNamed:@"qb_praiseBtn_hand.png" color:RGBA(253, 179, 43, 1)] forState:UIControlStateNormal];
     }
+    if ([answerInfoM.QACOUNT integerValue] > 0) {
+        UILabel * que_ans_lab = [[UILabel alloc]init];
+        que_ans_lab.frame = CGRectMake(SCREEN_WIDTH - 100, 10, 90, 20);
+        que_ans_lab.text = [NSString stringWithFormat:@"%@追问追答",answerInfoM.QACOUNT];
+        que_ans_lab.userInteractionEnabled = NO;
+        que_ans_lab.textAlignment = NSTextAlignmentRight;
+        que_ans_lab.textColor = MAIN_SUBTITLE_COLOR;
+        que_ans_lab.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
+        [cellContentView addSubview:que_ans_lab];
+        que_ans_lab.userInteractionEnabled = YES;
+    }
+
     
     if ([answerInfoM.ISPASS boolValue]) {
         UILabel * otherAnswers = [[UILabel alloc]initWithFrame:CGRectMake(0, userY + 25.0f, SCREEN_WIDTH, 20.0f)];

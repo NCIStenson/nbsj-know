@@ -73,15 +73,15 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [self progressBegin:nil];
+
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [self progressEnd:nil];
+
                                  _datasArr = [ZEUtil getServerData:data withTabelName:V_KLB_ANSWER_INFO];
                                  [_quesDetailView reloadData:_datasArr];
                              } fail:^(NSError *errorCode) {
-                                 [self progressEnd:nil];
+
                              }];
 }
 
@@ -159,15 +159,15 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [self progressBegin:nil];
+
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [self progressEnd:nil];
+
                                  
                                  [self sendSearchAnswerRequest];
                              } fail:^(NSError *errorCode) {
-                                 [self progressEnd:nil];
+
                              }];
 }
 

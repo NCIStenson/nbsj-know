@@ -87,8 +87,7 @@
 //    }
 //    __block ZELoginViewController * safeSelf = self;
     
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self progressBegin:nil];
+
     [ZEUserServer loginWithNum:username
                   withPassword:pwd
                        success:^(id data) {

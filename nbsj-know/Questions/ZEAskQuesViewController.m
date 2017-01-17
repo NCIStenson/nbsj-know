@@ -230,14 +230,14 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [self progressBegin:nil];
+
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [self progressEnd:nil];
+
                                  [askQuesView showQuestionTypeViewWithData:[ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_TYPE]];
                              } fail:^(NSError *errorCode) {
-                                 [self progressEnd:nil];
+
                              }];
 }
 #pragma mark - 确认输入信息
@@ -317,16 +317,16 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [self progressBegin:nil];
+
     
     [ZEUserServer uploadImageWithJsonDic:packageDic
                             withImageArr:self.imagesArr
                            showAlertView:YES
                                  success:^(id data) {
-                                     [self progressEnd:nil];
+    
                                      [self showAlertView:@"问题发表成功" isBack:YES];
                                  } fail:^(NSError *error) {
-                                     [self progressEnd:nil];
+    
                                      
                                  }];
 }

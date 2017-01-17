@@ -83,14 +83,14 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [self progressBegin:nil];
+
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [self progressEnd:nil];
+
                                  [_questionView reloadContentViewWithArr:[ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_INFO]];
                              } fail:^(NSError *errorCode) {
-                                 [self progressEnd:nil];
+
                              }];
 }
 

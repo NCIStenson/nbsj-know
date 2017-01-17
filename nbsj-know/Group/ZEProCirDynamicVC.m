@@ -54,16 +54,16 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [self progressBegin:nil];
+
 
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [self progressEnd:nil];
+
                                  self.datasArr = [NSMutableArray arrayWithArray:[ZEUtil getServerData:data withTabelName:KLB_DYNAMIC_INFO]];
                                  [contentView reloadData];
                              } fail:^(NSError *errorCode) {
-                                 [self progressEnd:nil];
+
                              }];
 }
 

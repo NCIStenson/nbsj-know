@@ -457,7 +457,6 @@
     contentLab.font = [UIFont systemFontOfSize:12];
     [cellView addSubview:contentLab];
     
-    NSLog(@"SYSCREATEDATE>>>>  %@",[dataDic objectForKey:@"SYSCREATEDATE"]);
     UILabel * timeLab = [[UILabel alloc]initWithFrame:CGRectMake(85.0f, 30.0f + contentHeight, SCREEN_WIDTH - 100.0f, 20.0f)];
     timeLab.text = [ZEUtil compareCurrentTime:[dataDic objectForKey:@"SYSCREATEDATE"]];
     timeLab.textColor = [UIColor lightGrayColor];

@@ -45,8 +45,6 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];
-    [_chatView removeFromSuperview];
-    _chatView = nil;
 }
 
 -(void)sendSearchAnswerRequest
@@ -258,7 +256,7 @@
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [self progressEnd:nil];
+
                                  [self showTips:@"已采纳为最佳答案"];
                                  [self.rightBtn setTitle:@"已采纳" forState:UIControlStateNormal];
                                  [self.rightBtn setEnabled:NO];

@@ -25,6 +25,7 @@
 @property (nonatomic,copy) NSString * FILEURL;
 @property (nonatomic,copy) NSString * NICKNAME;
 @property (nonatomic,copy) NSString * HEADIMAGE;
+@property (nonatomic,copy) NSString * QACOUNT;
 
 @property (nonatomic,strong) NSArray * FILEURLARR;
 

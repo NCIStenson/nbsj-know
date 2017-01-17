@@ -96,13 +96,13 @@
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [self progressEnd:nil];
+
                                  [self showTips:@"保存成功"];
                                  [ZESettingLocalData changeNICKNAME:_changeMsgView.nicknameField.text];
                                  [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_CHANGEPERSONALMSG_SUCCESS object:nil];
                                  NSLog(@">>  %@",data);
                              } fail:^(NSError *errorCode) {
-                                 [self progressEnd:nil];
+
                              }];
 }
 
@@ -156,10 +156,10 @@
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 [self progressEnd:nil];
+
                                  [self showAlertView:@"保存成功"];
                              } fail:^(NSError *errorCode) {
-                                 [self progressEnd:nil];
+
                              }];
 
 }

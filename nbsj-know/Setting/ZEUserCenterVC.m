@@ -149,19 +149,16 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer uploadImageWithJsonDic:packageDic
                             withImageArr:@[_choosedImage]
                            showAlertView:YES
                                  success:^(id data) {
-                                     [MBProgressHUD hideHUDForView:self.view animated:YES];
-                                     NSArray * arr = [ZEUtil getServerData:data withTabelName:KLB_USER_BASE_INFO];
+                                         NSArray * arr = [ZEUtil getServerData:data withTabelName:KLB_USER_BASE_INFO];
                                      if (arr.count > 0) {
                                          [self getHeadImgUrl];
                                      }
                                  } fail:^(NSError *error) {
-                                     [MBProgressHUD hideHUDForView:self.view animated:YES];
-                                 }];
+                                     }];
 
 }
 
@@ -186,11 +183,9 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:YES
                              success:^(id data) {
-                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                                  NSArray * arr = [ZEUtil getServerData:data withTabelName:V_KLB_USER_BASE_INFO];
                                  if (arr.count > 0) {
                                      if ([ZEUtil isStrNotEmpty:[arr[0] objectForKey:@"FILEURL"]]) {
@@ -201,8 +196,7 @@
                                  }
                              }
                                 fail:^(NSError *error) {
-                                    [MBProgressHUD hideHUDForView:self.view animated:YES];
-                                }];
+                                   }];
 }
 
 -(void)goSinginVC
