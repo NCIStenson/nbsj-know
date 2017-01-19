@@ -28,6 +28,7 @@ typedef enum:NSInteger{
 typedef enum : NSUInteger {
     ENTER_GROUP_TYPE_DEFAULT,
     ENTER_GROUP_TYPE_SETTING,
+    ENTER_GROUP_TYPE_TABBAR
 } ENTER_GROUP_TYPE;
 
 typedef enum : NSUInteger {

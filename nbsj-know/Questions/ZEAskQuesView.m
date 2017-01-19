@@ -16,6 +16,7 @@
 #import "ZEAskQuesView.h"
 #import "JCAlertView.h"
 #import "ZEShowQuestionTypeView.h"
+#import "YYKit.h"
 
 @interface ZEAskQuesView()<UITextViewDelegate,ZEShowQuestionTypeViewDelegate>
 {
@@ -23,7 +24,16 @@
     NSMutableArray * _choosedImageArr;
     JCAlertView * _alertView;
     UIView * _backImageView;//   上传图片背景view
-    UIButton * questionTypeBtn;
+    
+    UIView * _dashView;  //  添加图片的View
+    UIView * _rewardGoldView;  //  添加图片的View
+    UIView * _anonymousAskView;  //  添加图片的View
+    
+    NSMutableArray * goldScoreArr;
+    
+    BOOL _isAnonymousAsk; //  是否匿名提问
+    
+    UIButton * _rewardBtn; // 悬赏值按钮
 }
 
 @property (nonatomic,strong) NSMutableArray * choosedImageArr;
@@ -39,6 +49,8 @@
         self.choosedImageArr = [NSMutableArray array];
         [self initView];
         [self initImageView];
+        [self initAnonymousView];
+        [self initRewardGoldView];
     }
     return self;
 }
@@ -71,39 +83,43 @@
     downKeyboardBtn.layer.borderWidth = 1.5;
     downKeyboardBtn.layer.borderColor = [MAIN_GREEN_COLOR CGColor];
     
-    UIButton * cameraBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    cameraBtn.frame = CGRectMake(SCREEN_WIDTH - 40.0f, kInputViewHeight + NAV_HEIGHT + 5.0f, 30, 30);
-    [cameraBtn setImage:[UIImage imageNamed:@"camera_gray" color:MAIN_GREEN_COLOR] forState:UIControlStateNormal];
-    [self addSubview:cameraBtn];
-    cameraBtn.clipsToBounds = YES;
-    cameraBtn.layer.cornerRadius = 15.0f;
-    cameraBtn.layer.borderWidth = 1.5;
-    cameraBtn.layer.borderColor = [MAIN_GREEN_COLOR CGColor];
-    [cameraBtn addTarget:self action:@selector(showCondition) forControlEvents:UIControlEventTouchUpInside];
-    
-//    questionTypeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    questionTypeBtn.frame = CGRectMake(10.0f, kInputViewHeight + NAV_HEIGHT + 50.0f, SCREEN_WIDTH - 20.0f, 40);
-//    [questionTypeBtn setImage:[UIImage imageNamed:@"camera_gray" color:MAIN_GREEN_COLOR] forState:UIControlStateNormal];
-//    [questionTypeBtn setTitle:@"选择问题分类" forState:UIControlStateNormal];
-//    [questionTypeBtn setTitleColor:MAIN_GREEN_COLOR forState:UIControlStateNormal];
-//    questionTypeBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-//    [self addSubview:questionTypeBtn];
-//    questionTypeBtn.clipsToBounds = YES;
-//    questionTypeBtn.layer.cornerRadius = 5.0f;
-//    questionTypeBtn.layer.borderWidth = 1.5f;
-//    questionTypeBtn.layer.borderColor = [MAIN_GREEN_COLOR CGColor];
-//    [questionTypeBtn addTarget:self action:@selector(showQuestionType) forControlEvents:UIControlEventTouchUpInside];
-
+    for (int i = 0 ; i < 3; i ++) {
+        UIButton * cameraBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        cameraBtn.frame = CGRectMake(SCREEN_WIDTH - 120.0f + 40 * i, kInputViewHeight + NAV_HEIGHT + 5.0f, 30, 30);
+        if (i == 0) {
+            [cameraBtn setImage:[UIImage imageNamed:@"discuss_pv" color:MAIN_GREEN_COLOR] forState:UIControlStateNormal];
+            [cameraBtn addTarget:self action:@selector(anonymousAsk) forControlEvents:UIControlEventTouchUpInside];
+        }else if (i == 1){
+            [cameraBtn setTitleColor:MAIN_GREEN_COLOR forState:UIControlStateNormal];
+            [cameraBtn setTitle:@"赏" forState:UIControlStateNormal];
+            cameraBtn.titleLabel.font = [UIFont boldSystemFontOfSize:13];
+            [cameraBtn addTarget:self action:@selector(rewardGold) forControlEvents:UIControlEventTouchUpInside];
+            _rewardBtn = cameraBtn;
+        }else if (i == 2){
+            [cameraBtn setImage:[UIImage imageNamed:@"camera_gray" color:MAIN_GREEN_COLOR] forState:UIControlStateNormal];
+            [cameraBtn addTarget:self action:@selector(showCondition) forControlEvents:UIControlEventTouchUpInside];
+        }
+        [self addSubview:cameraBtn];
+        cameraBtn.clipsToBounds = YES;
+        cameraBtn.layer.cornerRadius = 15.0f;
+        cameraBtn.layer.borderWidth = 1.5;
+        cameraBtn.layer.borderColor = [MAIN_GREEN_COLOR CGColor];
+    }
 }
+
+#pragma mark - 选择过的照片
 
 -(void)initImageView
 {
-    UIView * dashView= [[UIView alloc]initWithFrame:CGRectMake( 0, SCREEN_HEIGHT - 217, SCREEN_WIDTH, 1)];
-    [self addSubview:dashView];
-    [self drawDashLine:dashView lineLength:5 lineSpacing:2 lineColor:[UIColor lightGrayColor]];
     
     _backImageView = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
     [self addSubview:_backImageView];
+    
+    _dashView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1)];
+    [_backImageView addSubview:_dashView];
+    
+    [self drawDashLine:_dashView lineLength:5 lineSpacing:2 lineColor:[UIColor lightGrayColor]];
+
     
     for (int i = 0; i < self.choosedImageArr.count + 1; i ++) {
         UIButton * upImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -146,6 +162,184 @@
     [lineView.layer addSublayer:shapeLayer];
 }
 
+-(void)initAnonymousView
+{
+    _anonymousAskView = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 216.0f)];
+    _anonymousAskView.backgroundColor = MAIN_LINE_COLOR;
+    [self addSubview:_anonymousAskView];
+    
+    UILabel * messageLab = [[UILabel alloc]init];
+    [_anonymousAskView addSubview:messageLab];
+    messageLab.text = @"匿名提问";
+    messageLab.left = 20.0f;
+    messageLab.top = 20.0f;
+    messageLab.height = 20.0f;
+    [messageLab sizeToFit];
+
+    UISwitch * switchView = [[UISwitch alloc] init];
+    [switchView addTarget:self action:@selector(isAnonymous:) forControlEvents:UIControlEventValueChanged];
+    [_anonymousAskView addSubview:switchView];
+    switchView.right = SCREEN_WIDTH - 20;
+    switchView.top = 10.0f;
+    
+    UIView * lineView = [[UIView alloc]initWithFrame:CGRectMake(0, 49.0f, SCREEN_WIDTH, .5f)];
+    lineView.backgroundColor = [UIColor grayColor];
+    [_anonymousAskView addSubview:lineView];
+    
+    UILabel * subTitleLab = [[UILabel alloc]init];
+    subTitleLab.left = 20.0f;
+    subTitleLab.top = 55;
+    subTitleLab.height = 20.0f;
+    [_anonymousAskView addSubview:subTitleLab];
+    subTitleLab.font = [UIFont systemFontOfSize:12];
+    subTitleLab.textColor = [UIColor grayColor];
+    subTitleLab.text = @"匿名提问扣10个财富值";
+    [subTitleLab sizeToFit];
+
+    UILabel * currentGodeLab = [[UILabel alloc]init];
+    currentGodeLab.font = [UIFont systemFontOfSize:12];
+    currentGodeLab.textColor = [UIColor grayColor];
+    currentGodeLab.text = @"当前财富值93";
+    currentGodeLab.textAlignment = NSTextAlignmentRight;
+    [_anonymousAskView addSubview:currentGodeLab];
+    currentGodeLab.frame = CGRectMake(0 , 55, 100, 20);
+    [currentGodeLab sizeToFit];
+    currentGodeLab.right = SCREEN_WIDTH - 20;
+}
+
+
+
+-(void)initRewardGoldView
+{
+    _rewardGoldView = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 216.0f)];
+    _rewardGoldView.backgroundColor = MAIN_LINE_COLOR;
+    [self addSubview:_rewardGoldView];
+    
+    UILabel * messageLab = [[UILabel alloc]init];
+    [_rewardGoldView addSubview:messageLab];
+    messageLab.font = [UIFont systemFontOfSize:14];
+    messageLab.text = @"选择悬赏积分：";
+    messageLab.left = 20.0f;
+    messageLab.top = 20.0f;
+    messageLab.height = 20.0f;
+    [messageLab sizeToFit];
+    
+    goldScoreArr = [[NSMutableArray alloc]init];
+    NSArray * scoreArr = @[@"0",@"5",@"10",@"20",@"30",@"50",@"70",@"100",];
+    
+    for (int i = 0; i < 8; i ++) {
+        
+        float goldScoreBtnW = (SCREEN_WIDTH - 90) / 4;
+        
+        UIButton * goldScoreBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        goldScoreBtn.frame = CGRectMake(30 + (goldScoreBtnW + 10) * i , 50.0f , goldScoreBtnW, 45);
+        [goldScoreBtn setTitle:scoreArr[i] forState:UIControlStateNormal];
+        [goldScoreBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_rewardGoldView addSubview:goldScoreBtn];
+        [goldScoreBtn addTarget:self action:@selector(downTheKeyBoard) forControlEvents:UIControlEventTouchUpInside];
+        goldScoreBtn.backgroundColor = [UIColor whiteColor];
+        goldScoreBtn.clipsToBounds = YES;
+        goldScoreBtn.layer.cornerRadius = 5.0f;
+        goldScoreBtn.layer.borderWidth = 0.5;
+        goldScoreBtn.layer.borderColor = [MAIN_GREEN_COLOR CGColor];
+        goldScoreBtn.tag = i;
+        [goldScoreBtn addTarget:self action:@selector(selectScore:) forControlEvents:UIControlEventTouchUpInside];
+        if (i > 3) {
+            goldScoreBtn.frame = CGRectMake(30 + (goldScoreBtnW + 10) * (i - 4) , 105.0f , goldScoreBtnW, 45);
+        }
+        if(i == 0){
+            goldScoreBtn.backgroundColor = MAIN_GREEN_COLOR;
+            [goldScoreBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        }
+        [goldScoreArr addObject:goldScoreBtn];
+    }
+    
+    UILabel * tipLab = [[UILabel alloc]init];
+    [_rewardGoldView addSubview:tipLab];
+    tipLab.font = [UIFont systemFontOfSize:14];
+    tipLab.text = @"您可用的财富值：93";
+    tipLab.frame = CGRectMake(0, 216 - 50, SCREEN_WIDTH, 20);
+    tipLab.textAlignment = NSTextAlignmentCenter;
+
+
+    UILabel * subTipLab = [[UILabel alloc]init];
+    [_rewardGoldView addSubview:subTipLab];
+    subTipLab.font = [UIFont systemFontOfSize:12];
+    subTipLab.textColor = [UIColor grayColor];
+    subTipLab.text = @"提高悬赏，更容易吸引高手为你解答";
+    subTipLab.frame = CGRectMake(0, 216 - 30, SCREEN_WIDTH, 20);
+    subTipLab.textAlignment = NSTextAlignmentCenter;
+
+}
+
+#pragma mark - 匿名提问
+
+-(void)anonymousAsk{
+    _anonymousAskView.hidden = NO;
+    [self bringSubviewToFront:_anonymousAskView];
+    
+    if (_anonymousAskView.frame.origin.y == SCREEN_HEIGHT) {
+        [UIView animateWithDuration:0.5 animations:^{
+            _anonymousAskView.frame = CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216);
+        } completion:^(BOOL finished) {
+            _rewardGoldView.hidden = YES;
+            _rewardGoldView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 216);
+        }];
+    }else{
+        [UIView animateWithDuration:0.5 animations:^{
+            _anonymousAskView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 216);
+        }];
+    }
+}
+
+-(void)isAnonymous:(UISwitch *)swit{
+    NSLog(@">>>  %d",swit.on);
+    _isAnonymousAsk = swit.on;
+}
+
+#pragma mark - 积分悬赏
+
+-(void)rewardGold
+{
+    _rewardGoldView.hidden = NO;
+    [self bringSubviewToFront:_rewardGoldView];
+
+    if (_rewardGoldView.frame.origin.y == SCREEN_HEIGHT) {
+        [UIView animateWithDuration:0.5 animations:^{
+            _rewardGoldView.frame = CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216);
+        } completion:^(BOOL finished) {
+            _anonymousAskView.hidden = YES;
+            _anonymousAskView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 216);
+        }];
+    }else{
+        [UIView animateWithDuration:0.5 animations:^{
+            _rewardGoldView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 216);
+        }];
+    }
+}
+-(void)selectScore:(UIButton *)btn
+{
+    for (UIButton * button in goldScoreArr) {
+        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        button.backgroundColor = [UIColor whiteColor];
+    }
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    btn.backgroundColor = MAIN_GREEN_COLOR;
+    NSArray * scoreArr = @[@"0",@"5",@"10",@"20",@"30",@"50",@"70",@"100",];
+    self.goldScore = scoreArr[btn.tag];
+    
+    if([self.goldScore integerValue] == 0){
+        [_rewardBtn setTitle:@"赏" forState:UIControlStateNormal];
+    }else{
+        [ZEUtil shakeToShow:_rewardBtn];
+        [_rewardBtn setTitle:self.goldScore forState:UIControlStateNormal];
+//        _rewardBtn.titleLabel.font = [UIFont systemFontOfSize:20];
+//        [UIView animateWithDuration:1 animations:^{
+//            _rewardBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+//            [_rewardBtn setTitle:self.goldScore forState:UIControlStateNormal];
+//        }];
+    }
+}
 
 #pragma mark - Public Method
 
@@ -217,6 +411,14 @@
 
 -(void)showCondition
 {
+    [UIView animateWithDuration:0.29 animations:^{
+        _rewardGoldView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 216.0f);
+        _anonymousAskView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 216.0f);
+    } completion:^(BOOL finished) {
+        _rewardGoldView.hidden = YES;
+        _anonymousAskView.hidden = YES;
+    }];
+    
     if ([self.delegate respondsToSelector:@selector(takePhotosOrChoosePictures)]) {
         [self.delegate takePhotosOrChoosePictures];
     }
@@ -228,17 +430,6 @@
         [self.delegate goLookImageView:_choosedImageArr];
     }
 }
-#pragma mark - ZEShowQuesTypeVIewDelegate
-
--(void)didSeclect:(ZEShowQuestionTypeView *)showTypeView withData:(NSDictionary *)dic
-{
-    [questionTypeBtn setTitle:[dic objectForKey:@"QUESTIONTYPENAME"] forState:UIControlStateNormal];
-    [questionTypeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [questionTypeBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:16]];
-    self.quesTypeSEQKEY = [dic objectForKey:@"SEQKEY"];
-    [_alertView dismissWithCompletion:nil];
-}
-
 
 /*
 // Only override drawRect: if you perform custom drawing.

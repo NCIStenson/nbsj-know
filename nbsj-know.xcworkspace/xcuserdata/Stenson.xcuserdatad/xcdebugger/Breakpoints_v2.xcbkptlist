@@ -156,13 +156,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "nbsj-know/Service/ZEUserServer.m"
-            timestampString = "505725395.237916"
+            filePath = "nbsj-know/Home/ZEHomeVC.m"
+            timestampString = "506402847.180188"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "22"
-            endingLineNumber = "22"
-            landmarkName = "+loginWithNum:withPassword:success:fail:"
+            startingLineNumber = "255"
+            endingLineNumber = "255"
+            landmarkName = "-updateSystemInfo:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -172,14 +172,30 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "nbsj-know/Service/ZEUserServer.m"
-            timestampString = "505807490.194013"
+            filePath = "nbsj-know/Home/ZEHomeVC.m"
+            timestampString = "506402847.180188"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
-            landmarkName = "+getDataWithJsonDic:showAlertView:success:fail:"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
+            landmarkName = "-insertSystemInfo"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "nbsj-know/Home/ZEHomeVC.m"
+            timestampString = "506402847.180188"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "435"
+            endingLineNumber = "435"
+            landmarkName = "@implementation ZEHomeVC"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

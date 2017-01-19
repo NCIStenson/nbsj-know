@@ -125,7 +125,11 @@
     }else if (_enterType == ENTER_GROUP_TYPE_DEFAULT){
         [askTypeView removeFromSuperview];
         [self initView];
+    }else if (_enterType == ENTER_GROUP_TYPE_TABBAR){
+        [askTypeView removeFromSuperview];
+        [self initView];
     }
+
 }
 
 #pragma mark - ZEAskQuesViewDelegate
@@ -234,7 +238,6 @@
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-
                                  [askQuesView showQuestionTypeViewWithData:[ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_TYPE]];
                              } fail:^(NSError *errorCode) {
 
@@ -245,12 +248,20 @@
 -(void)leftBtnClick
 {
     if ([askView.inputView.text isEqualToString:textViewStr] || [askView.inputView.text length] == 0 ) {
-        [self.navigationController popViewControllerAnimated:YES];
+        if (_enterType == ENTER_GROUP_TYPE_TABBAR) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }else{
+            [self.navigationController popViewControllerAnimated:YES];
+        }
         return;
     }
     UIAlertController * alertCont= [UIAlertController alertControllerWithTitle:@"现在退出编辑，你输入的内容将不会被保存" message:@"" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction * okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self.navigationController popViewControllerAnimated:YES];
+        if (_enterType == ENTER_GROUP_TYPE_TABBAR) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }else{
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     }];
     UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
@@ -264,6 +275,9 @@
 
 -(void)rightBtnClick
 {
+    NSLog(@"isAnonymousAsk>>>  %d",askView.isAnonymousAsk);
+    NSLog(@"goldScore>>>  %@",askView.goldScore);
+    
     if ([askView.inputView.text isEqualToString:textViewStr]) {
         [self showAlertView:@"请输入问题说明" isBack:NO];
         return;
@@ -336,7 +350,11 @@
     UIAlertController * alertC = [UIAlertController alertControllerWithTitle:nil message:alertMsg preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         if (isBack) {
-            [self.navigationController popViewControllerAnimated:YES];
+            if (_enterType == ENTER_GROUP_TYPE_TABBAR) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }else{
+                [self.navigationController popViewControllerAnimated:YES];
+            }
         }
     }];
     [alertC addAction:action];

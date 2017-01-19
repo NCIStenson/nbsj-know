@@ -40,6 +40,9 @@
 
 @property (nonatomic,weak) id <ZEAskQuesViewDelegate> delegate;
 
+@property (nonatomic,assign) BOOL isAnonymousAsk; //  是否匿名提问
+@property (nonatomic,copy) NSString * goldScore;  // 悬赏值
+
 @property (nonatomic,strong) UITextView * inputView;
 /************** 问题主键 *************/
 @property (nonatomic,copy) NSString * quesTypeSEQKEY;

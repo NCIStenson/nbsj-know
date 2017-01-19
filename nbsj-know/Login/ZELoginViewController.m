@@ -17,6 +17,8 @@
 #import "ZEGroupVC.h"
 #import "ZEUserCenterVC.h"
 
+#import "LBTabBarController.h"
+
 @interface ZELoginViewController ()<ZELoginViewDelegate>
 
 @end
@@ -87,7 +89,7 @@
 //    }
 //    __block ZELoginViewController * safeSelf = self;
     
-
+    [self progressBegin:nil];
     [ZEUserServer loginWithNum:username
                   withPassword:pwd
                        success:^(id data) {
@@ -232,32 +234,16 @@
 
 -(void)goHome
 {
-    ZEHomeVC * homeVC = [[ZEHomeVC alloc]init];
-    homeVC.tabBarItem.image = [UIImage imageNamed:@"icon_home"];
-    homeVC.tabBarItem.title = @"首页";
-    UINavigationController * homeNav = [[UINavigationController alloc]initWithRootViewController:homeVC];
+    LBTabBarController *tab = [[LBTabBarController alloc] init];
     
-    ZEQuestionsVC * quesetionsVC = [[ZEQuestionsVC alloc]init];
-    quesetionsVC.tabBarItem.image = [UIImage imageNamed:@"icon_question"];
-    quesetionsVC.tabBarItem.title = @"问答";
-    UINavigationController * quesetionsNav = [[UINavigationController alloc]initWithRootViewController:quesetionsVC];
+    //        CATransition *anim = [[CATransition alloc] init];
+    //        anim.type = @"rippleEffect";
+    //        anim.duration = 1.0;
     
-    ZEGroupVC * groupVC = [[ZEGroupVC alloc]init];
-    groupVC.tabBarItem.image = [UIImage imageNamed:@"icon_circle"];
-    groupVC.tabBarItem.title = @"圈子";
-    UINavigationController * groupNav = [[UINavigationController alloc]initWithRootViewController:groupVC];
-    
-    ZEUserCenterVC * userCenVC = [[ZEUserCenterVC alloc]init];
-    userCenVC.tabBarItem.image = [UIImage imageNamed:@"icon_user"];
-    userCenVC.tabBarItem.title = @"我的";
-    UINavigationController * userCenNav = [[UINavigationController alloc]initWithRootViewController:userCenVC];
-    
-    UITabBarController * tabBar = [[UITabBarController alloc]init];
-    tabBar.tabBar.tintColor = MAIN_NAV_COLOR;
-    tabBar.viewControllers = @[homeNav,quesetionsNav,groupNav,userCenNav];
+    //        [self.window.layer addAnimation:anim forKey:nil];
     
     UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
-    keyWindow.rootViewController = tabBar;
+    keyWindow.rootViewController = tab;
 }
 
 

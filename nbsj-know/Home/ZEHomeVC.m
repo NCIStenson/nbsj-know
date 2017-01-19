@@ -14,6 +14,10 @@
 #import "ZETypicalCaseVC.h"
 #import "ZETypicalCaseDetailVC.h"
 
+#import "ZEAskQuesViewController.h"
+
+#import "ZEAnswerQuestionsVC.h"
+
 #import "SvUDIDTools.h"
 @interface ZEHomeVC ()<ZEHomeViewDelegate>
 {
@@ -59,7 +63,7 @@
     [self sendSigninViewMessage];
     [self cacheQuestionType];
     [self sendNewestQuestionsRequest:@""];
-    [self sendCaseQuestionsRequest];
+//    [self sendCaseQuestionsRequest];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -72,7 +76,7 @@
     
     [self checkUpdate];
     
-    [self sendCaseQuestionsRequest];
+//    [self sendCaseQuestionsRequest];
 }
 
 -(void)initView
@@ -126,6 +130,7 @@
                                      }
                                  }
                              } fail:^(NSError *errorCode) {
+                                 
                              }];
     
 }
@@ -161,6 +166,7 @@
                                      [self updateSystemInfo:[ZEUtil getServerData:data withTabelName:SNOW_MOBILE_DEVICE][0]];
                                  }
                              } fail:^(NSError *errorCode) {
+                                 
                              }];
 }
 -(void)insertSystemInfo
@@ -199,6 +205,7 @@
                                      
                                  }
                              } fail:^(NSError *errorCode) {
+                                 
                              }];
     
     
@@ -245,6 +252,7 @@
                                      
                                  }
                              } fail:^(NSError *errorCode) {
+                                 
                              }];
 }
 
@@ -281,6 +289,7 @@
                              success:^(id data) {
                                  [[ZEQuestionTypeCache instance]setQuestionTypeCaches:[ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_TYPE]];
                              } fail:^(NSError *errorCode) {
+                                 
                              }];
 }
 
@@ -317,6 +326,7 @@
                                  }
                                  
                              } fail:^(NSError *errorCode) {
+                                 
                              }];
 }
 
@@ -352,6 +362,7 @@
                                      [_homeView reloadSigninedViewDay:[NSString stringWithFormat:@"%@",[dic objectForKey:@"SIGNINSUM"]] numbers:[dic objectForKey:@"HELPPERSONS"]];
                                  }
                              } fail:^(NSError *errorCode) {
+                                 
                              }];
 
 }
@@ -385,7 +396,7 @@
                        showAlertView:NO
                              success:^(id data) {
                                  NSArray * arr = [ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_INFO];
-                                 [_homeView reloadSection:0 withData:arr];
+                                 [_homeView reloadSectionwithData:arr];
                              } fail:^(NSError *errorCode) {
                                  [_homeView endRefreshing];
                              }];
@@ -393,37 +404,38 @@
 }
 
 /************* 查询典型案例 *************/
--(void)sendCaseQuestionsRequest
-{
-    NSDictionary * parametersDic = @{@"limit":@"3",
-                                     @"MASTERTABLE":V_KLB_CLASSICCASE_INFO,
-                                     @"MENUAPP":@"EMARK_APP",
-                                     @"ORDERSQL":@"CLICKCOUNT desc",
-                                     @"WHERESQL":@"",
-                                     @"start":@"0",
-                                     @"METHOD":METHOD_SEARCH,
-                                     @"MASTERFIELD":@"SEQKEY",
-                                     @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.klb.app.classiccase.ClassicCase",
-                                     @"DETAILTABLE":@"",};
-    
-    NSDictionary * fieldsDic =@{};
-    
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_CLASSICCASE_INFO]
-                                                                           withFields:@[fieldsDic]
-                                                                       withPARAMETERS:parametersDic
-                                                                       withActionFlag:nil];
-    [ZEUserServer getDataWithJsonDic:packageDic
-                       showAlertView:NO
-                             success:^(id data) {
-                                 if ([[ZEUtil getServerData:data withTabelName:V_KLB_CLASSICCASE_INFO] count] > 0) {
-                                     [_homeView reloadSectionView:[ZEUtil getServerData:data withTabelName:V_KLB_CLASSICCASE_INFO]];
-                                 }
-
-                             } fail:^(NSError *errorCode) {
-                             }];
-    
-}
+//-(void)sendCaseQuestionsRequest
+//{
+//    NSDictionary * parametersDic = @{@"limit":@"3",
+//                                     @"MASTERTABLE":V_KLB_CLASSICCASE_INFO,
+//                                     @"MENUAPP":@"EMARK_APP",
+//                                     @"ORDERSQL":@"CLICKCOUNT desc",
+//                                     @"WHERESQL":@"",
+//                                     @"start":@"0",
+//                                     @"METHOD":METHOD_SEARCH,
+//                                     @"MASTERFIELD":@"SEQKEY",
+//                                     @"DETAILFIELD":@"",
+//                                     @"CLASSNAME":@"com.nci.klb.app.classiccase.ClassicCase",
+//                                     @"DETAILTABLE":@"",};
+//    
+//    NSDictionary * fieldsDic =@{};
+//    
+//    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_CLASSICCASE_INFO]
+//                                                                           withFields:@[fieldsDic]
+//                                                                       withPARAMETERS:parametersDic
+//                                                                       withActionFlag:nil];
+//    [ZEUserServer getDataWithJsonDic:packageDic
+//                       showAlertView:NO
+//                             success:^(id data) {
+//                                 if ([[ZEUtil getServerData:data withTabelName:V_KLB_CLASSICCASE_INFO] count] > 0) {
+//                                     [_homeView reloadSectionView:[ZEUtil getServerData:data withTabelName:V_KLB_CLASSICCASE_INFO]];
+//                                 }
+//
+//                             } fail:^(NSError *errorCode) {
+//                                 
+//                             }];
+//    
+//}
 
 
 #pragma mark - ZEHomeViewDelegate
@@ -473,10 +485,54 @@
     [self.navigationController pushViewController:showQuestionsList animated:YES];
 }
 
+-(void)goTypeQuestionVC
+{
+    ZEAskQuesViewController * askQues = [[ZEAskQuesViewController alloc]init];
+    askQues.enterType = ENTER_GROUP_TYPE_SETTING;
+    [self.navigationController pushViewController:askQues animated:YES];
+}
+
+-(void)goAnswerQuestionVC:(ZEQuestionInfoModel *)_questionInfoModel
+{
+    
+    if ([_questionInfoModel.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
+        [self showTips:@"您不能对自己的提问进行回答"];
+        return;
+    }
+    
+//    for (NSDictionary * dic in _datasArr) {
+//        ZEAnswerInfoModel * answerInfo = [ZEAnswerInfoModel getDetailWithDic:dic];
+//        if ([answerInfo.ANSWERUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
+//            [self acceptTheAnswerWithQuestionInfo:_questionInfoModel
+//                                   withAnswerInfo:answerInfo];
+//            return;
+//        }
+//    }
+    
+    if ([_questionInfoModel.ISSOLVE boolValue]) {
+        [self showTips:@"该问题已有答案被采纳"];
+        return;
+    }
+    
+    ZEAnswerQuestionsVC * answerQuesVC = [[ZEAnswerQuestionsVC alloc]init];
+    answerQuesVC.questionSEQKEY = _questionInfoModel.SEQKEY;
+    [self.navigationController pushViewController:answerQuesVC animated:YES];
+}
+
+- (void)showTips:(NSString *)labelText {
+    
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud3.mode = MBProgressHUDModeText;
+    hud3.labelText = labelText;
+    [hud3 hide:YES afterDelay:1.0f];
+}
+
+
 -(void)loadNewData
 {
     [self sendNewestQuestionsRequest:@""];
-    [self sendCaseQuestionsRequest];
+//    [self sendCaseQuestionsRequest];
 }
 
 - (void)didReceiveMemoryWarning {

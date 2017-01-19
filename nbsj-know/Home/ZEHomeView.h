@@ -6,12 +6,6 @@
 //  Copyright © 2016年 Hangzhou Zenith Electronic Technology Co., Ltd. . All rights reserved.
 //
 
-typedef NS_ENUM (NSInteger,SECTION_TITLE){
-    SECTION_TITLE_ANSWER = 0,
-    SECTION_TITLE_EXPERT = 1,
-    SECTION_TITLE_CASE = 2
-};
-
 #import <UIKit/UIKit.h>
 
 @class ZEHomeView;
@@ -73,6 +67,15 @@ typedef NS_ENUM (NSInteger,SECTION_TITLE){
  */
 -(void)goSearch:(NSString *)str;
 
+
+/**
+ 根据问题分类展示问题列表
+ */
+-(void)goTypeQuestionVC;
+
+
+-(void)goAnswerQuestionVC:(ZEQuestionInfoModel *)_questionInfoModel;
+
 @end
 
 @interface ZEHomeView : UIView<UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource>
@@ -84,9 +87,9 @@ typedef NS_ENUM (NSInteger,SECTION_TITLE){
 /**** 已经签到过界面 ***/
 -(void)reloadSigninedViewDay:(NSString *)dayStr numbers:(NSString *)number;
 
--(void)reloadSection:(NSInteger)section withData:(NSArray *)arr;
+-(void)reloadSectionwithData:(NSArray *)arr;
 
--(void)reloadSectionView:(NSArray *)data;
+//-(void)reloadSectionView:(NSArray *)data;
 
 -(void)hiddenSinginView;
 

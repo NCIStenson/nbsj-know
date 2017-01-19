@@ -18,9 +18,15 @@
 #define kNavBarWidth        SCREEN_WIDTH
 #define kNavBarHeight       64.0f
 
-#define kSearchTFMarginLeft   25.0f
+// 导航栏内左侧按钮
+#define kLeftButtonWidth 40.0f + 16.0f
+#define kLeftButtonHeight 40.0f
+#define kLeftButtonMarginLeft 0.0f
+#define kLeftButtonMarginTop 20.0f + 2.0f
+
+#define kSearchTFMarginLeft   70.0f
 #define kSearchTFMarginTop    27.0f
-#define kSearchTFWidth        SCREEN_WIDTH - 50.0f
+#define kSearchTFWidth        SCREEN_WIDTH - 100.0f
 #define kSearchTFHeight       30.0f
 
 #define kTypicalViewMarginLeft  0.0f
@@ -29,7 +35,7 @@
 #define kTypicalViewHeight      135.0f
 
 #define kContentTableMarginLeft  0.0f
-#define kContentTableMarginTop   ( kNavBarHeight + 65.0f )
+#define kContentTableMarginTop   ( kNavBarHeight )
 #define kContentTableWidth       SCREEN_WIDTH
 #define kContentTableHeight      SCREEN_HEIGHT - kContentTableMarginTop - 49.0f
 
@@ -51,8 +57,6 @@
 }
 
 @property (nonatomic,strong) NSMutableArray * newestQuestionArr;
-@property (nonatomic,strong) NSMutableArray * expertQuestionArr;
-@property (nonatomic,strong) NSMutableArray * caseQuestionArr;
 
 @end
 
@@ -64,7 +68,6 @@
     
     self = [super initWithFrame:frame];
     if (self) {
-        _questionStr = @"变压器导管口有油滴渗出，但是导管并无破损，请问是什么原因？";
         [self initView];
     }
     return self;
@@ -74,7 +77,7 @@
 {
     [self initNavBar];
     [self initContentView];
-    [self initSignInView:self];
+//    [self initSignInView:self];
 }
 
 -(void)initNavBar
@@ -88,6 +91,16 @@
         make.left.mas_equalTo(kNavBarMarginLeft);
         make.size.mas_equalTo(CGSizeMake(kNavBarWidth, kNavBarHeight));
     }];
+    
+    UIButton * _typeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _typeBtn.frame = CGRectMake(kLeftButtonMarginLeft, kLeftButtonMarginTop, kLeftButtonWidth, kLeftButtonHeight);
+    _typeBtn.backgroundColor = [UIColor clearColor];
+    _typeBtn.imageEdgeInsets = UIEdgeInsetsMake(0.0f, 16.0f, 0.0f, 0.0f);
+    _typeBtn.contentMode = UIViewContentModeScaleAspectFit;
+    [_typeBtn setImage:[UIImage imageNamed:@"icon_back" tintColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+    [_typeBtn addTarget:self action:@selector(typeBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [navView addSubview:_typeBtn];
+    
     
     UIView * searchView = [self searchTextfieldView];
    
@@ -181,71 +194,74 @@
     UIView * typicalCaseView = [[UIView alloc]initWithFrame:CGRectMake(kTypicalViewMarginLeft, kTypicalViewMarginTop, kTypicalViewWidth, kTypicalViewHeight)];
     typicalCaseView.backgroundColor = [UIColor whiteColor];
     
-    UIView * newestComment = [[UIView alloc]initWithFrame:CGRectMake(10, 0, 5.0f, 20.0f)];
-    newestComment.backgroundColor = MAIN_NAV_COLOR_A(0.5);
-    [typicalCaseView addSubview:newestComment];
+//    UIView * newestComment = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 5.0f, 30.0f)];
+//    newestComment.backgroundColor = MAIN_NAV_COLOR_A(0.5);
+//    [typicalCaseView addSubview:newestComment];
     
-    UILabel * newestLab = [[UILabel alloc]initWithFrame:CGRectMake(20.0f, 0.0f, SCREEN_WIDTH - 100.0f, 20.0f)];
-    newestLab.text = @"技能充电桩";
+    UILabel * newestLab = [[UILabel alloc]initWithFrame:CGRectMake(20.0f, 0.0f, SCREEN_WIDTH - 100.0f, 30.0f)];
+    newestLab.text = @"您来挑战";
     newestLab.numberOfLines = 0;
     newestLab.font = [UIFont systemFontOfSize:12];
     [typicalCaseView addSubview:newestLab];
     
     UIButton * sectionSubTitleBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     [sectionSubTitleBtn setTitleColor:MAIN_NAV_COLOR forState:UIControlStateNormal];
-    sectionSubTitleBtn.frame = CGRectMake(SCREEN_WIDTH - 110 , 0, 90, 20);
+    sectionSubTitleBtn.frame = CGRectMake(SCREEN_WIDTH - 110 , 0, 90, 30);
     [sectionSubTitleBtn setTitle:@"更多  >" forState:UIControlStateNormal];
     sectionSubTitleBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     sectionSubTitleBtn.contentHorizontalAlignment =  UIControlContentHorizontalAlignmentRight;
     [typicalCaseView addSubview:sectionSubTitleBtn];
     [sectionSubTitleBtn addTarget:self action:@selector(goMoreQuesVC:) forControlEvents:UIControlEventTouchUpInside];
-    sectionSubTitleBtn.tag = SECTION_TITLE_CASE;
     
-    UIScrollView * typicalScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(10, 20.0f, SCREEN_WIDTH - 20.0f, kTypicalViewHeight - 25.0f)];
-    typicalScrollView.showsHorizontalScrollIndicator = NO;
-    [typicalCaseView addSubview:typicalScrollView];
+    UIView * headerLineView = [[UIView alloc]initWithFrame:CGRectMake(0, 30.0f, SCREEN_WIDTH, 5.0f)];
+    [typicalCaseView addSubview:headerLineView];
+    headerLineView.backgroundColor = MAIN_LINE_COLOR;
     
-    for (int i = 0 ; i < self.caseQuestionArr.count; i ++ ) {
-        ZEKLB_CLASSICCASE_INFOModel * classicalCaseM = [ZEKLB_CLASSICCASE_INFOModel getDetailWithDic:self.caseQuestionArr[i]];
-        
-        UIButton * typicalImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        typicalImageBtn.frame = CGRectMake( (SCREEN_WIDTH - 20) / 3 * i , 0, (SCREEN_WIDTH - 20) / 3 - 10, kTypicalViewHeight - 55);
-        typicalImageBtn.contentHorizontalAlignment =  UIControlContentHorizontalAlignmentRight;
-        [typicalScrollView addSubview:typicalImageBtn];
-        [typicalImageBtn addTarget:self action:@selector(goTypicalCaseDetail:) forControlEvents:UIControlEventTouchUpInside];
-        typicalImageBtn.tag = i;
-        if ([ZEUtil isStrNotEmpty:classicalCaseM.FILEURL]) {
-            NSURL * fileURL =[NSURL URLWithString:ZENITH_IMAGE_FILESTR(classicalCaseM.FILEURL)] ;
-            [typicalImageBtn sd_setImageWithURL:fileURL forState:UIControlStateNormal placeholderImage:ZENITH_PLACEHODLER_IMAGE];
-        }
-        if (i == 3) {
-            typicalScrollView.contentSize = CGSizeMake((SCREEN_WIDTH - 20) / 3 * 4 - 10, kTypicalViewHeight - 55);
-        }
-        
-        UILabel * typicalLab = [[UILabel alloc]initWithFrame:CGRectMake(typicalImageBtn.frame.origin.x, typicalImageBtn.frame.origin.y + typicalImageBtn.frame.size.height, typicalImageBtn.frame.size.width, 15.0f)];
-        typicalLab.text = classicalCaseM.CASENAME;
-        typicalLab.numberOfLines = 0;
-        typicalLab.textAlignment = NSTextAlignmentCenter;
-        typicalLab.font = [UIFont systemFontOfSize:12];
-        [typicalScrollView addSubview:typicalLab];
-        
-        UIButton * browseBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        browseBtn.frame = CGRectMake(typicalImageBtn.frame.origin.x, typicalImageBtn.frame.origin.y + typicalImageBtn.frame.size.height + 15.0f, typicalImageBtn.frame.size.width, 15.0f);
-        browseBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-        [browseBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-        if (![ZEUtil isStrNotEmpty:classicalCaseM.CLICKCOUNT]) {
-            [browseBtn setTitle:@" 0" forState:UIControlStateNormal];
-        }else{
-            [browseBtn setTitle:[NSString stringWithFormat:@" %@",classicalCaseM.CLICKCOUNT] forState:UIControlStateNormal];
-        }
-        [browseBtn setImage:[UIImage imageNamed:@"discuss_pv.png" color:[UIColor lightGrayColor]] forState:UIControlStateNormal];
-        [typicalScrollView addSubview:browseBtn];        
-    }
-    
-    CALayer * grayLine = [CALayer layer];
-    grayLine.frame = CGRectMake(0, kTypicalViewHeight - 5.0f, SCREEN_WIDTH, 5);
-    [typicalCaseView.layer addSublayer:grayLine];
-    grayLine.backgroundColor = [MAIN_LINE_COLOR CGColor];
+//    UIScrollView * typicalScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(10, 20.0f, SCREEN_WIDTH - 20.0f, kTypicalViewHeight - 25.0f)];
+//    typicalScrollView.showsHorizontalScrollIndicator = NO;
+//    [typicalCaseView addSubview:typicalScrollView];
+//    
+//    for (int i = 0 ; i < self.caseQuestionArr.count; i ++ ) {
+//        ZEKLB_CLASSICCASE_INFOModel * classicalCaseM = [ZEKLB_CLASSICCASE_INFOModel getDetailWithDic:self.caseQuestionArr[i]];
+//        
+//        UIButton * typicalImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        typicalImageBtn.frame = CGRectMake( (SCREEN_WIDTH - 20) / 3 * i , 0, (SCREEN_WIDTH - 20) / 3 - 10, kTypicalViewHeight - 55);
+//        typicalImageBtn.contentHorizontalAlignment =  UIControlContentHorizontalAlignmentRight;
+//        [typicalScrollView addSubview:typicalImageBtn];
+//        [typicalImageBtn addTarget:self action:@selector(goTypicalCaseDetail:) forControlEvents:UIControlEventTouchUpInside];
+//        typicalImageBtn.tag = i;
+//        if ([ZEUtil isStrNotEmpty:classicalCaseM.FILEURL]) {
+//            NSURL * fileURL =[NSURL URLWithString:ZENITH_IMAGE_FILESTR(classicalCaseM.FILEURL)] ;
+//            [typicalImageBtn sd_setImageWithURL:fileURL forState:UIControlStateNormal placeholderImage:ZENITH_PLACEHODLER_IMAGE];
+//        }
+//        if (i == 3) {
+//            typicalScrollView.contentSize = CGSizeMake((SCREEN_WIDTH - 20) / 3 * 4 - 10, kTypicalViewHeight - 55);
+//        }
+//        
+//        UILabel * typicalLab = [[UILabel alloc]initWithFrame:CGRectMake(typicalImageBtn.frame.origin.x, typicalImageBtn.frame.origin.y + typicalImageBtn.frame.size.height, typicalImageBtn.frame.size.width, 15.0f)];
+//        typicalLab.text = classicalCaseM.CASENAME;
+//        typicalLab.numberOfLines = 0;
+//        typicalLab.textAlignment = NSTextAlignmentCenter;
+//        typicalLab.font = [UIFont systemFontOfSize:12];
+//        [typicalScrollView addSubview:typicalLab];
+//        
+//        UIButton * browseBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        browseBtn.frame = CGRectMake(typicalImageBtn.frame.origin.x, typicalImageBtn.frame.origin.y + typicalImageBtn.frame.size.height + 15.0f, typicalImageBtn.frame.size.width, 15.0f);
+//        browseBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+//        [browseBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+//        if (![ZEUtil isStrNotEmpty:classicalCaseM.CLICKCOUNT]) {
+//            [browseBtn setTitle:@" 0" forState:UIControlStateNormal];
+//        }else{
+//            [browseBtn setTitle:[NSString stringWithFormat:@" %@",classicalCaseM.CLICKCOUNT] forState:UIControlStateNormal];
+//        }
+//        [browseBtn setImage:[UIImage imageNamed:@"discuss_pv.png" color:[UIColor lightGrayColor]] forState:UIControlStateNormal];
+//        [typicalScrollView addSubview:browseBtn];        
+//    }
+//    
+//    CALayer * grayLine = [CALayer layer];
+//    grayLine.frame = CGRectMake(0, kTypicalViewHeight - 5.0f, SCREEN_WIDTH, 5);
+//    [typicalCaseView.layer addSublayer:grayLine];
+//    grayLine.backgroundColor = [MAIN_LINE_COLOR CGColor];
     
     return  typicalCaseView;
 }
@@ -259,6 +275,7 @@
 
     contentTableView.showsVerticalScrollIndicator = NO;
     contentTableView.frame = CGRectMake(kContentTableMarginLeft, kContentTableMarginTop, kContentTableWidth, kContentTableHeight);
+    contentTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     MJRefreshGifHeader *header = [MJRefreshGifHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
     contentTableView.mj_header = header;
@@ -281,30 +298,14 @@
     goSignInLab.text = @"去看看 >";
 }
 
--(void)reloadSection:(NSInteger)section withData:(NSArray *)arr
+-(void)reloadSectionwithData:(NSArray *)arr
 {
-    switch (section) {
-        case SECTION_TITLE_ANSWER:
-            self.newestQuestionArr = [NSMutableArray arrayWithArray:arr];
-            break;
-        case SECTION_TITLE_EXPERT:
-            self.expertQuestionArr = [NSMutableArray arrayWithArray:arr];
-            break;
-        case SECTION_TITLE_CASE:
-            self.caseQuestionArr = [NSMutableArray arrayWithArray:arr];
-            break;
-        default:
-            break;
-    }
+    self.newestQuestionArr = [NSMutableArray arrayWithArray:arr];
+    
     [contentTableView.mj_header endRefreshingWithCompletionBlock:nil];
-    [contentTableView reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [contentTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
--(void)reloadSectionView:(NSArray *)data
-{
-    self.caseQuestionArr = [NSMutableArray arrayWithArray:data];
-    [contentTableView reloadData];
-}
 
 -(void)hiddenSinginView
 {
@@ -321,21 +322,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    switch (section) {
-        case SECTION_TITLE_ANSWER:
-            return  self.newestQuestionArr.count;
-            break;
-        case SECTION_TITLE_EXPERT:
-            return  self.expertQuestionArr.count;
-            break;
-        case SECTION_TITLE_CASE:
-            return  self.caseQuestionArr.count;
-            break;
-        default:
-            break;
-    }
-
-    return 0;
+    return  self.newestQuestionArr.count;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -345,10 +332,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if(section != SECTION_TITLE_ANSWER){
-        return 60;
-    }
-    return 135.0f;
+    return 35.0f;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -359,71 +343,21 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary * datasDic = nil;
-    if (indexPath.section == SECTION_TITLE_ANSWER) {
-        datasDic = self.newestQuestionArr[indexPath.row];
-    }else if(indexPath.section == SECTION_TITLE_EXPERT){
-        datasDic = self.expertQuestionArr[indexPath.row];
-    }else{
-        datasDic = self.caseQuestionArr[indexPath.row];
-    }
+    datasDic = self.newestQuestionArr[indexPath.row];
     
     ZEQuestionInfoModel * quesInfoM = [ZEQuestionInfoModel getDetailWithDic:datasDic];
     NSString * QUESTIONEXPLAINStr = quesInfoM.QUESTIONEXPLAIN;
 
-    if (indexPath.section == SECTION_TITLE_ANSWER) {
-       
-        float questionHeight =[ZEUtil heightForString:QUESTIONEXPLAINStr font:[UIFont boldSystemFontOfSize:kHomeTitleFontSize] andWidth:SCREEN_WIDTH - 40];
-        if(quesInfoM.FILEURLARR.count > 0){
-            return questionHeight + kCellImgaeHeight + 60.0f;
-        }
-       return questionHeight + 50.0f;
-  
-    }else if (indexPath.section == SECTION_TITLE_EXPERT){
-        
-        float questionHeight =[ZEUtil heightForString:QUESTIONEXPLAINStr font:[UIFont boldSystemFontOfSize:kHomeTitleFontSize] andWidth:SCREEN_WIDTH - 40];
-        if([ZEUtil isStrNotEmpty:quesInfoM.FILEURL]){
-            return questionHeight + 60.0f + kCellImgaeHeight;
-        }
-        return questionHeight + 50.0f;
-    }else{
-        
-        UIImage * img = [UIImage imageNamed:@"banner.jpg"];
-        float questionImgH =  ( ( SCREEN_WIDTH - 40) / 2 - 10.0f   ) / img.size.width * img.size.height;
- 
-        float caseContH = [ZEUtil heightForString:QUESTIONEXPLAINStr font:[UIFont systemFontOfSize:kSubTiltlFontSize] andWidth:(SCREEN_WIDTH - 40) / 2 ];
-
-        if (caseContH > questionImgH) {
-            return caseContH + 30.0f;
-        }
-        
-        return questionImgH + 30.0f;
+    float questionHeight =[ZEUtil heightForString:QUESTIONEXPLAINStr font:[UIFont boldSystemFontOfSize:kHomeTitleFontSize] andWidth:SCREEN_WIDTH - 40];
+    if(quesInfoM.FILEURLARR.count > 0){
+        return questionHeight + kCellImgaeHeight + 85.0f;
     }
-    return 50.0f;
+    return questionHeight + 75.0f;
+  
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-//    UIView * sectionView = [[UIView alloc]init];
-//    sectionView.backgroundColor = [UIColor whiteColor];
-//    
-//    CALayer * lineLayer = [CALayer layer];
-//    lineLayer.frame = CGRectMake(0, 40.0f, SCREEN_WIDTH, 10);
-//    [sectionView.layer addSublayer:lineLayer];
-//    lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
-//    
-//    UIView * sectionTitleV = [self createSectionTitleView:section];
-//    [sectionView addSubview:sectionTitleV];
-//    
-//    if(section != SECTION_TITLE_ANSWER){
-//        sectionTitleV.frame = CGRectMake(0, 10, SCREEN_WIDTH, 40);
-//        lineLayer.frame = CGRectMake(0, 50.0f, SCREEN_WIDTH, 10);
-//
-//        CALayer * lineLayer = [CALayer layer];
-//        lineLayer.frame = CGRectMake(0, 0, SCREEN_WIDTH, 10);
-//        [sectionView.layer addSublayer:lineLayer];
-//        lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
-//    }
-
     return [self createTypicalCaseView];
 }
 
@@ -442,13 +376,7 @@
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    if (indexPath.section == SECTION_TITLE_ANSWER) {
-        [cell.contentView addSubview:[self createAnswerView:SECTION_TITLE_ANSWER withIndexpath:indexPath]];
-    }else if (indexPath.section == SECTION_TITLE_EXPERT){
-        [cell.contentView addSubview:[self createAnswerView:SECTION_TITLE_EXPERT withIndexpath:indexPath]];
-    }else{
-        [cell.contentView addSubview:[self creatCaseView:indexPath]];
-    }
+    [cell.contentView addSubview:[self createAnswerViewWithIndexpath:indexPath]];
     
     return cell;
 }
@@ -456,13 +384,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary * datasDic = nil;
-    if (indexPath.section == SECTION_TITLE_ANSWER) {
-        datasDic = self.newestQuestionArr[indexPath.row];
-    }else if(indexPath.section == SECTION_TITLE_EXPERT){
-        datasDic = self.expertQuestionArr[indexPath.row];
-    }else{
-        datasDic = self.caseQuestionArr[indexPath.row];
-    }
+    datasDic = self.newestQuestionArr[indexPath.row];
     
     ZEQuestionInfoModel * quesInfoM = [ZEQuestionInfoModel getDetailWithDic:datasDic];
     
@@ -485,14 +407,10 @@
 
 #pragma mark - 回答问题
 
--(UIView *)createAnswerView:(SECTION_TITLE)section withIndexpath:(NSIndexPath *)indexpath
+-(UIView *)createAnswerViewWithIndexpath:(NSIndexPath *)indexpath
 {
     NSDictionary * datasDic = nil;
-    if (section == SECTION_TITLE_ANSWER) {
-        datasDic = self.newestQuestionArr[indexpath.row];
-    }else{
-        datasDic = self.expertQuestionArr[indexpath.row];
-    }
+    datasDic = self.newestQuestionArr[indexpath.row];
     UIView *  questionsView = [[UIView alloc]init];
     
     ZEQuestionInfoModel * quesInfoM = [ZEQuestionInfoModel getDetailWithDic:datasDic];
@@ -526,28 +444,7 @@
         }
     }
     
-    UIImageView * userImg = [[UIImageView alloc]initWithFrame:CGRectMake(20, userY, 20, 20)];
-    [userImg sd_setImageWithURL:ZENITH_IMAGEURL(quesInfoM.HEADIMAGE) placeholderImage:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
-    [questionsView addSubview:userImg];
-    userImg.clipsToBounds = YES;
-    userImg.layer.cornerRadius = 10;
     
-    UILabel * QUESTIONUSERNAME = [[UILabel alloc]initWithFrame:CGRectMake(45,userY,100.0f,20.0f)];
-    QUESTIONUSERNAME.text = quesInfoM.NICKNAME;
-
-    QUESTIONUSERNAME.textColor = MAIN_SUBTITLE_COLOR;
-    QUESTIONUSERNAME.font = [UIFont systemFontOfSize:kQuestionTitleFontSize];
-    [questionsView addSubview:QUESTIONUSERNAME];
-    
-    NSString * praiseNumLabText =[NSString stringWithFormat:@"%ld 回答",(long)[quesInfoM.ANSWERSUM integerValue]];
-
-    float praiseNumWidth = [ZEUtil widthForString:praiseNumLabText font:[UIFont boldSystemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
-    
-    UILabel * praiseNumLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - praiseNumWidth - 20,userY,praiseNumWidth,20.0f)];
-    praiseNumLab.text  = praiseNumLabText;
-    praiseNumLab.font = [UIFont boldSystemFontOfSize:kSubTiltlFontSize];
-    praiseNumLab.textColor = MAIN_SUBTITLE_COLOR;
-    [questionsView addSubview:praiseNumLab];
     ZEQuestionTypeModel * questionTypeM = nil;
     
     for (NSDictionary * dic in [[ZEQuestionTypeCache instance] getQuestionTypeCaches]) {
@@ -557,66 +454,127 @@
         }
     }
     
-    // 圈组分类最右边
-    float circleTypeR = SCREEN_WIDTH - praiseNumWidth - 30;
+//     圈组分类最右边
     
     float circleWidth = [ZEUtil widthForString:questionTypeM.NAME font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
-    
-    UIImageView * circleImg = [[UIImageView alloc]initWithFrame:CGRectMake(circleTypeR - circleWidth - 20.0f, userY + 2.0f, 15, 15)];
-    circleImg.image = [UIImage imageNamed:@"rateTa.png"];
+    UIImageView * circleImg = [[UIImageView alloc]initWithFrame:CGRectMake(20.0f, userY, 15, 15)];
+    circleImg.image = [UIImage imageNamed:@"answer_tag"];
     [questionsView addSubview:circleImg];
     
-    UILabel * circleLab = [[UILabel alloc]initWithFrame:CGRectMake(circleImg.frame.origin.x + 20,userY,circleWidth,20.0f)];
+    UILabel * circleLab = [[UILabel alloc]initWithFrame:CGRectMake(circleImg.frame.origin.x + 20,userY,circleWidth,15.0f)];
     circleLab.text = questionTypeM.NAME;
     circleLab.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
     circleLab.textColor = MAIN_SUBTITLE_COLOR;
     [questionsView addSubview:circleLab];
+
+    userY += 20.0f;
     
-    questionsView.frame = CGRectMake(0, 0, SCREEN_WIDTH, userY + 20.0f);
+    UIView * messageLineView = [[UIView alloc]initWithFrame:CGRectMake(0, userY, SCREEN_WIDTH, 0.5)];
+    messageLineView.backgroundColor = MAIN_LINE_COLOR;
+    [questionsView addSubview:messageLineView];
+    
+    userY += 5.0f;
+    
+    UIImageView * userImg = [[UIImageView alloc]initWithFrame:CGRectMake(20, userY, 20, 20)];
+    [userImg sd_setImageWithURL:ZENITH_IMAGEURL(quesInfoM.HEADIMAGE) placeholderImage:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
+    [questionsView addSubview:userImg];
+    userImg.clipsToBounds = YES;
+    userImg.layer.cornerRadius = 10;
+    
+    UILabel * QUESTIONUSERNAME = [[UILabel alloc]initWithFrame:CGRectMake(45,userY,100.0f,20.0f)];
+    QUESTIONUSERNAME.text = quesInfoM.NICKNAME;
+    [QUESTIONUSERNAME sizeToFit];
+    QUESTIONUSERNAME.textColor = MAIN_SUBTITLE_COLOR;
+    QUESTIONUSERNAME.font = [UIFont systemFontOfSize:kQuestionTitleFontSize];
+    [questionsView addSubview:QUESTIONUSERNAME];
+    
+    UILabel * SYSCREATEDATE = [[UILabel alloc]initWithFrame:CGRectMake(QUESTIONUSERNAME.frame.origin.x + QUESTIONUSERNAME.frame.size.width + 5.0f,userY,100.0f,20.0f)];
+    SYSCREATEDATE.text = [ZEUtil compareCurrentTime:quesInfoM.SYSCREATEDATE];
+    SYSCREATEDATE.userInteractionEnabled = NO;
+    SYSCREATEDATE.textColor = MAIN_SUBTITLE_COLOR;
+    SYSCREATEDATE.font = [UIFont systemFontOfSize:12];
+    [questionsView addSubview:SYSCREATEDATE];
+    SYSCREATEDATE.userInteractionEnabled = YES;
+
+    
+    NSString * praiseNumLabText =[NSString stringWithFormat:@"%ld 回答",(long)[quesInfoM.ANSWERSUM integerValue]];
+
+    float praiseNumWidth = [ZEUtil widthForString:praiseNumLabText font:[UIFont boldSystemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
+    
+    UILabel * praiseNumLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - praiseNumWidth - 70,userY,praiseNumWidth,20.0f)];
+    praiseNumLab.text  = praiseNumLabText;
+    praiseNumLab.font = [UIFont boldSystemFontOfSize:kSubTiltlFontSize];
+    praiseNumLab.textColor = MAIN_SUBTITLE_COLOR;
+    [questionsView addSubview:praiseNumLab];
+    
+    // 10 回答 | （图标）回答  分割线
+    
+    UIView * answerLineView = [[UIView alloc]initWithFrame:CGRectMake( praiseNumLab.frame.origin.x + praiseNumLab.frame.size.width + 5.0f , userY, 1.0f, 20.0f)];
+    answerLineView.backgroundColor = MAIN_LINE_COLOR;
+    [questionsView addSubview:answerLineView];
+    
+    
+    UIButton * answerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    answerBtn.frame = CGRectMake(SCREEN_WIDTH - 60 , userY, 50, 20);
+    [answerBtn setImage:[UIImage imageNamed:@"center_name_logo.png" color:MAIN_NAV_COLOR] forState:UIControlStateNormal];
+    [answerBtn setTitleColor:MAIN_SUBTITLE_COLOR forState:UIControlStateNormal];
+    [answerBtn setTitle:@" 回答" forState:UIControlStateNormal];
+    answerBtn.titleLabel.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
+    [questionsView addSubview:answerBtn];
+    answerBtn.tag = indexpath.row;
+    answerBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [answerBtn addTarget:self action:@selector(answerQuestion:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    UIView * grayView = [[UIView alloc]initWithFrame:CGRectMake(0, userY + 25.0f, SCREEN_WIDTH, 5.0f)];
+    grayView.backgroundColor = MAIN_LINE_COLOR;
+    [questionsView addSubview:grayView];
+    
+    questionsView.frame = CGRectMake(0, 0, SCREEN_WIDTH, userY + 30.0f);
     
     return questionsView;
 }
 
--(UIView *)creatCaseView:(NSIndexPath *)indexpath
-{
-    NSDictionary * datasDic = nil;
-    datasDic = self.caseQuestionArr[indexpath.row];
-    
-    ZEQuestionInfoModel * quesInfoM = [ZEQuestionInfoModel getDetailWithDic:datasDic];
-    
-    NSString * QUESTIONEXPLAINStr = quesInfoM.QUESTIONEXPLAIN;
-    
-    UIView *  caseView = [[UIView alloc]init];
-
-    UIImage * img = [UIImage imageNamed:@"banner.jpg"];
-    float questionImgH =  ( ( SCREEN_WIDTH - 40) / 2 - 10.0f   ) / img.size.width * img.size.height;
-    
-    UIImageView * questionImg = [[UIImageView alloc]initWithFrame:CGRectMake(20, 10, (SCREEN_WIDTH - 40) / 2 , questionImgH)];
-   
-    NSMutableArray * imgFileUrlArr;
-
-    if([ZEUtil isStrNotEmpty:quesInfoM.FILEURL]){
-        imgFileUrlArr = [NSMutableArray arrayWithArray:[quesInfoM.FILEURL componentsSeparatedByString:@","]];
-        [imgFileUrlArr removeObjectAtIndex:0];
-    }
-
-    if (imgFileUrlArr.count > 0) {
-        [questionImg sd_setImageWithURL:ZENITH_IMAGEURL(imgFileUrlArr[0]) placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
-    }
-    questionImg.contentMode = UIViewContentModeScaleAspectFit;
-    [caseView addSubview:questionImg];
-    
-    float caseContH = [ZEUtil heightForString:QUESTIONEXPLAINStr font:[UIFont boldSystemFontOfSize:kSubTiltlFontSize] andWidth:(SCREEN_WIDTH - 40) / 2 ];
-    
-    UILabel * caseContentLab = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH - 40) / 2 + 20.0f ,10,(SCREEN_WIDTH - 40) / 2 ,caseContH)];
-    caseContentLab.text = QUESTIONEXPLAINStr;
-    caseContentLab.numberOfLines = 0;
-    caseContentLab.textColor = MAIN_SUBTITLE_COLOR;
-    caseContentLab.font = [UIFont boldSystemFontOfSize:kSubTiltlFontSize];
-    [caseView addSubview:caseContentLab];
-
-    return caseView;
-}
+//-(UIView *)creatCaseView:(NSIndexPath *)indexpath
+//{
+//    NSDictionary * datasDic = nil;
+//    datasDic = self.caseQuestionArr[indexpath.row];
+//    
+//    ZEQuestionInfoModel * quesInfoM = [ZEQuestionInfoModel getDetailWithDic:datasDic];
+//    
+//    NSString * QUESTIONEXPLAINStr = quesInfoM.QUESTIONEXPLAIN;
+//    
+//    UIView *  caseView = [[UIView alloc]init];
+//
+//    UIImage * img = [UIImage imageNamed:@"banner.jpg"];
+//    float questionImgH =  ( ( SCREEN_WIDTH - 40) / 2 - 10.0f   ) / img.size.width * img.size.height;
+//    
+//    UIImageView * questionImg = [[UIImageView alloc]initWithFrame:CGRectMake(20, 10, (SCREEN_WIDTH - 40) / 2 , questionImgH)];
+//   
+//    NSMutableArray * imgFileUrlArr;
+//
+//    if([ZEUtil isStrNotEmpty:quesInfoM.FILEURL]){
+//        imgFileUrlArr = [NSMutableArray arrayWithArray:[quesInfoM.FILEURL componentsSeparatedByString:@","]];
+//        [imgFileUrlArr removeObjectAtIndex:0];
+//    }
+//
+//    if (imgFileUrlArr.count > 0) {
+//        [questionImg sd_setImageWithURL:ZENITH_IMAGEURL(imgFileUrlArr[0]) placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
+//    }
+//    questionImg.contentMode = UIViewContentModeScaleAspectFit;
+//    [caseView addSubview:questionImg];
+//    
+//    float caseContH = [ZEUtil heightForString:QUESTIONEXPLAINStr font:[UIFont boldSystemFontOfSize:kSubTiltlFontSize] andWidth:(SCREEN_WIDTH - 40) / 2 ];
+//    
+//    UILabel * caseContentLab = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH - 40) / 2 + 20.0f ,10,(SCREEN_WIDTH - 40) / 2 ,caseContH)];
+//    caseContentLab.text = QUESTIONEXPLAINStr;
+//    caseContentLab.numberOfLines = 0;
+//    caseContentLab.textColor = MAIN_SUBTITLE_COLOR;
+//    caseContentLab.font = [UIFont boldSystemFontOfSize:kSubTiltlFontSize];
+//    [caseView addSubview:caseContentLab];
+//
+//    return caseView;
+//}
 
 -(NSMutableAttributedString *)getAttrText:(NSString * )titleText
 {
@@ -649,52 +607,6 @@
     return AttributedStr;
 }
 
-#pragma mark -  区头文字
-
--(UIView * )createSectionTitleView:(SECTION_TITLE)sectionType
-{
-    UIButton * sectionTitleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    sectionTitleBtn.frame = CGRectMake(0, 0, SCREEN_WIDTH, 40);
-    sectionTitleBtn.backgroundColor = [UIColor whiteColor];
-    [sectionTitleBtn addTarget:self action:@selector(goMoreQuesVC:) forControlEvents:UIControlEventTouchUpInside];
-    [sectionTitleBtn setTag:sectionType];
-    
-    UIImageView * sectionIcon = [[UIImageView alloc]initWithFrame:CGRectMake(20, 10, 18, 20)];
-    sectionIcon.userInteractionEnabled = NO;
-    [sectionTitleBtn addSubview:sectionIcon];
-    
-    UILabel * sectionTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(50, 0, 100, 40)];
-    sectionTitleLab.userInteractionEnabled = NO;
-    switch (sectionType) {
-        case SECTION_TITLE_ANSWER:
-            sectionIcon.image = [UIImage imageNamed:@"forum_list_post.png"];
-            sectionTitleLab.text = @"您来挑战";
-            break;
-        case SECTION_TITLE_EXPERT:
-            sectionIcon.image = [UIImage imageNamed:@"forum_list_post.png"];
-            sectionTitleLab.text = @"专家解答";
-            break;
-        case SECTION_TITLE_CASE:
-            sectionIcon.image = [UIImage imageNamed:@"forum_list_post.png"];
-            sectionTitleLab.text = @"技能充电桩";
-            break;
-            
-        default:
-            break;
-    }
-    sectionTitleLab.font = [UIFont systemFontOfSize:kHomeTitleFontSize];
-    [sectionTitleBtn addSubview:sectionTitleLab];
-    
-    UILabel * sectionSubTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 110 , 0, 90, 40)];
-    sectionSubTitleLab.text = @"更多>>>";
-    sectionSubTitleLab.userInteractionEnabled = NO;
-    sectionSubTitleLab.textAlignment = NSTextAlignmentRight;
-    sectionSubTitleLab.font = [UIFont systemFontOfSize:kHomeTitleFontSize];
-    [sectionTitleBtn addSubview:sectionSubTitleLab];
-    
-    return sectionTitleBtn;
-}
-
 #pragma mark - UITextFieldDelegate
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -721,12 +633,12 @@
     }
 }
 
--(void)goTypicalCaseDetail:(UIButton *)btn
-{
-    if([self.delegate respondsToSelector:@selector(goTypicalDetail:)]){
-        [self.delegate goTypicalDetail:self.caseQuestionArr[btn.tag]];
-    }
-}
+//-(void)goTypicalCaseDetail:(UIButton *)btn
+//{
+//    if([self.delegate respondsToSelector:@selector(goTypicalDetail:)]){
+//        [self.delegate goTypicalDetail:self.newestQuestionArr[btn.tag]];
+//    }
+//}
 
 -(void)goSingInView
 {
@@ -737,43 +649,67 @@
 
 -(void)goMoreQuesVC:(UIButton *)button
 {
-    switch (button.tag) {
-        case SECTION_TITLE_ANSWER:
-        {
+//    switch (button.tag) {
+//        case SECTION_TITLE_ANSWER:
+//        {
             if([self.delegate respondsToSelector:@selector(goMoreQuestionsView)]){
                 [self.delegate goMoreQuestionsView];
             }
-        }
-            break;
-        case SECTION_TITLE_EXPERT:
-        {
-            if([self.delegate respondsToSelector:@selector(goMoreExpertAnswerView)]){
-                [self.delegate goMoreExpertAnswerView];
-            }
-        }
-            break;
-        case SECTION_TITLE_CASE:
-        {
-            if([self.delegate respondsToSelector:@selector(goMoreCaseAnswerView)]){
-                [self.delegate goMoreCaseAnswerView];
-            }
-        }
-            break;
-            
-        default:
-            break;
+//        }
+//            break;
+//        case SECTION_TITLE_EXPERT:
+//        {
+//            if([self.delegate respondsToSelector:@selector(goMoreExpertAnswerView)]){
+//                [self.delegate goMoreExpertAnswerView];
+//            }
+//        }
+//            break;
+//        case SECTION_TITLE_CASE:
+//        {
+//            if([self.delegate respondsToSelector:@selector(goMoreCaseAnswerView)]){
+//                [self.delegate goMoreCaseAnswerView];
+//            }
+//        }
+//            break;
+//            
+//        default:
+//            break;
+//    }
+}
+
+//  分类图标点击
+
+-(void)typeBtnClick
+{
+    if ([self.delegate respondsToSelector:@selector(goTypeQuestionVC)]) {
+        [self.delegate goTypeQuestionVC];
     }
+}
+
+
+/**
+ 页面直接回答问题
+ */
+-(void)answerQuestion:(UIButton *)btn
+{
+    NSDictionary * datasDic = self.newestQuestionArr[btn.tag];
+
+    ZEQuestionInfoModel * questionInfoModel = [ZEQuestionInfoModel getDetailWithDic:datasDic];
+    if ([self.delegate respondsToSelector:@selector(goAnswerQuestionVC:)]) {
+        [self.delegate goAnswerQuestionVC:questionInfoModel];
+    }
+    
 }
 
 
 -(void)showImage:(UIButton *)btn
 {
     NSDictionary * datasDic = nil;
-    if (btn.tag / 10000000 == SECTION_TITLE_ANSWER) {
+//    if (btn.tag / 10000000 == SECTION_TITLE_ANSWER) {
         datasDic = self.newestQuestionArr[btn.tag / 10000];
-    }else{
-        datasDic = self.expertQuestionArr[btn.tag / 10000];
-    }
+//    }else{
+//        datasDic = self.expertQuestionArr[btn.tag / 10000];
+//    }
     
     ZEQuestionInfoModel * quesInfoM = [ZEQuestionInfoModel getDetailWithDic:datasDic];
 
