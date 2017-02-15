@@ -10,12 +10,17 @@
 #import "ZEShowQuestionView.h"
 
 #import "ZEQuestionsDetailVC.h"
-@interface ZEShowQuestionVC ()<ZEShowQuestionViewDelegate>
+
+#import "ZEAskQuestionTypeView.h"
+
+@interface ZEShowQuestionVC ()<ZEShowQuestionViewDelegate,ZEAskQuestionTypeViewDelegate>
 {
     ZEShowQuestionView * _questionsView;
     NSInteger _currentPage;
     
     NSString * _currentInputStr;
+    
+    ZEAskQuestionTypeView * askTypeView;
 }
 @end
 
@@ -24,10 +29,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.automaticallyAdjustsScrollViewInsets = NO;
     if (_showQuestionListType == QUESTION_LIST_NEW) {
         self.title = @"最新问题";
     }else if(_showQuestionListType == QUESTION_LIST_TYPE){
         self.title = _QUESTIONTYPENAME;
+        [self initAskTypeView];
     }else if(_showQuestionListType == QUESTION_LIST_MY_QUESTION){
         self.title = @"我的问题";
     }else if(_showQuestionListType == QUESTION_LIST_MY_ANSWER){
@@ -37,10 +45,83 @@
     }else if (_showQuestionListType == QUESTION_LIST_CASE){
         self.title = @"技能充电桩";
     }
-    [self createWhereSQL:_currentInputStr];
+    if(_showQuestionListType != QUESTION_LIST_TYPE){
+        [self createWhereSQL:_currentInputStr];
+    }
     
     [self initView];
 }
+
+#pragma mark - 问题分类
+
+-(void)cacheQuestionType
+{
+    NSArray * typeArr = [[ZEQuestionTypeCache instance] getQuestionTypeCaches];
+    if (typeArr.count > 0) {
+        [askTypeView reloadData];
+        return;
+    }
+    
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":V_KLB_QUESTION_TYPE,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":@"search",
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_QUESTION_TYPE]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 [[ZEQuestionTypeCache instance]setQuestionTypeCaches:[ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_TYPE]];
+                                 [askTypeView reloadData];
+                             } fail:^(NSError *errorCode) {
+                                 
+                             }];
+}
+
+
+-(void)initAskTypeView
+{
+    self.title = @"问题分类";
+    self.rightBtn.enabled = NO;
+    
+    askTypeView = [[ZEAskQuestionTypeView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
+    askTypeView.delegate = self;
+    [self.view addSubview:askTypeView];
+    [self.view sendSubviewToBack:askTypeView];
+    
+    NSArray * typeArr = [[ZEQuestionTypeCache instance] getQuestionTypeCaches];
+    if (typeArr.count > 0) {
+        [askTypeView reloadData];
+    }else{
+        [self cacheQuestionType];
+    }
+}
+
+#pragma mark - ZEAskQuestionTypeViewDelegate
+
+-(void)didSelectType:(NSString *)typeName typeCode:(NSString *)typeCode
+{
+    self.title = typeName;
+    self.typeSEQKEY = typeCode;
+    
+    [askTypeView removeFromSuperview];
+    [self createWhereSQL:_currentInputStr];
+}
+
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
@@ -193,6 +274,7 @@
     _questionsView.delegate = self;
     [self.view addSubview:_questionsView];
     _questionsView.searchStr = _currentInputStr;
+    [self.view sendSubviewToBack:_questionsView];
 }
 
 #pragma mark - ZEShowQuestionViewDelegate

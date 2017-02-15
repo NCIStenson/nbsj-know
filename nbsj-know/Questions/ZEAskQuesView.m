@@ -15,10 +15,9 @@
 
 #import "ZEAskQuesView.h"
 #import "JCAlertView.h"
-#import "ZEShowQuestionTypeView.h"
 #import "YYKit.h"
 
-@interface ZEAskQuesView()<UITextViewDelegate,ZEShowQuestionTypeViewDelegate>
+@interface ZEAskQuesView()<UITextViewDelegate>
 {
     UITextView * _inputView;
     NSMutableArray * _choosedImageArr;
@@ -28,6 +27,8 @@
     UIView * _dashView;  //  添加图片的View
     UIView * _rewardGoldView;  //  添加图片的View
     UIView * _anonymousAskView;  //  添加图片的View
+    
+    UIView * _functionButtonView;  // 盛放四个按钮
     
     NSMutableArray * goldScoreArr;
     
@@ -51,9 +52,41 @@
         [self initImageView];
         [self initAnonymousView];
         [self initRewardGoldView];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+
     }
     return self;
 }
+#pragma mark - 键盘监听事件
+//当键盘出现或改变时调用
+- (void)keyboardWillShow:(NSNotification *)aNotification
+{
+    //获取键盘的高度
+    
+    CGRect end = [[[aNotification userInfo] objectForKey:@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
+    
+    if(end.size.height > 0 ){
+        [UIView animateWithDuration:0.29 animations:^{
+            _functionButtonView.frame = CGRectMake(0, SCREEN_HEIGHT - end.size.height - 35.0f, SCREEN_WIDTH, 30.0f);
+        }];
+    }
+}
+
+//当键退出时调用
+- (void)keyboardWillHide:(NSNotification *)aNotification
+{
+    [UIView animateWithDuration:0.29 animations:^{
+        _functionButtonView.frame = CGRectMake(0, SCREEN_HEIGHT - 250.0f, SCREEN_WIDTH, 30.0f);
+    }];
+}
+
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
+
 -(void)initView
 {
     self.inputView = [[UITextView alloc]initWithFrame:CGRectZero];
@@ -73,10 +106,13 @@
     
     [self drawDashLine:dashView lineLength:5 lineSpacing:2 lineColor:[UIColor lightGrayColor]];
     
+    _functionButtonView = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 250, SCREEN_WIDTH, 30)];
+    [self addSubview:_functionButtonView];
+    
     UIButton * downKeyboardBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    downKeyboardBtn.frame = CGRectMake(10, kInputViewHeight + NAV_HEIGHT + 5.0f, 30, 30);
+    downKeyboardBtn.frame = CGRectMake(10, 0, 30, 30);
     [downKeyboardBtn setImage:[UIImage imageNamed:@"TLdown"] forState:UIControlStateNormal];
-    [self addSubview:downKeyboardBtn];
+    [_functionButtonView addSubview:downKeyboardBtn];
     [downKeyboardBtn addTarget:self action:@selector(downTheKeyBoard) forControlEvents:UIControlEventTouchUpInside];
     downKeyboardBtn.clipsToBounds = YES;
     downKeyboardBtn.layer.cornerRadius = 15.0f;
@@ -85,7 +121,7 @@
     
     for (int i = 0 ; i < 3; i ++) {
         UIButton * cameraBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        cameraBtn.frame = CGRectMake(SCREEN_WIDTH - 120.0f + 40 * i, kInputViewHeight + NAV_HEIGHT + 5.0f, 30, 30);
+        cameraBtn.frame = CGRectMake(SCREEN_WIDTH - 120.0f + 40 * i, 0, 30, 30);
         if (i == 0) {
             [cameraBtn setImage:[UIImage imageNamed:@"discuss_pv" color:MAIN_GREEN_COLOR] forState:UIControlStateNormal];
             [cameraBtn addTarget:self action:@selector(anonymousAsk) forControlEvents:UIControlEventTouchUpInside];
@@ -99,7 +135,7 @@
             [cameraBtn setImage:[UIImage imageNamed:@"camera_gray" color:MAIN_GREEN_COLOR] forState:UIControlStateNormal];
             [cameraBtn addTarget:self action:@selector(showCondition) forControlEvents:UIControlEventTouchUpInside];
         }
-        [self addSubview:cameraBtn];
+        [_functionButtonView addSubview:cameraBtn];
         cameraBtn.clipsToBounds = YES;
         cameraBtn.layer.cornerRadius = 15.0f;
         cameraBtn.layer.borderWidth = 1.5;
@@ -111,7 +147,6 @@
 
 -(void)initImageView
 {
-    
     _backImageView = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
     [self addSubview:_backImageView];
     
@@ -119,7 +154,6 @@
     [_backImageView addSubview:_dashView];
     
     [self drawDashLine:_dashView lineLength:5 lineSpacing:2 lineColor:[UIColor lightGrayColor]];
-
     
     for (int i = 0; i < self.choosedImageArr.count + 1; i ++) {
         UIButton * upImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -131,11 +165,31 @@
             [upImageBtn addTarget:self action:@selector(showCondition) forControlEvents:UIControlEventTouchUpInside];
             [upImageBtn setImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
         }else{
-            [upImageBtn addTarget:self action:@selector(goLookView) forControlEvents:UIControlEventTouchUpInside];
+            CGSize imageSize = [self getScaleImageSize:self.choosedImageArr[i] backgroundFrame:upImageBtn.frame];
+            
+            UIButton * deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [_backImageView addSubview:deleteBtn];
+            deleteBtn.frame = CGRectMake(0, 0, 30, 30);
+            [deleteBtn setImage:[UIImage imageNamed:@"delete_photo.png" ] forState:UIControlStateNormal];
+            deleteBtn.center = CGPointMake(upImageBtn.frame.origin.x + (upImageBtn.frame.size.width - imageSize.width) / 2 + imageSize.width - 5, upImageBtn.frame.origin.y + (upImageBtn.frame.size.height - imageSize.height ) / 2 + 5);
+            [deleteBtn addTarget:self action:@selector(deleteSelectedPhoto:) forControlEvents:UIControlEventTouchUpInside];
+            deleteBtn.tag = i;
+            
+            upImageBtn.tag = 100 + i;
+            [upImageBtn addTarget:self action:@selector(goLookView:) forControlEvents:UIControlEventTouchUpInside];
             [upImageBtn setImage:self.choosedImageArr[i] forState:UIControlStateNormal];
         }
     }
-    
+}
+
+- (CGSize)getScaleImageSize:(UIImage*)_selectedImage backgroundFrame:(CGRect)frame
+{
+    float heightScale = frame.size.height/_selectedImage.size.height/1.0;
+    float widthScale = frame.size.width/_selectedImage.size.width/1.0;
+    float scale = MIN(heightScale, widthScale);
+    float h = _selectedImage.size.height*scale;
+    float w = _selectedImage.size.width*scale;
+    return CGSizeMake(w, h);
 }
 
 
@@ -193,13 +247,13 @@
     [_anonymousAskView addSubview:subTitleLab];
     subTitleLab.font = [UIFont systemFontOfSize:12];
     subTitleLab.textColor = [UIColor grayColor];
-    subTitleLab.text = @"匿名提问扣10个财富值";
+    subTitleLab.text = @"匿名提问扣10个积分";
     [subTitleLab sizeToFit];
 
     UILabel * currentGodeLab = [[UILabel alloc]init];
     currentGodeLab.font = [UIFont systemFontOfSize:12];
     currentGodeLab.textColor = [UIColor grayColor];
-    currentGodeLab.text = @"当前财富值93";
+    currentGodeLab.text = @"当前积分：0";
     currentGodeLab.textAlignment = NSTextAlignmentRight;
     [_anonymousAskView addSubview:currentGodeLab];
     currentGodeLab.frame = CGRectMake(0 , 55, 100, 20);
@@ -225,8 +279,9 @@
     [messageLab sizeToFit];
     
     goldScoreArr = [[NSMutableArray alloc]init];
-    NSArray * scoreArr = @[@"0",@"5",@"10",@"20",@"30",@"50",@"70",@"100",];
     
+    NSArray * scoreArr = @[@"0",@"5",@"10",@"20",@"30",@"50",@"70",@"100",];
+
     for (int i = 0; i < 8; i ++) {
         
         float goldScoreBtnW = (SCREEN_WIDTH - 90) / 4;
@@ -240,7 +295,7 @@
         goldScoreBtn.backgroundColor = [UIColor whiteColor];
         goldScoreBtn.clipsToBounds = YES;
         goldScoreBtn.layer.cornerRadius = 5.0f;
-        goldScoreBtn.layer.borderWidth = 0.5;
+        goldScoreBtn.layer.borderWidth = 1;
         goldScoreBtn.layer.borderColor = [MAIN_GREEN_COLOR CGColor];
         goldScoreBtn.tag = i;
         [goldScoreBtn addTarget:self action:@selector(selectScore:) forControlEvents:UIControlEventTouchUpInside];
@@ -251,16 +306,27 @@
             goldScoreBtn.backgroundColor = MAIN_GREEN_COLOR;
             [goldScoreBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         }
+        
+        if ([self.SUMPOINTS integerValue] < [scoreArr[i] integerValue]) {
+            goldScoreBtn.enabled = NO;
+            goldScoreBtn.backgroundColor = MAIN_LINE_COLOR;
+            goldScoreBtn.layer.borderColor = [[UIColor grayColor] CGColor];;
+        }
+        
         [goldScoreArr addObject:goldScoreBtn];
     }
     
     UILabel * tipLab = [[UILabel alloc]init];
     [_rewardGoldView addSubview:tipLab];
     tipLab.font = [UIFont systemFontOfSize:14];
-    tipLab.text = @"您可用的财富值：93";
+    tipLab.text = @"您可用的积分：0";
+    if ([self.SUMPOINTS integerValue] > 0) {
+        tipLab.text = [NSString stringWithFormat:@"您可用的积分：%@",self.SUMPOINTS];
+
+    }
     tipLab.frame = CGRectMake(0, 216 - 50, SCREEN_WIDTH, 20);
     tipLab.textAlignment = NSTextAlignmentCenter;
-
+    tipLab.tag = 100;
 
     UILabel * subTipLab = [[UILabel alloc]init];
     [_rewardGoldView addSubview:subTipLab];
@@ -275,6 +341,8 @@
 #pragma mark - 匿名提问
 
 -(void)anonymousAsk{
+    [self endEditing:YES];
+
     _anonymousAskView.hidden = NO;
     [self bringSubviewToFront:_anonymousAskView];
     
@@ -293,7 +361,6 @@
 }
 
 -(void)isAnonymous:(UISwitch *)swit{
-    NSLog(@">>>  %d",swit.on);
     _isAnonymousAsk = swit.on;
 }
 
@@ -301,6 +368,8 @@
 
 -(void)rewardGold
 {
+    [self endEditing:YES];
+
     _rewardGoldView.hidden = NO;
     [self bringSubviewToFront:_rewardGoldView];
 
@@ -319,13 +388,21 @@
 }
 -(void)selectScore:(UIButton *)btn
 {
+    NSArray * scoreArr = @[@"0",@"5",@"10",@"20",@"30",@"50",@"70",@"100",];
+    int i = 0;
     for (UIButton * button in goldScoreArr) {
+        
         [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         button.backgroundColor = [UIColor whiteColor];
+        if ([self.SUMPOINTS integerValue] < [scoreArr[i] integerValue]) {
+            button.enabled = NO;
+            button.backgroundColor = MAIN_LINE_COLOR;
+            button.layer.borderColor = [[UIColor grayColor] CGColor];;
+        }
+        i ++;
     }
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     btn.backgroundColor = MAIN_GREEN_COLOR;
-    NSArray * scoreArr = @[@"0",@"5",@"10",@"20",@"30",@"50",@"70",@"100",];
     self.goldScore = scoreArr[btn.tag];
     
     if([self.goldScore integerValue] == 0){
@@ -333,11 +410,6 @@
     }else{
         [ZEUtil shakeToShow:_rewardBtn];
         [_rewardBtn setTitle:self.goldScore forState:UIControlStateNormal];
-//        _rewardBtn.titleLabel.font = [UIFont systemFontOfSize:20];
-//        [UIView animateWithDuration:1 animations:^{
-//            _rewardBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-//            [_rewardBtn setTitle:self.goldScore forState:UIControlStateNormal];
-//        }];
     }
 }
 
@@ -357,12 +429,22 @@
     [self initImageView];
 }
 
--(void)showQuestionTypeViewWithData:(NSArray *)optionArr
+//-(void)showQuestionTypeViewWithData:(NSArray *)optionArr
+//{
+//    ZEShowQuestionTypeView * showTypeView = [[ZEShowQuestionTypeView alloc]initWithOptionArr:optionArr];
+//    showTypeView.delegate = self;
+//    _alertView = [[JCAlertView alloc]initWithCustomView:showTypeView dismissWhenTouchedBackground:YES];
+//    [_alertView show];
+//}
+
+-(void)reloadRewardGold:(NSString *)sumpoints
 {
-    ZEShowQuestionTypeView * showTypeView = [[ZEShowQuestionTypeView alloc]initWithOptionArr:optionArr];
-    showTypeView.delegate = self;
-    _alertView = [[JCAlertView alloc]initWithCustomView:showTypeView dismissWhenTouchedBackground:YES];
-    [_alertView show];
+    self.SUMPOINTS = sumpoints;
+    
+    [_rewardGoldView removeAllSubviews];
+    
+    [self initRewardGoldView];
+    
 }
 
 #pragma mark - UITextViewDelegate
@@ -402,12 +484,12 @@
 
 #pragma mark - ZEAskQuesViewDelegate
 
--(void)showQuestionType
-{
-    if([self.delegate respondsToSelector:@selector(showQuestionType:)]){
-        [self.delegate showQuestionType:self];
-    }
-}
+//-(void)showQuestionType
+//{
+//    if([self.delegate respondsToSelector:@selector(showQuestionType:)]){
+//        [self.delegate showQuestionType:self];
+//    }
+//}
 
 -(void)showCondition
 {
@@ -424,11 +506,20 @@
     }
 }
 
--(void)goLookView
+#pragma mark - 删除选择过的图片
+-(void)deleteSelectedPhoto:(UIButton *)btn
 {
-    if ([self.delegate respondsToSelector:@selector(goLookImageView:)]) {
-        [self.delegate goLookImageView:_choosedImageArr];
+    if ([self.delegate respondsToSelector:@selector(deleteSelectedImageWIthIndex:)]) {
+        [self.delegate deleteSelectedImageWIthIndex:btn.tag];
     }
+}
+
+-(void)goLookView:(UIButton*)btn
+{
+    PYPhotoBrowseView *browser = [[PYPhotoBrowseView alloc] init];
+    browser.images = self.choosedImageArr; // 图片总数
+    browser.currentIndex = btn.tag - 100;
+    [browser show];
 }
 
 /*

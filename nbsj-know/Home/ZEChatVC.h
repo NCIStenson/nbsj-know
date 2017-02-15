@@ -14,4 +14,6 @@
 
 @property (nonatomic,strong) ZEAnswerInfoModel * answerInfo;
 
+@property (nonatomic,assign) BOOL enterChatVCType;
+
 @end

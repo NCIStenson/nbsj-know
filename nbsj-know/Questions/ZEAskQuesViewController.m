@@ -17,7 +17,7 @@
 
 #define textViewStr @"试着将问题尽可能清晰的描述出来，这样回答者们才能更完整、更高质量的为您解答。不能超过50个字符。"
 
-@interface ZEAskQuesViewController ()<ZEAskQuesViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,ZELookViewControllerDelegate,ZEAskQuestionTypeViewDelegate>
+@interface ZEAskQuesViewController ()<ZEAskQuesViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,ZELookViewControllerDelegate>
 {
     ZEAskQuesView * askView;
     ZEAskQuestionTypeView * askTypeView;
@@ -37,7 +37,7 @@
     // Do any additional setup after loading the view.
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.imagesArr = [NSMutableArray array];
-    [self initAskTypeView];
+    [self initView];
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -45,6 +45,7 @@
     self.tabBarController.tabBar.hidden = YES;
     
     [self cacheQuestionType];
+    [self sendMyBONUSPOINTSRequest];
 }
 -(void)cacheQuestionType
 {
@@ -57,7 +58,7 @@
                                      @"MASTERTABLE":V_KLB_QUESTION_TYPE,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"",
-                                     @"WHERESQL":@"ISENABLED=1",
+                                     @"WHERESQL":@"",
                                      @"start":@"0",
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",
@@ -82,21 +83,37 @@
                              }];
 }
 
--(void)initAskTypeView
+-(void)sendMyBONUSPOINTSRequest
 {
-    self.title = @"问题分类";
-    self.rightBtn.enabled = NO;
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":KLB_USER_BASE_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":[NSString stringWithFormat:@"USERCODE = '%@'",[ZESettingLocalData getUSERCODE]],
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_SEARCH,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"DETAILTABLE":@"",};
     
-    askTypeView = [[ZEAskQuestionTypeView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
-    askTypeView.delegate = self;
-    [self.view addSubview:askTypeView];
-    [self.view sendSubviewToBack:askTypeView];
+    NSDictionary * fieldsDic =@{};
     
-    NSArray * typeArr = [[ZEQuestionTypeCache instance] getQuestionTypeCaches];
-    if (typeArr.count > 0) {
-        [askTypeView reloadData];
-    }
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_USER_BASE_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 NSArray * infoArr = [ZEUtil getServerData:data withTabelName:KLB_USER_BASE_INFO];
+                                 if (infoArr.count > 0) {
+                                     NSDictionary * dic = infoArr[0];
+                                     [askView reloadRewardGold:[dic objectForKey:@"SUMPOINTS"]];
+                                 }
+                             } fail:^(NSError *errorCode) {
 
+                             }];
 }
 
 -(void)initView
@@ -110,26 +127,6 @@
     askView.delegate = self;
     [self.view addSubview:askView];
     [self.view sendSubviewToBack:askView];
-}
-#pragma mark - ZEAskQuestionTypeViewDelegate
-
--(void)didSelectType:(NSString *)typeName typeCode:(NSString *)typeCode
-{
-    questionTypeCode = typeCode;
-    if (_enterType == ENTER_GROUP_TYPE_SETTING) {
-        ZEShowQuestionVC * showQuestionsList = [[ZEShowQuestionVC alloc]init];
-        showQuestionsList.showQuestionListType = QUESTION_LIST_TYPE;
-        showQuestionsList.QUESTIONTYPENAME = typeName;
-        showQuestionsList.typeSEQKEY = typeCode;
-        [self.navigationController pushViewController:showQuestionsList animated:YES];
-    }else if (_enterType == ENTER_GROUP_TYPE_DEFAULT){
-        [askTypeView removeFromSuperview];
-        [self initView];
-    }else if (_enterType == ENTER_GROUP_TYPE_TABBAR){
-        [askTypeView removeFromSuperview];
-        [self initView];
-    }
-
 }
 
 #pragma mark - ZEAskQuesViewDelegate
@@ -208,41 +205,12 @@
     [askView reloadChoosedImageView:imageArr];
 }
 
--(void)showQuestionType:(ZEAskQuesView *)askQuesView
+-(void)deleteSelectedImageWIthIndex:(NSInteger)index
 {
-    NSArray * typeArr = [[ZEQuestionTypeCache instance] getQuestionTypeCaches];
-    if (typeArr.count > 0) {
-        [askQuesView showQuestionTypeViewWithData:typeArr];
-        return;
-    }
-    
-    NSDictionary * parametersDic = @{@"limit":@"-1",
-                                     @"MASTERTABLE":V_KLB_QUESTION_TYPE,
-                                     @"MENUAPP":@"EMARK_APP",
-                                     @"ORDERSQL":@"",
-                                     @"WHERESQL":@"ISENABLED=1",
-                                     @"start":@"0",
-                                     @"METHOD":@"search",
-                                     @"MASTERFIELD":@"SEQKEY",
-                                     @"DETAILFIELD":@"",
-                                     @"CLASSNAME":BASIC_CLASS_NAME,
-                                     @"DETAILTABLE":@"",};
-    
-    NSDictionary * fieldsDic =@{};
-    
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_QUESTION_TYPE]
-                                                                           withFields:@[fieldsDic]
-                                                                       withPARAMETERS:parametersDic
-                                                                       withActionFlag:nil];
-
-    [ZEUserServer getDataWithJsonDic:packageDic
-                       showAlertView:NO
-                             success:^(id data) {
-                                 [askQuesView showQuestionTypeViewWithData:[ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_TYPE]];
-                             } fail:^(NSError *errorCode) {
-
-                             }];
+    [self.imagesArr removeObjectAtIndex:index];
+    [askView reloadChoosedImageView:self.imagesArr];
 }
+
 #pragma mark - 确认输入信息
 
 -(void)leftBtnClick
@@ -274,10 +242,7 @@
 }
 
 -(void)rightBtnClick
-{
-    NSLog(@"isAnonymousAsk>>>  %d",askView.isAnonymousAsk);
-    NSLog(@"goldScore>>>  %@",askView.goldScore);
-    
+{    
     if ([askView.inputView.text isEqualToString:textViewStr]) {
         [self showAlertView:@"请输入问题说明" isBack:NO];
         return;
@@ -285,7 +250,7 @@
         [self showAlertView:@"请详细输入问题说明" isBack:NO];
         return;
     }else{
-        UIAlertController * alertCont= [UIAlertController alertControllerWithTitle:@"是否确定提交问题" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController * alertCont= [UIAlertController alertControllerWithTitle:askView.isAnonymousAsk ? @"是否确定提交匿名问题" : @"是否确定提交问题" message:@"" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction * okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [self insertData];
         }];
@@ -306,7 +271,7 @@
                                      @"MASTERTABLE":KLB_QUESTION_INFO,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"",
-                                     @"WHERESQL":@"ISLOSE=1",
+                                     @"WHERESQL":@"",
                                      @"start":@"0",
                                      @"METHOD":@"addSave",
                                      @"MASTERFIELD":@"SEQKEY",
@@ -315,7 +280,7 @@
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{@"SEQKEY":@"",
-                                @"QUESTIONTYPECODE":questionTypeCode,
+                                @"QUESTIONTYPECODE":@"",
                                 @"QUESTIONEXPLAIN":askView.inputView.text,
                                 @"QUESTIONIMAGE":@"",
                                 @"USERHEADIMAGE":[ZESettingLocalData getUSERHHEADURL],
@@ -325,24 +290,38 @@
                                 @"IMPORTLEVEL":@"1",
                                 @"ISLOSE":@"0",
                                 @"ISEXPERTANSWER":@"0",
-                                @"ISSOLVE":@"0"};
+                                @"ISSOLVE":@"0",
+                                @"ISANONYMITY":[NSString stringWithFormat:@"%d",askView.isAnonymousAsk],
+                                @"BONUSPOINTS":[ZEUtil isStrNotEmpty:askView.goldScore] ? askView.goldScore : @""};
     
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_QUESTION_INFO]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-
-    
+    [self progressBegin:@"问题提交中，请稍后..."];
     [ZEUserServer uploadImageWithJsonDic:packageDic
                             withImageArr:self.imagesArr
                            showAlertView:YES
                                  success:^(id data) {
-    
-                                     [self showAlertView:@"问题发表成功" isBack:YES];
+                                     NSArray * arr = [ZEUtil getEXCEPTIONDATA:data];
+                                     if(arr.count > 0){
+                                         NSDictionary * failReason = arr[0];
+                                         [self showTips:[NSString stringWithFormat:@"%@\n",[failReason objectForKey:@"reason"]] afterDelay:2];
+                                     }else{
+                                         [self showTips:@"问题发表成功"];
+                                         [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_ASK_SUCCESS object:nil];
+                                         [self performSelector:@selector(goBack) withObject:nil afterDelay:1];
+                                     }
                                  } fail:^(NSError *error) {
-    
-                                     
+                                     [self showTips:@"问题发表失败，请稍后重试。"];
                                  }];
+}
+-(void)goBack{
+    if (_enterType == ENTER_GROUP_TYPE_TABBAR) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }else{
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 -(void)showAlertView:(NSString *)alertMsg isBack:(BOOL)isBack

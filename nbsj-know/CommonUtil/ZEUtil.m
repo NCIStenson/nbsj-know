@@ -395,6 +395,15 @@
     return serverDatasArr;
 }
 
+
++(NSDictionary *)getEXCEPTIONDATA:(NSDictionary *)dic
+{
+    NSDictionary * tableDic = [dic objectForKey:@"EXCEPTIONDATA"];
+    
+    return tableDic;
+}
+
+
 +(BOOL)isSuccess:(NSString *)dicStr
 {
     if ([dicStr isEqualToString:@"操作成功！"]) {

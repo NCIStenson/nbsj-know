@@ -27,6 +27,9 @@
 @property (nonatomic,copy) NSString * FILEURL;
 @property (nonatomic,copy) NSString * HEADIMAGE;
 @property (nonatomic,copy) NSString * NICKNAME;
+@property (nonatomic,copy) NSString * BONUSPOINTS;  // 奖赏积分
+@property (nonatomic,assign) BOOL ISANONYMITY;  // 奖赏积分
+@property (nonatomic,assign) BOOL ISANSWER;  // 奖赏积分
 
 @property (nonatomic,strong) NSArray * FILEURLARR;
 

@@ -101,6 +101,9 @@
 		984A32A71DAF756100B9F53B /* ZEProCirDynamicVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A32A61DAF756100B9F53B /* ZEProCirDynamicVC.m */; };
 		985138261E2E0DF80044ED35 /* center_name_logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 985138251E2E0DF80044ED35 /* center_name_logo@3x.png */; };
 		9863DE491D657DA100410475 /* ZEQuestionTypeCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9863DE481D657DA100410475 /* ZEQuestionTypeCache.m */; };
+		986FE2E71E4D63DC00D0756A /* ZESchoolWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 986FE2E61E4D63DC00D0756A /* ZESchoolWebVC.m */; };
+		986FE32D1E515FD000D0756A /* type@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 986FE32C1E515FD000D0756A /* type@2x.png */; };
+		986FE32F1E51796400D0756A /* delete_photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 986FE32E1E51796400D0756A /* delete_photo.png */; };
 		9872544E1D587CD7005C4AB9 /* ZELoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9872544B1D587CD7005C4AB9 /* ZELoginView.m */; };
 		9872544F1D587CD7005C4AB9 /* ZELoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9872544D1D587CD7005C4AB9 /* ZELoginViewController.m */; };
 		987257581D59A7F6005C4AB9 /* ZEPackageServerData.m in Sources */ = {isa = PBXBuildFile; fileRef = 987257571D59A7F6005C4AB9 /* ZEPackageServerData.m */; };
@@ -369,6 +372,10 @@
 		985138251E2E0DF80044ED35 /* center_name_logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "center_name_logo@3x.png"; path = "nbsj-know/SourceImg/center_name_logo@3x.png"; sourceTree = SOURCE_ROOT; };
 		9863DE471D657DA100410475 /* ZEQuestionTypeCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEQuestionTypeCache.h; path = Questions/ZEQuestionTypeCache.h; sourceTree = "<group>"; };
 		9863DE481D657DA100410475 /* ZEQuestionTypeCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEQuestionTypeCache.m; path = Questions/ZEQuestionTypeCache.m; sourceTree = "<group>"; };
+		986FE2E51E4D63DC00D0756A /* ZESchoolWebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZESchoolWebVC.h; path = School/ZESchoolWebVC.h; sourceTree = "<group>"; };
+		986FE2E61E4D63DC00D0756A /* ZESchoolWebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZESchoolWebVC.m; path = School/ZESchoolWebVC.m; sourceTree = "<group>"; };
+		986FE32C1E515FD000D0756A /* type@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "type@2x.png"; path = "nbsj-know/SourceImg/type@2x.png"; sourceTree = SOURCE_ROOT; };
+		986FE32E1E51796400D0756A /* delete_photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = delete_photo.png; path = "nbsj-know/SourceImg/delete_photo.png"; sourceTree = SOURCE_ROOT; };
 		9872544A1D587CD7005C4AB9 /* ZELoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZELoginView.h; sourceTree = "<group>"; };
 		9872544B1D587CD7005C4AB9 /* ZELoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZELoginView.m; sourceTree = "<group>"; };
 		9872544C1D587CD7005C4AB9 /* ZELoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZELoginViewController.h; sourceTree = "<group>"; };
@@ -695,6 +702,7 @@
 		982ED3B71D45A37A00F87343 /* SourceImg */ = {
 			isa = PBXGroup;
 			children = (
+				986FE32E1E51796400D0756A /* delete_photo.png */,
 				98253E181E2E09CF005C3E10 /* answer_tag@2x.png */,
 				98253E191E2E09CF005C3E10 /* center_name_logo@2x.png */,
 				985138251E2E0DF80044ED35 /* center_name_logo@3x.png */,
@@ -741,6 +749,7 @@
 		982ED41E1D48517600F87343 /* icon_home */ = {
 			isa = PBXGroup;
 			children = (
+				986FE32C1E515FD000D0756A /* type@2x.png */,
 				98EE5D9B1DE5472000C82FCB /* icon_circle@2x.png */,
 				98EE5D9C1DE5472000C82FCB /* icon_circle@3x.png */,
 				98EE5D9D1DE5472000C82FCB /* icon_home@2x.png */,
@@ -923,6 +932,15 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		986FE2E41E4D637F00D0756A /* School */ = {
+			isa = PBXGroup;
+			children = (
+				986FE2E51E4D63DC00D0756A /* ZESchoolWebVC.h */,
+				986FE2E61E4D63DC00D0756A /* ZESchoolWebVC.m */,
+			);
+			name = School;
+			sourceTree = "<group>";
+		};
 		987254491D587CD7005C4AB9 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -1005,6 +1023,7 @@
 				982ED3701D4208E300F87343 /* Home */,
 				982ED36F1D4208E000F87343 /* Questions */,
 				982ED36E1D4208DC00F87343 /* Group */,
+				986FE2E41E4D637F00D0756A /* School */,
 				982ED36D1D4208DA00F87343 /* Setting */,
 				987ACBD71D4AFBE8006D692E /* Common */,
 				98DB7C4A1C4F4F360046D405 /* CommonUtil */,
@@ -1238,8 +1257,8 @@
 				TargetAttributes = {
 					989B2C421C4DE7AA00F14EFA = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = CJ8CND7Y24;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = S2548HAYNX;
+						ProvisioningStyle = Manual;
 					};
 					989B2C5B1C4DE7AA00F14EFA = {
 						CreatedOnToolsVersion = 7.2;
@@ -1357,6 +1376,7 @@
 				982ED4381D48517600F87343 /* icon_search@3x.png in Resources */,
 				987ACBD61D4AF051006D692E /* refresh_Rank@2x.png in Resources */,
 				98F094241D49DB11002D4E3B /* avatar_default.jpg in Resources */,
+				986FE32F1E51796400D0756A /* delete_photo.png in Resources */,
 				9801DBEA1D644BAC008B1676 /* question_icon@2x.png in Resources */,
 				98253E161E2DC59E005C3E10 /* post_normal@3x.png in Resources */,
 				982ED43B1D48517600F87343 /* login_password@2x.png in Resources */,
@@ -1383,6 +1403,7 @@
 				98D5980E1DC83E78002074C7 /* detail_star_normal@2x.png in Resources */,
 				982ED4411D48517600F87343 /* tab_download_normal@3x.png in Resources */,
 				98D42BD31DC73FBB003A3812 /* coursecell_list_score@2x.png in Resources */,
+				986FE32D1E515FD000D0756A /* type@2x.png in Resources */,
 				983D47D51DCC2B1100D61BC9 /* video_num_front@2x.png in Resources */,
 				98253E1A1E2E09CF005C3E10 /* answer_tag@2x.png in Resources */,
 				983D47CA1DCC2B1100D61BC9 /* fast_forward_disable@2x.png in Resources */,
@@ -1539,6 +1560,7 @@
 				989AA6911D52CDD600A08022 /* ZEQuestionsDetailView.m in Sources */,
 				987ACBC71D4A2557006D692E /* ZEShowQuestionVC.m in Sources */,
 				98DB7C531C4F52050046D405 /* UIImage+ZEImage.m in Sources */,
+				986FE2E71E4D63DC00D0756A /* ZESchoolWebVC.m in Sources */,
 				987258F01D5C6F54005C4AB9 /* ZESetPersonalMessageVC.m in Sources */,
 				982ED4481D48518E00F87343 /* JFCalendarPickerView.m in Sources */,
 				982ED44B1D48550900F87343 /* ZESinginVC.m in Sources */,
@@ -1611,7 +1633,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Wu Xin Technology Co. Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Wu Xin Technology Co. Ltd.";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1658,7 +1681,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Wu Xin Technology Co. Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Wu Xin Technology Co. Ltd.";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1686,19 +1710,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Wu Xin Technology Co. Ltd.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = CJ8CND7Y24;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = S2548HAYNX;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/nbsj-know/PrefixHeader.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/nbsj-know/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/nbsj-know/ThirdSource/XC_chat/Main/Lib/VoiceConvert/lib",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1738,16 +1759,16 @@
 					"-framework",
 					"\"UIKit\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zenitnElec.know;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zenith.QRScan;
 				PRODUCT_NAME = "电知道";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "526c675d-4e7b-4838-baac-0e3685b07480";
+				PROVISIONING_PROFILE_SPECIFIER = QRScan_Dis;
 				SHARED_PRECOMPS_DIR = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = "com.zenith.app-Debug";
-				ZENITH_SERVER = "http://117.149.2.229:8056/emarkspg_klb";
+				ZENITH_SERVER = "http://120.27.152.63:8888/emarkspg_nbsjzd";
 			};
 			name = Debug;
 		};
@@ -1757,9 +1778,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Wu Xin Technology Co. Ltd.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = CJ8CND7Y24;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = S2548HAYNX;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/nbsj-know/PrefixHeader.pch";
@@ -1808,10 +1829,10 @@
 					"-framework",
 					"\"UIKit\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zenitnElec.know;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zenith.QRScan;
 				PRODUCT_NAME = "电知道";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "526c675d-4e7b-4838-baac-0e3685b07480";
+				PROVISIONING_PROFILE_SPECIFIER = QRScan_Dis;
 				SHARED_PRECOMPS_DIR = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "arm64 armv7s armv7";

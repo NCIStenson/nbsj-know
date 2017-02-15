@@ -41,5 +41,11 @@ typedef enum : NSUInteger {
     ENTER_SETTING_TYPE_SETTING,
 } ENTER_SETTING_TYPE;
 
+typedef enum : NSUInteger{
+    HOME_CONTENT_RECOMMAND = 0,
+    HOME_CONTENT_NEWEST,
+    HOME_CONTENT_BOUNS
+}HOME_CONTENT;
+
 
 #endif /* ZEEnumConstant_h */

@@ -15,7 +15,7 @@
 
 #import "ZEAnswerQuestionsView.h"
 #import "JCAlertView.h"
-
+#import "PYPhotoBrowseView.h"
 @interface ZEAnswerQuestionsView()<UITextViewDelegate>
 {
     UITextView * _inputView;
@@ -23,6 +23,8 @@
     JCAlertView * _alertView;
     UIView * _backImageView;//   上传图片背景view
     UIButton * questionTypeBtn;
+    
+    UIView * dashView; // 虚线视图
 }
 
 @property (nonatomic,strong) NSMutableArray * choosedImageArr;
@@ -56,10 +58,10 @@
         make.size.mas_equalTo(CGSizeMake(kInputViewWidth, kInputViewHeight));
     }];
     
-    UIView * dashView= [[UIView alloc]initWithFrame:CGRectMake( 0, kInputViewHeight + NAV_HEIGHT, SCREEN_WIDTH, 1)];
-    [self addSubview:dashView];
+    UIView * _dashView= [[UIView alloc]initWithFrame:CGRectMake( 0, kInputViewHeight + NAV_HEIGHT, SCREEN_WIDTH, 1)];
+    [self addSubview:_dashView];
     
-    [self drawDashLine:dashView lineLength:5 lineSpacing:2 lineColor:[UIColor lightGrayColor]];
+    [self drawDashLine:_dashView lineLength:5 lineSpacing:2 lineColor:[UIColor lightGrayColor]];
     
     UIButton * downKeyboardBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     downKeyboardBtn.frame = CGRectMake(10, kInputViewHeight + NAV_HEIGHT + 5.0f, 30, 30);
@@ -85,9 +87,11 @@
 
 -(void)initImageView
 {
-    UIView * dashView= [[UIView alloc]initWithFrame:CGRectMake( 0, SCREEN_HEIGHT - 217, SCREEN_WIDTH, 1)];
-    [self addSubview:dashView];
-    [self drawDashLine:dashView lineLength:5 lineSpacing:2 lineColor:[UIColor lightGrayColor]];
+    if(!dashView){
+        dashView= [[UIView alloc]initWithFrame:CGRectMake( 0, SCREEN_HEIGHT - 217, SCREEN_WIDTH, 1)];
+        [self addSubview:dashView];
+        [self drawDashLine:dashView lineLength:5 lineSpacing:2 lineColor:[UIColor lightGrayColor]];
+    }
     
     _backImageView = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
     [self addSubview:_backImageView];
@@ -102,13 +106,41 @@
             [upImageBtn addTarget:self action:@selector(showCondition) forControlEvents:UIControlEventTouchUpInside];
             [upImageBtn setImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
         }else{
-            [upImageBtn addTarget:self action:@selector(goLookView) forControlEvents:UIControlEventTouchUpInside];
+            
+            CGSize imageSize = [self getScaleImageSize:self.choosedImageArr[i] backgroundFrame:upImageBtn.frame];
+            
+            UIButton * deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [_backImageView addSubview:deleteBtn];
+            deleteBtn.frame = CGRectMake(0, 0, 30, 30);
+            [deleteBtn setImage:[UIImage imageNamed:@"delete_photo.png" ] forState:UIControlStateNormal];
+            deleteBtn.center = CGPointMake(upImageBtn.frame.origin.x + (upImageBtn.frame.size.width - imageSize.width) / 2 + imageSize.width - 5, upImageBtn.frame.origin.y + (upImageBtn.frame.size.height - imageSize.height ) / 2 + 5);
+            [deleteBtn addTarget:self action:@selector(deleteSelectedPhoto:) forControlEvents:UIControlEventTouchUpInside];
+            deleteBtn.tag = i;
+            
+            upImageBtn.tag = 100 + i;
+            [upImageBtn addTarget:self action:@selector(goLookView:) forControlEvents:UIControlEventTouchUpInside];
             [upImageBtn setImage:self.choosedImageArr[i] forState:UIControlStateNormal];
         }
     }
-    
 }
 
+- (CGSize)getScaleImageSize:(UIImage*)_selectedImage backgroundFrame:(CGRect)frame
+{
+    float heightScale = frame.size.height/_selectedImage.size.height/1.0;
+    float widthScale = frame.size.width/_selectedImage.size.width/1.0;
+    float scale = MIN(heightScale, widthScale);
+    float h = _selectedImage.size.height*scale;
+    float w = _selectedImage.size.width*scale;
+    return CGSizeMake(w, h);
+}
+
+#pragma mark - 删除选择过的图片
+-(void)deleteSelectedPhoto:(UIButton *)btn
+{
+    if ([self.delegate respondsToSelector:@selector(deleteSelectedImageWIthIndex:)]) {
+        [self.delegate deleteSelectedImageWIthIndex:btn.tag];
+    }
+}
 
 -(void)drawDashLine:(UIView *)lineView lineLength:(int)lineLength lineSpacing:(int)lineSpacing lineColor:(UIColor *)lineColor
 {
@@ -193,11 +225,12 @@
     }
 }
 
--(void)goLookView
+-(void)goLookView:(UIButton *)btn
 {
-    if ([self.delegate respondsToSelector:@selector(goLookImageView:)]) {
-        [self.delegate goLookImageView:_choosedImageArr];
-    }
+    PYPhotoBrowseView *browser = [[PYPhotoBrowseView alloc] init];
+    browser.images = self.choosedImageArr; // 图片总数
+    browser.currentIndex = btn.tag - 100;
+    [browser show];
 }
 
 

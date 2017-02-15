@@ -73,6 +73,16 @@
     [hud3 hide:YES afterDelay:1.0f];
 }
 
+- (void)showTips:(NSString *)labelText afterDelay:(NSTimeInterval)time {
+    
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud3.mode = MBProgressHUDModeText;
+    hud3.labelText = labelText;
+    [hud3 hide:YES afterDelay:time];
+}
+
+
 - (void)progressEnd:(NSString *)labelText {
     
     [MBProgressHUD hideHUDForView:self.view animated:YES];

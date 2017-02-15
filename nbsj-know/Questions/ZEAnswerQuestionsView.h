@@ -29,11 +29,10 @@
 /**
  *  @author Stenson, 16-08-17 15:08:08
  *
- *  图片预览
- *
- *  @param imageArr <#imageArr description#>
+ *  删除图片
+ *  @param index 图片的顺序
  */
--(void)goLookImageView:(NSArray *)imageArr;
+-(void)deleteSelectedImageWIthIndex:(NSInteger)index;
 
 @end
 

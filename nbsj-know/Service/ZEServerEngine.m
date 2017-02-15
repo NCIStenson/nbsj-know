@@ -20,6 +20,12 @@
 
 static ZEServerEngine *serverEngine = nil;
 
+@interface ZEServerEngine()
+
+@property (nonatomic,strong) NSMutableArray * taskArr;
+
+@end
+
 @implementation ZEServerEngine
 
 + (ZEServerEngine *)sharedInstance
@@ -35,7 +41,7 @@ static ZEServerEngine *serverEngine = nil;
 {
     self = [super init];
     if ( self) {
-        
+        self.taskArr = [NSMutableArray array];
     }
     return self;
 }
@@ -127,7 +133,7 @@ static ZEServerEngine *serverEngine = nil;
         }  
     }
 
-    [manager POST:serverAddress
+    NSURLSessionDataTask *task = [manager POST:serverAddress
               parameters:jsonDic
                 progress:nil
                  success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -147,6 +153,8 @@ static ZEServerEngine *serverEngine = nil;
                          failBlock(error);
                      }
                  }];
+    
+    [self.taskArr addObject:task];
 }
 
 -(void)downloadFiletWithJsonDic:(NSDictionary *)jsonDic
@@ -416,8 +424,7 @@ static ZEServerEngine *serverEngine = nil;
     UIGraphicsEndImageContext();
     return newImage;
 }
-
-
+    
 + (NSString*)dictionaryToJson:(NSDictionary *)dic
 {
     NSError *parseError = nil;
@@ -435,6 +442,14 @@ static ZEServerEngine *serverEngine = nil;
     [keyWindow setRootViewController:loginVC];
 }
 
+-(void)cancelAllTask
+{
+    [self.taskArr enumerateObjectsUsingBlock:^(NSURLSessionDataTask *taskObj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSLog(@">>>>  %@",taskObj);
+        [taskObj cancel];
+    }];
+    [self.taskArr removeAllObjects];
+}
 
 
 @end

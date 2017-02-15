@@ -106,7 +106,7 @@
     questionsLab.text = _questionInfoModel.QUESTIONEXPLAIN;
     questionsLab.font = [UIFont boldSystemFontOfSize:kDetailTitleFontSize];
     [questionsView addSubview:questionsLab];
-    
+
     //  问题文字与用户信息之间间隔
     float userY = questionHeight + 20.0f;
     
@@ -115,13 +115,18 @@
     for (NSString * str in _questionInfoModel.FILEURLARR) {
         [urlsArr addObject:[NSString stringWithFormat:@"%@/file/%@",Zenith_Server,str]];
     }
-    
     if (_questionInfoModel.FILEURLARR.count > 0) {
         PYPhotosView *linePhotosView = [PYPhotosView photosViewWithThumbnailUrls:urlsArr originalUrls:urlsArr layoutType:PYPhotosViewLayoutTypeLine];
         // 设置Frame
         linePhotosView.py_y = userY;
         linePhotosView.py_x = PYMargin;
-        linePhotosView.py_width = SCREEN_WIDTH - 40;
+        if (urlsArr.count == 1) {
+            linePhotosView.py_width =  ( SCREEN_WIDTH - 40 ) / 3 + 20;
+        }else if (urlsArr.count == 2){
+            linePhotosView.py_width =  ( SCREEN_WIDTH - 40 ) / 3  * 2;
+        }else{
+            linePhotosView.py_width = SCREEN_WIDTH - 40;
+        }
         // 3. 添加到指定视图中
         [questionsView addSubview:linePhotosView];
         
@@ -236,6 +241,7 @@
     ANSWERUSERNAME.text = answerInfoM.NICKNAME;
     ANSWERUSERNAME.userInteractionEnabled = NO;
     ANSWERUSERNAME.textColor = MAIN_SUBTITLE_COLOR;
+    [ANSWERUSERNAME sizeToFit];
     ANSWERUSERNAME.font = [UIFont systemFontOfSize:kDetailTitleFontSize];
     [userImageBtn addSubview:ANSWERUSERNAME];
     
@@ -259,9 +265,16 @@
     if (answerInfoM.FILEURLARR.count > 0) {
         PYPhotosView *linePhotosView = [PYPhotosView photosViewWithThumbnailUrls:urlsArr originalUrls:urlsArr layoutType:PYPhotosViewLayoutTypeLine];
         // 设置Frame
+        
         linePhotosView.py_y = userY;
         linePhotosView.py_x = PYMargin;
-        linePhotosView.py_width = SCREEN_WIDTH - 40;
+        if (urlsArr.count == 1) {
+            linePhotosView.py_width =  ( SCREEN_WIDTH - 40 ) / 3 + 20;
+        }else if (urlsArr.count == 2){
+            linePhotosView.py_width =  ( SCREEN_WIDTH - 40 ) / 3  * 2;
+        }else{
+            linePhotosView.py_width = SCREEN_WIDTH - 40;
+        }
         // 3. 添加到指定视图中
         [cellContentView addSubview:linePhotosView];
         
@@ -326,6 +339,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"%@",_answerInfoArr[indexPath.row]);
     ZEAnswerInfoModel * answerInfoM = [ZEAnswerInfoModel getDetailWithDic:_answerInfoArr[indexPath.row]];
     if ([self.delegate respondsToSelector:@selector(acceptTheAnswerWithQuestionInfo:withAnswerInfo:)]) {
         [self.delegate acceptTheAnswerWithQuestionInfo:_questionInfoModel withAnswerInfo:answerInfoM];

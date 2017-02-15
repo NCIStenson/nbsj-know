@@ -24,6 +24,18 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self=[super initWithFrame:frame]) {
+        
+        //  去除TabBar上方黑色线条
+        CGRect rect = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        UIGraphicsBeginImageContext(rect.size);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        CGContextSetFillColorWithColor(context, [[UIColor clearColor] CGColor]);
+        CGContextFillRect(context, rect);
+        UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        [self setBackgroundImage:img];
+        [self setShadowImage:img];
+        
         //        ----runtime - test----
 
         //        unsigned int count = 0;
@@ -64,21 +76,17 @@
     self.plusBtn.centerY = self.height * 0.5 - 2*LBMagin ;
 
     self.plusBtn.size = CGSizeMake(self.plusBtn.currentBackgroundImage.size.width, self.plusBtn.currentBackgroundImage.size.height);
-
     
     self.plusBtn.center = CGPointMake(self.width/2, self.height * 0.5 - 2*LBMagin);
-    
 
-        UILabel *label = [[UILabel alloc] init];
-        label.font = [UIFont systemFontOfSize:11];
+    UILabel *label = [[UILabel alloc] init];
+    label.font = [UIFont systemFontOfSize:11];
     label.backgroundColor = [UIColor redColor];
-        [label sizeToFit];
-        label.textColor = [UIColor grayColor];
-        [self addSubview:label];
-        label.centerX = self.plusBtn.centerX;
-        label.centerY = CGRectGetMaxY(self.plusBtn.frame) + LBMagin ;
-
-
+    [label sizeToFit];
+    label.textColor = [UIColor grayColor];
+    [self addSubview:label];
+    label.centerX = self.plusBtn.centerX;
+    label.centerY = CGRectGetMaxY(self.plusBtn.frame) + LBMagin ;
 
     int btnIndex = 0;
     for (UIView *btn in self.subviews) {//遍历tabbar的子控件

@@ -1,3 +1,4 @@
+
 //
 //  ZEHomeVC.m
 //  nbsj-know
@@ -14,14 +15,20 @@
 #import "ZETypicalCaseVC.h"
 #import "ZETypicalCaseDetailVC.h"
 
-#import "ZEAskQuesViewController.h"
-
 #import "ZEAnswerQuestionsVC.h"
 
 #import "SvUDIDTools.h"
+
+#import "ZEServerEngine.h"
+#import "ZEChatVC.h"
+
 @interface ZEHomeVC ()<ZEHomeViewDelegate>
 {
     ZEHomeView * _homeView;
+    
+    NSInteger _currentNewestPage;
+    NSInteger _currentRecommandPage;
+    NSInteger _currentBounsPage;
 }
 
 @end
@@ -38,10 +45,15 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(verifyLogin:) name:kVerifyLogin object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendHomeDataRequest) name:kNOTI_ASK_SUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendHomeDataRequest) name:kNOTI_ACCEPT_SUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendHomeDataRequest) name:kNOTI_ANSWER_SUCCESS object:nil];
+    
     UITapGestureRecognizer *tapGr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
     tapGr.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapGr];
     
+    [self sendHomeDataRequest];
     [self storeSystemInfo];
 }
 
@@ -53,30 +65,47 @@
 -(void)dealloc
 {
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kVerifyLogin object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kNOTI_ASK_SUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kNOTI_ANSWER_SUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kNOTI_ACCEPT_SUCCESS object:nil];
 }
 
 - (void)verifyLogin:(NSNotification *)noti
 {
     // Refresh...
     [self checkUpdate];
-    [self sendIsSigninToday];
-    [self sendSigninViewMessage];
+//    [self sendIsSigninToday];
+//    [self sendSigninViewMessage];
     [self cacheQuestionType];
+    _currentNewestPage = 0;
+    _currentRecommandPage = 0;
+    _currentBounsPage = 0;
+    
+    [[ZEServerEngine sharedInstance] cancelAllTask];
     [self sendNewestQuestionsRequest:@""];
-//    [self sendCaseQuestionsRequest];
+    [self sendRecommandQuestionsRequest:@""];
+    [self sendBounsQuestionsRequest:@""];
+}
+
+-(void)sendHomeDataRequest
+{
+    _currentNewestPage = 0;
+    _currentRecommandPage = 0;
+    _currentBounsPage = 0;
+    
+    [[ZEServerEngine sharedInstance] cancelAllTask];
+    [self sendNewestQuestionsRequest:@""];
+    [self sendRecommandQuestionsRequest:@""];
+    [self sendBounsQuestionsRequest:@""];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
     self.tabBarController.tabBar.hidden = NO;
-    [self sendIsSigninToday];
-    [self sendSigninViewMessage];
-    [self sendNewestQuestionsRequest:@""];
-    
+//    [self sendIsSigninToday];
+//    [self sendSigninViewMessage];
     [self checkUpdate];
-    
-//    [self sendCaseQuestionsRequest];
 }
 
 -(void)initView
@@ -369,16 +398,16 @@
 /************* 查询最新问题 *************/
 -(void)sendNewestQuestionsRequest:(NSString *)searchStr
 {
-    NSString * WHERESQL = [NSString stringWithFormat:@"ISLOSE = 0 and QUESTIONEXPLAIN like '%%%@%%'",searchStr];
+    NSString * WHERESQL = [NSString stringWithFormat:@"ISLOSE = 0 and ISSOLVE = 0 and QUESTIONEXPLAIN like '%%%@%%'",searchStr];
     if (![ZEUtil isStrNotEmpty:searchStr]) {
         WHERESQL = [NSString stringWithFormat:@"ISLOSE = 0 and ISSOLVE = 0 and QUESTIONEXPLAIN like '%%'"];
     }
-    NSDictionary * parametersDic = @{@"limit":@"10",
+    NSDictionary * parametersDic = @{@"limit":[NSString stringWithFormat:@"%ld",(long) MAX_PAGE_COUNT],
                                      @"MASTERTABLE":V_KLB_QUESTION_INFO,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"SYSCREATEDATE desc",
                                      @"WHERESQL":WHERESQL,
-                                     @"start":@"0",
+                                     @"start":[NSString stringWithFormat:@"%ld",(long)_currentNewestPage * MAX_PAGE_COUNT],
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
@@ -395,12 +424,151 @@
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 NSArray * arr = [ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_INFO];
-                                 [_homeView reloadSectionwithData:arr];
+                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_INFO];
+                                 if (dataArr.count > 0) {
+                                     if (_currentNewestPage == 0) {
+                                         [_homeView reloadFirstView:dataArr withHomeContent:HOME_CONTENT_NEWEST ];
+                                     }else{
+                                         [_homeView reloadContentViewWithArr:dataArr withHomeContent:HOME_CONTENT_NEWEST];
+                                     }
+                                     if (dataArr.count % MAX_PAGE_COUNT == 0) {
+                                         _currentNewestPage += 1;
+                                     }else{
+                                         [_homeView loadNoMoreDataWithHomeContent:HOME_CONTENT_NEWEST];
+                                     }
+                                 }else{
+                                     if (_currentNewestPage > 0) {
+                                         [_homeView loadNoMoreDataWithHomeContent:HOME_CONTENT_NEWEST];
+                                         return ;
+                                     }
+                                     [_homeView reloadFirstView:dataArr withHomeContent:HOME_CONTENT_NEWEST];
+                                     [_homeView headerEndRefreshingWithHomeContent:HOME_CONTENT_NEWEST];
+                                     [_homeView loadNoMoreDataWithHomeContent:HOME_CONTENT_NEWEST];
+                                 }
+
                              } fail:^(NSError *errorCode) {
-                                 [_homeView endRefreshing];
+                                 [_homeView endRefreshingWithHomeContent:HOME_CONTENT_NEWEST];
                              }];
     
+}
+
+
+/**
+ 推荐问题列表
+
+ @param searchStr 推荐问题搜索
+ */
+-(void)sendRecommandQuestionsRequest:(NSString *)searchStr
+{
+    NSString * WHERESQL = [NSString stringWithFormat:@"ISLOSE = 0 and ISSOLVE = 0 and QUESTIONEXPLAIN like '%%%@%%'",searchStr];
+    if (![ZEUtil isStrNotEmpty:searchStr]) {
+        WHERESQL = [NSString stringWithFormat:@"ISLOSE = 0 and ISSOLVE = 0 and QUESTIONEXPLAIN like '%%'"];
+    }
+    NSDictionary * parametersDic = @{@"limit":[NSString stringWithFormat:@"%ld",(long) MAX_PAGE_COUNT],
+                                     @"MASTERTABLE":V_KLB_QUESTION_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"SYSCREATEDATE,ANSWERSUM desc",
+                                     @"WHERESQL":WHERESQL,
+                                     @"start":[NSString stringWithFormat:@"%ld",_currentRecommandPage * MAX_PAGE_COUNT],
+                                     @"METHOD":@"search",
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.question.QuestionPoints",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_QUESTION_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_INFO];
+                                 if (dataArr.count > 0) {
+                                     if (_currentRecommandPage == 0) {
+                                         [_homeView reloadFirstView:dataArr withHomeContent:HOME_CONTENT_RECOMMAND ];
+                                     }else{
+                                         [_homeView reloadContentViewWithArr:dataArr withHomeContent:HOME_CONTENT_RECOMMAND];
+                                     }
+                                     if (dataArr.count % MAX_PAGE_COUNT == 0) {
+                                         _currentRecommandPage += 1;
+                                     }else{
+                                         [_homeView loadNoMoreDataWithHomeContent:HOME_CONTENT_RECOMMAND];
+                                     }
+                                 }else{
+                                     if (_currentRecommandPage > 0) {
+                                         [_homeView loadNoMoreDataWithHomeContent:HOME_CONTENT_RECOMMAND];
+                                         return ;
+                                     }
+                                     [_homeView reloadFirstView:dataArr withHomeContent:HOME_CONTENT_RECOMMAND];
+                                     [_homeView headerEndRefreshingWithHomeContent:HOME_CONTENT_RECOMMAND];
+                                     [_homeView loadNoMoreDataWithHomeContent:HOME_CONTENT_RECOMMAND];
+                                 }
+                             } fail:^(NSError *errorCode) {
+                                 [_homeView endRefreshingWithHomeContent:HOME_CONTENT_RECOMMAND];
+                             }];
+    
+}
+/**
+ 高悬赏问题列表
+ 
+ @param searchStr 高悬赏问题搜索
+ */
+-(void)sendBounsQuestionsRequest:(NSString *)searchStr
+{
+    NSString * WHERESQL = [NSString stringWithFormat:@"ISLOSE = 0 and BONUSPOINTS IS NOT NULL and QUESTIONEXPLAIN like '%%%@%%'",searchStr];
+    if (![ZEUtil isStrNotEmpty:searchStr]) {
+        WHERESQL = [NSString stringWithFormat:@"ISLOSE = 0 and BONUSPOINTS IS NOT NULL and ISSOLVE = 0 and QUESTIONEXPLAIN like '%%'"];
+    }
+    NSDictionary * parametersDic = @{@"limit":[NSString stringWithFormat:@"%ld",(long) MAX_PAGE_COUNT],
+                                     @"MASTERTABLE":V_KLB_QUESTION_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"SYSCREATEDATE desc",
+                                     @"WHERESQL":WHERESQL,
+                                     @"start":[NSString stringWithFormat:@"%ld",_currentBounsPage * MAX_PAGE_COUNT],
+                                     @"METHOD":@"search",
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.question.QuestionPoints",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_QUESTION_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_INFO];
+                                 if (dataArr.count > 0) {
+                                     if (_currentBounsPage == 0) {
+                                         [_homeView reloadFirstView:dataArr withHomeContent:HOME_CONTENT_BOUNS ];
+                                     }else{
+                                         [_homeView reloadContentViewWithArr:dataArr withHomeContent:HOME_CONTENT_BOUNS];
+                                     }
+                                     if (dataArr.count % MAX_PAGE_COUNT == 0) {
+                                         _currentBounsPage += 1;
+                                     }else{
+                                         [_homeView loadNoMoreDataWithHomeContent:HOME_CONTENT_BOUNS];
+                                     }
+                                 }else{
+                                     if (_currentBounsPage > 0) {
+                                         [_homeView loadNoMoreDataWithHomeContent:HOME_CONTENT_BOUNS];
+                                         return ;
+                                     }
+                                     [_homeView reloadFirstView:dataArr withHomeContent:HOME_CONTENT_BOUNS];
+                                     [_homeView headerEndRefreshingWithHomeContent:HOME_CONTENT_BOUNS];
+                                     [_homeView loadNoMoreDataWithHomeContent:HOME_CONTENT_BOUNS];
+                                 }
+                             } fail:^(NSError *errorCode) {
+                                 [_homeView endRefreshingWithHomeContent:HOME_CONTENT_BOUNS];
+                             }];
 }
 
 /************* 查询典型案例 *************/
@@ -487,8 +655,8 @@
 
 -(void)goTypeQuestionVC
 {
-    ZEAskQuesViewController * askQues = [[ZEAskQuesViewController alloc]init];
-    askQues.enterType = ENTER_GROUP_TYPE_SETTING;
+    ZEShowQuestionVC * askQues = [[ZEShowQuestionVC alloc]init];
+    askQues.showQuestionListType =  QUESTION_LIST_TYPE;
     [self.navigationController pushViewController:askQues animated:YES];
 }
 
@@ -513,10 +681,20 @@
         [self showTips:@"该问题已有答案被采纳"];
         return;
     }
+
     
-    ZEAnswerQuestionsVC * answerQuesVC = [[ZEAnswerQuestionsVC alloc]init];
-    answerQuesVC.questionSEQKEY = _questionInfoModel.SEQKEY;
-    [self.navigationController pushViewController:answerQuesVC animated:YES];
+    if (_questionInfoModel.ISANSWER) {
+        ZEChatVC * chatVC = [[ZEChatVC alloc]init];
+        chatVC.questionInfo = _questionInfoModel;
+        chatVC.enterChatVCType = 1;
+        [self.navigationController pushViewController:chatVC animated:YES];
+        
+    }else{
+        ZEAnswerQuestionsVC * answerQuesVC = [[ZEAnswerQuestionsVC alloc]init];
+        answerQuesVC.questionSEQKEY = _questionInfoModel.SEQKEY;
+        [self.navigationController pushViewController:answerQuesVC animated:YES];
+    }
+    
 }
 
 - (void)showTips:(NSString *)labelText {
@@ -529,10 +707,49 @@
 }
 
 
--(void)loadNewData
+-(void)loadNewData:(HOME_CONTENT)contentPage
 {
-    [self sendNewestQuestionsRequest:@""];
-//    [self sendCaseQuestionsRequest];
+    switch (contentPage) {
+        case HOME_CONTENT_RECOMMAND:
+            _currentRecommandPage = 0;
+            [self sendRecommandQuestionsRequest:@""];
+            break;
+            
+        case HOME_CONTENT_NEWEST:
+            _currentNewestPage = 0;
+            [self sendNewestQuestionsRequest:@""];
+
+            break;
+            
+        case HOME_CONTENT_BOUNS:
+            _currentBounsPage = 0;
+            [self sendBounsQuestionsRequest:@""];
+            break;
+            
+        default:
+            break;
+    }
+}
+
+-(void)loadMoreData:(HOME_CONTENT)contentPage
+{
+    switch (contentPage) {
+        case HOME_CONTENT_RECOMMAND:
+            [self sendRecommandQuestionsRequest:@""];
+            break;
+            
+        case HOME_CONTENT_NEWEST:
+            [self sendNewestQuestionsRequest:@""];
+            
+            break;
+            
+        case HOME_CONTENT_BOUNS:
+            [self sendBounsQuestionsRequest:@""];
+            break;
+            
+        default:
+            break;
+    }
 }
 
 - (void)didReceiveMemoryWarning {

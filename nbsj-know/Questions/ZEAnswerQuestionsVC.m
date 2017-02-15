@@ -139,6 +139,13 @@
     [_answerQuesView reloadChoosedImageView:imageArr];
 }
 
+-(void)deleteSelectedImageWIthIndex:(NSInteger)index
+{
+    [self.imagesArr removeObjectAtIndex:index];
+    [_answerQuesView reloadChoosedImageView:self.imagesArr];
+}
+
+
 -(void)rightBtnClick
 {
     if (_answerQuesView.inputView.text.length == 0 || [_answerQuesView.inputView.text isEqualToString:textViewStr]){
@@ -179,6 +186,7 @@
     }else{
         ANSWERLEVEL = @"1";
     }
+    NSLog(@" ===============  %@",_questionSEQKEY);
     NSDictionary * fieldsDic =@{@"SEQKEY":@"",
                                 @"QUESTIONID":_questionSEQKEY,
                                 @"ANSWEREXPLAIN":_answerQuesView.inputView.text,
@@ -190,19 +198,27 @@
                                 @"ISPASS":@"0",
                                 @"ISENABLED":@"0"};
     
+    NSLog(@"========= %@",fieldsDic);
+    
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_ANSWER_INFO]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-
+    [self progressBegin:@"答案提交中，请稍后..."];
     [ZEUserServer uploadImageWithJsonDic:packageDic
                             withImageArr:self.imagesArr
                            showAlertView:YES
                                  success:^(id data) {
-    
-                                     [self showAlertView:@"回答成功" isBack:YES];
+                                     NSArray * arr = [ZEUtil getEXCEPTIONDATA:data];
+                                     if(arr.count > 0){
+                                         NSDictionary * failReason = arr[0];
+                                         [self showTips:[NSString stringWithFormat:@"%@\n",[failReason objectForKey:@"reason"]] afterDelay:2];
+                                     }else{
+                                         [self showTips:@"回答成功"];
+                                         [self performSelector:@selector(goBack) withObject:nil afterDelay:1];
+                                     }
                                  } fail:^(NSError *error) {
-    
+                                     [self showTips:@"回答问题失败，请稍后重试。"];
                                  }];
 }
 
@@ -216,6 +232,10 @@
     }];
     [alertC addAction:action];
     [self presentViewController:alertC animated:YES completion:nil];
+}
+
+-(void)goBack{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

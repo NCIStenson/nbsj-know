@@ -22,10 +22,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.title = [NSString stringWithFormat:@"%@的回答",_answerInfo.NICKNAME];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    [self initContentView];
-    NSLog(@">><<<M  %@",_questionInfo.QUESTIONUSERCODE);
+
     if([_questionInfo.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]){
         if([_questionInfo.ISSOLVE boolValue]){
             [self.rightBtn setTitle:@"已采纳" forState:UIControlStateNormal];
@@ -34,6 +32,49 @@
             [self.rightBtn addTarget:self action:@selector(acceptAnswer) forControlEvents:UIControlEventTouchUpInside];
         }
     }
+    if (_enterChatVCType == 1) {
+        self.title = @"";
+        [self sendAnswerModelRequest];
+    }else{
+        self.title = [NSString stringWithFormat:@"%@的回答",_answerInfo.NICKNAME];
+        [self initContentView];
+    }
+}
+
+-(void)sendAnswerModelRequest
+{
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":V_KLB_ANSWER_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":[NSString stringWithFormat:@"QUESTIONID='%@' and ANSWERUSERCODE = '%@'",_questionInfo.SEQKEY,[ZESettingLocalData getUSERCODE]],
+                                     @"start":@"0",
+                                     @"METHOD":@"search",
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_ANSWER_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 NSArray * arr = [ZEUtil getServerData:data withTabelName:V_KLB_ANSWER_INFO];
+                                 if (arr.count > 0) {
+                                     self.answerInfo = [ZEAnswerInfoModel getDetailWithDic:arr[0]];
+                                     self.title = [NSString stringWithFormat:@"%@的回答",_answerInfo.NICKNAME];
+                                     [self initContentView];
+                                     [self sendSearchAnswerRequest];
+                                 }
+                            } fail:^(NSError *errorCode) {
+                                 
+                             }];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -78,7 +119,7 @@
 
 
 -(void)initContentView
-{
+{    
      _chatView = [[ZEChatView alloc]initWithFrame:self.view.frame
                                 withQuestionInfoM:_questionInfo
                                   withAnswerInfoM:_answerInfo];
@@ -246,9 +287,11 @@
     NSDictionary * fieldsDic =@{@"SEQKEY":answerModel.SEQKEY,
                                 @"QUESTIONID":answerModel.QUESTIONID,
                                 @"ISPASS":@"1",
+                                @"ANSWERUSERCODE":answerModel.ANSWERUSERCODE,
                                 };
     
-    NSDictionary * fieldsDic2 =@{@"ISSOLVE":@"1"};
+    NSDictionary * fieldsDic2 =@{@"ISSOLVE":@"1",
+                                 @"BONUSPOINTS":[NSString stringWithFormat:@"%@",_questionInfo.BONUSPOINTS]};
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_ANSWER_INFO,KLB_QUESTION_INFO]
                                                                            withFields:@[fieldsDic,fieldsDic2]
                                                                        withPARAMETERS:parametersDic

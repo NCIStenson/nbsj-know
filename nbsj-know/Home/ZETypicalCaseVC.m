@@ -81,7 +81,7 @@
                                      @"MASTERTABLE":V_KLB_QUESTION_TYPE,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"",
-                                     @"WHERESQL":@"ISENABLED=1",
+                                     @"WHERESQL":@"",
                                      @"start":@"0",
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",

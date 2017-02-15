@@ -32,7 +32,9 @@
  *
  *  选择问题分类
  */
--(void)showQuestionType:(ZEAskQuesView *)askQuesView;
+//-(void)showQuestionType:(ZEAskQuesView *)askQuesView;
+
+-(void)deleteSelectedImageWIthIndex:(NSInteger)index;
 
 @end
 
@@ -40,6 +42,7 @@
 
 @property (nonatomic,weak) id <ZEAskQuesViewDelegate> delegate;
 
+@property (nonatomic,copy) NSString * SUMPOINTS; // 当前账户的总积分
 @property (nonatomic,assign) BOOL isAnonymousAsk; //  是否匿名提问
 @property (nonatomic,copy) NSString * goldScore;  // 悬赏值
 
@@ -51,6 +54,9 @@
 
 -(void)reloadChoosedImageView:(id)choosedImage;
 
--(void)showQuestionTypeViewWithData:(NSArray *)optionArr;
+/**
+ 刷新当前拥有积分分数
+ */
+-(void)reloadRewardGold:(NSString *)sumpoints;
 
 @end

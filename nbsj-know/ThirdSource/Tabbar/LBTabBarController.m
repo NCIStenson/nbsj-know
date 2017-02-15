@@ -10,7 +10,7 @@
 #import "LBNavigationController.h"
 
 #import "ZEHomeVC.h"
-#import "ZEQuestionsVC.h"
+#import "ZESchoolWebVC.h"
 #import "ZEGroupVC.h"
 #import "ZEUserCenterVC.h"
 
@@ -68,11 +68,11 @@
     ZEHomeVC *HomeVC = [[ZEHomeVC alloc] init];
     [self setUpOneChildVcWithVc:HomeVC Image:@"icon_home" selectedImage:@"icon_home" title:@"首页"];
 
-    ZEQuestionsVC *FishVC = [[ZEQuestionsVC alloc] init];
-    [self setUpOneChildVcWithVc:FishVC Image:@"icon_question" selectedImage:@"icon_question" title:@"问答"];
+    ZEGroupVC *FishVC = [[ZEGroupVC alloc] init];
+    [self setUpOneChildVcWithVc:FishVC Image:@"icon_circle" selectedImage:@"icon_circle" title:@"圈子"];
 
-    ZEGroupVC *MessageVC = [[ZEGroupVC alloc] init];
-    [self setUpOneChildVcWithVc:MessageVC Image:@"icon_circle" selectedImage:@"icon_circle" title:@"圈子"];
+    ZESchoolWebVC *MessageVC = [[ZESchoolWebVC alloc] init];
+    [self setUpOneChildVcWithVc:MessageVC Image:@"icon_question" selectedImage:@"icon_question" title:@"学堂"];
 
     ZEUserCenterVC *MineVC = [[ZEUserCenterVC alloc] init];
     [self setUpOneChildVcWithVc:MineVC Image:@"icon_user" selectedImage:@"icon_user" title:@"我的"];

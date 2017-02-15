@@ -67,6 +67,16 @@
  */
 + (NSDictionary *)getServerDic:(NSDictionary *)dic withTabelName:(NSString *)tableName;
 + (NSArray *)getServerData:(NSDictionary *)dic withTabelName:(NSString *)tableName;
+
+
+/**
+ 获取敏感词反馈信息
+
+ @param dic <#dic description#>
+ @return <#return value description#>
+ */
++(NSArray *)getEXCEPTIONDATA:(NSDictionary *)dic;
+
 /**
  *  @author Stenson, 16-08-16 09:08:20
  *

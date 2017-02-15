@@ -49,4 +49,7 @@ typedef void (^ServerErrorRecordBlock) (void);  // 记录服务器错误block
                    withProgress:(void (^)(CGFloat progress))progressBlock
                         success:(ServerResponseSuccessBlock)successBlock
                            fail:(ServerResponseFailBlock)failBlock;
+
+-(void)cancelAllTask;
+
 @end

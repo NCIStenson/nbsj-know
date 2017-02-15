@@ -27,6 +27,7 @@
  *  添加一条提示 1s后消失
  */
 - (void)showTips:(NSString *)labelText;
+- (void)showTips:(NSString *)labelText afterDelay:(NSTimeInterval)time;
 /**
  *  开始加载HUD
  */

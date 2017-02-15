@@ -61,6 +61,8 @@
 
 #define kNOTI_SCORE_SUCCESS @"NOTI_SCORE_SUCCESS"  // 经典案例打分成功通知
 #define kNOTI_ACCEPT_SUCCESS @"NOTI_ACCEPT_SUCCESS" // 采纳答案成功通知
+#define kNOTI_ASK_SUCCESS @"NOTI_ASK_SUCCESS" // 提问成功通知
+#define kNOTI_ANSWER_SUCCESS @"NOTI_ANSWER_SUCCESS" // 回答成功通知
 
 #define kRelogin @"kRelogin"
 #define kVerifyLogin @"kVerifyLogin"

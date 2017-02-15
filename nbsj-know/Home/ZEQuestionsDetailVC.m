@@ -29,6 +29,9 @@
     // Do any additional setup after loading the view.
     [self initView];
     self.title = [NSString stringWithFormat:@"%@的提问",_questionInfoModel.NICKNAME];
+    if(_questionInfoModel.ISANONYMITY){
+        self.title = [NSString stringWithFormat:@"%@的提问",@"匿名用户"];
+    }
     [self.rightBtn setTitle:@"回答" forState:UIControlStateNormal];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -46,6 +49,9 @@
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:YES];
+}
+
+-(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNOTI_ACCEPT_SUCCESS object:nil];
 }
 
