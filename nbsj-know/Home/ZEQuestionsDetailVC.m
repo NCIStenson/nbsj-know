@@ -64,7 +64,7 @@
     NSDictionary * parametersDic = @{@"limit":@"-1",
                                      @"MASTERTABLE":V_KLB_ANSWER_INFO,
                                      @"MENUAPP":@"EMARK_APP",
-                                     @"ORDERSQL":@"ISPASS desc",
+                                     @"ORDERSQL":@"ISPASS desc , GOODNUMS desc, QACOUNT desc,SYSCREATEDATE desc",
                                      @"WHERESQL":[NSString stringWithFormat:@"QUESTIONID='%@'",_questionInfoModel.SEQKEY],
                                      @"start":@"0",
                                      @"METHOD":@"search",
@@ -83,7 +83,6 @@
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-
                                  _datasArr = [ZEUtil getServerData:data withTabelName:V_KLB_ANSWER_INFO];
                                  [_quesDetailView reloadData:_datasArr];
                              } fail:^(NSError *errorCode) {
@@ -94,8 +93,7 @@
 -(void)initView
 {
     _quesDetailView = [[ZEQuestionsDetailView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
-                                                                         withQuestionInfo:_questionInfoModel
-                                                                         withQuestionType:_questionTypeModel];
+                                                                         withQuestionInfo:_questionInfoModel];
     _quesDetailView.delegate = self;
     [self.view addSubview:_quesDetailView];
     [self.view sendSubviewToBack:_quesDetailView];

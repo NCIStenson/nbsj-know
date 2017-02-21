@@ -306,7 +306,7 @@
                                      NSArray * arr = [ZEUtil getEXCEPTIONDATA:data];
                                      if(arr.count > 0){
                                          NSDictionary * failReason = arr[0];
-                                         [self showTips:[NSString stringWithFormat:@"%@\n",[failReason objectForKey:@"reason"]] afterDelay:2];
+                                         [self showTips:[NSString stringWithFormat:@"%@\n",[failReason objectForKey:@"reason"]] afterDelay:1.5];
                                      }else{
                                          [self showTips:@"问题发表成功"];
                                          [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_ASK_SUCCESS object:nil];

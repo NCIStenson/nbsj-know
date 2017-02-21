@@ -124,7 +124,10 @@ static NSString * kUSERINFODic      = @"kUSERINFODic";
 
 +(NSString *)getNAME
 {
-    return [[self Get:kUSERINFODic] objectForKey:@"NAME"];
+    if([ZEUtil isNotNull:[[self Get:kUSERINFODic] objectForKey:@"NAME"]]){
+        return [[self Get:kUSERINFODic] objectForKey:@"NAME"];
+    }
+    return @"";
 }
 
 #pragma mark - USERCODE

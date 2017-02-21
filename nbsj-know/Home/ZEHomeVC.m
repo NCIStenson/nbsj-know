@@ -76,15 +76,17 @@
     [self checkUpdate];
 //    [self sendIsSigninToday];
 //    [self sendSigninViewMessage];
-    [self cacheQuestionType];
     _currentNewestPage = 0;
     _currentRecommandPage = 0;
     _currentBounsPage = 0;
     
     [[ZEServerEngine sharedInstance] cancelAllTask];
+    
+    [self cacheQuestionType];
     [self sendNewestQuestionsRequest:@""];
     [self sendRecommandQuestionsRequest:@""];
     [self sendBounsQuestionsRequest:@""];
+    
 }
 
 -(void)sendHomeDataRequest
@@ -94,6 +96,8 @@
     _currentBounsPage = 0;
     
     [[ZEServerEngine sharedInstance] cancelAllTask];
+    
+    [self cacheQuestionType];
     [self sendNewestQuestionsRequest:@""];
     [self sendRecommandQuestionsRequest:@""];
     [self sendBounsQuestionsRequest:@""];
@@ -317,6 +321,9 @@
                        showAlertView:NO
                              success:^(id data) {
                                  [[ZEQuestionTypeCache instance]setQuestionTypeCaches:[ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_TYPE]];
+                                 [_homeView reloadContentViewWithArr:@[] withHomeContent:HOME_CONTENT_RECOMMAND];
+                                 [_homeView reloadContentViewWithArr:@[] withHomeContent:HOME_CONTENT_NEWEST];
+                                 [_homeView reloadContentViewWithArr:@[] withHomeContent:HOME_CONTENT_BOUNS];
                              } fail:^(NSError *errorCode) {
                                  
                              }];
@@ -467,9 +474,9 @@
     NSDictionary * parametersDic = @{@"limit":[NSString stringWithFormat:@"%ld",(long) MAX_PAGE_COUNT],
                                      @"MASTERTABLE":V_KLB_QUESTION_INFO,
                                      @"MENUAPP":@"EMARK_APP",
-                                     @"ORDERSQL":@"SYSCREATEDATE,ANSWERSUM desc",
+                                     @"ORDERSQL":@" SYSCREATEDATE,ANSWERSUM desc ",
                                      @"WHERESQL":WHERESQL,
-                                     @"start":[NSString stringWithFormat:@"%ld",_currentRecommandPage * MAX_PAGE_COUNT],
+                                     @"start":[NSString stringWithFormat:@"%ld",(long)_currentRecommandPage * MAX_PAGE_COUNT],
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
@@ -528,7 +535,7 @@
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"SYSCREATEDATE desc",
                                      @"WHERESQL":WHERESQL,
-                                     @"start":[NSString stringWithFormat:@"%ld",_currentBounsPage * MAX_PAGE_COUNT],
+                                     @"start":[NSString stringWithFormat:@"%ld",(long)_currentBounsPage * MAX_PAGE_COUNT],
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",

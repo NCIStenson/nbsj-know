@@ -9,7 +9,7 @@
 
 //      http://192.168.1.144:8080/nbsjzd
 
-//  测试版     http://117.149.2.229:8056/emarkspg_klb
+//  测试版     http://117.149.2.229:1622/emarkspg_nbsjzd
 //  正式版     http://120.27.152.63:8888/emarkspg_nbsjzd
 
 

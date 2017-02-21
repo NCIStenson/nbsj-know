@@ -335,8 +335,10 @@
 
 -(void)contentImageClick:(NSString *)contentImageURL
 {
+    contentImageURL = [contentImageURL stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
     PYPhotoBrowseView *browser = [[PYPhotoBrowseView alloc] init];
     browser.imagesURL = @[[NSString stringWithFormat:@"%@/file/%@",Zenith_Server,contentImageURL]]; // 图片总数
+    NSLog(@">>>  %@",[NSString stringWithFormat:@"%@/file/%@",Zenith_Server,contentImageURL]);
     [browser show];
 
 }

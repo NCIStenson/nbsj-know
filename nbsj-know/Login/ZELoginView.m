@@ -38,7 +38,7 @@
 #define kNavTitleLabelMarginLeft 0.0f
 #define kNavTitleLabelMarginTop 20.0f
 
-#define LINECOLOR [MAIN_NAV_COLOR CGColor];
+#define LINECOLOR [MAIN_GREEN_COLOR CGColor];
 
 
 #import "ZELoginView.h"
@@ -169,7 +169,7 @@
     [loginBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
     [loginBtn addTarget:self action:@selector(goLogin) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:loginBtn];
-    loginBtn.backgroundColor = RGBA(1, 112, 99, 1);
+    loginBtn.backgroundColor = MAIN_GREEN_COLOR;
     loginBtn.clipsToBounds = YES;
     loginBtn.layer.cornerRadius = 5;
 }

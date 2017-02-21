@@ -25,7 +25,6 @@
 }
 
 @property (nonatomic,strong) ZEQuestionInfoModel * questionInfoModel;
-@property (nonatomic,strong) ZEQuestionTypeModel * questionTypeModel;
 
 @property (nonatomic,strong) NSArray * answerInfoArr;
 
@@ -35,13 +34,11 @@
 
 -(id)initWithFrame:(CGRect)frame
   withQuestionInfo:(ZEQuestionInfoModel *)infoModel
-  withQuestionType:(ZEQuestionTypeModel *)typeModel
 {
     self = [super initWithFrame:frame];
     if (self) {
         _questionInfoModel = infoModel;
-        _questionTypeModel = typeModel;
-                
+        
         [self initView];
     }
     return self;
@@ -150,16 +147,36 @@
     praiseNumLab.textColor = MAIN_SUBTITLE_COLOR;
     [questionsView addSubview:praiseNumLab];
     
+    NSArray * typeCodeArr = [_questionInfoModel.QUESTIONTYPECODE componentsSeparatedByString:@","];
+    NSString * typeNameContent = @"";
+    
+    for (NSDictionary * dic in [[ZEQuestionTypeCache instance] getQuestionTypeCaches]) {
+        ZEQuestionTypeModel * questionTypeM = nil;
+        ZEQuestionTypeModel * typeM = [ZEQuestionTypeModel getDetailWithDic:dic];
+        for (int i = 0; i < typeCodeArr.count; i ++) {
+            if ([typeM.CODE isEqualToString:typeCodeArr[i]]) {
+                questionTypeM = typeM;
+                if (![ZEUtil isStrNotEmpty:typeNameContent]) {
+                    typeNameContent = questionTypeM.NAME;
+                }else{
+                    typeNameContent = [NSString stringWithFormat:@"%@,%@",typeNameContent,questionTypeM.NAME];
+                }
+                break;
+            }
+        }
+    }
+
+    
     // 圈组分类最右边
     float circleTypeR = SCREEN_WIDTH - praiseNumWidth - 30;
-    float circleWidth = [ZEUtil widthForString:_questionTypeModel.NAME font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
+    float circleWidth = [ZEUtil widthForString:typeNameContent font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
     
     UIImageView * circleImg = [[UIImageView alloc]initWithFrame:CGRectMake(circleTypeR - circleWidth - 20.0f, userY + 2.0f, 15, 15)];
     circleImg.image = [UIImage imageNamed:@"rateTa.png"];
     [questionsView addSubview:circleImg];
     
     UILabel * circleLab = [[UILabel alloc]initWithFrame:CGRectMake(circleImg.frame.origin.x + 20,userY,circleWidth,20.0f)];
-    circleLab.text = _questionTypeModel.NAME;
+    circleLab.text = typeNameContent;
     circleLab.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
     circleLab.textColor = MAIN_SUBTITLE_COLOR;
     [questionsView addSubview:circleLab];
@@ -310,8 +327,9 @@
         [praiseNumBtn setTitleColor:RGBA(253, 179, 43, 1) forState:UIControlStateNormal];
         [praiseNumBtn setImage:[UIImage imageNamed:@"qb_praiseBtn_hand.png" color:RGBA(253, 179, 43, 1)] forState:UIControlStateNormal];
     }
+    UILabel * que_ans_lab = nil;
     if ([answerInfoM.QACOUNT integerValue] > 0) {
-        UILabel * que_ans_lab = [[UILabel alloc]init];
+        que_ans_lab = [[UILabel alloc]init];
         que_ans_lab.frame = CGRectMake(SCREEN_WIDTH - 100, 10, 90, 20);
         que_ans_lab.text = [NSString stringWithFormat:@"%@追问追答",answerInfoM.QACOUNT];
         que_ans_lab.userInteractionEnabled = NO;
@@ -324,6 +342,13 @@
 
     
     if ([answerInfoM.ISPASS boolValue]) {
+        UIImageView * iconAccept = [[UIImageView alloc]init];
+        [cellContentView addSubview:iconAccept];
+        iconAccept.frame = CGRectMake(SCREEN_WIDTH - 35, 0, 35, 35);
+        [iconAccept setImage:[UIImage imageNamed:@"ic_best_answer"]];
+        
+        que_ans_lab.frame = CGRectMake(SCREEN_WIDTH - 135, 10, 90, 20);
+        
         UILabel * otherAnswers = [[UILabel alloc]initWithFrame:CGRectMake(0, userY + 25.0f, SCREEN_WIDTH, 20.0f)];
         otherAnswers.numberOfLines = 0;
         otherAnswers.font = [UIFont systemFontOfSize:12];

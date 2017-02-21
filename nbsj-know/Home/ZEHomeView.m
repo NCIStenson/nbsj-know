@@ -627,7 +627,7 @@
         }
         
         UIImageView * bonusImage = [[UIImageView alloc]init];
-        [bonusImage setImage:[UIImage imageNamed:@"myTab_singin.png"]];
+        [bonusImage setImage:[UIImage imageNamed:@"high_score_icon.png"]];
         [questionsView addSubview:bonusImage];
         bonusImage.left = 20.0f;
         bonusImage.top = 8.0f;
@@ -675,24 +675,36 @@
     }
     
     
-    ZEQuestionTypeModel * questionTypeM = nil;
+    
+    NSArray * typeCodeArr = [quesInfoM.QUESTIONTYPECODE componentsSeparatedByString:@","];
+
+    NSString * typeNameContent = @"";
     
     for (NSDictionary * dic in [[ZEQuestionTypeCache instance] getQuestionTypeCaches]) {
+        ZEQuestionTypeModel * questionTypeM = nil;
         ZEQuestionTypeModel * typeM = [ZEQuestionTypeModel getDetailWithDic:dic];
-        if ([typeM.CODE isEqualToString:quesInfoM.QUESTIONTYPECODE]) {
-            questionTypeM = typeM;
+        for (int i = 0; i < typeCodeArr.count; i ++) {
+            if ([typeM.CODE isEqualToString:typeCodeArr[i]]) {
+                questionTypeM = typeM;
+                if (![ZEUtil isStrNotEmpty:typeNameContent]) {
+                    typeNameContent = questionTypeM.NAME;
+                }else{
+                    typeNameContent = [NSString stringWithFormat:@"%@,%@",typeNameContent,questionTypeM.NAME];
+                }
+                break;
+            }
         }
     }
     
 //     圈组分类最右边
     
-    float circleWidth = [ZEUtil widthForString:questionTypeM.NAME font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
+    float circleWidth = [ZEUtil widthForString:typeNameContent font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
     UIImageView * circleImg = [[UIImageView alloc]initWithFrame:CGRectMake(20.0f, userY, 15, 15)];
     circleImg.image = [UIImage imageNamed:@"answer_tag"];
     [questionsView addSubview:circleImg];
     
     UILabel * circleLab = [[UILabel alloc]initWithFrame:CGRectMake(circleImg.frame.origin.x + 20,userY,circleWidth,15.0f)];
-    circleLab.text = questionTypeM.NAME;
+    circleLab.text = typeNameContent;
     circleLab.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
     circleLab.textColor = MAIN_SUBTITLE_COLOR;
     [questionsView addSubview:circleLab];

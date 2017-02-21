@@ -212,7 +212,7 @@
                                      NSArray * arr = [ZEUtil getEXCEPTIONDATA:data];
                                      if(arr.count > 0){
                                          NSDictionary * failReason = arr[0];
-                                         [self showTips:[NSString stringWithFormat:@"%@\n",[failReason objectForKey:@"reason"]] afterDelay:2];
+                                         [self showTips:[NSString stringWithFormat:@"%@\n",[failReason objectForKey:@"reason"]] afterDelay:1.5];
                                      }else{
                                          [self showTips:@"回答成功"];
                                          [self performSelector:@selector(goBack) withObject:nil afterDelay:1];

@@ -99,6 +99,7 @@
     
     askTypeView = [[ZEAskQuestionTypeView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
     askTypeView.delegate = self;
+    askTypeView.backgroundColor = [UIColor redColor];
     [self.view addSubview:askTypeView];
     [self.view sendSubviewToBack:askTypeView];
     
@@ -206,6 +207,10 @@
                                      if (_currentPage > 0) {
                                          [_questionsView loadNoMoreData];
                                          return ;
+                                     }else{
+                                         if (_showQuestionListType != QUESTION_LIST_MY_QUESTION) {
+                                             [self showTips:@"暂时没有相关问题，去提一个吧~" afterDelay:1.5];
+                                         }
                                      }
                                      [_questionsView reloadFirstView:dataArr];
                                      [_questionsView headerEndRefreshing];
@@ -254,6 +259,7 @@
                                      if (_currentPage > 0) {
                                          [_questionsView loadNoMoreData];
                                          return ;
+                                     }else{
                                      }
                                      [_questionsView reloadFirstView:dataArr];
                                      [_questionsView headerEndRefreshing];
@@ -273,6 +279,7 @@
     _questionsView = [[ZEShowQuestionView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
     _questionsView.delegate = self;
     [self.view addSubview:_questionsView];
+    _questionsView.backgroundColor = [UIColor redColor];
     _questionsView.searchStr = _currentInputStr;
     [self.view sendSubviewToBack:_questionsView];
 }
@@ -300,7 +307,6 @@
 
 -(void)loadNewData
 {
-    _currentInputStr = @"";
     _currentPage = 0;
     [self createWhereSQL:_currentInputStr];
 }

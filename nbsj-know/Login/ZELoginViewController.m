@@ -29,6 +29,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title  = @"用户登录";
+    self.navBar.backgroundColor = MAIN_GREEN_COLOR;
     [self disableLeftBtn];
     [self initView];
 }

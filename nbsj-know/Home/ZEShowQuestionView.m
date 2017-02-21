@@ -237,7 +237,6 @@
     for (NSString * str in quesInfoM.FILEURLARR) {
         [urlsArr addObject:[NSString stringWithFormat:@"%@/file/%@",Zenith_Server,str]];
     }
-    NSLog(@">>>  %@",urlsArr);
 
     if (quesInfoM.FILEURLARR.count > 0) {
         PYPhotosView *linePhotosView = [PYPhotosView photosViewWithThumbnailUrls:urlsArr originalUrls:urlsArr layoutType:PYPhotosViewLayoutTypeLine];
@@ -273,26 +272,37 @@
     praiseNumLab.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
     praiseNumLab.textColor = MAIN_SUBTITLE_COLOR;
     [questionsView addSubview:praiseNumLab];
-    ZEQuestionTypeModel * questionTypeM = nil;
+    
+    NSArray * typeCodeArr = [quesInfoM.QUESTIONTYPECODE componentsSeparatedByString:@","];
+    NSString * typeNameContent = @"";
     
     for (NSDictionary * dic in [[ZEQuestionTypeCache instance] getQuestionTypeCaches]) {
+        ZEQuestionTypeModel * questionTypeM = nil;
         ZEQuestionTypeModel * typeM = [ZEQuestionTypeModel getDetailWithDic:dic];
-        if ([typeM.CODE isEqualToString:quesInfoM.QUESTIONTYPECODE]) {
-            questionTypeM = typeM;
+        for (int i = 0; i < typeCodeArr.count; i ++) {
+            if ([typeM.CODE isEqualToString:typeCodeArr[i]]) {
+                questionTypeM = typeM;
+                if (![ZEUtil isStrNotEmpty:typeNameContent]) {
+                    typeNameContent = questionTypeM.NAME;
+                }else{
+                    typeNameContent = [NSString stringWithFormat:@"%@,%@",typeNameContent,questionTypeM.NAME];
+                }
+                break;
+            }
         }
     }
     
     // 圈组分类最右边
     float circleTypeR = SCREEN_WIDTH - praiseNumWidth - 30;
     
-    float circleWidth = [ZEUtil widthForString:questionTypeM.NAME font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
+    float circleWidth = [ZEUtil widthForString:typeNameContent font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
     
     UIImageView * circleImg = [[UIImageView alloc]initWithFrame:CGRectMake(circleTypeR - circleWidth - 20.0f, userY + 2.0f, 15, 15)];
     circleImg.image = [UIImage imageNamed:@"rateTa.png"];
     [questionsView addSubview:circleImg];
     
     UILabel * circleLab = [[UILabel alloc]initWithFrame:CGRectMake(circleImg.frame.origin.x + 20,userY,circleWidth,20.0f)];
-    circleLab.text = questionTypeM.NAME;
+    circleLab.text = typeNameContent;
     circleLab.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
     circleLab.textColor = MAIN_SUBTITLE_COLOR;
     [questionsView addSubview:circleLab];
