@@ -298,6 +298,7 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
+   
     [self progressBegin:@"问题提交中，请稍后..."];
     [ZEUserServer uploadImageWithJsonDic:packageDic
                             withImageArr:self.imagesArr

@@ -128,4 +128,8 @@
 
 //  动画效果
 +(void)shakeToShow:(UIView*)aView;
+
+//  H绘制虚线视图
++(void)drawDashLine:(UIView *)lineView lineLength:(int)lineLength lineSpacing:(int)lineSpacing lineColor:(UIColor *)lineColor;
+
 @end

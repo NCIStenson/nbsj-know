@@ -13,6 +13,7 @@
 
 #import "UIImageView+WebCache.h"
 #import "ZEUserCenterView.h"
+#import "ZEButton.h"
 
 @interface ZEUserCenterView ()
 {
@@ -68,13 +69,13 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return 3;
+        return 2;
     }
-    return 1;
+    return 4;
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 1;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -103,17 +104,16 @@
     [cell.contentView addSubview:logoImageView];
     logoImageView.contentMode = UIViewContentModeScaleAspectFit;
     
-    
     UILabel * contentLabel = [[UILabel alloc]initWithFrame:CGRectMake(45.0f, 0.0f, SCREEN_WIDTH - 65.0f, 44.0f)];
     [cell.contentView addSubview:contentLabel];
     contentLabel.userInteractionEnabled = YES;
-    
+    contentLabel.textColor = kTextColor;
     CALayer * lineLayer = [CALayer layer];
     lineLayer.frame = CGRectMake(45, 43.5f, SCREEN_WIDTH - 45.0f, 0.5f);
     [cell.contentView.layer addSublayer:lineLayer];
     lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
     
-    if (indexPath.section == 0) {
+    if (indexPath.section == 1) {
         if (indexPath.row == 0) {
             logoImageView.image = [UIImage imageNamed:@"question_icon" color:MAIN_NAV_COLOR];
             contentLabel.text = @"我的提问";
@@ -127,10 +127,13 @@
             logoImageView.image = [UIImage imageNamed:@"detail_nav_star.png" color:MAIN_NAV_COLOR];
             contentLabel.text = @"我的收藏";
         }
-    }else if (indexPath.section == 1){
+    }else if (indexPath.section == 0){
         if (indexPath.row == 0) {
-            logoImageView.image = [UIImage imageNamed:@"my_center_seting.png" color:MAIN_NAV_COLOR];
+            logoImageView.image = [UIImage imageNamed:@"icon_setting.png" color:MAIN_NAV_COLOR];
             contentLabel.text = @"设置";
+        }else if(indexPath.row == 1){
+            logoImageView.image = [UIImage imageNamed:@"icon_phone.png" color:MAIN_NAV_COLOR];
+            contentLabel.text = @"客服";
         }
     }
 }
@@ -140,7 +143,7 @@
     if (section == 1) {
         return 10.0f;
     }
-    return 254.0f;
+    return 300.0f + 100.0f;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
@@ -160,7 +163,7 @@
     
     userHEAD = [UIButton buttonWithType:UIButtonTypeCustom];
     userHEAD.frame =CGRectMake(0, 0, 100, 100);
-    userHEAD.center = CGPointMake(SCREEN_WIDTH / 2, 95.0f);
+    userHEAD.center = CGPointMake(SCREEN_WIDTH / 2, 150.0f);
     [userHEAD sd_setImageWithURL:ZENITH_IMAGEURL([ZESettingLocalData getUSERHHEADURL]) forState:UIControlStateNormal placeholderImage:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
     [userMessage addSubview:userHEAD];
     [userHEAD addTarget:self action:@selector(goChooseImage) forControlEvents:UIControlEventTouchUpInside];
@@ -188,11 +191,11 @@
     if (![ZEUtil isStrNotEmpty:username]) {
         username = [ZESettingLocalData getNAME];
     }
-    float usernameWidth = [ZEUtil widthForString:username font:[UIFont systemFontOfSize:16] maxSize:CGSizeMake(SCREEN_WIDTH - 60, 20)];
+    float usernameWidth = [ZEUtil widthForString:username font:[UIFont systemFontOfSize:18] maxSize:CGSizeMake(SCREEN_WIDTH - 60, 20)];
     
-    UILabel * usernameLabel = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH - usernameWidth ) / 2, 155, usernameWidth, 20.0f)];
+    UILabel * usernameLabel = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH - usernameWidth ) / 2, 60, usernameWidth, 20.0f)];
     usernameLabel.text = username;
-    usernameLabel.font = [UIFont systemFontOfSize:16];
+    usernameLabel.font = [UIFont boldSystemFontOfSize:18];
     usernameLabel.textColor = [UIColor whiteColor];
     usernameLabel.textAlignment = NSTextAlignmentCenter;
     [userMessage addSubview:usernameLabel];
@@ -205,33 +208,109 @@
     grayView.frame = CGRectMake(0, 244, SCREEN_WIDTH, 10);
     [userMessage addSubview:grayView];
     
-    UIButton * personalMsgBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    personalMsgBtn.frame = CGRectMake(0, 200, SCREEN_WIDTH / 2, 44.0f);
+    ZEButton * personalMsgBtn = [ZEButton buttonWithType:UIButtonTypeCustom];
+    personalMsgBtn.frame = CGRectMake(0, 220, SCREEN_WIDTH / 2, 60.0f);
+    personalMsgBtn.backgroundColor = MAIN_NAV_COLOR;
     [userMessage addSubview:personalMsgBtn];
-    [personalMsgBtn setTitle:@"  个人信息" forState:UIControlStateNormal];
-    personalMsgBtn.backgroundColor = [UIColor whiteColor];
-    [personalMsgBtn setImage:[UIImage imageNamed:@"myTab_userInfo"] forState:UIControlStateNormal];
+    [personalMsgBtn setTitle:@"个人信息" forState:UIControlStateNormal];
+    [personalMsgBtn setImage:[UIImage imageNamed:@"icon_person_msg"] forState:UIControlStateNormal];
     personalMsgBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-    [personalMsgBtn setTitleColor:MAIN_NAV_COLOR forState:UIControlStateNormal];
     [personalMsgBtn addTarget:self action:@selector(goSettingVC) forControlEvents:UIControlEventTouchUpInside];
+    personalMsgBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
     
-    UIButton * signInBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [signInBtn setTitleColor:MAIN_NAV_COLOR forState:UIControlStateNormal];
-    signInBtn.frame = CGRectMake(SCREEN_WIDTH / 2, 200, SCREEN_WIDTH / 2, 44.0f);
+    ZEButton * signInBtn = [ZEButton buttonWithType:UIButtonTypeCustom];
+    signInBtn.frame = CGRectMake(SCREEN_WIDTH / 2, 220, SCREEN_WIDTH / 2, 60.0f);
     [userMessage addSubview:signInBtn];
     signInBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-    [signInBtn setTitle:@"  签到" forState:UIControlStateNormal];
-    [signInBtn setImage:[UIImage imageNamed:@"myTab_singin"] forState:UIControlStateNormal];
-    signInBtn.backgroundColor = [UIColor whiteColor];
+    [signInBtn setTitle:@"签到" forState:UIControlStateNormal];
+    [signInBtn setImage:[UIImage imageNamed:@"icon_signin"] forState:UIControlStateNormal];
+    signInBtn.backgroundColor = MAIN_NAV_COLOR;
     [signInBtn addTarget:self action:@selector(goSinginVC) forControlEvents:UIControlEventTouchUpInside];
+    signInBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
+
+    UIButton * setBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    setBtn.frame = CGRectMake(SCREEN_WIDTH - 50, 30, 25, 25.0f);
+    [userMessage addSubview:setBtn];
+    [setBtn setImage:[UIImage imageNamed:@"icon_setting_up" color:[UIColor whiteColor]] forState:UIControlStateNormal];
+    setBtn.imageView.contentMode = UIViewContentModeScaleToFill;
+    setBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
+    setBtn.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
     
     
-    CALayer * lineLayer = [CALayer layer];
-    lineLayer.frame = CGRectMake(SCREEN_WIDTH / 2 - 0.5f, 200.0f, 1.0f, 44.0f);
-    [userMessage.layer addSublayer:lineLayer];
-    lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
+    UIView * _dashView= [[UIView alloc]initWithFrame:CGRectMake( SCREEN_WIDTH / 2, 220, 1, 40.0f)];
+    [userMessage addSubview:_dashView];
+    
+    [ZEUtil drawDashLine:_dashView lineLength:3 lineSpacing:2 lineColor:[UIColor whiteColor]];
+
+    for (int i = 0; i < 3; i ++) {
+        ZEButton * optionBtn = [ZEButton buttonWithType:UIButtonTypeCustom];
+        [optionBtn setTitleColor:kTextColor forState:UIControlStateNormal];
+        optionBtn.frame = CGRectMake(0 + SCREEN_WIDTH / 3 * i, 290, SCREEN_WIDTH / 3, 100);
+        [userMessage addSubview:optionBtn];
+        optionBtn.backgroundColor = [UIColor whiteColor];
+        optionBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        optionBtn.titleLabel.font = [UIFont systemFontOfSize:kTiltlFontSize];
+        [optionBtn addTarget:self action:@selector(didSelectMyOption:) forControlEvents:UIControlEventTouchUpInside];
+        optionBtn.tag = 100 + i;
+        UIView * lineLayer = [UIView new];
+        lineLayer.frame = CGRectMake( optionBtn.frame.size.width - 1, 0, 1.0f, 100);
+        [optionBtn addSubview:lineLayer];
+        lineLayer.backgroundColor = MAIN_LINE_COLOR;
+        
+        switch (i) {
+            case 0:
+                [optionBtn setImage:[UIImage imageNamed:@"icon_my_question"] forState:UIControlStateNormal];
+                [optionBtn setTitle:@"我的问题" forState:UIControlStateNormal];
+                break;
+            case 1:
+                [optionBtn setImage:[UIImage imageNamed:@"icon_my_answer"] forState:UIControlStateNormal];
+                [optionBtn setTitle:@"我的回答" forState:UIControlStateNormal];
+                break;
+            case 2:
+                [optionBtn setImage:[UIImage imageNamed:@"icon_my_circle"] forState:UIControlStateNormal];
+                [optionBtn setTitle:@"我的圈子" forState:UIControlStateNormal];
+                break;
+
+            default:
+                break;
+        }
+    
+    }
+    
+    
+    UIView * spaceView = [[UIView alloc]initWithFrame:CGRectMake(0, 290 + 100.0f, SCREEN_WIDTH , 10)];
+    spaceView.backgroundColor = MAIN_LINE_COLOR ;
+    [userMessage addSubview: spaceView];
     
     return userMessage;
+}
+
+-(void)didSelectMyOption:(UIButton *)btn
+{
+    switch (btn.tag - 100) {
+        case 0:
+            if ([self.delegate respondsToSelector:@selector(goMyQuestionList)]) {
+                [self.delegate goMyQuestionList];
+            }
+            break;
+        case 1:
+            if ([self.delegate respondsToSelector:@selector(goMyAnswerList)]) {
+                [self.delegate goMyAnswerList];
+            }
+            break;
+        case 2:
+            if ([self.delegate respondsToSelector:@selector(goMyGroup)]) {
+                [self.delegate goMyGroup];
+            }
+            break;
+        case 3:
+            if ([self.delegate respondsToSelector:@selector(goMyCollect)]) {
+                [self.delegate goMyCollect];
+            }
+            break;
+        default:
+            break;
+    }
 }
 
 #pragma mark - UITableViewDelegate
@@ -239,7 +318,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch (indexPath.section) {
-        case 0:
+        case 1:
         {
             switch (indexPath.row) {
                 case 0:
@@ -268,7 +347,7 @@
         }
             break;
             
-        case 1:
+        case 0:
         {
             switch (indexPath.row) {
                 case 0:
@@ -276,6 +355,12 @@
                     if ([self.delegate respondsToSelector:@selector(goSettingVC:)]) {
                         [self.delegate goSettingVC:ENTER_SETTING_TYPE_SETTING];
                     }
+                }
+                    break;
+                    
+                case 1:
+                {
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"telprompt:0571-123456"]];
                 }
                     break;
                     

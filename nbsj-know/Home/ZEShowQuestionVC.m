@@ -97,9 +97,8 @@
     self.title = @"问题分类";
     self.rightBtn.enabled = NO;
     
-    askTypeView = [[ZEAskQuestionTypeView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
+    askTypeView = [[ZEAskQuestionTypeView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     askTypeView.delegate = self;
-    askTypeView.backgroundColor = [UIColor redColor];
     [self.view addSubview:askTypeView];
     [self.view sendSubviewToBack:askTypeView];
     
@@ -279,7 +278,6 @@
     _questionsView = [[ZEShowQuestionView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
     _questionsView.delegate = self;
     [self.view addSubview:_questionsView];
-    _questionsView.backgroundColor = [UIColor redColor];
     _questionsView.searchStr = _currentInputStr;
     [self.view sendSubviewToBack:_questionsView];
 }

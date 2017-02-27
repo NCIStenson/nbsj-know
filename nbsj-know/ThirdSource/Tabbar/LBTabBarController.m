@@ -72,7 +72,7 @@
     [self setUpOneChildVcWithVc:FishVC Image:@"icon_circle" selectedImage:@"icon_circle" title:@"圈子"];
 
     ZESchoolWebVC *MessageVC = [[ZESchoolWebVC alloc] init];
-    [self setUpOneChildVcWithVc:MessageVC Image:@"icon_question" selectedImage:@"icon_question" title:@"学堂"];
+    [self setUpOneChildVcWithVc:MessageVC Image:@"icon_school" selectedImage:@"icon_school" title:@"学堂"];
 
     ZEUserCenterVC *MineVC = [[ZEUserCenterVC alloc] init];
     [self setUpOneChildVcWithVc:MineVC Image:@"icon_user" selectedImage:@"icon_user" title:@"我的"];

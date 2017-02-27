@@ -18,6 +18,9 @@
 
 #define SCREEN_HEIGHT   [[UIScreen mainScreen] bounds].size.height
 #define SCREEN_WIDTH     [[UIScreen mainScreen] bounds].size.width
+#define kCURRENTASPECT SCREEN_WIDTH / 375.0f
+
+
 #define FRAME_WIDTH     [[UIScreen mainScreen] applicationFrame].size.width
 #define FRAME_HEIGHT    [[UIScreen mainScreen] applicationFrame].size.height
 #define IPHONE5_MORE     ([[UIScreen mainScreen] bounds].size.height > 480)
@@ -52,6 +55,7 @@
 #define Zenith_Server [[[NSBundle mainBundle] infoDictionary] objectForKey:@"ZenithServerAddress"]
 
 #define ZENITH_IMAGEURL(fileURL) [NSURL URLWithString:[ZEUtil changeURLStrFormat:[NSString stringWithFormat:@"%@/file/%@",Zenith_Server,fileURL]]]
+#define ZENITH_ICON_IMAGEURL(fileURL) [NSURL URLWithString:[ZEUtil changeURLStrFormat:[NSString stringWithFormat:@"%@/%@",Zenith_Server,fileURL]]]
 #define ZENITH_IMAGE_FILESTR(fileStr) [NSString stringWithFormat:@"%@/file/%@",Zenith_Server,fileStr]
 #define ZENITH_PLACEHODLER_IMAGE [UIImage imageNamed:@"placeholder.png"]
 #define ZENITH_PLACEHODLER_USERHEAD_IMAGE [UIImage imageNamed:@"avatar_default.jpg"]

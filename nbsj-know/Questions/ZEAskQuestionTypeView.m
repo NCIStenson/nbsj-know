@@ -6,6 +6,10 @@
 //  Copyright © 2016年 Hangzhou Zenith Electronic Technology Co., Ltd. All rights reserved.
 //
 
+
+#define kTableViewCellHeight 50.0f
+
+
 #import "ZEAskQuestionTypeView.h"
 
 @interface ZEAskQuestionTypeView ()<UITableViewDelegate,UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource>
@@ -27,8 +31,8 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
-        _currentSelectType = -1;
+        self.backgroundColor = MAIN_BACKGROUND_COLOR;
+        _currentSelectType = 0;
         [self initView];
     }
     return self;
@@ -40,24 +44,24 @@
     UICollectionViewFlowLayout *flowLayout=[[UICollectionViewFlowLayout alloc] init];
     [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
     
-    _collectionView=[[UICollectionView alloc] initWithFrame:CGRectMake(100, NAV_HEIGHT , SCREEN_WIDTH - 100, SCREEN_HEIGHT - NAV_HEIGHT) collectionViewLayout:flowLayout];
-    _collectionView.backgroundColor = [UIColor whiteColor];
+    _collectionView=[[UICollectionView alloc] initWithFrame:CGRectMake(102, NAV_HEIGHT + 2, SCREEN_WIDTH - 100, SCREEN_HEIGHT - NAV_HEIGHT) collectionViewLayout:flowLayout];
     _collectionView.dataSource=self;
     _collectionView.delegate=self;
     
     [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
     //注册Cell，必须要有
-    
     [self addSubview:_collectionView];
-    
-    _typeTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT) style:UITableViewStylePlain];
+    _collectionView.backgroundColor = MAIN_BACKGROUND_COLOR;
+
+    _typeTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, 100, SCREEN_HEIGHT - NAV_HEIGHT) style:UITableViewStylePlain];
     _typeTableView.delegate = self;
     _typeTableView.dataSource = self;
+    _typeTableView.backgroundColor = MAIN_BACKGROUND_COLOR;
     [self addSubview:_typeTableView];
     _typeTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
+    _typeTableView.showsVerticalScrollIndicator = NO;
+    _typeTableView.showsHorizontalScrollIndicator = NO;
 }
-
 
 -(void)reloadData
 {
@@ -117,23 +121,12 @@
     static NSString * CellIdentifier = @"cell";
     UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    cell.backgroundColor = [UIColor clearColor];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, (SCREEN_WIDTH - 100) / 2, 44.0f)];
+    cell.backgroundColor = [UIColor whiteColor];
+    
+    
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(03, 0, (SCREEN_WIDTH - 106) / 3 - 6, 44.0f)];
     label.textColor = MAIN_NAV_COLOR;
-
-    if(indexPath.row % 2 == 0){
-        UIView  * lineLayer = [[UIView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - 100) / 2 - 0.5 , 0 , 0.5, 44.0f)];
-        lineLayer.backgroundColor = MAIN_LINE_COLOR;
-        [label addSubview:lineLayer];
-        
-        UIView  * vLineLayer = [[UIView alloc] initWithFrame:CGRectMake(0, 43.5,  (SCREEN_WIDTH - 100) / 2 , 0.5f)];
-        vLineLayer.backgroundColor = MAIN_LINE_COLOR;
-        [label addSubview:vLineLayer];
-    }else{
-        UIView  * vLineLayer = [[UIView alloc] initWithFrame:CGRectMake(0, 43.5,  (SCREEN_WIDTH - 100) / 2 , 0.5f)];
-        vLineLayer.backgroundColor = MAIN_LINE_COLOR;
-        [label addSubview:vLineLayer];
-    }
     
     NSArray * currentArr = self.typeDetailArr[_currentSelectType];
     
@@ -142,7 +135,6 @@
     }
     
     NSDictionary * dic = currentArr[indexPath.row];
-
     label.text = [dic objectForKey:@"NAME"];
     label.textAlignment = NSTextAlignmentCenter;
     label.numberOfLines = 0;
@@ -160,24 +152,23 @@
 //定义每个Item 的大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake((SCREEN_WIDTH - 100) / 2, 44.0f);
+    return CGSizeMake((SCREEN_WIDTH - 106) / 3, 44.0f);
 }
 
 //定义每个UICollectionView 的 margin
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
-    return 0;
+    return 2.0;
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section;
 {
-    return 0;
+    return 2.0;
 }
 #pragma mark --UICollectionViewDelegate
 
 //UICollectionView被选中时调用的方法
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-
     NSArray * currentArr = self.typeDetailArr[_currentSelectType];
     
     if([currentArr count] == 0){
@@ -207,6 +198,11 @@
     return 0 ;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return kTableViewCellHeight;
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 0.01;
@@ -232,33 +228,53 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     if ([tableView isEqual:_typeTableView]) {
-        CALayer * lineLayer = [CALayer layer];
-        lineLayer.frame = CGRectMake(0, 43.50f, _typeTableView.frame.size.width, 0.5f);
-        [cell.contentView.layer addSublayer:lineLayer];
-        lineLayer.backgroundColor = [[UIColor whiteColor] CGColor];
         
-        if (_typeTableView.frame.size.width != 100) {
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        }else{
-            cell.accessoryType = UITableViewCellAccessoryNone;
-        }
-        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        cell.contentView.backgroundColor = MAIN_BACKGROUND_COLOR;
+        
+        CALayer * lineLayer = [CALayer layer];
+        lineLayer.frame = CGRectMake(0, 0, _typeTableView.frame.size.width, 2.0f);
+        [cell.contentView.layer addSublayer:lineLayer];
+        lineLayer.backgroundColor = [MAIN_BACKGROUND_COLOR CGColor];
+        
+        cell.accessoryType = UITableViewCellAccessoryNone;
         
         NSDictionary * dic = self.typeArr[indexPath.row];
-        [cell.textLabel setText:[dic objectForKey:@"NAME"]];
-        cell.textLabel.numberOfLines = 0;
+        
+        UIView * contentView =[[UIView alloc]initWithFrame:CGRectMake(0, 2, _typeTableView.frame.size.width, kTableViewCellHeight - 2.0f)];
+        contentView.backgroundColor = [UIColor whiteColor];
+        [cell.contentView addSubview:contentView];
+        
+        UIImageView * contentImage = [[UIImageView alloc]init];
+        contentImage.contentMode = UIViewContentModeScaleAspectFit;
+        [contentView addSubview:contentImage];
+        contentImage.left = 10.0f;
+        contentImage.size = CGSizeMake(16.0f, 16.0f);
+
+        contentImage.top = (kTableViewCellHeight - contentImage.height) / 2 ;
+        
+        [contentImage sd_setImageWithURL:ZENITH_ICON_IMAGEURL([dic objectForKey:@"ICOPATH"]) placeholderImage:ZENITH_PLACEHODLER_IMAGE];
+        
+        UILabel * contentLab = [[UILabel alloc]initWithFrame:CGRectMake(26.0f,0,_typeTableView.frame.size.width - 27 ,kTableViewCellHeight - 2.0f)];
+        contentLab.textColor = kTextColor;
+        contentLab.userInteractionEnabled = NO;
+        contentLab.textColor = MAIN_SUBTITLE_COLOR;
+        [contentView addSubview:contentLab];
+        contentLab.font = [UIFont systemFontOfSize:13.0f];
+        contentLab.numberOfLines = 0;
+        [contentLab setText:[dic objectForKey:@"NAME"]];
+        contentLab.textAlignment = NSTextAlignmentCenter;
         
         if (_currentSelectType == indexPath.row) {
-            cell.contentView.backgroundColor = [UIColor whiteColor];
-            cell.textLabel.font = [UIFont systemFontOfSize:12];
+            contentView.backgroundColor = MAIN_BACKGROUND_COLOR;
 
-            UIView * maskView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 5, 44.0f)];
-            [cell.contentView addSubview:maskView];
+            UIView * maskView = [[UIView alloc]initWithFrame:CGRectMake(0, 7.0, 3, 30.0f)];
+            [contentView addSubview:maskView];
             maskView.backgroundColor = MAIN_NAV_COLOR_A(0.7);
-        }else if (_currentSelectType >= 0){
-            cell.textLabel.font = [UIFont systemFontOfSize:12];
-            cell.contentView.backgroundColor = MAIN_LINE_COLOR;
         }
+//        else if (_currentSelectType >= 0){
+//            cell.textLabel.font = [UIFont systemFontOfSize:12];
+//            cell.contentView.backgroundColor = MAIN_LINE_COLOR;
+//        }
     }
     return cell;
 }

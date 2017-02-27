@@ -44,7 +44,7 @@
     _contentTableView.delegate = self;
     _contentTableView.dataSource = self;
     [self addSubview:_contentTableView];
-    
+    _contentTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [_contentTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(kContentTableMarginLeft);
         make.top.mas_equalTo(kContentTableMarginTop);
@@ -84,7 +84,7 @@
         _questionSearchTF.text = _searchStr;
     }
     searchTFView.clipsToBounds = YES;
-    searchTFView.layer.cornerRadius = 2.0f;
+    searchTFView.layer.cornerRadius = 30 / 2;
     
     return searchTFView;
 }
@@ -171,16 +171,37 @@
     
     
     float questionHeight =[ZEUtil heightForString:QUESTIONEXPLAINStr font:[UIFont boldSystemFontOfSize:kQuestionTitleFontSize] andWidth:SCREEN_WIDTH - 40];
+    
+    NSArray * typeCodeArr = [quesInfoM.QUESTIONTYPECODE componentsSeparatedByString:@","];
+    NSString * typeNameContent = @"";
+    
+    for (NSDictionary * dic in [[ZEQuestionTypeCache instance] getQuestionTypeCaches]) {
+        ZEQuestionTypeModel * questionTypeM = nil;
+        ZEQuestionTypeModel * typeM = [ZEQuestionTypeModel getDetailWithDic:dic];
+        for (int i = 0; i < typeCodeArr.count; i ++) {
+            if ([typeM.CODE isEqualToString:typeCodeArr[i]]) {
+                questionTypeM = typeM;
+                if (![ZEUtil isStrNotEmpty:typeNameContent]) {
+                    typeNameContent = questionTypeM.NAME;
+                }else{
+                    typeNameContent = [NSString stringWithFormat:@"%@,%@",typeNameContent,questionTypeM.NAME];
+                }
+                break;
+            }
+        }
+    }
+
+    float tagHeight = [ZEUtil heightForString:typeNameContent font:[UIFont systemFontOfSize:kSubTiltlFontSize] andWidth:SCREEN_WIDTH - 70];
+
     if(quesInfoM.FILEURLARR.count > 0){
-        return questionHeight + kCellImgaeHeight + 60.0f;
+        return questionHeight + kCellImgaeHeight + tagHeight + 70.0f;
     }
     
-    return questionHeight + 50.0f;
+    return questionHeight + tagHeight + 60.0f;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    
     UIView * sectionView = [[UIView alloc]init];
     sectionView.backgroundColor = MAIN_LINE_COLOR;
     
@@ -227,7 +248,7 @@
     UILabel * QUESTIONEXPLAIN = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, SCREEN_WIDTH - 40, questionHeight)];
     QUESTIONEXPLAIN.numberOfLines = 0;
     QUESTIONEXPLAIN.text = QUESTIONEXPLAINStr;
-    QUESTIONEXPLAIN.font = [UIFont boldSystemFontOfSize:kQuestionMarkFontSize];
+    QUESTIONEXPLAIN.font = [UIFont boldSystemFontOfSize:kQuestionTitleFontSize];
     [questionsView addSubview:QUESTIONEXPLAIN];
     
     //  问题文字与用户信息之间间隔
@@ -251,27 +272,7 @@
         userY += kCellImgaeHeight + 10.0f;
     }
     
-    UIImageView * userImg = [[UIImageView alloc]initWithFrame:CGRectMake(20, userY, 20, 20)];
-    [userImg sd_setImageWithURL:ZENITH_IMAGEURL(quesInfoM.HEADIMAGE) placeholderImage:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
-    [questionsView addSubview:userImg];
-    userImg.clipsToBounds = YES;
-    userImg.layer.cornerRadius = 10;
-    
-    UILabel * QUESTIONUSERNAME = [[UILabel alloc]initWithFrame:CGRectMake(45,userY,100.0f,20.0f)];
-    QUESTIONUSERNAME.text = quesInfoM.NICKNAME;
-    QUESTIONUSERNAME.textColor = MAIN_SUBTITLE_COLOR;
-    QUESTIONUSERNAME.font = [UIFont systemFontOfSize:kQuestionTitleFontSize];
-    [questionsView addSubview:QUESTIONUSERNAME];
-    
-    NSString * praiseNumLabText =[NSString stringWithFormat:@"%ld 回答",(long)[quesInfoM.ANSWERSUM integerValue]];
-    
-    float praiseNumWidth = [ZEUtil widthForString:praiseNumLabText font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
-        
-    UILabel * praiseNumLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - praiseNumWidth - 20,userY,praiseNumWidth,20.0f)];
-    praiseNumLab.text = praiseNumLabText;
-    praiseNumLab.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
-    praiseNumLab.textColor = MAIN_SUBTITLE_COLOR;
-    [questionsView addSubview:praiseNumLab];
+#pragma mark - 标签
     
     NSArray * typeCodeArr = [quesInfoM.QUESTIONTYPECODE componentsSeparatedByString:@","];
     NSString * typeNameContent = @"";
@@ -292,23 +293,59 @@
         }
     }
     
-    // 圈组分类最右边
-    float circleTypeR = SCREEN_WIDTH - praiseNumWidth - 30;
-    
-    float circleWidth = [ZEUtil widthForString:typeNameContent font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
-    
-    UIImageView * circleImg = [[UIImageView alloc]initWithFrame:CGRectMake(circleTypeR - circleWidth - 20.0f, userY + 2.0f, 15, 15)];
-    circleImg.image = [UIImage imageNamed:@"rateTa.png"];
+    UIImageView * circleImg = [[UIImageView alloc]initWithFrame:CGRectMake(20.0f, userY, 15, 15)];
+    circleImg.image = [UIImage imageNamed:@"answer_tag"];
     [questionsView addSubview:circleImg];
     
-    UILabel * circleLab = [[UILabel alloc]initWithFrame:CGRectMake(circleImg.frame.origin.x + 20,userY,circleWidth,20.0f)];
+    UILabel * circleLab = [[UILabel alloc]initWithFrame:CGRectMake(circleImg.frame.origin.x + 20,userY,SCREEN_WIDTH - 70,15.0f)];
     circleLab.text = typeNameContent;
     circleLab.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
     circleLab.textColor = MAIN_SUBTITLE_COLOR;
     [questionsView addSubview:circleLab];
+    circleLab.numberOfLines = 0;
+    [circleLab sizeToFit];
     
-    questionsView.frame = CGRectMake(0, 0, SCREEN_WIDTH, userY + 20.0f);
+    if (circleLab.height == 0) {
+        circleLab.height = 15.0f;
+    }
+    
+    userY += circleLab.height + 5.0f;
 
+    UIView * messageLineView = [[UIView alloc]initWithFrame:CGRectMake(0, userY, SCREEN_WIDTH, 0.5)];
+    messageLineView.backgroundColor = MAIN_LINE_COLOR;
+    [questionsView addSubview:messageLineView];
+    
+    userY += 5.0f;
+    
+    UIImageView * userImg = [[UIImageView alloc]initWithFrame:CGRectMake(20, userY, 20, 20)];
+    [userImg sd_setImageWithURL:ZENITH_IMAGEURL(quesInfoM.HEADIMAGE) placeholderImage:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
+    [questionsView addSubview:userImg];
+    userImg.clipsToBounds = YES;
+    userImg.layer.cornerRadius = 10;
+    
+    UILabel * QUESTIONUSERNAME = [[UILabel alloc]initWithFrame:CGRectMake(45,userY,200.0f,20.0f)];
+    QUESTIONUSERNAME.text = quesInfoM.NICKNAME;
+    QUESTIONUSERNAME.textColor = MAIN_SUBTITLE_COLOR;
+    QUESTIONUSERNAME.font = [UIFont systemFontOfSize:kQuestionTitleFontSize];
+    [questionsView addSubview:QUESTIONUSERNAME];
+    
+    NSString * praiseNumLabText =[NSString stringWithFormat:@"%ld 回答",(long)[quesInfoM.ANSWERSUM integerValue]];
+    
+    float praiseNumWidth = [ZEUtil widthForString:praiseNumLabText font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
+        
+    UILabel * praiseNumLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - praiseNumWidth - 20,userY,praiseNumWidth,20.0f)];
+    praiseNumLab.text = praiseNumLabText;
+    praiseNumLab.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
+    praiseNumLab.textColor = MAIN_SUBTITLE_COLOR;
+    [questionsView addSubview:praiseNumLab];
+    
+    
+    UIView * grayView = [[UIView alloc]initWithFrame:CGRectMake(0, userY + 25.0f, SCREEN_WIDTH, 5.0f)];
+    grayView.backgroundColor = MAIN_LINE_COLOR;
+    [questionsView addSubview:grayView];
+    
+    questionsView.frame = CGRectMake(0, 0, SCREEN_WIDTH, userY + 30.0f);
+    
     return questionsView;
 }
 

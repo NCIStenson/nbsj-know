@@ -28,9 +28,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title  = @"用户登录";
-    self.navBar.backgroundColor = MAIN_GREEN_COLOR;
-    [self disableLeftBtn];
+//    self.title  = @"用户登录";
+//    self.navBar.backgroundColor = MAIN_GREEN_COLOR;
+//    [self disableLeftBtn];
+    self.navBar.hidden = YES;
     [self initView];
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -44,7 +45,7 @@
 
 -(void)initView
 {
-    ZELoginView * loginView = [[ZELoginView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
+    ZELoginView * loginView = [[ZELoginView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
     loginView.delegate = self;
     [self.view addSubview:loginView];
 }
@@ -56,40 +57,6 @@
 
 -(void)goLogin:(NSString *)username password:(NSString *)pwd
 {
-//    if ([username isEqualToString:@""]) {
-//        if (IS_IOS8) {
-//            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"用户名不能为空" message:nil preferredStyle:UIAlertControllerStyleAlert];
-//            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:nil];
-//            [alertController addAction:okAction];
-//            [self presentViewController:alertController animated:YES completion:nil];
-//            
-//        }else{
-//            UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"用户名不能为空" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-//            [alertView show];
-//        }
-//        return;
-//    }else if (![ZEUtil isStrNotEmpty:pwd]){
-//        if (IS_IOS8) {
-//            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"密码不能为空"
-//                                                                                     message:nil
-//                                                                              preferredStyle:UIAlertControllerStyleAlert];
-//            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的"
-//                                                               style:UIAlertActionStyleDefault handler:nil];
-//            [alertController addAction:okAction];
-//            [self presentViewController:alertController animated:YES completion:nil];
-//            
-//        }else{
-//            UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"密码不能为空"
-//                                                                message:nil
-//                                                               delegate:nil
-//                                                      cancelButtonTitle:@"好的"
-//                                                      otherButtonTitles:nil, nil];
-//            [alertView show];
-//        }
-//        return;
-//    }
-//    __block ZELoginViewController * safeSelf = self;
-    
     [self progressBegin:nil];
     [ZEUserServer loginWithNum:username
                   withPassword:pwd
@@ -154,7 +121,7 @@
                                      NSMutableDictionary * userinfoDic = [NSMutableDictionary dictionaryWithDictionary:arr[0]];
                                      [userinfoDic setObject:[userinfoDic objectForKey:@"USERNAME"] forKey:@"NAME"];
                                      [ZESettingLocalData setUSERINFODic:userinfoDic];
-                                     NSLog(@">>>  %@",userinfoDic);
+
                                      if([ZEUtil isStrNotEmpty:[userinfoDic objectForKey:@"FILEURL"]]){
                                          NSArray * headUrlArr = [[userinfoDic objectForKey:@"FILEURL"] componentsSeparatedByString:@","];
                                          [ZESettingLocalData changeUSERHHEADURL:headUrlArr[1]];

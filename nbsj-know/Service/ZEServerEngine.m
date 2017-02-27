@@ -261,7 +261,7 @@ static ZEServerEngine *serverEngine = nil;
              for (int i = 0 ; i < arr.count; i ++) {
                  UIImage *image = arr[i];
                  NSData *imageData = UIImageJPEGRepresentation([self fixOrientation:image],0.1);
-//                 NSLog(@" 图片大小 >>>  %ld",imageData.length / 1024);
+
                  NSString *fileName = [NSString stringWithFormat:@"image%d.jpg",i];
                  
                  [formData appendPartWithFileData:imageData name:@"file" fileName:fileName mimeType:@"image/png"];
@@ -445,7 +445,7 @@ static ZEServerEngine *serverEngine = nil;
 -(void)cancelAllTask
 {
     [self.taskArr enumerateObjectsUsingBlock:^(NSURLSessionDataTask *taskObj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSLog(@">>>>  %@",taskObj);
+
         [taskObj cancel];
     }];
     [self.taskArr removeAllObjects];

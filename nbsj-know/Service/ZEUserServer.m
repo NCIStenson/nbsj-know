@@ -73,7 +73,6 @@
                                                        failBlock(errorCode);
                                                    }
                                                } fail:^(NSError *errorCode) {
-                                                   NSLog(@"errorCode >>>   %@",errorCode);
                                                    failBlock(errorCode);
                                                }];
 }

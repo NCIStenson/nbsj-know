@@ -97,7 +97,7 @@
 
 -(void)initCircleMessage:(UIView *)superView indexPath:(NSIndexPath *)indexpath
 {
-    UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH / 5 , 40)];
+    UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 80, 40)];
     rowTitleLab.text = @"圈子成绩";
     rowTitleLab.textAlignment = NSTextAlignmentCenter;
     rowTitleLab.backgroundColor = MAIN_NAV_COLOR_A(0.5);
@@ -112,8 +112,6 @@
 
     }
 
-
-    
     for(int i = 0 ; i < 5 ; i++){
         UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(0 + SCREEN_WIDTH / 5 * i, 40, SCREEN_WIDTH / 5 , 40)];
         rowTitleLab.text = @"圈子成绩";

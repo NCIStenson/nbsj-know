@@ -18,8 +18,14 @@
 #define MAIN_SUBTITLE_COLOR      RGBA(127,127,127,1)
 #define MAIN_GREEN_COLOR      RGBA(40,165,101,1)
 //#define MAIN_NAV_COLOR [UIColor colorWithRed:0/255.0 green:84/255.0 blue:74/255.0 alpha:1]
-#define MAIN_NAV_COLOR [UIColor colorWithRed:40/255.0 green:165/255.0 blue:101/255.0 alpha:1]
+//#define MAIN_NAV_COLOR [UIColor colorWithRed:40/255.0 green:165/255.0 blue:101/255.0 alpha:1]
+#define MAIN_NAV_COLOR [ZEUtil colorWithHexString:@"#28a564"]
 
-#define MAIN_NAV_COLOR_A(a) [UIColor colorWithRed:0/255.0 green:84/255.0 blue:74/255.0 alpha:a]
+#define MAIN_NAV_COLOR_A(a) [UIColor colorWithRed:40/255.0 green:165/255.0 blue:100/255.0 alpha:a]
+
+#define MAIN_BACKGROUND_COLOR [ZEUtil colorWithHexString:@"#efefef"]
+
+#define kTextColor [ZEUtil colorWithHexString:@"#4f4f4f"]
+
 
 #endif /* ZEColorConstant_h */

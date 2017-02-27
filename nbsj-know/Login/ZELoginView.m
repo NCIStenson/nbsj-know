@@ -7,39 +7,51 @@
 //
 
 
-#define kUsernameLabMarginLeft  40.0f
-#define kUsernameLabMarginTop   200.0f
-#define kUsernameLabWidth       40.0f
-#define kUsernameLabHeight      30.0f
+#define kUsernameImageMarginLeft  0.0f
+#define kUsernameImageMarginTop   9.0f
+#define kUsernameImageWidth       18.0f
+#define kUsernameImageHeight      22.0f
 
-#define kPasswordLabMarginLeft  kUsernameLabMarginLeft
-#define kPasswordLabMarginTop   kUsernameLabMarginTop + 55.0f
-#define kPasswordLabWidth       kUsernameLabWidth
-#define kPasswordLabHeight      kUsernameLabHeight
+#define kUsernameLabMarginLeft  (kUsernameImageMarginLeft + kUsernameImageWidth + 7.0f)
+#define kUsernameLabMarginTop   0.0f
+#define kUsernameLabWidth       70.0f
+#define kUsernameLabHeight      40.0f
 
-#define kUsernameFieldMarginLeft  95.0f
-#define kUsernameFieldMarginTop   kUsernameLabMarginTop - 10.0f
-#define kUsernameFieldWidth       (SCREEN_WIDTH - 80.0f - kUsernameLabWidth - 15.0f)
-#define kUsernameFieldHeight      40.0f
 
-#define kPasswordFieldMarginLeft  kUsernameFieldMarginLeft
-#define kPasswordFieldMarginTop   kUsernameFieldMarginTop + 55.0f
-#define kPasswordFieldWidth       kUsernameFieldWidth
-#define kPasswordFieldHeight      kUsernameFieldHeight
+#define kUsernameFieldMarginLeft  (kUsernameLabMarginLeft + kUsernameLabWidth)
+#define kUsernameFieldMarginTop   3.0f
+#define kUsernameFieldWidth       (SCREEN_WIDTH - 60.0f - kUsernameFieldMarginLeft)
+#define kUsernameFieldHeight      34.0f
+
+#define kPasswordImageMarginLeft  kUsernameImageMarginLeft
+#define kPasswordImageMarginTop   (50.0f + kUsernameImageMarginTop)
+#define kPasswordImageWidth       kUsernameImageWidth
+#define kPasswordImageHeight      kUsernameImageHeight
+
+#define kPasswordLabMarginLeft   (kPasswordImageMarginLeft + kPasswordImageWidth + 7.0f)
+#define kPasswordLabMarginTop   50.0f
+#define kPasswordLabWidth       70.0f
+#define kPasswordLabHeight      40.0f
+
+
+#define kPasswordFieldMarginLeft  (kPasswordLabMarginLeft + kPasswordLabWidth)
+#define kPasswordFieldMarginTop   (kPasswordLabMarginTop + 3.0f)
+#define kPasswordFieldWidth       (SCREEN_WIDTH - 60.0f - kPasswordFieldMarginLeft)
+#define kPasswordFieldHeight      34.0f
 
 // 登陆按钮位置
-#define kLoginBtnWidth (_viewFrame.size.width - 60.0f)
+#define kLoginBtnWidth (_viewFrame.size.width - 75.0f)
 #define kLoginBtnHeight 40.0f
 #define kLoginBtnToLeft (SCREEN_WIDTH - kLoginBtnWidth) / 2
-#define kLoginBtnToTop 340.0f
+#define kLoginBtnToTop 428.0f * kCURRENTASPECT
 
 #define kNavTitleLabelWidth SCREEN_WIDTH
 #define kNavTitleLabelHeight 150.0f
 #define kNavTitleLabelMarginLeft 0.0f
 #define kNavTitleLabelMarginTop 20.0f
 
-#define LINECOLOR [MAIN_GREEN_COLOR CGColor];
-
+#define MAIN_LOGIN_COLOR    [ZEUtil colorWithHexString:@"aaaaaa"]
+#define MAIN_LOGINBTN_COLOR    [ZEUtil colorWithHexString:@"#02bb32"]
 
 #import "ZELoginView.h"
 @interface ZELoginView ()<UITextFieldDelegate>
@@ -49,7 +61,6 @@
     
     UITextField * _usernameField;
     UITextField * _passwordField;
-    
 }
 @end
 
@@ -70,92 +81,91 @@
 #pragma mark - custom view init
 - (void)initInputView
 {
-    UIImageView * logoImageView = [[UIImageView alloc]init];
-    [logoImageView setImage:[UIImage imageNamed:@"logo.png"]];
-    logoImageView.contentMode = UIViewContentModeScaleAspectFit;
-    [self addSubview:logoImageView];
-    [logoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.rightMargin.offset(kNavTitleLabelMarginLeft);
-        make.top.offset(kNavTitleLabelMarginTop);
-        make.size.mas_equalTo(CGSizeMake(kNavTitleLabelWidth, kNavTitleLabelHeight));
-    }];
+    UIImageView * backgroundImage = [[UIImageView alloc]init];
+    [backgroundImage setImage:[UIImage imageNamed:@"login_background.png"]];
+    [self addSubview:backgroundImage];
+    backgroundImage.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    if (IPHONE4S_LESS) {
+        backgroundImage.contentMode = UIViewContentModeScaleAspectFill;
+    }else{
+        backgroundImage.contentMode = UIViewContentModeScaleAspectFit;
+    }
+//    UIImageView * logoImageView = [[UIImageView alloc]init];
+//    [logoImageView setImage:[UIImage imageNamed:@"logo.png"]];
+//    logoImageView.contentMode = UIViewContentModeScaleAspectFit;
+//    [self addSubview:logoImageView];
+//    [logoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.rightMargin.offset(kNavTitleLabelMarginLeft);
+//        make.top.offset(kNavTitleLabelMarginTop);
+//        make.size.mas_equalTo(CGSizeMake(kNavTitleLabelWidth, kNavTitleLabelHeight));
+//    }];
     
     UIView * inputMessageBackView = [[UIView alloc]init];
     [self addSubview:inputMessageBackView];
-    inputMessageBackView.backgroundColor = [UIColor whiteColor];
     [inputMessageBackView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(kUsernameFieldMarginTop);
-        make.left.mas_equalTo(kLoginBtnToLeft);
-        make.size.mas_equalTo(CGSizeMake(kLoginBtnWidth,100));
-    }];
-
-    for (int i = 0 ; i < 2; i ++) {
-
-        CALayer * vLineLayer = [CALayer layer];
-        vLineLayer.frame = CGRectMake(kLoginBtnToLeft + i * (kLoginBtnWidth - 1), kUsernameFieldMarginTop, 1, 100);
-        vLineLayer.backgroundColor = LINECOLOR;
-        [self.layer addSublayer:vLineLayer];
-        
-        UIImageView * usernameImage = [[UIImageView alloc]initWithFrame:self.frame];
-        [self addSubview:usernameImage];
-        
-        UITextField * field = [[UITextField alloc]init];
-        field.delegate      = self;
-        field.textColor     = [UIColor blackColor];
-        [self addSubview:field];
-        field.leftViewMode  = UITextFieldViewModeAlways;
-        field.leftView      = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 0)];
-        [field setValue:MAIN_LINE_COLOR forKeyPath:@"_placeholderLabel.textColor"];
-
-        if (i == 1) {
-            
-            CALayer * firstLineLayer = [CALayer layer];
-            firstLineLayer.frame = CGRectMake(kLoginBtnToLeft, kUsernameFieldMarginTop, kLoginBtnWidth, 1);
-            firstLineLayer.backgroundColor = LINECOLOR;
-            [self.layer addSublayer:firstLineLayer];
-
-            CALayer * lineLayer = [CALayer layer];
-            lineLayer.frame = CGRectMake(kLoginBtnToLeft, kUsernameFieldMarginTop + kUsernameFieldHeight + 10.0f, kLoginBtnWidth, 1);
-            lineLayer.backgroundColor = LINECOLOR;
-            [self.layer addSublayer:lineLayer];
-            
-            usernameImage.image = [UIImage imageNamed:@"login_password.png" color:MAIN_LINE_COLOR];
-            field.placeholder = @"请输入密码";
-            field.secureTextEntry = YES;
-            [field mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.offset(kPasswordFieldMarginLeft);
-                make.top.offset(kPasswordFieldMarginTop );
-                make.size.mas_equalTo(CGSizeMake(kPasswordFieldWidth, kPasswordFieldHeight));
-            }];
-            _passwordField = field;
-            [usernameImage mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.offset(kPasswordLabMarginLeft);
-                make.top.offset(kPasswordLabMarginTop );
-                make.size.mas_equalTo(CGSizeMake(kPasswordLabWidth, kPasswordLabHeight));
-            }];
-        }else {
-            
-            CALayer * lineLayer = [CALayer layer];
-            lineLayer.frame = CGRectMake(kLoginBtnToLeft, kPasswordLabMarginTop + kPasswordFieldHeight - 5.0f, kLoginBtnWidth, 1);
-            lineLayer.backgroundColor = LINECOLOR;
-            [self.layer addSublayer:lineLayer];
-
-            field.placeholder = @"请输入用户名";
-            [field mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.offset(kUsernameFieldMarginLeft);
-                make.top.offset(kUsernameFieldMarginTop + 5.0f);
-                make.size.mas_equalTo(CGSizeMake(kUsernameFieldWidth, kUsernameFieldHeight));
-            }];
-            _usernameField = field;
-            usernameImage.image = [UIImage imageNamed:@"login_username.png" color:MAIN_LINE_COLOR];
-
-            [usernameImage mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.mas_equalTo(kUsernameLabMarginLeft);
-                make.top.mas_equalTo(kUsernameLabMarginTop + 3.0f);
-                make.size.mas_equalTo(CGSizeMake(kUsernameLabWidth, kUsernameLabHeight));
-            }];
+        if (IPHONE4S_LESS) {
+            make.top.mas_equalTo(210);
+        }else{
+            make.top.mas_equalTo((235.0f + NAV_HEIGHT )  * kCURRENTASPECT);
         }
-    }
+        make.left.mas_equalTo(kLoginBtnToLeft);
+        make.size.mas_equalTo(CGSizeMake(kLoginBtnWidth,90));
+    }];
+    
+#pragma mark - 用户名
+    UIImageView * usernameImage = [[UIImageView alloc]init];
+    usernameImage.contentMode = UIViewContentModeScaleAspectFit;
+    [inputMessageBackView addSubview:usernameImage];
+    usernameImage.left = kUsernameImageMarginLeft;
+    usernameImage.top = kUsernameImageMarginTop;
+    usernameImage.size = CGSizeMake(kUsernameImageWidth, kUsernameImageHeight);
+    usernameImage.image = [UIImage imageNamed:@"login_username.png" color:MAIN_LOGIN_COLOR];
+
+    UILabel * usernameLab = [[UILabel alloc]initWithFrame:CGRectMake(kUsernameLabMarginLeft,kUsernameLabMarginTop,70,kUsernameLabHeight)];
+    usernameLab.text = @"用户名：";
+    usernameLab.textColor = MAIN_LOGIN_COLOR;
+    usernameLab.userInteractionEnabled = NO;
+    usernameLab.textColor = MAIN_SUBTITLE_COLOR;
+    [inputMessageBackView addSubview:usernameLab];
+    
+    _usernameField = [[UITextField alloc]initWithFrame:CGRectMake(kUsernameFieldMarginLeft,kUsernameFieldMarginTop,kUsernameFieldWidth, kUsernameFieldHeight)];
+    _usernameField.textColor = [UIColor whiteColor];
+    _usernameField.delegate = self;
+    [inputMessageBackView addSubview:_usernameField];
+    
+    CALayer * lineLayer = [CALayer layer];
+    lineLayer.frame = CGRectMake(kUsernameImageMarginLeft, kUsernameLabMarginTop + kUsernameLabHeight, kLoginBtnWidth, 0.5);
+    lineLayer.backgroundColor = MAIN_LOGIN_COLOR.CGColor;
+    [inputMessageBackView.layer addSublayer:lineLayer];
+
+#pragma mark - 密码
+
+    UIImageView * passwordImage = [[UIImageView alloc]init];
+    [inputMessageBackView addSubview:passwordImage];
+    passwordImage.contentMode = UIViewContentModeScaleAspectFit;
+    passwordImage.left = kPasswordImageMarginLeft;
+    passwordImage.top = kPasswordImageMarginTop;
+    passwordImage.size = CGSizeMake(kPasswordImageWidth, kPasswordImageHeight);
+    passwordImage.image = [UIImage imageNamed:@"login_password.png" color:MAIN_LOGIN_COLOR];
+    
+    UILabel * passwordLab = [[UILabel alloc]initWithFrame:CGRectMake(kPasswordLabMarginLeft ,kPasswordLabMarginTop,70,kPasswordLabHeight)];
+    passwordLab.text = @"密    码：";
+    passwordLab.userInteractionEnabled = NO;
+    passwordLab.textColor = MAIN_SUBTITLE_COLOR;
+    [inputMessageBackView addSubview:passwordLab];
+    passwordLab.textColor = MAIN_LOGIN_COLOR;
+
+    _passwordField = [[UITextField alloc]initWithFrame:CGRectMake(kPasswordFieldMarginLeft,kPasswordFieldMarginTop,kPasswordFieldWidth, kPasswordFieldHeight)];
+    _passwordField.textColor = [UIColor whiteColor];
+    _passwordField.secureTextEntry = YES;
+    _passwordField.delegate = self;
+    [inputMessageBackView addSubview:_passwordField];
+    
+    CALayer * passwordLineLayer = [CALayer layer];
+    passwordLineLayer.frame = CGRectMake(kPasswordImageMarginLeft, kPasswordLabMarginTop + kPasswordLabHeight - 0.5, kLoginBtnWidth, 0.5);
+    passwordLineLayer.backgroundColor = MAIN_LOGIN_COLOR.CGColor;
+    [inputMessageBackView.layer addSublayer:passwordLineLayer];
+
 }
 
 - (void)initLoginBtn
@@ -163,15 +173,18 @@
     loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     loginBtn.frame = CGRectMake(kLoginBtnToLeft, kLoginBtnToTop, kLoginBtnWidth, kLoginBtnHeight);
     [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [loginBtn setTitle:@"登   录" forState:UIControlStateNormal];
-    [loginBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:20.0f]];
+    [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
+    [loginBtn.titleLabel setFont:[UIFont systemFontOfSize:16.0f]];
     [loginBtn setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
     [loginBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
     [loginBtn addTarget:self action:@selector(goLogin) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:loginBtn];
-    loginBtn.backgroundColor = MAIN_GREEN_COLOR;
+    loginBtn.backgroundColor = MAIN_LOGINBTN_COLOR;
     loginBtn.clipsToBounds = YES;
-    loginBtn.layer.cornerRadius = 5;
+    loginBtn.layer.cornerRadius = 3;
+    if (IPHONE4S_LESS) {
+        loginBtn.frame = CGRectMake(kLoginBtnToLeft, 330, kLoginBtnWidth, kLoginBtnHeight);
+    }
 }
 
 -(void)goLogin
@@ -184,7 +197,7 @@
         [_passwordField resignFirstResponder];
     }
     [UIView animateWithDuration:0.29 animations:^{
-        self.frame = CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
+        self.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     } completion:nil];
     if ([self.delegate respondsToSelector:@selector(goLogin:password:)]) {
         [self.delegate goLogin:_usernameField.text password:_passwordField.text];
@@ -200,7 +213,7 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
         [UIView animateWithDuration:0.29 animations:^{
-            self.frame = CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
+            self.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         } completion:nil];
     
     if (![_usernameField isExclusiveTouch]) {

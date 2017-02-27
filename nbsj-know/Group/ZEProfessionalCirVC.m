@@ -8,7 +8,10 @@
 
 #define PROCIRCLECODE(dic) [dic objectForKey:@"PROCIRCLECODE"]
 #define PROCIRCLENAME(dic) [dic objectForKey:@"PROCIRCLENAME"]
+#define ICOPATH(dic) [dic objectForKey:@"ICOPATH"]
 #define SEQKEY(dic) [dic objectForKey:@"SEQKEY"]
+
+#define kTableViewCellHeight 44.0f
 
 #import "ZEProfessionalCirVC.h"
 #import "ZEQuestionTypeCache.h"
@@ -98,6 +101,7 @@
                                  [[ZEQuestionTypeCache instance] setProCircleCaches:rankingArr];
                                  
                              } fail:^(NSError *errorCode) {
+                                 NSLog(@">>>  %@",errorCode);
                              }];
 }
 
@@ -169,6 +173,8 @@
     contentView.delegate = self;
     contentView.dataSource = self;
     [self.view addSubview:contentView];
+    contentView.showsVerticalScrollIndicator = NO;
+    contentView.separatorStyle  = UITableViewCellSeparatorStyleNone;
     
 }
 
@@ -176,27 +182,41 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    if (_enter_group_type == ENTER_GROUP_TYPE_SETTING) {
+        return self.datasArr.count;
+    }
+    if (section == 0) {
+        if (self.datasArr.count < 3) {
+            return self.datasArr.count;
+        }
+        return 3;
+    }
+    return self.datasArr.count - 3;
 }
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    if (_enter_group_type == ENTER_GROUP_TYPE_SETTING) {
+        return 1;
+    }
+    return 2;
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 0.1;
+    return 10.0f;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 0.1;
 }
 
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UIView * view = [UIView new];
+    view.backgroundColor = MAIN_BACKGROUND_COLOR;
+    return view;
+}
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    float cellHeight = SCREEN_HEIGHT - NAV_HEIGHT - 89.0f;
-    if (_enter_group_type == ENTER_GROUP_TYPE_SETTING) {
-        cellHeight = SCREEN_HEIGHT - NAV_HEIGHT - 49.0f;
-    }
-    if (self.datasArr.count / 3 * 60 > cellHeight) {
-        return self.datasArr.count / 3 * 60;
-    }
-    
-    return cellHeight;
+    return 44.0f;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -211,121 +231,107 @@
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-    [self initCellView:cell.contentView indexPath:indexPath];
+    
+    CALayer * lineLayer = [CALayer layer];
+    lineLayer.frame = CGRectMake(0, 43.0f, SCREEN_WIDTH, 1.0f);
+    [cell.contentView.layer addSublayer:lineLayer];
+    lineLayer.backgroundColor = [MAIN_BACKGROUND_COLOR CGColor];
+        
+    [self initCellView:cell withIndexPath:indexPath];
+    
     return cell;
 }
 
-
--(void)initCellView:(UIView *)superView indexPath:(NSIndexPath *)indexpath
+-(void)initCellView:(UITableViewCell *)cell withIndexPath:(NSIndexPath *)indexPath
 {
-    NSInteger count = 0;
-    if(self.datasArr.count%3 == 0){
-        count = self.datasArr.count / 3;
-    }else{
-        count = self.datasArr.count / 3 + 1;
-    }
+    UIImageView * contentImage = [[UIImageView alloc]init];
+    contentImage.contentMode = UIViewContentModeScaleAspectFit;
+    [cell.contentView addSubview:contentImage];
+    contentImage.left = 10.0f;
+    contentImage.size = CGSizeMake(16.0f, 16.0f);
+    contentImage.top = (kTableViewCellHeight - contentImage.height) / 2 ;
     
-    for (int i = 0 ; i < count; i ++) {
-        UIView * lineLayer = [UIView new];
-        lineLayer.frame = CGRectMake(0,  60 * i, SCREEN_WIDTH, 1);
-        [superView addSubview:lineLayer];
-        lineLayer.backgroundColor = MAIN_LINE_COLOR;
+    UILabel * contentLab = [[UILabel alloc]initWithFrame:CGRectMake(30.0f,0,SCREEN_WIDTH - 100 ,kTableViewCellHeight - 2.0f)];
+    contentLab.textColor = kTextColor;
+    contentLab.userInteractionEnabled = NO;
+    contentLab.textColor = MAIN_SUBTITLE_COLOR;
+    [cell.contentView addSubview:contentLab];
+    contentLab.font = [UIFont systemFontOfSize:15.0f];
+    contentLab.numberOfLines = 0;
+
+    if(indexPath.section == 0){
+        [contentImage sd_setImageWithURL:ZENITH_ICON_IMAGEURL(ICOPATH(self.datasArr[indexPath.row])) placeholderImage:ZENITH_PLACEHODLER_IMAGE];
+        [contentLab setText:PROCIRCLENAME(self.datasArr[indexPath.row])];
+
+        UILabel * listLabel;
+        listLabel = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 50, 0, 30, 44.0f)];
+        [cell.contentView addSubview:listLabel];
+        listLabel.font = [UIFont boldSystemFontOfSize:16];
+        listLabel.textAlignment = NSTextAlignmentCenter;
         
-        if (i == count - 1) {
-            UIView * lineLayer = [UIView new];
-            lineLayer.frame = CGRectMake(0,  60 * (i + 1), SCREEN_WIDTH, 1);
-            [superView addSubview:lineLayer];
-            lineLayer.backgroundColor = MAIN_LINE_COLOR;
+        switch (indexPath.row) {
+            case 0:
+                listLabel.text = @"1st";
+                listLabel.textColor = [UIColor redColor];
+                break;
+            case 1:
+                listLabel.text = @"2nd";
+                listLabel.textColor = [UIColor blueColor];
+                break;
+            case 2:
+                listLabel.text = @"3rd";
+                listLabel.textColor = [UIColor greenColor];
+                break;
+                
+            default:
+                break;
         }
+        if (_enter_group_type == ENTER_GROUP_TYPE_SETTING) {
+            listLabel.hidden = YES;
+        }
+        for (int k = 0; k < self.myCircleArr.count ; k ++) {
+            NSDictionary * myCircleDic = self.myCircleArr[k];
+            if ([PROCIRCLECODE(myCircleDic) isEqualToString:PROCIRCLECODE(self.datasArr[indexPath.row])]) {
+                UIImageView * iconImage = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 20, 0, 20, 20)];
+                iconImage.image = [UIImage imageNamed:@"hornView" color:MAIN_NAV_COLOR];
+                [cell.contentView addSubview:iconImage];
+            }
+        }
+
         
-        for (int j = 1; j < 4; j ++ ) {
-            if (i * 3 + j > self.datasArr.count) {
-                return;
-            }else if (i * 3 + j < 4){
-                UILabel * listLabel;
-                listLabel = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH / 3 * (j - 1)),  60 * i, 35, 30)];
-                [superView addSubview:listLabel];
-                listLabel.font = [UIFont boldSystemFontOfSize:18];
-                listLabel.textAlignment = NSTextAlignmentCenter;
-                
-                switch (i * 3 + j) {
-                    case 1:
-                        listLabel.text = @"1st";
-                        listLabel.textColor = [UIColor redColor];
-                        break;
-                    case 2:
-                        listLabel.text = @"2nd";
-                        listLabel.textColor = [UIColor blueColor];
-                        break;
-                    case 3:
-                        listLabel.text = @"3rd";
-                        listLabel.textColor = [UIColor greenColor];
-                        break;
-                        
-                    default:
-                        break;
-                }
-                if (_enter_group_type == ENTER_GROUP_TYPE_SETTING) {
-                    listLabel.hidden = YES;
-                }
+    }else{
+        [contentLab setText:PROCIRCLENAME(self.datasArr[indexPath.row + 3])];
+        [contentImage sd_setImageWithURL:ZENITH_ICON_IMAGEURL(ICOPATH(self.datasArr[indexPath.row + 3])) placeholderImage:ZENITH_PLACEHODLER_IMAGE];
 
+        for (int k = 0; k < self.myCircleArr.count ; k ++) {
+            NSDictionary * myCircleDic = self.myCircleArr[k];
+            if ([PROCIRCLECODE(myCircleDic) isEqualToString:PROCIRCLECODE(self.datasArr[indexPath.row + 3])]) {
+                UIImageView * iconImage = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 20, 0, 20, 20)];
+                iconImage.image = [UIImage imageNamed:@"hornView" color:MAIN_NAV_COLOR];
+                [cell.contentView addSubview:iconImage];
             }
-            UIView * lineLayer = [UIView new];
-            lineLayer.frame = CGRectMake(SCREEN_WIDTH / 3 * j,  60 * i, 1, 60);
-            [superView addSubview:lineLayer];
-            lineLayer.backgroundColor = MAIN_LINE_COLOR;
-
-            UIButton * professionalBtn =[UIButton buttonWithType:UIButtonTypeSystem];
-            professionalBtn.frame = CGRectMake((SCREEN_WIDTH / 3 * (j - 1)),  60 * i, SCREEN_WIDTH / 3, 60.0f);
-            if (i * 3 + j > 4){
-                professionalBtn.frame = CGRectMake((SCREEN_WIDTH / 3 * (j - 1)),  60 * i, SCREEN_WIDTH / 3, 60.0f);
-            }
-            professionalBtn.tag = i * 3 + j;
-            [professionalBtn addTarget:self action:@selector(goDeatailVC:) forControlEvents:UIControlEventTouchUpInside];
-            professionalBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-            [professionalBtn setTitle:PROCIRCLENAME(self.datasArr[i*3+j-1]) forState:UIControlStateNormal];
-            [professionalBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            [superView addSubview:professionalBtn];
-
-            float PROCIRCLENAMEWIDTH  = [ZEUtil widthForString:PROCIRCLENAME(self.datasArr[i*3+j-1]) font:[UIFont systemFontOfSize:14] maxSize:CGSizeMake(SCREEN_WIDTH, 60.0f)] ;
-
-            if (PROCIRCLENAMEWIDTH >= SCREEN_WIDTH / 3)  {
-                professionalBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-                
-                PROCIRCLENAMEWIDTH  = [ZEUtil widthForString:PROCIRCLENAME(self.datasArr[i*3+j-1]) font:[UIFont systemFontOfSize:12] maxSize:CGSizeMake(SCREEN_WIDTH, 60.0f)];
-                if (PROCIRCLENAMEWIDTH >= SCREEN_WIDTH / 3) {
-                    professionalBtn.titleLabel.font = [UIFont systemFontOfSize:10];
-                }
-
-            }
-            
-            for (int k = 0; k < self.myCircleArr.count ; k ++) {
-                NSDictionary * myCircleDic = self.myCircleArr[k];
-                if ([PROCIRCLECODE(myCircleDic) isEqualToString:PROCIRCLECODE(self.datasArr[i*3+j-1])]) {
-                    UIImageView * iconImage = [[UIImageView alloc]initWithFrame:CGRectMake(professionalBtn.frame.origin.x + professionalBtn.frame.size.width - 20, professionalBtn.frame.origin.y, 20, 20)];
-                    iconImage.image = [UIImage imageNamed:@"hornView" color:MAIN_NAV_COLOR];
-                    [superView addSubview:iconImage];
-                }
-            }
-            
         }
     }
 }
 
-
-
--(void)goDeatailVC:(UIButton *)btn{
-    
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     ZEProCirDetailVC * detailVC = [[ZEProCirDetailVC alloc]init];
     detailVC.enter_group_type = self.enter_group_type;
-    NSMutableDictionary * dic = [NSMutableDictionary dictionaryWithDictionary:self.datasArr[btn.tag - 1]];
-    detailVC.PROCIRCLEDataDic = dic;
-    detailVC.PROCIRCLECODE = [self.datasArr[btn.tag - 1] objectForKey:@"PROCIRCLECODE"];
-    detailVC.PROCIRCLENAME = [self.datasArr[btn.tag - 1] objectForKey:@"PROCIRCLENAME"];
+
+    if (indexPath.section == 0) {
+        NSMutableDictionary * dic = [NSMutableDictionary dictionaryWithDictionary:self.datasArr[indexPath.row]];
+        detailVC.PROCIRCLEDataDic = dic;
+        detailVC.PROCIRCLECODE = [self.datasArr[indexPath.row] objectForKey:@"PROCIRCLECODE"];
+        detailVC.PROCIRCLENAME = [self.datasArr[indexPath.row] objectForKey:@"PROCIRCLENAME"];
+    }else{
+        NSMutableDictionary * dic = [NSMutableDictionary dictionaryWithDictionary:self.datasArr[indexPath.row + 3]];
+        detailVC.PROCIRCLEDataDic = dic;
+        detailVC.PROCIRCLECODE = [self.datasArr[indexPath.row + 3] objectForKey:@"PROCIRCLECODE"];
+        detailVC.PROCIRCLENAME = [self.datasArr[indexPath.row + 3] objectForKey:@"PROCIRCLENAME"];
+    }
     [self.navigationController pushViewController:detailVC animated:YES];
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -107,25 +107,26 @@
     
     UIButton * _typeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _typeBtn.frame = CGRectMake(kLeftButtonMarginLeft, kLeftButtonMarginTop, kLeftButtonWidth, kLeftButtonHeight);
-    if(IPHONE6P){
+    if(IPHONE6_MORE){
         _typeBtn.frame = CGRectMake(kLeftButtonMarginLeft, kLeftButtonMarginTop, 50, 50);
     }
-    _typeBtn.backgroundColor = [UIColor clearColor];
+//    _typeBtn.backgroundColor = [UIColor redColor];
     _typeBtn.imageEdgeInsets = UIEdgeInsetsMake(0.0f, 0, 0.0f, 0.0f);
-    _typeBtn.contentMode = UIViewContentModeScaleAspectFit;
+    _typeBtn.contentMode = UIViewContentModeScaleAspectFill;
+    _typeBtn.imageView.contentMode = UIViewContentModeScaleAspectFill;
     [_typeBtn setImage:[UIImage imageNamed:@"type" tintColor:[UIColor whiteColor]] forState:UIControlStateNormal];
     [_typeBtn addTarget:self action:@selector(typeBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [navView addSubview:_typeBtn];
     
     
-    UIView * searchView = [self searchTextfieldView:IPHONE6P ? 40 : 30];
+    UIView * searchView = [self searchTextfieldView:IPHONE6_MORE ? 35 : 30];
    
     [navView addSubview:searchView];
     [searchView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(kSearchTFMarginTop);
         make.left.mas_equalTo(kSearchTFMarginLeft);
-        if(IPHONE6P){
-            make.size.mas_equalTo(CGSizeMake(kSearchTFWidth, 40));
+        if(IPHONE6_MORE){
+            make.size.mas_equalTo(CGSizeMake(kSearchTFWidth, 35));
         }else{
             make.size.mas_equalTo(CGSizeMake(kSearchTFWidth, kSearchTFHeight));
         }
@@ -138,9 +139,11 @@
     UIView * searchTFView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 50, height)];
     searchTFView.backgroundColor = [UIColor whiteColor];
     
+    
     UIImageView * searchTFImg = [[UIImageView alloc]initWithFrame:CGRectMake(5, ( height - height * 0.6 ) / 2, height * 0.6, height * 0.6)];
     searchTFImg.image = [UIImage imageNamed:@"search_icon"];
     [searchTFView addSubview:searchTFImg];
+    searchTFImg.contentMode = UIViewContentModeScaleAspectFill;
     
     searchTF =[[UITextField alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 50, height)];
     [searchTFView addSubview:searchTF];
@@ -152,7 +155,7 @@
     searchTF.delegate=self;
 
     searchTFView.clipsToBounds = YES;
-    searchTFView.layer.cornerRadius = 2.0f;
+    searchTFView.layer.cornerRadius = height / 2;
     
     return searchTFView;
 }
@@ -486,10 +489,33 @@
     }
 
     float questionHeight =[ZEUtil heightForString:QUESTIONEXPLAINStr font:[UIFont boldSystemFontOfSize:kHomeTitleFontSize] andWidth:SCREEN_WIDTH - 40];
-    if(quesInfoM.FILEURLARR.count > 0){
-        return questionHeight + kCellImgaeHeight + 85.0f;
+    
+    NSArray * typeCodeArr = [quesInfoM.QUESTIONTYPECODE componentsSeparatedByString:@","];
+    
+    NSString * typeNameContent = @"";
+    
+    for (NSDictionary * dic in [[ZEQuestionTypeCache instance] getQuestionTypeCaches]) {
+        ZEQuestionTypeModel * questionTypeM = nil;
+        ZEQuestionTypeModel * typeM = [ZEQuestionTypeModel getDetailWithDic:dic];
+        for (int i = 0; i < typeCodeArr.count; i ++) {
+            if ([typeM.CODE isEqualToString:typeCodeArr[i]]) {
+                questionTypeM = typeM;
+                if (![ZEUtil isStrNotEmpty:typeNameContent]) {
+                    typeNameContent = questionTypeM.NAME;
+                }else{
+                    typeNameContent = [NSString stringWithFormat:@"%@,%@",typeNameContent,questionTypeM.NAME];
+                }
+                break;
+            }
+        }
     }
-    return questionHeight + 75.0f;
+    // 标签文字过多时会出现两行标签 动态计算标签高度
+    float tagHeight = [ZEUtil heightForString:typeNameContent font:[UIFont systemFontOfSize:kSubTiltlFontSize] andWidth:SCREEN_WIDTH - 70];
+    
+    if(quesInfoM.FILEURLARR.count > 0){
+        return questionHeight + kCellImgaeHeight + tagHeight + 65.0f;
+    }
+    return questionHeight + tagHeight + 55.0f;
   
 }
 
@@ -653,7 +679,6 @@
     QUESTIONEXPLAIN.text = QUESTIONEXPLAINStr;
     QUESTIONEXPLAIN.font = [UIFont boldSystemFontOfSize:kQuestionTitleFontSize];
     [questionsView addSubview:QUESTIONEXPLAIN];
-    
     //  问题文字与用户信息之间间隔
     float userY = questionHeight + 20.0f;
     
@@ -673,9 +698,7 @@
             userY += kCellImgaeHeight + 10.0f;
         }
     }
-    
-    
-    
+        
     NSArray * typeCodeArr = [quesInfoM.QUESTIONTYPECODE componentsSeparatedByString:@","];
 
     NSString * typeNameContent = @"";
@@ -698,18 +721,24 @@
     
 //     圈组分类最右边
     
-    float circleWidth = [ZEUtil widthForString:typeNameContent font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(200, 20)];
     UIImageView * circleImg = [[UIImageView alloc]initWithFrame:CGRectMake(20.0f, userY, 15, 15)];
     circleImg.image = [UIImage imageNamed:@"answer_tag"];
     [questionsView addSubview:circleImg];
     
-    UILabel * circleLab = [[UILabel alloc]initWithFrame:CGRectMake(circleImg.frame.origin.x + 20,userY,circleWidth,15.0f)];
+    UILabel * circleLab = [[UILabel alloc]initWithFrame:CGRectMake(circleImg.frame.origin.x + 20,userY,SCREEN_WIDTH - 70,15.0f)];
     circleLab.text = typeNameContent;
     circleLab.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
     circleLab.textColor = MAIN_SUBTITLE_COLOR;
     [questionsView addSubview:circleLab];
+    circleLab.numberOfLines = 0;
+    [circleLab sizeToFit];
 
-    userY += 20.0f;
+    if (circleLab.height == 0) {
+        circleLab.height = 15.0f;
+    }
+
+    
+    userY += circleLab.height + 5.0f;
     
     UIView * messageLineView = [[UIView alloc]initWithFrame:CGRectMake(0, userY, SCREEN_WIDTH, 0.5)];
     messageLineView.backgroundColor = MAIN_LINE_COLOR;
@@ -776,7 +805,6 @@
     answerBtn.tag = indexpath.row;
     answerBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [answerBtn addTarget:self action:@selector(answerQuestion:) forControlEvents:UIControlEventTouchUpInside];
-    
     
     UIView * grayView = [[UIView alloc]initWithFrame:CGRectMake(0, userY + 25.0f, SCREEN_WIDTH, 5.0f)];
     grayView.backgroundColor = MAIN_LINE_COLOR;

@@ -109,7 +109,7 @@
     }else{
         self.bubbleView.size = CGSizeMake( textW + 25 ,textH + 20 );
     }
-    NSLog(@"  layout  >>>  %@",layout.headImageUrl);
+
     [self.headImageView setImageWithURL:ZENITH_IMAGEURL(layout.headImageUrl) placeholder:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
 
     if ([infoM isKindOfClass:[ZEQuestionInfoModel class]]) {

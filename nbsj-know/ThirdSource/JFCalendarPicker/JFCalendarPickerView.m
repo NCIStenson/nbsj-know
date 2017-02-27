@@ -44,7 +44,6 @@ NSString *const JFCalendarCellIdentifier = @"cell";
 - (void)setDate:(NSDate *)date
 {
     _date = date;
-    NSLog(@">>>  %@",date);
 //    [_JFCollectionView reloadData];
 }
 
