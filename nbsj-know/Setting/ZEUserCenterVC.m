@@ -16,6 +16,8 @@
 #import "ZESinginVC.h"
 #import "ZELookViewController.h"
 #import "ZETypicalCaseVC.h"
+#import "ZEChangePersonalMsgVC.h"
+
 @interface ZEUserCenterVC ()<ZEUserCenterViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 {
     ZEUserCenterView * usView;
@@ -210,6 +212,13 @@
     ZETypicalCaseVC * caseVC = [[ZETypicalCaseVC alloc]init];
     caseVC.enterType = ENTER_CASE_TYPE_SETTING;
     [self.navigationController pushViewController:caseVC animated:YES];
+}
+
+-(void)changePersonalMsg:(CHANGE_PERSONALMSG_TYPE)type
+{
+    ZEChangePersonalMsgVC * personalMsgVC = [[ZEChangePersonalMsgVC alloc]init];
+    personalMsgVC.changeType = type;
+    [self.navigationController pushViewController:personalMsgVC animated:YES];
 }
 
 

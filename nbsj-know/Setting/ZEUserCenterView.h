@@ -27,6 +27,9 @@
 /************** 头像上传 ****************/
 -(void)takePhotosOrChoosePictures;
 
+/************** 意见反馈 ****************/
+-(void)changePersonalMsg:(CHANGE_PERSONALMSG_TYPE)type;
+
 -(void)goSinginVC;
 
 @end

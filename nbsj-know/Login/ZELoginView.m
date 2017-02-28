@@ -123,9 +123,8 @@
 
     UILabel * usernameLab = [[UILabel alloc]initWithFrame:CGRectMake(kUsernameLabMarginLeft,kUsernameLabMarginTop,70,kUsernameLabHeight)];
     usernameLab.text = @"用户名：";
-    usernameLab.textColor = MAIN_LOGIN_COLOR;
     usernameLab.userInteractionEnabled = NO;
-    usernameLab.textColor = MAIN_SUBTITLE_COLOR;
+    usernameLab.textColor = MAIN_LOGIN_COLOR;
     [inputMessageBackView addSubview:usernameLab];
     
     _usernameField = [[UITextField alloc]initWithFrame:CGRectMake(kUsernameFieldMarginLeft,kUsernameFieldMarginTop,kUsernameFieldWidth, kUsernameFieldHeight)];
@@ -151,9 +150,8 @@
     UILabel * passwordLab = [[UILabel alloc]initWithFrame:CGRectMake(kPasswordLabMarginLeft ,kPasswordLabMarginTop,70,kPasswordLabHeight)];
     passwordLab.text = @"密    码：";
     passwordLab.userInteractionEnabled = NO;
-    passwordLab.textColor = MAIN_SUBTITLE_COLOR;
-    [inputMessageBackView addSubview:passwordLab];
     passwordLab.textColor = MAIN_LOGIN_COLOR;
+    [inputMessageBackView addSubview:passwordLab];
 
     _passwordField = [[UITextField alloc]initWithFrame:CGRectMake(kPasswordFieldMarginLeft,kPasswordFieldMarginTop,kPasswordFieldWidth, kPasswordFieldHeight)];
     _passwordField.textColor = [UIColor whiteColor];

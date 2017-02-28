@@ -96,8 +96,8 @@
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-
                                  [self showTips:@"保存成功"];
+                                 [self performSelector:@selector(goBack) withObject:nil afterDelay:1];
                                  [ZESettingLocalData changeNICKNAME:_changeMsgView.nicknameField.text];
                                  [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_CHANGEPERSONALMSG_SUCCESS object:nil];
                                  NSLog(@">>  %@",data);
@@ -156,24 +156,17 @@
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-
-                                 [self showAlertView:@"保存成功"];
+                                 [self showTips:@"保存成功"];
+                                 [self performSelector:@selector(goBack) withObject:nil afterDelay:1];
                              } fail:^(NSError *errorCode) {
 
                              }];
 
 }
 
--(void)showAlertView:(NSString *)alertMsg
+-(void)goBack
 {
-    UIAlertController * alertC = [UIAlertController alertControllerWithTitle:nil message:alertMsg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self.navigationController popViewControllerAnimated:YES];
-    }];
-    [alertC addAction:action];
-    [self presentViewController:alertC animated:YES completion:nil];
-    
+    [self.navigationController popViewControllerAnimated:YES];
 }
-
 
 @end

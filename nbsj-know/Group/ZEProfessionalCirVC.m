@@ -266,9 +266,9 @@
         UILabel * listLabel;
         listLabel = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 50, 0, 30, 44.0f)];
         [cell.contentView addSubview:listLabel];
-        listLabel.font = [UIFont boldSystemFontOfSize:16];
+        listLabel.font = [UIFont systemFontOfSize:14];
         listLabel.textAlignment = NSTextAlignmentCenter;
-        
+
         switch (indexPath.row) {
             case 0:
                 listLabel.text = @"1st";

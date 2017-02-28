@@ -69,7 +69,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return 2;
+        return 3;
     }
     return 4;
 }
@@ -129,11 +129,14 @@
         }
     }else if (indexPath.section == 0){
         if (indexPath.row == 0) {
-            logoImageView.image = [UIImage imageNamed:@"icon_setting.png" color:MAIN_NAV_COLOR];
-            contentLabel.text = @"设置";
-        }else if(indexPath.row == 1){
+            logoImageView.image = [UIImage imageNamed:@"icon_record.png" color:MAIN_NAV_COLOR];
+            contentLabel.text = @"意见反馈";
+        }else if (indexPath.row == 1) {
             logoImageView.image = [UIImage imageNamed:@"icon_phone.png" color:MAIN_NAV_COLOR];
             contentLabel.text = @"客服";
+        }else if(indexPath.row == 2){
+            logoImageView.image = [UIImage imageNamed:@"icon_setting.png" color:MAIN_NAV_COLOR];
+            contentLabel.text = @"设置";
         }
     }
 }
@@ -215,7 +218,7 @@
     [personalMsgBtn setTitle:@"个人信息" forState:UIControlStateNormal];
     [personalMsgBtn setImage:[UIImage imageNamed:@"icon_person_msg"] forState:UIControlStateNormal];
     personalMsgBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-    [personalMsgBtn addTarget:self action:@selector(goSettingVC) forControlEvents:UIControlEventTouchUpInside];
+    [personalMsgBtn addTarget:self action:@selector(goPersonalVC) forControlEvents:UIControlEventTouchUpInside];
     personalMsgBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
     
     ZEButton * signInBtn = [ZEButton buttonWithType:UIButtonTypeCustom];
@@ -235,7 +238,8 @@
     setBtn.imageView.contentMode = UIViewContentModeScaleToFill;
     setBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
     setBtn.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
-    
+    [setBtn addTarget:self action:@selector(goSettingVC) forControlEvents:UIControlEventTouchUpInside];
+
     
     UIView * _dashView= [[UIView alloc]initWithFrame:CGRectMake( SCREEN_WIDTH / 2, 220, 1, 40.0f)];
     [userMessage addSubview:_dashView];
@@ -352,17 +356,24 @@
             switch (indexPath.row) {
                 case 0:
                 {
+                    if ([self.delegate respondsToSelector:@selector(changePersonalMsg:)]) {
+                        [self.delegate changePersonalMsg:CHANGE_PERSONALMSG_ADVICE];
+                    }
+                }
+                    break;
+                case 1:
+                {
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"telprompt:15867208300"]];
+                }
+                    break;
+                case 2:
+                {
                     if ([self.delegate respondsToSelector:@selector(goSettingVC:)]) {
                         [self.delegate goSettingVC:ENTER_SETTING_TYPE_SETTING];
                     }
                 }
                     break;
-                    
-                case 1:
-                {
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"telprompt:0571-123456"]];
-                }
-                    break;
+
                     
                 default:
                     break;
@@ -382,10 +393,17 @@
     }
 }
 
--(void)goSettingVC
+-(void)goPersonalVC
 {
     if ([self.delegate respondsToSelector:@selector(goSettingVC:)]) {
         [self.delegate goSettingVC:ENTER_SETTING_TYPE_PERSONAL];
+    }
+}
+
+-(void)goSettingVC
+{
+    if ([self.delegate respondsToSelector:@selector(goSettingVC:)]) {
+        [self.delegate goSettingVC:ENTER_SETTING_TYPE_SETTING];
     }
 }
 
