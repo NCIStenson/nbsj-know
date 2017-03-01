@@ -126,7 +126,7 @@
     NSDictionary * parametersDic = @{@"MASTERTABLE":SNOW_APP_VERSION,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"",
-                                     @"WHERESQL":@"MOBILETYPE='2'",
+                                     @"WHERESQL":@"MOBILETYPE='3'",
                                      @"start":@"0",
                                      @"METHOD":@"search",
                                      @"DETAILTABLE":@"",

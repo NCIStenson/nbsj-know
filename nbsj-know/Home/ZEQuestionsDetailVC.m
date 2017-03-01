@@ -64,7 +64,7 @@
     NSDictionary * parametersDic = @{@"limit":@"-1",
                                      @"MASTERTABLE":V_KLB_ANSWER_INFO,
                                      @"MENUAPP":@"EMARK_APP",
-                                     @"ORDERSQL":@"ISPASS desc , GOODNUMS desc, QACOUNT desc,SYSCREATEDATE desc",
+                                     @"ORDERSQL":@"ISPASS desc, GOODNUMS desc, QACOUNT desc,SYSCREATEDATE asc",
                                      @"WHERESQL":[NSString stringWithFormat:@"QUESTIONID='%@'",_questionInfoModel.SEQKEY],
                                      @"start":@"0",
                                      @"METHOD":@"search",
