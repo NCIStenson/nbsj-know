@@ -76,8 +76,6 @@
 
     self.plusBtn.size = CGSizeMake(self.plusBtn.currentBackgroundImage.size.width, self.plusBtn.currentBackgroundImage.size.height);
     
-    NSLog(@"self.plusBtn.size =====   %@ ",NSStringFromCGSize(self.plusBtn.size));
-    
     self.plusBtn.center = CGPointMake(self.width/2, self.height * 0.5 - 2*LBMagin);
 
     UILabel *label = [[UILabel alloc] init];

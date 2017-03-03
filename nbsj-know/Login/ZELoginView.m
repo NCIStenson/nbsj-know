@@ -148,7 +148,7 @@
     passwordImage.image = [UIImage imageNamed:@"login_password.png" color:MAIN_LOGIN_COLOR];
     
     UILabel * passwordLab = [[UILabel alloc]initWithFrame:CGRectMake(kPasswordLabMarginLeft ,kPasswordLabMarginTop,70,kPasswordLabHeight)];
-    passwordLab.text = @"密    码：";
+    passwordLab.text = @"密   码：";
     passwordLab.userInteractionEnabled = NO;
     passwordLab.textColor = MAIN_LOGIN_COLOR;
     [inputMessageBackView addSubview:passwordLab];

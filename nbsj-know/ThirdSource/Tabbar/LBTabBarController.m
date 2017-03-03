@@ -29,7 +29,13 @@
 #pragma mark - 第一次使用当前类的时候对设置UITabBarItem的主题
 + (void)initialize
 {
-    UITabBarItem *tabBarItem = [UITabBarItem appearanceWhenContainedInInstancesOfClasses:@[self]];
+    UITabBarItem * tabBarItem;
+    
+    if (IS_IOS8) {
+        tabBarItem = [UITabBarItem appearanceWhenContainedIn:self,nil];
+    }else{
+        tabBarItem = [UITabBarItem appearanceWhenContainedInInstancesOfClasses:@[self]];
+    }
     
     NSMutableDictionary *dictNormal = [NSMutableDictionary dictionary];
     dictNormal[NSForegroundColorAttributeName] = [UIColor grayColor];

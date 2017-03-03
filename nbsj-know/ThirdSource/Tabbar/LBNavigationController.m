@@ -19,14 +19,23 @@
 
 + (void)load
 {
-
     UIBarButtonItem *item=[UIBarButtonItem appearanceWhenContainedIn:self, nil ];
+    if (IS_IOS8) {
+        item=[UIBarButtonItem appearanceWhenContainedIn:self, nil];
+    }else{
+        item=[UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[self]];
+    }
     NSMutableDictionary *dic=[NSMutableDictionary dictionary];
     dic[NSFontAttributeName]=[UIFont systemFontOfSize:15];
     dic[NSForegroundColorAttributeName]=[UIColor blackColor];
     [item setTitleTextAttributes:dic forState:UIControlStateNormal];
+    UINavigationBar *bar = nil;
 
-    UINavigationBar *bar = [UINavigationBar appearanceWhenContainedInInstancesOfClasses:@[self]];
+    if(IS_IOS8){
+        bar = [UINavigationBar appearanceWhenContainedIn:self, nil];
+    }else{
+        bar = [UINavigationBar appearanceWhenContainedInInstancesOfClasses:@[self]];
+    }
    
     [bar setBackgroundImage:[UIImage imageWithColor:NavBarColor] forBarMetrics:UIBarMetricsDefault];
     NSMutableDictionary *dicBar=[NSMutableDictionary dictionary];

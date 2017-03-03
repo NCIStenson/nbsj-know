@@ -131,6 +131,8 @@
     _titleLabel.textColor = [UIColor whiteColor];
     _titleLabel.font = [UIFont systemFontOfSize:22.0f];
     _titleLabel.text = [ZEUtil isStrNotEmpty:_titleStr] ? _titleStr : @"标题";
+    _titleLabel.numberOfLines = 0;
+    _titleLabel.adjustsFontSizeToFitWidth = YES;
     
     [_navBar addSubview:_titleLabel];
     

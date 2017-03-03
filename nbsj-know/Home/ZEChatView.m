@@ -88,9 +88,10 @@
 
 @end
 
-@interface ZEChatView()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate>
+@interface ZEChatView()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,PYPhotoBrowseViewDelegate>
 {
     UITableView * _contentTableView;
+    BOOL _isShowedKeyboard;
 }
 
 @property (nonatomic,strong) NSMutableArray * layouts;
@@ -117,7 +118,7 @@
 //        //将触摸事件添加到当前view
 //        [self addGestureRecognizer:tapGestureRecognizer];
 
-        
+        _isShowedKeyboard = NO;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
@@ -156,6 +157,7 @@
 //当键盘出现或改变时调用
 - (void)keyboardWillShow:(NSNotification *)aNotification
 {
+    _isShowedKeyboard = YES;
     //获取键盘的高度
 //    CGRect begin = [[[aNotification userInfo] objectForKey:@"UIKeyboardFrameBeginUserInfoKey"] CGRectValue];
     
@@ -163,11 +165,11 @@
     
     if(end.size.height > 0 ){
         [UIView animateWithDuration:0.29 animations:^{
-            
             _contentTableView.frame = CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT - end.size.height - 45);
             _inputView.frame = CGRectMake(0, SCREEN_HEIGHT - NAV_HEIGHT - end.size.height + 20, SCREEN_WIDTH, 40);
-            
-            [_contentTableView scrollToBottom];
+            if(_contentTableView.contentSize.height > SCREEN_HEIGHT - NAV_HEIGHT - end.size.height - 45){
+                [_contentTableView scrollToBottom];
+            }
         }];
     }
 }
@@ -175,6 +177,7 @@
 //当键退出时调用
 - (void)keyboardWillHide:(NSNotification *)aNotification
 {
+    _isShowedKeyboard = NO;
     [UIView animateWithDuration:0.29 animations:^{
         _contentTableView.frame = CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT - 45);
         _inputView.frame = CGRectMake(0, SCREEN_HEIGHT - 40, SCREEN_WIDTH, 40);
@@ -238,8 +241,15 @@
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             [_contentTableView reloadData];
-            if(_contentTableView.contentSize.height > SCREEN_HEIGHT - NAV_HEIGHT - 45){
-                [_contentTableView scrollToBottom];
+            NSLog(@">>>>  %@",NSStringFromCGSize(_contentTableView.contentSize));
+            if( _isShowedKeyboard ){
+                if(_contentTableView.contentSize.height > SCREEN_HEIGHT - NAV_HEIGHT - 288 - 45){
+                    [_contentTableView scrollToBottom];
+                }
+            }else{
+                if(_contentTableView.contentSize.height > SCREEN_HEIGHT - NAV_HEIGHT - 45){
+                    [_contentTableView scrollToBottom];
+                }
             }
         });
     });
@@ -335,12 +345,17 @@
 
 -(void)contentImageClick:(NSString *)contentImageURL
 {
+    [self endEditing:YES];
     contentImageURL = [contentImageURL stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
     PYPhotoBrowseView *browser = [[PYPhotoBrowseView alloc] init];
     browser.imagesURL = @[[NSString stringWithFormat:@"%@/file/%@",Zenith_Server,contentImageURL]]; // 图片总数
-
+    browser.delegate = self;
     [browser show];
+}
 
+- (void)photoBrowseView:(PYPhotoBrowseView *)photoBrowseView willHiddenWithImages:(NSArray *)images index:(NSInteger)index;
+{
+    photoBrowseView.hidden = YES;
 }
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView

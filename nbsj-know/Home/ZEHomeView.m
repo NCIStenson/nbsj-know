@@ -513,9 +513,11 @@
     float tagHeight = [ZEUtil heightForString:typeNameContent font:[UIFont systemFontOfSize:kSubTiltlFontSize] andWidth:SCREEN_WIDTH - 70];
     
     if(quesInfoM.FILEURLARR.count > 0){
-        return questionHeight + kCellImgaeHeight + tagHeight + 65.0f;
+        return questionHeight + kCellImgaeHeight + tagHeight + 70.0f;
+
     }
-    return questionHeight + tagHeight + 55.0f;
+    
+    return questionHeight + tagHeight + 60.0f;
   
 }
 
@@ -527,14 +529,13 @@
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
-    
+        
     while ([cell.contentView.subviews lastObject]) {
         [[cell.contentView.subviews lastObject] removeFromSuperview];
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    [cell.contentView addSubview:[self createAnswerViewWithIndexpath:indexPath]];
+    [self createAnswerViewWithIndexpath:indexPath withView:cell.contentView] ;
     
     return cell;
 }
@@ -617,7 +618,7 @@
 
 #pragma mark - 回答问题
 
--(UIView *)createAnswerViewWithIndexpath:(NSIndexPath *)indexpath
+-(UIView *)createAnswerViewWithIndexpath:(NSIndexPath *)indexpath withView:(UIView *)questionsView
 {
     NSDictionary * datasDic = nil;
     
@@ -637,7 +638,6 @@
         default:
             break;
     }
-    UIView *  questionsView = [[UIView alloc]init];
     
     ZEQuestionInfoModel * quesInfoM = [ZEQuestionInfoModel getDetailWithDic:datasDic];
     
@@ -811,7 +811,7 @@
     [questionsView addSubview:grayView];
     
     questionsView.frame = CGRectMake(0, 0, SCREEN_WIDTH, userY + 30.0f);
-    
+
     return questionsView;
 }
 
