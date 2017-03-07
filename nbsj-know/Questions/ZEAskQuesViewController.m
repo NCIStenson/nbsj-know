@@ -37,6 +37,7 @@
     // Do any additional setup after loading the view.
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.imagesArr = [NSMutableArray array];
+    
     [self initView];
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -118,12 +119,24 @@
 
 -(void)initView
 {
-    self.title = @"描述你的问题";
-
     self.rightBtn.enabled = YES;
     [self.rightBtn setTitle:@"发送" forState:UIControlStateNormal];
 
-    askView = [[ZEAskQuesView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
+    if (_enterType == ENTER_GROUP_TYPE_CHANGE) {
+        self.title = @"修改你的问题";
+        askView = [[ZEAskQuesView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT) withQuestionInfoM:self.QUESINFOM];
+        
+        for (NSString * str in self.QUESINFOM.FILEURLARR) {
+            NSString * strUrl =[NSString stringWithFormat:@"%@/file/%@",Zenith_Server,str];
+            UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:strUrl];
+            [askView reloadChoosedImageView:cachedImage];
+            [self.imagesArr addObject:cachedImage];
+        }
+
+    }else{
+        self.title = @"描述你的问题";
+        askView = [[ZEAskQuesView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
+    }
     askView.delegate = self;
     [self.view addSubview:askView];
     [self.view sendSubviewToBack:askView];
@@ -215,6 +228,11 @@
 
 -(void)leftBtnClick
 {
+    if (_enterType == ENTER_GROUP_TYPE_CHANGE && [askView.inputView.text isEqualToString:self.QUESINFOM.QUESTIONEXPLAIN]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+        return;
+    }
+    
     if ([askView.inputView.text isEqualToString:textViewStr] || [askView.inputView.text length] == 0 ) {
         if (_enterType == ENTER_GROUP_TYPE_TABBAR) {
             [self dismissViewControllerAnimated:YES completion:nil];
@@ -225,11 +243,7 @@
     }
     UIAlertController * alertCont= [UIAlertController alertControllerWithTitle:@"现在退出编辑，你输入的内容将不会被保存" message:@"" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction * okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        if (_enterType == ENTER_GROUP_TYPE_TABBAR) {
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }else{
-            [self.navigationController popViewControllerAnimated:YES];
-        }
+        [self goBack];
     }];
     UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
@@ -250,6 +264,24 @@
         [self showAlertView:@"请详细输入问题说明" isBack:NO];
         return;
     }else{
+        
+        if (_enterType == ENTER_GROUP_TYPE_CHANGE) {
+            UIAlertController * alertCont= [UIAlertController alertControllerWithTitle:@"是否确定修改问题" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction * okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self updateData];
+            }];
+            UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                
+            }];
+            
+            [alertCont addAction:okAction];
+            [alertCont addAction:cancelAction];
+            
+            [self presentViewController:alertCont animated:YES completion:nil];
+
+            return;
+        }
+        
         UIAlertController * alertCont= [UIAlertController alertControllerWithTitle:askView.isAnonymousAsk ? @"是否确定提交匿名问题" : @"是否确定提交问题" message:@"" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction * okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [self insertData];
@@ -280,7 +312,7 @@
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{@"SEQKEY":@"",
-                                @"QUESTIONTYPECODE":@"",
+                                @"QUESTIONTYPECODE":askView.quesTypeSEQKEY,
                                 @"QUESTIONEXPLAIN":askView.inputView.text,
                                 @"QUESTIONIMAGE":@"",
                                 @"USERHEADIMAGE":[ZESettingLocalData getUSERHHEADURL],
@@ -317,8 +349,65 @@
                                      [self showTips:@"问题发表失败，请稍后重试。"];
                                  }];
 }
+
+#pragma mark - 修改问题发送请求
+
+-(void)updateData
+{
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":KLB_QUESTION_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_UPDATE,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.question.QuestionPoints",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{@"SEQKEY":_QUESINFOM.SEQKEY,
+                                @"QUESTIONTYPECODE":askView.quesTypeSEQKEY,
+                                @"QUESTIONEXPLAIN":askView.inputView.text,
+                                @"QUESTIONIMAGE":@"",
+                                //                                @"USERHEADIMAGE":[ZESettingLocalData getUSERHHEADURL],
+                                @"FILEURL":@"",
+                                @"QUESTIONUSERCODE":[ZESettingLocalData getUSERCODE],
+                                @"QUESTIONUSERNAME":[ZESettingLocalData getNICKNAME],
+                                @"QUESTIONLEVEL":@"1",
+                                @"IMPORTLEVEL":@"1",
+                                @"ISLOSE":@"0",
+                                @"ISEXPERTANSWER":@"0",
+                                @"ISSOLVE":@"0",
+                                @"ISANONYMITY":[NSString stringWithFormat:@"%d",askView.isAnonymousAsk],
+                                @"BONUSPOINTS":[ZEUtil isStrNotEmpty:askView.goldScore] ? askView.goldScore : @""};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_QUESTION_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    
+    [self progressBegin:@"问题修改中，请稍后..."];
+    [ZEUserServer uploadImageWithJsonDic:packageDic
+                            withImageArr:self.imagesArr
+                           showAlertView:YES
+                                 success:^(id data) {
+                                     NSArray * arr = [ZEUtil getEXCEPTIONDATA:data];
+                                     if(arr.count > 0){
+                                         NSDictionary * failReason = arr[0];
+                                         [self showTips:[NSString stringWithFormat:@"%@\n",[failReason objectForKey:@"reason"]] afterDelay:1.5];
+                                     }else{
+                                         [self showTips:@"问题修改成功"];
+                                         [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_ASK_SUCCESS object:nil];
+                                         [self performSelector:@selector(goBack) withObject:nil afterDelay:1];
+                                     }
+                                 } fail:^(NSError *error) {
+                                     [self showTips:@"问题发表失败，请稍后重试。"];
+                                 }];
+}
+
 -(void)goBack{
-    if (_enterType == ENTER_GROUP_TYPE_TABBAR) {
+    if (_enterType == ENTER_GROUP_TYPE_TABBAR || _enterType == ENTER_GROUP_TYPE_CHANGE) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }else{
         [self.navigationController popViewControllerAnimated:YES];
@@ -330,7 +419,7 @@
     UIAlertController * alertC = [UIAlertController alertControllerWithTitle:nil message:alertMsg preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         if (isBack) {
-            if (_enterType == ENTER_GROUP_TYPE_TABBAR) {
+            if (_enterType == ENTER_GROUP_TYPE_TABBAR || _enterType == ENTER_GROUP_TYPE_CHANGE) {
                 [self dismissViewControllerAnimated:YES completion:nil];
             }else{
                 [self.navigationController popViewControllerAnimated:YES];

@@ -16,14 +16,17 @@
 #define textViewStr @"试着将问题尽可能清晰的描述出来，这样回答者们才能更完整、更高质量的为您解答。"
 
 #import "ZEAskQuesView.h"
-#import "JCAlertView.h"
-#import "YYKit.h"
+#import "ZEAskQuestionTypeView.h"
 
-@interface ZEAskQuesView()<UITextViewDelegate>
+@interface ZEAskQuesView()<UITextViewDelegate,ZEAskQuestionTypeViewDelegate>
 {
     UITextView * _inputView;
     NSMutableArray * _choosedImageArr;
-    JCAlertView * _alertView;
+    
+    
+    UIButton * questionTypeBtn; // 选择问题Button
+    ZEAskQuestionTypeView * askTypeView; // 选择问题分类视图
+    
     UIView * _backImageView;//   上传图片背景view
     
     UIView * _dashView;  //  添加图片的View
@@ -50,6 +53,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.choosedImageArr = [NSMutableArray array];
+        self.quesTypeSEQKEY = @"";
+        
         [self initView];
         [self initImageView];
         [self initAnonymousView];
@@ -61,6 +66,31 @@
     }
     return self;
 }
+
+-(id)initWithFrame:(CGRect)frame withQuestionInfoM:(ZEQuestionInfoModel *)quesInfoM
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.QUESINFOM = quesInfoM;
+        self.choosedImageArr = [NSMutableArray array];
+        self.quesTypeSEQKEY = @"";
+        
+        self.isAnonymousAsk = self.QUESINFOM.ISANONYMITY;
+        self.goldScore = self.QUESINFOM.BONUSPOINTS;
+        self.quesTypeSEQKEY = self.QUESINFOM.QUESTIONTYPECODE;
+        
+        [self initView];
+        [self initImageView];
+        [self initAnonymousView];
+        [self initRewardGoldView];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+        
+    }
+    return self;
+}
+
 #pragma mark - 键盘监听事件
 //当键盘出现或改变时调用
 - (void)keyboardWillShow:(NSNotification *)aNotification
@@ -107,6 +137,22 @@
     [self addSubview:dashView];
     
     [self drawDashLine:dashView lineLength:5 lineSpacing:2 lineColor:[UIColor lightGrayColor]];
+        
+    questionTypeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    questionTypeBtn.frame = CGRectMake(10 , kInputViewHeight + NAV_HEIGHT , SCREEN_WIDTH - 20, 40.0f);
+    [questionTypeBtn  setTitle:@"关键词：请选择问题分类" forState:UIControlStateNormal];
+    [self addSubview:questionTypeBtn];
+    [questionTypeBtn addTarget:self action:@selector(showQuestionTypeView) forControlEvents:UIControlEventTouchUpInside];
+    questionTypeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [questionTypeBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    questionTypeBtn.titleLabel.font = [UIFont systemFontOfSize:kTiltlFontSize];
+    questionTypeBtn.titleLabel.numberOfLines = 0;
+    
+    UIView * dashView2= [[UIView alloc]initWithFrame:CGRectMake( 0, kInputViewHeight + NAV_HEIGHT + 40, SCREEN_WIDTH, 1)];
+    [self addSubview:dashView2];
+    
+    [self drawDashLine:dashView2 lineLength:5 lineSpacing:2 lineColor:[UIColor lightGrayColor]];
+
     
     _functionButtonView = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 250, SCREEN_WIDTH, 30)];
     [self addSubview:_functionButtonView];
@@ -142,6 +188,31 @@
         cameraBtn.layer.cornerRadius = 15.0f;
         cameraBtn.layer.borderWidth = 1.5;
         cameraBtn.layer.borderColor = [MAIN_GREEN_COLOR CGColor];
+    }
+    
+    if ([ZEUtil isNotNull:self.QUESINFOM]) {
+        self.inputView.text = self.QUESINFOM.QUESTIONEXPLAIN;
+        self.inputView.textColor = kTextColor;
+        
+        NSArray * typeCodeArr = [_QUESINFOM.QUESTIONTYPECODE componentsSeparatedByString:@","];
+        NSString * typeNameContent = @"";
+        
+        for (NSDictionary * dic in [[ZEQuestionTypeCache instance] getQuestionTypeCaches]) {
+            ZEQuestionTypeModel * questionTypeM = nil;
+            ZEQuestionTypeModel * typeM = [ZEQuestionTypeModel getDetailWithDic:dic];
+            for (int i = 0; i < typeCodeArr.count; i ++) {
+                if ([typeM.CODE isEqualToString:typeCodeArr[i]]) {
+                    questionTypeM = typeM;
+                    if (![ZEUtil isStrNotEmpty:typeNameContent]) {
+                        typeNameContent = questionTypeM.NAME;
+                    }else{
+                        typeNameContent = [NSString stringWithFormat:@"%@,%@",typeNameContent,questionTypeM.NAME];
+                    }
+                    break;
+                }
+            }
+        }
+        [questionTypeBtn  setTitle:[NSString stringWithFormat:@"关键词：%@",typeNameContent] forState:UIControlStateNormal];
     }
 }
 
@@ -237,6 +308,10 @@
     [_anonymousAskView addSubview:switchView];
     switchView.right = SCREEN_WIDTH - 20;
     switchView.top = 10.0f;
+    if ([ZEUtil isNotNull:self.QUESINFOM]) {
+//        BOOL isOn = self.QUESINFOM.ISANONYMITY;
+        switchView.on = self.QUESINFOM.ISANONYMITY;
+    }
     
     UIView * lineView = [[UIView alloc]initWithFrame:CGRectMake(0, 49.0f, SCREEN_WIDTH, .5f)];
     lineView.backgroundColor = [UIColor grayColor];
@@ -304,9 +379,16 @@
         if (i > 3) {
             goldScoreBtn.frame = CGRectMake(30 + (goldScoreBtnW + 10) * (i - 4) , 105.0f , goldScoreBtnW, 45);
         }
-        if(i == 0){
-            goldScoreBtn.backgroundColor = MAIN_GREEN_COLOR;
-            [goldScoreBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        if ([ZEUtil isNotNull:self.QUESINFOM]) {
+            if ([scoreArr[i] integerValue] == [self.QUESINFOM.BONUSPOINTS integerValue]) {
+                goldScoreBtn.backgroundColor = MAIN_GREEN_COLOR;
+                [goldScoreBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            }
+        }else{
+            if(i == 0){
+                goldScoreBtn.backgroundColor = MAIN_GREEN_COLOR;
+                [goldScoreBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            }
         }
         
         if ([self.SUMPOINTS integerValue] < [scoreArr[i] integerValue]) {
@@ -431,13 +513,32 @@
     [self initImageView];
 }
 
-//-(void)showQuestionTypeViewWithData:(NSArray *)optionArr
-//{
-//    ZEShowQuestionTypeView * showTypeView = [[ZEShowQuestionTypeView alloc]initWithOptionArr:optionArr];
-//    showTypeView.delegate = self;
-//    _alertView = [[JCAlertView alloc]initWithCustomView:showTypeView dismissWhenTouchedBackground:YES];
-//    [_alertView show];
-//}
+#pragma mark - 展示提问问题分类列表
+
+-(void)showQuestionTypeView
+{
+    askTypeView = [[ZEAskQuestionTypeView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    askTypeView.delegate = self;
+    [self addSubview:askTypeView];
+    NSArray * typeArr = [[ZEQuestionTypeCache instance] getQuestionTypeCaches];
+    if (typeArr.count > 0) {
+        [askTypeView reloadData];
+    }
+}
+
+#pragma mark - 选择问题分类
+
+-(void)didSelectType:(NSString *)typeName typeCode:(NSString *)typeCode;
+{
+    [questionTypeBtn  setTitle:[NSString stringWithFormat:@"关键词：%@",typeName] forState:UIControlStateNormal];
+    self.quesTypeSEQKEY = typeCode;
+    for (UIView * view in askTypeView.subviews) {
+        [view removeFromSuperview];
+    }
+    [askTypeView removeFromSuperview];
+}
+
+
 
 -(void)reloadRewardGold:(NSString *)sumpoints
 {
@@ -483,15 +584,6 @@
 {
     [_inputView resignFirstResponder];
 }
-
-#pragma mark - ZEAskQuesViewDelegate
-
-//-(void)showQuestionType
-//{
-//    if([self.delegate respondsToSelector:@selector(showQuestionType:)]){
-//        [self.delegate showQuestionType:self];
-//    }
-//}
 
 -(void)showCondition
 {

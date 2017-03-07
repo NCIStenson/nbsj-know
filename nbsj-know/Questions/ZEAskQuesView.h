@@ -50,7 +50,13 @@
 /************** 问题主键 *************/
 @property (nonatomic,copy) NSString * quesTypeSEQKEY;
 
+/************** 修改问题时传入的问题Model *************/
+
+@property (nonatomic,strong) ZEQuestionInfoModel * QUESINFOM;
+
 -(id)initWithFrame:(CGRect)frame;
+
+-(id)initWithFrame:(CGRect)frame withQuestionInfoM:(ZEQuestionInfoModel *)quesInfoM;
 
 -(void)reloadChoosedImageView:(id)choosedImage;
 

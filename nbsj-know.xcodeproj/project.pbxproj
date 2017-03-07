@@ -2013,7 +2013,7 @@
 				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = "com.zenith.app-Debug";
-				ZENITH_SERVER = "http://120.27.152.63:8888/emarkspg_nbsjzd";
+				ZENITH_SERVER = "http://117.149.2.229:1622/emarkspg_nbsjzd";
 			};
 			name = Debug;
 		};
@@ -2083,7 +2083,7 @@
 				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = "com.zenith.app-Release";
-				ZENITH_SERVER = "http://120.27.152.63:8888/emarkspg_nbsjzd";
+				ZENITH_SERVER = "http://117.149.2.229:1622/emarkspg_nbsjzd";
 			};
 			name = Release;
 		};

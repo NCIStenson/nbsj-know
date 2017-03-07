@@ -10,6 +10,8 @@
 #import "ZEQuestionsDetailView.h"
 #import "ZEAnswerQuestionsVC.h"
 
+#import "ZEAskQuesViewController.h"
+
 #import "ZEChatVC.h"
 
 @interface ZEQuestionsDetailVC ()<ZEQuestionsDetailViewDelegate>
@@ -32,7 +34,11 @@
     if(_questionInfoModel.ISANONYMITY){
         self.title = [NSString stringWithFormat:@"%@的提问",@"匿名用户"];
     }
-    [self.rightBtn setTitle:@"回答" forState:UIControlStateNormal];
+    if ([_questionInfoModel.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
+        [self.rightBtn setTitle:@"修改" forState:UIControlStateNormal];
+    }else{
+        [self.rightBtn setTitle:@"回答" forState:UIControlStateNormal];
+    }
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
     
@@ -104,6 +110,7 @@
 
     if ([_questionInfoModel.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
         [self showTips:@"您不能对自己的提问进行回答"];
+        [self changePersonalQuestion];
         return;
     }
     
@@ -173,6 +180,16 @@
                              } fail:^(NSError *errorCode) {
 
                              }];
+}
+
+#pragma mark - 修改问题
+
+-(void)changePersonalQuestion
+{
+    ZEAskQuesViewController * askQues = [[ZEAskQuesViewController alloc]init];
+    askQues.enterType = ENTER_GROUP_TYPE_CHANGE;
+    askQues.QUESINFOM = self.questionInfoModel;
+    [self presentViewController:askQues animated:YES completion:nil];    
 }
 
 - (void)didReceiveMemoryWarning {
