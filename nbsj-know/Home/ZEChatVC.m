@@ -195,10 +195,17 @@
                                      @"METHOD":METHOD_INSERT,
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"CLASSNAME":@"com.nci.klb.app.answer.QueAnsDetail",
                                      @"DETAILTABLE":@"",};
-    
+        
     NSDictionary * fieldsDic =@{@"ANSWERCODE":_answerInfo.SEQKEY};
+    if ([_answerInfo.ANSWERUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]] ){
+        fieldsDic =@{@"ANSWERCODE":_answerInfo.SEQKEY,
+                     @"OPERATETYPE":@"2"};
+    }else if ([_questionInfo.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]){
+        fieldsDic =@{@"ANSWERCODE":_answerInfo.SEQKEY,
+                     @"OPERATETYPE":@"1"};
+    }
     
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_QUE_ANS_DETAIL]
                                                                            withFields:@[fieldsDic]
@@ -206,8 +213,10 @@
                                                                        withActionFlag:nil];
     
     [ZEUserServer uploadImageWithJsonDic:packageDic
-                            withImageArr:@[chatImage] showAlertView:YES success:^(id data) {
-                                
+                            withImageArr:@[chatImage]
+                           showAlertView:YES
+                                 success:^(id data) {
+                                     [self sendSearchAnswerRequest];
                             } fail:^(NSError *error) {
                                 
                             }];
@@ -232,12 +241,21 @@
                                      @"METHOD":METHOD_INSERT,
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"CLASSNAME":@"com.nci.klb.app.answer.QueAnsDetail",
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{@"ANSWERCODE":_answerInfo.SEQKEY,
                                 @"EXPLAIN":text};
-    
+    if ([_answerInfo.ANSWERUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]] ){
+        fieldsDic =@{@"ANSWERCODE":_answerInfo.SEQKEY,
+                     @"OPERATETYPE":@"2",
+                     @"EXPLAIN":text};
+    }else if ([_questionInfo.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]){
+        fieldsDic =@{@"ANSWERCODE":_answerInfo.SEQKEY,
+                     @"OPERATETYPE":@"1",
+                     @"EXPLAIN":text};
+    }
+
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_QUE_ANS_DETAIL]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic

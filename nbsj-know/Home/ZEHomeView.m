@@ -754,7 +754,6 @@
     
     UILabel * QUESTIONUSERNAME = [[UILabel alloc]initWithFrame:CGRectMake(45,userY,100.0f,20.0f)];
     QUESTIONUSERNAME.text = quesInfoM.NICKNAME;
-    
     if(quesInfoM.ISANONYMITY){
         [userImg setImage:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
         QUESTIONUSERNAME.text = @"匿名提问";

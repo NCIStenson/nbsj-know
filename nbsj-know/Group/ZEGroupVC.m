@@ -48,6 +48,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+    [[NSNotificationCenter defaultCenter]postNotificationName:kNOTI_ASK_QUESTION object:nil];
+
     if (_enter_group_type == ENTER_GROUP_TYPE_DEFAULT) {
         self.tabBarController.tabBar.hidden = NO;
     }else if (_enter_group_type == ENTER_GROUP_TYPE_SETTING){

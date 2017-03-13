@@ -169,6 +169,15 @@
     ZEQuestionInfoModel * quesInfoM = [ZEQuestionInfoModel getDetailWithDic:datasDic];
     NSString * QUESTIONEXPLAINStr = [datasDic objectForKey:@"QUESTIONEXPLAIN"];
     
+    if ([quesInfoM.BONUSPOINTS integerValue] > 0) {
+        if (quesInfoM.BONUSPOINTS.length == 1) {
+            QUESTIONEXPLAINStr = [NSString stringWithFormat:@"          %@",QUESTIONEXPLAINStr];
+        }else if (quesInfoM.BONUSPOINTS.length == 2){
+            QUESTIONEXPLAINStr = [NSString stringWithFormat:@"            %@",QUESTIONEXPLAINStr];
+        }else if (quesInfoM.BONUSPOINTS.length == 3){
+            QUESTIONEXPLAINStr = [NSString stringWithFormat:@"              %@",QUESTIONEXPLAINStr];
+        }
+    }
     
     float questionHeight =[ZEUtil heightForString:QUESTIONEXPLAINStr font:[UIFont boldSystemFontOfSize:kQuestionTitleFontSize] andWidth:SCREEN_WIDTH - 40];
     
@@ -242,6 +251,33 @@
     
     ZEQuestionInfoModel * quesInfoM = [ZEQuestionInfoModel getDetailWithDic:datasDic];
     NSString * QUESTIONEXPLAINStr = quesInfoM.QUESTIONEXPLAIN;
+    if ([quesInfoM.BONUSPOINTS integerValue] > 0) {
+        if (quesInfoM.BONUSPOINTS.length == 1) {
+            QUESTIONEXPLAINStr = [NSString stringWithFormat:@"          %@",QUESTIONEXPLAINStr];
+        }else if (quesInfoM.BONUSPOINTS.length == 2){
+            QUESTIONEXPLAINStr = [NSString stringWithFormat:@"            %@",QUESTIONEXPLAINStr];
+        }else if (quesInfoM.BONUSPOINTS.length == 3){
+            QUESTIONEXPLAINStr = [NSString stringWithFormat:@"              %@",QUESTIONEXPLAINStr];
+        }
+        
+        UIImageView * bonusImage = [[UIImageView alloc]init];
+        [bonusImage setImage:[UIImage imageNamed:@"high_score_icon.png"]];
+        [questionsView addSubview:bonusImage];
+        bonusImage.left = 20.0f;
+        bonusImage.top = 8.0f;
+        bonusImage.width = 20.0f;
+        bonusImage.height = 20.0f;
+        
+        UILabel * bonusPointLab = [[UILabel alloc]init];
+        bonusPointLab.text = quesInfoM.BONUSPOINTS;
+        [bonusPointLab setTextColor:MAIN_GREEN_COLOR];
+        [questionsView addSubview:bonusPointLab];
+        bonusPointLab.left = 43.0f;
+        bonusPointLab.top = bonusImage.top;
+        bonusPointLab.width = 27.0f;
+        bonusPointLab.font = [UIFont boldSystemFontOfSize:kTiltlFontSize];
+        bonusPointLab.height = 20.0f;
+    }
     
     float questionHeight =[ZEUtil heightForString:QUESTIONEXPLAINStr font:[UIFont boldSystemFontOfSize:kQuestionTitleFontSize] andWidth:SCREEN_WIDTH - 40];
     
@@ -346,6 +382,28 @@
     
     questionsView.frame = CGRectMake(0, 0, SCREEN_WIDTH, userY + 30.0f);
     
+    if ([quesInfoM.INFOCOUNT integerValue] > 0) {
+        UILabel * badgeLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 20, 20.0f)];
+        badgeLab.backgroundColor = [UIColor redColor];
+        badgeLab.tag = 100;
+        badgeLab.center = CGPointMake(SCREEN_WIDTH - 20, 20);
+        badgeLab.font = [UIFont systemFontOfSize:kTiltlFontSize];
+        badgeLab.textColor = [UIColor whiteColor];
+        badgeLab.textAlignment = NSTextAlignmentCenter;
+        [questionsView addSubview:badgeLab];
+        badgeLab.clipsToBounds = YES;
+        badgeLab.layer.cornerRadius = badgeLab.height / 2;
+        badgeLab.text = quesInfoM.INFOCOUNT;
+        if (badgeLab.text.length > 2){
+            badgeLab.width = 30.0f;
+            badgeLab.center = CGPointMake(SCREEN_WIDTH - 25, 20);
+        }
+        if ([quesInfoM.INFOCOUNT integerValue] > 99) {
+            badgeLab.text = @"99+";
+        }
+    }
+
+    
     return questionsView;
 }
 
@@ -412,8 +470,6 @@
 
 
 #pragma mark - ZEQuestionsViewDelegate
-
-
 
 /*
  // Only override drawRect: if you perform custom drawing.

@@ -28,6 +28,7 @@
 @property (nonatomic,copy) NSString * HEADIMAGE;
 @property (nonatomic,copy) NSString * NICKNAME;
 @property (nonatomic,copy) NSString * BONUSPOINTS;  // 奖赏积分
+@property (nonatomic,copy) NSString * INFOCOUNT;  // 新消息提醒
 @property (nonatomic,assign) BOOL ISANONYMITY;  // 奖赏积分
 @property (nonatomic,assign) BOOL ISANSWER;  // 奖赏积分
 
@@ -50,6 +51,19 @@
 @property (nonatomic,strong) NSArray * FILEURLARR;
 
 +(ZEQuesAnsDetail *)getDetailWithDic:(NSDictionary *)dic;
+
+
+@end
+
+@interface ZEUSER_BASE_INFOM : NSObject
+
+@property (nonatomic,copy) NSString * USERNAME;
+@property (nonatomic,copy) NSString * USERCODE;
+@property (nonatomic,copy) NSString * FILEURL;
+
+@property (nonatomic,strong) NSArray * FILEURLARR;
+
++(ZEUSER_BASE_INFOM *)getDetailWithDic:(NSDictionary *)dic;
 
 
 @end

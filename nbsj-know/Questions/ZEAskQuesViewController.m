@@ -15,6 +15,7 @@
 #import "ZELookViewController.h"
 #import "ZEQuestionTypeCache.h"
 
+#import "ZEShowQuestionVC.h"
 #define textViewStr @"试着将问题尽可能清晰的描述出来，这样回答者们才能更完整、更高质量的为您解答。"
 
 @interface ZEAskQuesViewController ()<ZEAskQuesViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,ZELookViewControllerDelegate>
@@ -38,7 +39,24 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.imagesArr = [NSMutableArray array];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(goBackShowView) name:kNOTI_CHANGE_ASK_SUCCESS object:nil];;
+    
     [self initView];
+}
+-(void)goBackShowView
+{
+    NSArray *temArray = self.navigationController.viewControllers;
+    
+    for(UIViewController *temVC in temArray){
+        if ([temVC isKindOfClass:[ZEShowQuestionVC class]]) {
+            [self.navigationController popToViewController:temVC animated:YES];
+        }
+    }
+}
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kNOTI_CHANGE_ASK_SUCCESS object:nil];
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -229,7 +247,7 @@
 -(void)leftBtnClick
 {
     if (_enterType == ENTER_GROUP_TYPE_CHANGE && [askView.inputView.text isEqualToString:self.QUESINFOM.QUESTIONEXPLAIN]) {
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [self.navigationController popViewControllerAnimated:YES];
         return;
     }
     
@@ -366,11 +384,22 @@
                                      @"CLASSNAME":@"com.nci.klb.app.question.QuestionPoints",
                                      @"DETAILTABLE":@"",};
     
+    NSDate *datenow = [NSDate date];//现在时间,你可以输出来看下是什么格式
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    
+    [formatter setTimeStyle:NSDateFormatterShortStyle];
+    
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    
+    NSString* s1 = [formatter stringFromDate:datenow];
+        
     NSDictionary * fieldsDic =@{@"SEQKEY":_QUESINFOM.SEQKEY,
                                 @"QUESTIONTYPECODE":askView.quesTypeSEQKEY,
                                 @"QUESTIONEXPLAIN":askView.inputView.text,
                                 @"QUESTIONIMAGE":@"",
-                                //                                @"USERHEADIMAGE":[ZESettingLocalData getUSERHHEADURL],
+                                @"SYSCREATEDATE":s1,
                                 @"FILEURL":@"",
                                 @"QUESTIONUSERCODE":[ZESettingLocalData getUSERCODE],
                                 @"QUESTIONUSERNAME":[ZESettingLocalData getNICKNAME],
@@ -398,7 +427,7 @@
                                          [self showTips:[NSString stringWithFormat:@"%@\n",[failReason objectForKey:@"reason"]] afterDelay:1.5];
                                      }else{
                                          [self showTips:@"问题修改成功"];
-                                         [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_ASK_SUCCESS object:nil];
+                                         [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_CHANGE_ASK_SUCCESS object:nil];
                                          [self performSelector:@selector(goBack) withObject:nil afterDelay:1];
                                      }
                                  } fail:^(NSError *error) {
@@ -407,7 +436,7 @@
 }
 
 -(void)goBack{
-    if (_enterType == ENTER_GROUP_TYPE_TABBAR || _enterType == ENTER_GROUP_TYPE_CHANGE) {
+    if (_enterType == ENTER_GROUP_TYPE_TABBAR ) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }else{
         [self.navigationController popViewControllerAnimated:YES];
@@ -419,7 +448,7 @@
     UIAlertController * alertC = [UIAlertController alertControllerWithTitle:nil message:alertMsg preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         if (isBack) {
-            if (_enterType == ENTER_GROUP_TYPE_TABBAR || _enterType == ENTER_GROUP_TYPE_CHANGE) {
+            if (_enterType == ENTER_GROUP_TYPE_TABBAR) {
                 [self dismissViewControllerAnimated:YES completion:nil];
             }else{
                 [self.navigationController popViewControllerAnimated:YES];

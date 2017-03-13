@@ -31,7 +31,7 @@
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     application.applicationSupportsShakeToEdit = YES;
-    
+        
 //    [[ZEServerEngine sharedInstance] downloadFiletWithJsonDic:nil
 //                                            withServerAddress:@"http://117.149.2.229:8056/emarkspg_klb/file/2016-11-11/cdfe838d-69e8-408d-a5bd-f240b3626806.xlsx"
 //                                                     fileName:@"123.pdf"
@@ -48,40 +48,7 @@
 
     
     if([[ZESettingLocalData getUSERNAME] length] > 0 && [[ZESettingLocalData getUSERPASSWORD] length] > 0) {
-        
-        
-//        ZEHomeVC * homeVC = [[ZEHomeVC alloc]init];
-//        homeVC.tabBarItem.image = [UIImage imageNamed:@"icon_home"];
-//        homeVC.tabBarItem.title = @"首页";
-//        UINavigationController * homeNav = [[UINavigationController alloc]initWithRootViewController:homeVC];
-//        
-//        ZEQuestionsVC * quesetionsVC = [[ZEQuestionsVC alloc]init];
-//        quesetionsVC.tabBarItem.image = [UIImage imageNamed:@"icon_question"];
-//        quesetionsVC.tabBarItem.title = @"问答";
-//        UINavigationController * quesetionsNav = [[UINavigationController alloc]initWithRootViewController:quesetionsVC];
-//        
-//        ZEGroupVC * groupVC = [[ZEGroupVC alloc]init];
-//        groupVC.tabBarItem.image = [UIImage imageNamed:@"icon_circle"];
-//        groupVC.tabBarItem.title = @"圈子";
-//        UINavigationController * groupNav = [[UINavigationController alloc]initWithRootViewController:groupVC];
-//        
-//        ZEUserCenterVC * userCenVC = [[ZEUserCenterVC alloc]init];
-//        userCenVC.tabBarItem.image = [UIImage imageNamed:@"icon_user"];
-//        userCenVC.tabBarItem.title = @"我的";
-//        UINavigationController * userCenNav = [[UINavigationController alloc]initWithRootViewController:userCenVC];
-        
-//        UITabBarController * tabBar = [[UITabBarController alloc]init];
-//        tabBar.tabBar.tintColor = MAIN_NAV_COLOR;
-//        tabBar.viewControllers = @[homeNav,quesetionsNav,groupNav,userCenNav];
-        
         LBTabBarController *tab = [[LBTabBarController alloc] init];
-        
-//        CATransition *anim = [[CATransition alloc] init];
-//        anim.type = @"rippleEffect";
-//        anim.duration = 1.0;
-        
-//        [self.window.layer addAnimation:anim forKey:nil];
-
         self.window.rootViewController = tab;
 
     }else{

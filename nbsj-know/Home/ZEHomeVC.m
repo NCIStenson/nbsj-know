@@ -81,7 +81,7 @@
     _currentBounsPage = 0;
     
     [[ZEServerEngine sharedInstance] cancelAllTask];
-    
+    [self isHaveNewMessage];
     [self cacheQuestionType];
     [self sendNewestQuestionsRequest:@""];
     [self sendRecommandQuestionsRequest:@""];
@@ -110,6 +110,9 @@
 //    [self sendIsSigninToday];
 //    [self sendSigninViewMessage];
     [self checkUpdate];
+    
+    [[NSNotificationCenter defaultCenter]postNotificationName:kNOTI_ASK_QUESTION object:nil];
+    [self isHaveNewMessage];
 }
 
 -(void)initView
@@ -117,6 +120,52 @@
     _homeView = [[ZEHomeView alloc] initWithFrame:self.view.frame];
     _homeView.delegate = self;
     [self.view addSubview:_homeView];
+}
+#pragma mark - 是否有新消息提醒
+-(void)isHaveNewMessage
+{
+    NSDictionary * parametersDic = @{@"limit":@"20",
+                                     @"MASTERTABLE":KLB_USER_BASE_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_SEARCH,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{@"USERCODE":[ZESettingLocalData getUSERCODE],
+                                @"INFOCOUNT":@"",
+                                @"QUESTIONCOUNT":@"",
+                                @"ANSWERCOUNT":@"",
+                                };
+//     NSDictionary * fieldsDic = @{};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_USER_BASE_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 NSArray * arr = [ZEUtil getServerData:data withTabelName:KLB_USER_BASE_INFO];
+                                 if ([arr count] > 0) {
+                                     NSString * INFOCOUNT = [NSString stringWithFormat:@"%@" ,[arr[0] objectForKey:@"INFOCOUNT"]];
+                                     if ([INFOCOUNT integerValue] > 0) {
+                                         UITabBarItem * item=[self.tabBarController.tabBar.items objectAtIndex:3];
+                                         item.badgeValue= INFOCOUNT;
+                                         if ([INFOCOUNT integerValue] > 99) {
+                                             item.badgeValue= @"99+";
+                                         }
+                                     }
+                                 }
+                             } fail:^(NSError *errorCode) {
+                                 NSLog(@">>  %@",errorCode);
+                             }];
+    
 }
 
 #pragma mark - 检测更新
@@ -141,7 +190,7 @@
                                 @"FILEURL":@"",
                                 @"FILEURL2":@"",
                                 @"TYPE":@""};
-    
+   
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[SNOW_APP_VERSION]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic

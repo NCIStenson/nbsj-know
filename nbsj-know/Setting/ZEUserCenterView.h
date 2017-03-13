@@ -40,4 +40,6 @@
 
 -(void)reloadHeaderB;
 
+-(void)reloadHeaderMessage:(NSString *)questionCount answerCount:(NSString *)answerCount;
+
 @end

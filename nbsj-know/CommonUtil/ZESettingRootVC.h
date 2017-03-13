@@ -45,4 +45,6 @@
 - (void)disableRightBtn;
 
 - (void)hiddenLine;
+
+- (void)goBack;
 @end

@@ -50,6 +50,7 @@
 #define kLabel_LineSpace 3.0f
 
 #define NAV_HEIGHT 64.0f
+#define TAB_BAR_HEIGHT 49.0f
 #define MAX_PAGE_COUNT 20
 
 #define Zenith_Server [[[NSBundle mainBundle] infoDictionary] objectForKey:@"ZenithServerAddress"]
@@ -66,7 +67,11 @@
 #define kNOTI_SCORE_SUCCESS @"NOTI_SCORE_SUCCESS"  // 经典案例打分成功通知
 #define kNOTI_ACCEPT_SUCCESS @"NOTI_ACCEPT_SUCCESS" // 采纳答案成功通知
 #define kNOTI_ASK_SUCCESS @"NOTI_ASK_SUCCESS" // 提问成功通知
+#define kNOTI_CHANGE_ASK_SUCCESS @"NOTI_CHANGE_ASK_SUCCESS" // 修改我的问题成功通知
 #define kNOTI_ANSWER_SUCCESS @"NOTI_ANSWER_SUCCESS" // 回答成功通知
+#define kNOTI_ASK_QUESTION @"NOTI_ASK_QUESTION" // 普通问题提问通知
+#define kNOTI_ASK_TEAM_QUESTION @"NOTI_ASK_TEAM_QUESTION" // 班组圈问题提问通知
+#define kNOTI_FINISH_INVITE_TEAMCIRCLENUMBERS @"NOTI_FINISH_INVITE_TEAMCIRCLENUMBERS" // 班组圈问题提问通知
 
 #define kRelogin @"kRelogin"
 #define kVerifyLogin @"kVerifyLogin"

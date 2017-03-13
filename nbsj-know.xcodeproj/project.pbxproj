@@ -15,6 +15,19 @@
 		981A222F1DD1A097002821BC /* ZEKLB_CLASSICCASE_INFOModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 981A222E1DD1A097002821BC /* ZEKLB_CLASSICCASE_INFOModel.m */; };
 		981A22321DD31491002821BC /* ZEScoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 981A22311DD31491002821BC /* ZEScoreView.m */; };
 		981A22741DD5BC34002821BC /* ZETypicalCaseWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 981A22731DD5BC34002821BC /* ZETypicalCaseWebVC.m */; };
+		982089E21E6FAD6C00379D5E /* ZECreateTeamVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 982089E11E6FAD6C00379D5E /* ZECreateTeamVC.m */; };
+		982089E51E6FAD8A00379D5E /* ZECreateTeamView.m in Sources */ = {isa = PBXBuildFile; fileRef = 982089E41E6FAD8A00379D5E /* ZECreateTeamView.m */; };
+		982089E81E6FAE7700379D5E /* ZEFindTeamVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 982089E71E6FAE7700379D5E /* ZEFindTeamVC.m */; };
+		982089EB1E6FAE8E00379D5E /* ZEFindTeamView.m in Sources */ = {isa = PBXBuildFile; fileRef = 982089EA1E6FAE8E00379D5E /* ZEFindTeamView.m */; };
+		982300001E70F12C00DD02B1 /* ZEQueryNumberVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9823FFFF1E70F12C00DD02B1 /* ZEQueryNumberVC.m */; };
+		982300031E70F14800DD02B1 /* ZEQueryNumberView.m in Sources */ = {isa = PBXBuildFile; fileRef = 982300021E70F14800DD02B1 /* ZEQueryNumberView.m */; };
+		982300061E712B5A00DD02B1 /* ZEChooseNumberVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 982300051E712B5A00DD02B1 /* ZEChooseNumberVC.m */; };
+		982300091E712BB000DD02B1 /* ZEChooseNumberView.m in Sources */ = {isa = PBXBuildFile; fileRef = 982300081E712BB000DD02B1 /* ZEChooseNumberView.m */; };
+		9823000C1E72843600DD02B1 /* ZETeamCircleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9823000B1E72843500DD02B1 /* ZETeamCircleModel.m */; };
+		9823000E1E740CB400DD02B1 /* reduceImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 9823000D1E740CB400DD02B1 /* reduceImage.png */; };
+		982300101E740D6A00DD02B1 /* addimg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9823000F1E740D6A00DD02B1 /* addimg.png */; };
+		9823FFFA1E704AF400DD02B1 /* ZEAskTeamQuestionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9823FFF91E704AF400DD02B1 /* ZEAskTeamQuestionVC.m */; };
+		9823FFFD1E704B2700DD02B1 /* ZEAskTeamQuestionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9823FFFC1E704B2700DD02B1 /* ZEAskTeamQuestionView.m */; };
 		98253E0B1E2DC3E5005C3E10 /* LBNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98253E061E2DC3E5005C3E10 /* LBNavigationController.m */; };
 		98253E0C1E2DC3E5005C3E10 /* LBTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 98253E081E2DC3E5005C3E10 /* LBTabBar.m */; };
 		98253E0D1E2DC3E5005C3E10 /* LBTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98253E0A1E2DC3E5005C3E10 /* LBTabBarController.m */; };
@@ -220,6 +233,17 @@
 		98AB2A4C1D65A6AA00F4DBF8 /* ZEQuestionInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AB2A491D65A6AA00F4DBF8 /* ZEQuestionInfoModel.m */; };
 		98AB2A4D1D65A6AA00F4DBF8 /* ZEQuestionTypeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AB2A4B1D65A6AA00F4DBF8 /* ZEQuestionTypeModel.m */; };
 		98AB2A501D65A6C400F4DBF8 /* ZEAnswerInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AB2A4F1D65A6C400F4DBF8 /* ZEAnswerInfoModel.m */; };
+		98B13C281E6E97F8006C783B /* ZETeamVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B13C271E6E97F8006C783B /* ZETeamVC.m */; };
+		98B13C2B1E6E9900006C783B /* ZETeamView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B13C2A1E6E9900006C783B /* ZETeamView.m */; };
+		98B13C3C1E6E9996006C783B /* MKJCircleLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B13C2E1E6E9996006C783B /* MKJCircleLayout.m */; };
+		98B13C3D1E6E9996006C783B /* MKJCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B13C301E6E9996006C783B /* MKJCollectionViewCell.m */; };
+		98B13C3E1E6E9996006C783B /* MKJCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98B13C311E6E9996006C783B /* MKJCollectionViewCell.xib */; };
+		98B13C3F1E6E9996006C783B /* MKJCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B13C331E6E9996006C783B /* MKJCollectionViewFlowLayout.m */; };
+		98B13C401E6E9996006C783B /* MKJConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B13C351E6E9996006C783B /* MKJConstant.m */; };
+		98B13C411E6E9996006C783B /* MKJItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B13C371E6E9996006C783B /* MKJItemModel.m */; };
+		98B13C421E6E9996006C783B /* MKJMainPopoutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B13C391E6E9996006C783B /* MKJMainPopoutView.m */; };
+		98B13C431E6E9996006C783B /* MKJOverLayLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B13C3B1E6E9996006C783B /* MKJOverLayLayout.m */; };
+		98B13C461E6E99E8006C783B /* NSArray+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B13C451E6E99E8006C783B /* NSArray+Extension.m */; };
 		98D42BB51DC70D27003A3812 /* ZETypicalCaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D42BB41DC70D27003A3812 /* ZETypicalCaseVC.m */; };
 		98D42BB81DC70DCD003A3812 /* ZETypicalCaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D42BB71DC70DCD003A3812 /* ZETypicalCaseView.m */; };
 		98D42BCF1DC73FBB003A3812 /* course_score_number@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98D42BC71DC73FBB003A3812 /* course_score_number@2x.png */; };
@@ -306,6 +330,30 @@
 		981A22311DD31491002821BC /* ZEScoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEScoreView.m; path = Home/ZEScoreView.m; sourceTree = "<group>"; };
 		981A22721DD5BC34002821BC /* ZETypicalCaseWebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZETypicalCaseWebVC.h; path = Home/ZETypicalCaseWebVC.h; sourceTree = "<group>"; };
 		981A22731DD5BC34002821BC /* ZETypicalCaseWebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZETypicalCaseWebVC.m; path = Home/ZETypicalCaseWebVC.m; sourceTree = "<group>"; };
+		982089E01E6FAD6C00379D5E /* ZECreateTeamVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZECreateTeamVC.h; path = Team/ZECreateTeamVC.h; sourceTree = "<group>"; };
+		982089E11E6FAD6C00379D5E /* ZECreateTeamVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZECreateTeamVC.m; path = Team/ZECreateTeamVC.m; sourceTree = "<group>"; };
+		982089E31E6FAD8A00379D5E /* ZECreateTeamView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZECreateTeamView.h; path = Team/ZECreateTeamView.h; sourceTree = "<group>"; };
+		982089E41E6FAD8A00379D5E /* ZECreateTeamView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZECreateTeamView.m; path = Team/ZECreateTeamView.m; sourceTree = "<group>"; };
+		982089E61E6FAE7700379D5E /* ZEFindTeamVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEFindTeamVC.h; path = Team/ZEFindTeamVC.h; sourceTree = "<group>"; };
+		982089E71E6FAE7700379D5E /* ZEFindTeamVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEFindTeamVC.m; path = Team/ZEFindTeamVC.m; sourceTree = "<group>"; };
+		982089E91E6FAE8E00379D5E /* ZEFindTeamView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEFindTeamView.h; path = Team/ZEFindTeamView.h; sourceTree = "<group>"; };
+		982089EA1E6FAE8E00379D5E /* ZEFindTeamView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEFindTeamView.m; path = Team/ZEFindTeamView.m; sourceTree = "<group>"; };
+		982300011E70F14800DD02B1 /* ZEQueryNumberView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEQueryNumberView.h; path = Team/ZEQueryNumberView.h; sourceTree = "<group>"; };
+		982300021E70F14800DD02B1 /* ZEQueryNumberView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEQueryNumberView.m; path = Team/ZEQueryNumberView.m; sourceTree = "<group>"; };
+		982300041E712B5A00DD02B1 /* ZEChooseNumberVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEChooseNumberVC.h; path = Team/ZEChooseNumberVC.h; sourceTree = "<group>"; };
+		982300051E712B5A00DD02B1 /* ZEChooseNumberVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEChooseNumberVC.m; path = Team/ZEChooseNumberVC.m; sourceTree = "<group>"; };
+		982300071E712BB000DD02B1 /* ZEChooseNumberView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEChooseNumberView.h; path = Team/ZEChooseNumberView.h; sourceTree = "<group>"; };
+		982300081E712BB000DD02B1 /* ZEChooseNumberView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEChooseNumberView.m; path = Team/ZEChooseNumberView.m; sourceTree = "<group>"; };
+		9823000A1E72843500DD02B1 /* ZETeamCircleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZETeamCircleModel.h; path = Model/ZETeamCircleModel.h; sourceTree = "<group>"; };
+		9823000B1E72843500DD02B1 /* ZETeamCircleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZETeamCircleModel.m; path = Model/ZETeamCircleModel.m; sourceTree = "<group>"; };
+		9823000D1E740CB400DD02B1 /* reduceImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = reduceImage.png; path = "nbsj-know/SourceImg/icon_questions/reduceImage.png"; sourceTree = SOURCE_ROOT; };
+		9823000F1E740D6A00DD02B1 /* addimg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = addimg.png; path = "nbsj-know/SourceImg/icon_questions/addimg.png"; sourceTree = SOURCE_ROOT; };
+		9823FFF81E704AF400DD02B1 /* ZEAskTeamQuestionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEAskTeamQuestionVC.h; path = Team/ZEAskTeamQuestionVC.h; sourceTree = "<group>"; };
+		9823FFF91E704AF400DD02B1 /* ZEAskTeamQuestionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEAskTeamQuestionVC.m; path = Team/ZEAskTeamQuestionVC.m; sourceTree = "<group>"; };
+		9823FFFB1E704B2700DD02B1 /* ZEAskTeamQuestionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEAskTeamQuestionView.h; path = Team/ZEAskTeamQuestionView.h; sourceTree = "<group>"; };
+		9823FFFC1E704B2700DD02B1 /* ZEAskTeamQuestionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEAskTeamQuestionView.m; path = Team/ZEAskTeamQuestionView.m; sourceTree = "<group>"; };
+		9823FFFE1E70F12C00DD02B1 /* ZEQueryNumberVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEQueryNumberVC.h; path = Team/ZEQueryNumberVC.h; sourceTree = "<group>"; };
+		9823FFFF1E70F12C00DD02B1 /* ZEQueryNumberVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEQueryNumberVC.m; path = Team/ZEQueryNumberVC.m; sourceTree = "<group>"; };
 		98253E051E2DC3E5005C3E10 /* LBNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBNavigationController.h; sourceTree = "<group>"; };
 		98253E061E2DC3E5005C3E10 /* LBNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBNavigationController.m; sourceTree = "<group>"; };
 		98253E071E2DC3E5005C3E10 /* LBTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBTabBar.h; sourceTree = "<group>"; };
@@ -581,6 +629,27 @@
 		98AB2A4B1D65A6AA00F4DBF8 /* ZEQuestionTypeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEQuestionTypeModel.m; path = Model/ZEQuestionTypeModel.m; sourceTree = "<group>"; };
 		98AB2A4E1D65A6C400F4DBF8 /* ZEAnswerInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEAnswerInfoModel.h; path = Model/ZEAnswerInfoModel.h; sourceTree = "<group>"; };
 		98AB2A4F1D65A6C400F4DBF8 /* ZEAnswerInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEAnswerInfoModel.m; path = Model/ZEAnswerInfoModel.m; sourceTree = "<group>"; };
+		98B13C261E6E97F8006C783B /* ZETeamVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZETeamVC.h; path = Team/ZETeamVC.h; sourceTree = "<group>"; };
+		98B13C271E6E97F8006C783B /* ZETeamVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZETeamVC.m; path = Team/ZETeamVC.m; sourceTree = "<group>"; };
+		98B13C291E6E9900006C783B /* ZETeamView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZETeamView.h; path = Team/ZETeamView.h; sourceTree = "<group>"; };
+		98B13C2A1E6E9900006C783B /* ZETeamView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZETeamView.m; path = Team/ZETeamView.m; sourceTree = "<group>"; };
+		98B13C2D1E6E9996006C783B /* MKJCircleLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKJCircleLayout.h; sourceTree = "<group>"; };
+		98B13C2E1E6E9996006C783B /* MKJCircleLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKJCircleLayout.m; sourceTree = "<group>"; };
+		98B13C2F1E6E9996006C783B /* MKJCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKJCollectionViewCell.h; sourceTree = "<group>"; };
+		98B13C301E6E9996006C783B /* MKJCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKJCollectionViewCell.m; sourceTree = "<group>"; };
+		98B13C311E6E9996006C783B /* MKJCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MKJCollectionViewCell.xib; sourceTree = "<group>"; };
+		98B13C321E6E9996006C783B /* MKJCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKJCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		98B13C331E6E9996006C783B /* MKJCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKJCollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		98B13C341E6E9996006C783B /* MKJConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKJConstant.h; sourceTree = "<group>"; };
+		98B13C351E6E9996006C783B /* MKJConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKJConstant.m; sourceTree = "<group>"; };
+		98B13C361E6E9996006C783B /* MKJItemModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKJItemModel.h; sourceTree = "<group>"; };
+		98B13C371E6E9996006C783B /* MKJItemModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKJItemModel.m; sourceTree = "<group>"; };
+		98B13C381E6E9996006C783B /* MKJMainPopoutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKJMainPopoutView.h; sourceTree = "<group>"; };
+		98B13C391E6E9996006C783B /* MKJMainPopoutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKJMainPopoutView.m; sourceTree = "<group>"; };
+		98B13C3A1E6E9996006C783B /* MKJOverLayLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKJOverLayLayout.h; sourceTree = "<group>"; };
+		98B13C3B1E6E9996006C783B /* MKJOverLayLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKJOverLayLayout.m; sourceTree = "<group>"; };
+		98B13C441E6E99E8006C783B /* NSArray+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Extension.h"; sourceTree = "<group>"; };
+		98B13C451E6E99E8006C783B /* NSArray+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Extension.m"; sourceTree = "<group>"; };
 		98D42BB31DC70D27003A3812 /* ZETypicalCaseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZETypicalCaseVC.h; path = Home/ZETypicalCaseVC.h; sourceTree = "<group>"; };
 		98D42BB41DC70D27003A3812 /* ZETypicalCaseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZETypicalCaseVC.m; path = Home/ZETypicalCaseVC.m; sourceTree = "<group>"; };
 		98D42BB61DC70DCD003A3812 /* ZETypicalCaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZETypicalCaseView.h; path = Home/ZETypicalCaseView.h; sourceTree = "<group>"; };
@@ -794,6 +863,7 @@
 		982ED3851D420AC900F87343 /* ThirdSource */ = {
 			isa = PBXGroup;
 			children = (
+				98B13C2C1E6E9996006C783B /* CustomViews */,
 				98253DEF1E2DB9BB005C3E10 /* Tabbar */,
 				983D47AD1DCC2B1100D61BC9 /* JRVideoPlayerViewController */,
 				984A326E1DAC88CE00B9F53B /* PYPhotoBrowser */,
@@ -1130,6 +1200,8 @@
 				98AB2A4F1D65A6C400F4DBF8 /* ZEAnswerInfoModel.m */,
 				981A222D1DD1A097002821BC /* ZEKLB_CLASSICCASE_INFOModel.h */,
 				981A222E1DD1A097002821BC /* ZEKLB_CLASSICCASE_INFOModel.m */,
+				9823000A1E72843500DD02B1 /* ZETeamCircleModel.h */,
+				9823000B1E72843500DD02B1 /* ZETeamCircleModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1157,6 +1229,8 @@
 		987ACBCE1D4AEDEC006D692E /* icon_questions */ = {
 			isa = PBXGroup;
 			children = (
+				9823000F1E740D6A00DD02B1 /* addimg.png */,
+				9823000D1E740CB400DD02B1 /* reduceImage.png */,
 				984492C41E5AD8940066AFD1 /* ic_best_answer.png */,
 				989AA6851D5075C600A08022 /* addImage@2x.png */,
 				989AA68A1D50840500A08022 /* Trash@2x.png */,
@@ -1211,6 +1285,7 @@
 				982ED3701D4208E300F87343 /* Home */,
 				982ED36F1D4208E000F87343 /* Questions */,
 				982ED36E1D4208DC00F87343 /* Group */,
+				98B13C251E6E9794006C783B /* Team */,
 				986FE2E41E4D637F00D0756A /* School */,
 				982ED36D1D4208DA00F87343 /* Setting */,
 				987ACBD71D4AFBE8006D692E /* Common */,
@@ -1286,6 +1361,61 @@
 				98A1D5771DF659E000D92333 /* ZEChatLayout.m */,
 			);
 			name = QuestionDetail;
+			sourceTree = "<group>";
+		};
+		98B13C251E6E9794006C783B /* Team */ = {
+			isa = PBXGroup;
+			children = (
+				98B13C261E6E97F8006C783B /* ZETeamVC.h */,
+				98B13C271E6E97F8006C783B /* ZETeamVC.m */,
+				98B13C291E6E9900006C783B /* ZETeamView.h */,
+				98B13C2A1E6E9900006C783B /* ZETeamView.m */,
+				982089E61E6FAE7700379D5E /* ZEFindTeamVC.h */,
+				982089E71E6FAE7700379D5E /* ZEFindTeamVC.m */,
+				982089E91E6FAE8E00379D5E /* ZEFindTeamView.h */,
+				982089EA1E6FAE8E00379D5E /* ZEFindTeamView.m */,
+				982089E01E6FAD6C00379D5E /* ZECreateTeamVC.h */,
+				982089E11E6FAD6C00379D5E /* ZECreateTeamVC.m */,
+				982089E31E6FAD8A00379D5E /* ZECreateTeamView.h */,
+				982089E41E6FAD8A00379D5E /* ZECreateTeamView.m */,
+				9823FFF81E704AF400DD02B1 /* ZEAskTeamQuestionVC.h */,
+				9823FFF91E704AF400DD02B1 /* ZEAskTeamQuestionVC.m */,
+				9823FFFB1E704B2700DD02B1 /* ZEAskTeamQuestionView.h */,
+				9823FFFC1E704B2700DD02B1 /* ZEAskTeamQuestionView.m */,
+				9823FFFE1E70F12C00DD02B1 /* ZEQueryNumberVC.h */,
+				9823FFFF1E70F12C00DD02B1 /* ZEQueryNumberVC.m */,
+				982300011E70F14800DD02B1 /* ZEQueryNumberView.h */,
+				982300021E70F14800DD02B1 /* ZEQueryNumberView.m */,
+				982300041E712B5A00DD02B1 /* ZEChooseNumberVC.h */,
+				982300051E712B5A00DD02B1 /* ZEChooseNumberVC.m */,
+				982300071E712BB000DD02B1 /* ZEChooseNumberView.h */,
+				982300081E712BB000DD02B1 /* ZEChooseNumberView.m */,
+			);
+			name = Team;
+			sourceTree = "<group>";
+		};
+		98B13C2C1E6E9996006C783B /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				98B13C2D1E6E9996006C783B /* MKJCircleLayout.h */,
+				98B13C2E1E6E9996006C783B /* MKJCircleLayout.m */,
+				98B13C2F1E6E9996006C783B /* MKJCollectionViewCell.h */,
+				98B13C301E6E9996006C783B /* MKJCollectionViewCell.m */,
+				98B13C311E6E9996006C783B /* MKJCollectionViewCell.xib */,
+				98B13C321E6E9996006C783B /* MKJCollectionViewFlowLayout.h */,
+				98B13C331E6E9996006C783B /* MKJCollectionViewFlowLayout.m */,
+				98B13C341E6E9996006C783B /* MKJConstant.h */,
+				98B13C351E6E9996006C783B /* MKJConstant.m */,
+				98B13C361E6E9996006C783B /* MKJItemModel.h */,
+				98B13C371E6E9996006C783B /* MKJItemModel.m */,
+				98B13C381E6E9996006C783B /* MKJMainPopoutView.h */,
+				98B13C391E6E9996006C783B /* MKJMainPopoutView.m */,
+				98B13C3A1E6E9996006C783B /* MKJOverLayLayout.h */,
+				98B13C3B1E6E9996006C783B /* MKJOverLayLayout.m */,
+				98B13C441E6E99E8006C783B /* NSArray+Extension.h */,
+				98B13C451E6E99E8006C783B /* NSArray+Extension.m */,
+			);
+			path = CustomViews;
 			sourceTree = "<group>";
 		};
 		98D42BC61DC73FBB003A3812 /* ClassicalCase */ = {
@@ -1448,7 +1578,7 @@
 					989B2C421C4DE7AA00F14EFA = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = CJ8CND7Y24;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					989B2C5B1C4DE7AA00F14EFA = {
 						CreatedOnToolsVersion = 7.2;
@@ -1556,6 +1686,7 @@
 				9831B0211E60113600729BA8 /* timg-(2)@3x.png in Resources */,
 				9831B05D1E602C5C00729BA8 /* 箭头-(4)@3x.png in Resources */,
 				983D47D01DCC2B1100D61BC9 /* play_disable@2x.png in Resources */,
+				98B13C3E1E6E9996006C783B /* MKJCollectionViewCell.xib in Resources */,
 				9831B0221E60113600729BA8 /* 修改@2x.png in Resources */,
 				9831B00C1E60113600729BA8 /* icon_my_question@2x.png in Resources */,
 				982ED4451D48517600F87343 /* tab_setting_normal@3x.png in Resources */,
@@ -1583,9 +1714,11 @@
 				987ACBD21D4AEE08006D692E /* refresh_Rank@3x.png in Resources */,
 				9831B01F1E60113600729BA8 /* post_normal@3x.png in Resources */,
 				9831B0521E602C5C00729BA8 /* icon_town@2x.png in Resources */,
+				982300101E740D6A00DD02B1 /* addimg.png in Resources */,
 				987ACBC41D49E577006D692E /* banner.jpg in Resources */,
 				9831B01B1E60113600729BA8 /* icon_signin@3x.png in Resources */,
 				984492C51E5AD8940066AFD1 /* ic_best_answer.png in Resources */,
+				9823000E1E740CB400DD02B1 /* reduceImage.png in Resources */,
 				982ED43A1D48517600F87343 /* icon_up@3x.png in Resources */,
 				98D5981B1DC86F1A002074C7 /* ic_square_small@2x.png in Resources */,
 				98D5982C1DC87278002074C7 /* detail_nav_star@2x.png in Resources */,
@@ -1732,12 +1865,18 @@
 				987ACBCA1D4AE3E6006D692E /* ZEShowQuestionView.m in Sources */,
 				9872544E1D587CD7005C4AB9 /* ZELoginView.m in Sources */,
 				98EE5DB81DE56D9A00C82FCB /* JCAlertView.m in Sources */,
+				98B13C461E6E99E8006C783B /* NSArray+Extension.m in Sources */,
 				981A222F1DD1A097002821BC /* ZEKLB_CLASSICCASE_INFOModel.m in Sources */,
 				984A32901DAC88CE00B9F53B /* MBProgressHUD+PY.m in Sources */,
 				984A32981DAC88CE00B9F53B /* PYProgressView.m in Sources */,
 				989B2C4B1C4DE7AA00F14EFA /* ZEAppDelegate.m in Sources */,
+				982300031E70F14800DD02B1 /* ZEQueryNumberView.m in Sources */,
+				982300001E70F12C00DD02B1 /* ZEQueryNumberVC.m in Sources */,
 				98253E0B1E2DC3E5005C3E10 /* LBNavigationController.m in Sources */,
 				984A32961DAC88CE00B9F53B /* PYPhoto.m in Sources */,
+				98B13C3D1E6E9996006C783B /* MKJCollectionViewCell.m in Sources */,
+				9823FFFA1E704AF400DD02B1 /* ZEAskTeamQuestionVC.m in Sources */,
+				982089EB1E6FAE8E00379D5E /* ZEFindTeamView.m in Sources */,
 				982ED3761D42096F00F87343 /* ZEHomeView.m in Sources */,
 				982ED37C1D4209F200F87343 /* ZEGroupVC.m in Sources */,
 				987257581D59A7F6005C4AB9 /* ZEPackageServerData.m in Sources */,
@@ -1749,6 +1888,7 @@
 				98A1D56E1DF5504000D92333 /* ZEChatBaseCell.m in Sources */,
 				98A1D4141DF548C600D92333 /* ZEChatView.m in Sources */,
 				984A32941DAC88CE00B9F53B /* PYPhotosReaderController.m in Sources */,
+				982089E81E6FAE7700379D5E /* ZEFindTeamVC.m in Sources */,
 				98AB2A4C1D65A6AA00F4DBF8 /* ZEQuestionInfoModel.m in Sources */,
 				989AA67D1D4EF83E00A08022 /* ZEAskQuesViewController.m in Sources */,
 				982ED3EA1D4850E900F87343 /* JFCollectionViewCell.m in Sources */,
@@ -1756,16 +1896,21 @@
 				988122971DAA199A00DBEB82 /* SvUDIDTools.m in Sources */,
 				98D5980B1DC83424002074C7 /* ZETypicalCaseDetailView.m in Sources */,
 				983D47D91DCC2B1100D61BC9 /* JRPlayerViewController.m in Sources */,
+				982089E21E6FAD6C00379D5E /* ZECreateTeamVC.m in Sources */,
 				98D598081DC83402002074C7 /* ZETypicalCaseDetailVC.m in Sources */,
+				98B13C2B1E6E9900006C783B /* ZETeamView.m in Sources */,
 				98A1D4111DF5484400D92333 /* ZEChatVC.m in Sources */,
 				9877258E1DDADFC1003BDC1C /* ZEAskQuestionTypeView.m in Sources */,
 				984A32A41DAC8E8A00B9F53B /* DALabeledCircularProgressView.m in Sources */,
 				9872544F1D587CD7005C4AB9 /* ZELoginViewController.m in Sources */,
 				9831B03A1E6015E200729BA8 /* ZEButton.m in Sources */,
 				98E485F51D98FDA900AA0278 /* ZEProfessionalCirVC.m in Sources */,
+				98B13C411E6E9996006C783B /* MKJItemModel.m in Sources */,
 				98F4719E1D5434F70016CD5A /* ZEAnswerQuestionsView.m in Sources */,
 				98253E131E2DC446005C3E10 /* UIView+LBExtension.m in Sources */,
 				9801DB0E1D6170A8008B1676 /* ZEUserServer.m in Sources */,
+				982300091E712BB000DD02B1 /* ZEChooseNumberView.m in Sources */,
+				9823000C1E72843600DD02B1 /* ZETeamCircleModel.m in Sources */,
 				98AB2A501D65A6C400F4DBF8 /* ZEAnswerInfoModel.m in Sources */,
 				989AA6891D507A9A00A08022 /* ZELookViewController.m in Sources */,
 				984A32A71DAF756100B9F53B /* ZEProCirDynamicVC.m in Sources */,
@@ -1773,7 +1918,11 @@
 				9801DB001D6153EE008B1676 /* ZEChangePersonalMsgVC.m in Sources */,
 				981A22741DD5BC34002821BC /* ZETypicalCaseWebVC.m in Sources */,
 				982ED3731D42095400F87343 /* ZEHomeVC.m in Sources */,
+				98B13C3C1E6E9996006C783B /* MKJCircleLayout.m in Sources */,
 				98D42BB51DC70D27003A3812 /* ZETypicalCaseVC.m in Sources */,
+				9823FFFD1E704B2700DD02B1 /* ZEAskTeamQuestionView.m in Sources */,
+				98B13C421E6E9996006C783B /* MKJMainPopoutView.m in Sources */,
+				98B13C401E6E9996006C783B /* MKJConstant.m in Sources */,
 				984A329B1DAC88CE00B9F53B /* PYPhotoCell.m in Sources */,
 				984A32971DAC88CE00B9F53B /* PYConst.m in Sources */,
 				984A329D1DAC88CE00B9F53B /* PYPhotoView.m in Sources */,
@@ -1786,6 +1935,7 @@
 				989AA6801D4F186300A08022 /* ZEAskQuesView.m in Sources */,
 				98253E0C1E2DC3E5005C3E10 /* LBTabBar.m in Sources */,
 				984A32921DAC88CE00B9F53B /* PYNavigationController.m in Sources */,
+				98B13C3F1E6E9996006C783B /* MKJCollectionViewFlowLayout.m in Sources */,
 				98A1D5781DF659E000D92333 /* ZEChatLayout.m in Sources */,
 				9801DB0D1D6170A8008B1676 /* ZEServerEngine.m in Sources */,
 				982ED36C1D4208A900F87343 /* ZESettingRootVC.m in Sources */,
@@ -1798,18 +1948,22 @@
 				984A32931DAC88CE00B9F53B /* PYPhotosPreviewController.m in Sources */,
 				984492CC1E5D5D270066AFD1 /* ZEHomeLayout.m in Sources */,
 				981A22321DD31491002821BC /* ZEScoreView.m in Sources */,
+				98B13C431E6E9996006C783B /* MKJOverLayLayout.m in Sources */,
 				983D47D81DCC2B1100D61BC9 /* JRPlayerView.m in Sources */,
 				98AB2A4D1D65A6AA00F4DBF8 /* ZEQuestionTypeModel.m in Sources */,
 				9801DB031D61541B008B1676 /* ZEChangePersonalMsgView.m in Sources */,
+				982300061E712B5A00DD02B1 /* ZEChooseNumberVC.m in Sources */,
 				989AA6911D52CDD600A08022 /* ZEQuestionsDetailView.m in Sources */,
 				987ACBC71D4A2557006D692E /* ZEShowQuestionVC.m in Sources */,
 				98DB7C531C4F52050046D405 /* UIImage+ZEImage.m in Sources */,
+				982089E51E6FAD8A00379D5E /* ZECreateTeamView.m in Sources */,
 				986FE2E71E4D63DC00D0756A /* ZESchoolWebVC.m in Sources */,
 				987258F01D5C6F54005C4AB9 /* ZESetPersonalMessageVC.m in Sources */,
 				984492C91E5D5D080066AFD1 /* ZEHomeBaseCell.m in Sources */,
 				982ED4481D48518E00F87343 /* JFCalendarPickerView.m in Sources */,
 				982ED44B1D48550900F87343 /* ZESinginVC.m in Sources */,
 				982ED3821D420A5000F87343 /* ZEUserCenterView.m in Sources */,
+				98B13C281E6E97F8006C783B /* ZETeamVC.m in Sources */,
 				98253E121E2DC446005C3E10 /* UIImage+Image.m in Sources */,
 				984A32A31DAC8E8A00B9F53B /* DACircularProgressView.m in Sources */,
 				98F471981D5434CF0016CD5A /* ZEAnswerQuestionsVC.m in Sources */,
@@ -1956,7 +2110,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: HangZhou Zenith Electronic Technology Co., Ltd. (CJ8CND7Y24)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: HangZhou Zenith Electronic Technology Co., Ltd. (CJ8CND7Y24)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = CJ8CND7Y24;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2006,8 +2160,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zenithElec.know;
 				PRODUCT_NAME = "电知道";
-				PROVISIONING_PROFILE = "0f003227-5b57-4336-b6db-a3954e725b26";
-				PROVISIONING_PROFILE_SPECIFIER = Know_Dis;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SHARED_PRECOMPS_DIR = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "arm64 armv7s armv7";
@@ -2024,7 +2178,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: HangZhou Zenith Electronic Technology Co., Ltd. (CJ8CND7Y24)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: HangZhou Zenith Electronic Technology Co., Ltd. (CJ8CND7Y24)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = CJ8CND7Y24;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2076,8 +2230,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zenithElec.know;
 				PRODUCT_NAME = "电知道";
-				PROVISIONING_PROFILE = "0f003227-5b57-4336-b6db-a3954e725b26";
-				PROVISIONING_PROFILE_SPECIFIER = Know_Dis;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SHARED_PRECOMPS_DIR = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "arm64 armv7s armv7";

@@ -49,7 +49,14 @@
         [self createWhereSQL:_currentInputStr];
     }
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewData) name:kNOTI_CHANGE_ASK_SUCCESS object:nil];;
+    
     [self initView];
+}
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNOTI_CHANGE_ASK_SUCCESS object:nil];
 }
 
 #pragma mark - 问题分类
@@ -209,6 +216,8 @@
                                      }else{
                                          if (_showQuestionListType != QUESTION_LIST_MY_QUESTION) {
                                              [self showTips:@"暂时没有相关问题，去提一个吧~" afterDelay:1.5];
+                                         }else{
+                                             [self showTips:@"您还没有提问过任何问题，去提一个吧~" afterDelay:1.5];
                                          }
                                      }
                                      [_questionsView reloadFirstView:dataArr];
@@ -259,6 +268,7 @@
                                          [_questionsView loadNoMoreData];
                                          return ;
                                      }else{
+                                         [self showTips:@"您还没有回答过任何问题，快去试试吧~" afterDelay:1.5];
                                      }
                                      [_questionsView reloadFirstView:dataArr];
                                      [_questionsView headerEndRefreshing];

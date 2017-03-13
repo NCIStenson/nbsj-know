@@ -10,6 +10,7 @@
 
 static ZEQuestionInfoModel * quesInfoM = nil;
 static ZEQuesAnsDetail * quesAnsM = nil;
+static ZEUSER_BASE_INFOM * userinfo = nil;
 
 
 @implementation ZEQuestionInfoModel
@@ -34,6 +35,7 @@ static ZEQuesAnsDetail * quesAnsM = nil;
     quesInfoM.ANSWERSUM        = [dic objectForKey:@"ANSWERSUM"];
     quesInfoM.NICKNAME         = [dic objectForKey:@"NICKNAME"];
     quesInfoM.BONUSPOINTS      = [dic objectForKey:@"BONUSPOINTS"];
+    quesInfoM.INFOCOUNT        =  [NSString stringWithFormat:@"%@",[dic objectForKey:@"INFOCOUNT"]];
     quesInfoM.ISANONYMITY      = [[dic objectForKey:@"ISANONYMITY"] boolValue];
     quesInfoM.ISANSWER      = [[dic objectForKey:@"ISANSWER"] boolValue];
     quesInfoM.HEADIMAGE        = [[[dic objectForKey:@"HEADIMAGE"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"] stringByReplacingOccurrencesOfString:@"," withString:@""];
@@ -76,4 +78,27 @@ static ZEQuesAnsDetail * quesAnsM = nil;
 }
 
 @end
+
+@implementation ZEUSER_BASE_INFOM
+
++(ZEUSER_BASE_INFOM *)getDetailWithDic:(NSDictionary *)dic
+{
+    userinfo = [[ZEUSER_BASE_INFOM alloc]init];
+    
+    userinfo.USERNAME           = [dic objectForKey:@"USERNAME"];
+    userinfo.USERCODE           = [dic objectForKey:@"USERCODE"];
+    userinfo.FILEURL          = [[[dic objectForKey:@"FILEURL"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"] stringByReplacingOccurrencesOfString:@"," withString:@""];
+    
+//    NSArray * urlArr = [quesAnsM.FILEURL componentsSeparatedByString:@","];
+//    NSMutableArray * imageUrlArr = [NSMutableArray arrayWithArray:urlArr];
+//    if(imageUrlArr.count > 0){
+//        [imageUrlArr removeObjectAtIndex:0];
+//    }
+//    quesAnsM.FILEURLARR = imageUrlArr;
+    
+    return userinfo;
+}
+
+@end
+
 

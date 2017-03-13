@@ -19,6 +19,9 @@
 {
     UITableView * userCenterTable;
     UIButton * userHEAD;
+    
+    UILabel * questionBadgeLab;
+    UILabel * answerBadgeLab;
 }
 
 @end
@@ -63,6 +66,33 @@
 -(void)reloadHeaderB
 {
     [userHEAD sd_setImageWithURL:ZENITH_IMAGEURL([ZESettingLocalData getUSERHHEADURL]) forState:UIControlStateNormal placeholderImage:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
+}
+
+#pragma mark - 新消息提醒图标
+
+-(void)reloadHeaderMessage:(NSString *)questionCount answerCount:(NSString *)answerCount;
+{
+    questionBadgeLab.text = questionCount;
+    answerBadgeLab.text = answerCount;
+    
+    if ([questionCount integerValue ] == 0) {
+        questionBadgeLab.hidden = YES;
+    }else if (questionCount.length < 3){
+        questionBadgeLab.size = CGSizeMake(20.0f, 20.0f);
+    }else if (questionCount.length > 2){
+        questionBadgeLab.width = 30.0f;
+        questionBadgeLab.center = CGPointMake(questionBadgeLab.superview.size.width - 25, 20);
+    }
+    
+    if ([answerCount integerValue] == 0) {
+        answerBadgeLab.hidden = YES;
+    }else if (questionCount.length < 3){
+        questionBadgeLab.size = CGSizeMake(20.0f, 20.0f);
+    }else if (answerCount.length > 2){
+        answerBadgeLab.width = 30.0f;
+        answerBadgeLab.center = CGPointMake(answerBadgeLab.superview.size.width - 25, 20);
+    }
+
 }
 #pragma mark - UITableViewDataSource
 
@@ -177,19 +207,6 @@
     userHEAD.layer.borderColor = [MAIN_LINE_COLOR CGColor];
     userHEAD.layer.borderWidth = 2;
     
-//    UILabel * lvLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 25, 10)];
-//    lvLabel.center = CGPointMake(SCREEN_WIDTH / 2 + 30.0f, 138.0f);
-//    lvLabel.text = @"Lv 2";
-//    lvLabel.alpha = .9f;
-//    lvLabel.font = [UIFont systemFontOfSize:8.0f];
-//    lvLabel.textAlignment = NSTextAlignmentCenter;
-//    lvLabel.textColor = [UIColor redColor];
-//    lvLabel.clipsToBounds = YES;
-//    lvLabel.layer.cornerRadius = lvLabel.frame.size.height / 2;
-//
-//    lvLabel.backgroundColor = [UIColor yellowColor];
-//    [userMessage addSubview:lvLabel];
-    
     NSString * username = [ZESettingLocalData getNICKNAME];
     if (![ZEUtil isStrNotEmpty:username]) {
         username = [ZESettingLocalData getNAME];
@@ -256,21 +273,37 @@
         optionBtn.titleLabel.font = [UIFont systemFontOfSize:kTiltlFontSize];
         [optionBtn addTarget:self action:@selector(didSelectMyOption:) forControlEvents:UIControlEventTouchUpInside];
         optionBtn.tag = 100 + i;
+        
         UIView * lineLayer = [UIView new];
         lineLayer.frame = CGRectMake( optionBtn.frame.size.width - 1, 0, 1.0f, 100);
         [optionBtn addSubview:lineLayer];
         lineLayer.backgroundColor = MAIN_LINE_COLOR;
         
+        
+        UILabel * badgeLab = [[UILabel alloc]initWithFrame:CGRectZero];
+        badgeLab.backgroundColor = [UIColor redColor];
+        badgeLab.tag = 100;
+        badgeLab.center = CGPointMake(optionBtn.size.width - 20, 20);
+        badgeLab.font = [UIFont systemFontOfSize:kTiltlFontSize];
+        badgeLab.textColor = [UIColor whiteColor];
+        badgeLab.textAlignment = NSTextAlignmentCenter;
+        [optionBtn addSubview:badgeLab];
+        badgeLab.clipsToBounds = YES;
+        badgeLab.layer.cornerRadius = badgeLab.height / 2;
+
         switch (i) {
             case 0:
+                questionBadgeLab = badgeLab;
                 [optionBtn setImage:[UIImage imageNamed:@"icon_my_question"] forState:UIControlStateNormal];
                 [optionBtn setTitle:@"我的问题" forState:UIControlStateNormal];
                 break;
             case 1:
+                answerBadgeLab = badgeLab;
                 [optionBtn setImage:[UIImage imageNamed:@"icon_my_answer"] forState:UIControlStateNormal];
                 [optionBtn setTitle:@"我的回答" forState:UIControlStateNormal];
                 break;
             case 2:
+                badgeLab.hidden = YES;
                 [optionBtn setImage:[UIImage imageNamed:@"icon_my_circle"] forState:UIControlStateNormal];
                 [optionBtn setTitle:@"我的圈子" forState:UIControlStateNormal];
                 break;

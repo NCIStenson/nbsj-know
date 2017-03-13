@@ -456,7 +456,6 @@ static void * playerPlayingContext = &playerPlayingContext;
     // 初始的音量
     sysVolume = [MPMusicPlayerController systemMusicPlayer].volume;
     
-    
     // 显示或隐藏播放工具栏
     if (self.headerView.alpha == 0.0) {
         // 隐藏状态下就显示

@@ -10,18 +10,23 @@
 #import "LBNavigationController.h"
 
 #import "ZEHomeVC.h"
-#import "ZESchoolWebVC.h"
+#import "ZETeamVC.h"
 #import "ZEGroupVC.h"
 #import "ZEUserCenterVC.h"
 
+#import "ZESchoolWebVC.h"
+
 #import "ZEAskQuesViewController.h"
+#import "ZEAskTeamQuestionVC.h"
 
 #import "LBTabBar.h"
 #import "UIImage+Image.h"
 
 
 @interface LBTabBarController ()<LBTabBarDelegate>
-
+{
+    BOOL _isTeamAsk; //是否是班组圈提问
+}
 @end
 
 @implementation LBTabBarController
@@ -55,15 +60,32 @@
 
     [self setUpAllChildVc];
 
+    _isTeamAsk = NO;
     //创建自己的tabbar，然后用kvc将自己的tabbar和系统的tabBar替换下
     LBTabBar *tabbar = [[LBTabBar alloc] init];
     tabbar.myDelegate = self;
     //kvc实质是修改了系统的_tabBar
     [self setValue:tabbar forKeyPath:@"tabBar"];
 
-
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeAskStateNO) name:kNOTI_ASK_QUESTION object:nil];;
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeAskState) name:kNOTI_ASK_TEAM_QUESTION object:nil];;
 }
 
+-(void)changeAskStateNO
+{
+    _isTeamAsk = NO;
+}
+
+-(void)changeAskState
+{
+    _isTeamAsk = YES;
+}
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kNOTI_ASK_QUESTION object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kNOTI_ASK_TEAM_QUESTION object:nil];
+}
 
 #pragma mark - ------------------------------------------------------------------
 #pragma mark - 初始化tabBar上除了中间按钮之外所有的按钮
@@ -77,9 +99,12 @@
     ZEGroupVC *FishVC = [[ZEGroupVC alloc] init];
     [self setUpOneChildVcWithVc:FishVC Image:@"icon_circle" selectedImage:@"icon_circle" title:@"圈子"];
 
-    ZESchoolWebVC *MessageVC = [[ZESchoolWebVC alloc] init];
-    [self setUpOneChildVcWithVc:MessageVC Image:@"icon_school" selectedImage:@"icon_school" title:@"学堂"];
+    ZETeamVC *MessageVC = [[ZETeamVC alloc] init];
+    [self setUpOneChildVcWithVc:MessageVC Image:@"icon_school" selectedImage:@"icon_school" title:@"团队"];
 
+//    ZESchoolWebVC *MessageVC = [[ZESchoolWebVC alloc] init];
+//    [self setUpOneChildVcWithVc:MessageVC Image:@"icon_school" selectedImage:@"icon_school" title:@"学堂"];
+    
     ZEUserCenterVC *MineVC = [[ZEUserCenterVC alloc] init];
     [self setUpOneChildVcWithVc:MineVC Image:@"icon_user" selectedImage:@"icon_user" title:@"我的"];
 
@@ -100,7 +125,6 @@
 - (void)setUpOneChildVcWithVc:(UIViewController *)Vc Image:(NSString *)image selectedImage:(NSString *)selectedImage title:(NSString *)title
 {
     LBNavigationController *nav = [[LBNavigationController alloc] initWithRootViewController:Vc];
-
 
     Vc.view.backgroundColor = [UIColor whiteColor];
 
@@ -145,18 +169,16 @@
 //点击中间按钮的代理方法
 - (void)tabBarPlusBtnClick:(LBTabBar *)tabBar
 {
+    if (_isTeamAsk) {
+        ZEAskTeamQuestionVC * askQues = [[ZEAskTeamQuestionVC alloc]init];
+        askQues.enterType = ENTER_GROUP_TYPE_TABBAR;
+        [self presentViewController:askQues animated:YES completion:nil];
+        return;
+    }
+    
     ZEAskQuesViewController * askQues = [[ZEAskQuesViewController alloc]init];
     askQues.enterType = ENTER_GROUP_TYPE_TABBAR;
     [self presentViewController:askQues animated:YES completion:nil];
-//    LBpostViewController *plusVC = [[LBpostViewController alloc] init];
-//    plusVC.view.backgroundColor = [self randomColor];
-//
-//    LBNavigationController *navVc = [[LBNavigationController alloc] initWithRootViewController:plusVC];
-//
-//    [self presentViewController:navVc animated:YES completion:nil];
-
-
-
 }
 
 

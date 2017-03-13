@@ -43,7 +43,6 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(acceptSuccess) name:kNOTI_ACCEPT_SUCCESS object:nil];
-    
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -67,11 +66,18 @@
 
 -(void)sendSearchAnswerRequest
 {
+    NSString * operatetype = @"";
+    if ([_questionInfoModel.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
+        operatetype = @"2";
+    }else{
+        operatetype = @"1";
+    }
+    
     NSDictionary * parametersDic = @{@"limit":@"-1",
                                      @"MASTERTABLE":V_KLB_ANSWER_INFO,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"ISPASS desc, GOODNUMS desc, QACOUNT desc,SYSCREATEDATE asc",
-                                     @"WHERESQL":[NSString stringWithFormat:@"QUESTIONID='%@'",_questionInfoModel.SEQKEY],
+                                     @"WHERESQL":[NSString stringWithFormat:@"QUESTIONID='%@' and OPERATETYPE = %@",_questionInfoModel.SEQKEY,operatetype],
                                      @"start":@"0",
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",
@@ -109,7 +115,6 @@
 {
 
     if ([_questionInfoModel.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
-        [self showTips:@"您不能对自己的提问进行回答"];
         [self changePersonalQuestion];
         return;
     }
@@ -189,7 +194,7 @@
     ZEAskQuesViewController * askQues = [[ZEAskQuesViewController alloc]init];
     askQues.enterType = ENTER_GROUP_TYPE_CHANGE;
     askQues.QUESINFOM = self.questionInfoModel;
-    [self presentViewController:askQues animated:YES completion:nil];    
+    [self.navigationController pushViewController:askQues animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
