@@ -60,6 +60,7 @@
 @property (nonatomic,copy) NSString * USERNAME;
 @property (nonatomic,copy) NSString * USERCODE;
 @property (nonatomic,copy) NSString * FILEURL;
+@property (nonatomic,copy) NSString * USERTYPE;
 
 @property (nonatomic,strong) NSArray * FILEURLARR;
 

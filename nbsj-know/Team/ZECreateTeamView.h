@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ZEAskQuestionTypeView.h"
-
+#import "ZETeamCircleModel.h"
 @class ZECreateTeamView;
 @interface ZECreateTeamMessageView : UIView<UITextViewDelegate,ZEAskQuestionTypeViewDelegate>
 {
@@ -17,6 +17,7 @@
     ZEAskQuestionTypeView * teamTypeView;
     UITextView * _profileTextView; // 团队简介输入框
     UIButton * _teamHeadImgBtn;
+    ZETeamCircleModel * teamCircleInfo;
 }
 
 @property (nonatomic,weak) ZECreateTeamView * createTeamView;
@@ -30,16 +31,19 @@
 
 - (void)reloadTeamHeadImageView:(UIImage *)headImage;
 
+-(id)initWithFrame:(CGRect)frame withTeamCircleInfo:(ZETeamCircleModel *)teamCircleM;
+
 @end;
 
 @interface ZECreateTeamNumbersView : UIView<UICollectionViewDelegate,UICollectionViewDataSource>
 {
     UICollectionView * _collectionView;
+    ENTER_TEAM _enterTeamType;
 }
 @property (nonatomic,strong) NSMutableArray * alreadyInviteNumbersArr;
 @property (nonatomic,weak) ZECreateTeamView * createTeamView;
 
--(void)reloadNumbersView:(NSArray *)numbersArr;
+-(void)reloadNumbersView:(NSArray *)numbersArr withEnterType:(ENTER_TEAM)type;
 
 @end
 
@@ -62,9 +66,14 @@
  */
 -(void)takePhotosOrChoosePictures;
 
+
 @end
 
 @interface ZECreateTeamView : UIView
+{
+    ZETeamCircleModel * teamCircleInfo;
+}
+-(id)initWithFrame:(CGRect)frame withTeamCircleInfo:(ZETeamCircleModel *)teamCircleM;
 
 @property (nonatomic,strong) ZECreateTeamMessageView * messageView;
 @property (nonatomic,strong) ZECreateTeamNumbersView * numbersView;

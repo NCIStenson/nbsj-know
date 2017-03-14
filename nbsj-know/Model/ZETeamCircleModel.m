@@ -22,6 +22,8 @@ static ZETeamCircleModel * teamCircleInfo = nil;
     teamCircleInfo.TEAMCIRCLENAME    = [dic objectForKey:@"TEAMCIRCLENAME"];
     teamCircleInfo.TEAMCIRCLEREMARK = [dic objectForKey:@"TEAMCIRCLEREMARK"];
     teamCircleInfo.TEAMMANIFESTO = [dic objectForKey:@"TEAMMANIFESTO"];
+    teamCircleInfo.SYSCREATORID = [dic objectForKey:@"SYSCREATORID"];
+    teamCircleInfo.TEAMMEMBERS = [dic objectForKey:@"TEAMMEMBERS"];
     teamCircleInfo.FILEURL        = [[[dic objectForKey:@"FILEURL"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"] stringByReplacingOccurrencesOfString:@"," withString:@""];
     
     return teamCircleInfo;

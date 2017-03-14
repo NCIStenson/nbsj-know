@@ -7,7 +7,6 @@
 //
 
 #import "ZEFindTeamVC.h"
-#import "ZEFindTeamView.h"
 
 #import "ZECreateTeamVC.h"
 @interface ZEFindTeamVC ()
@@ -32,6 +31,7 @@
 -(void)initView{
     findTeamView = [[ZEFindTeamView alloc]initWithFrame:CGRectZero];
     findTeamView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    findTeamView.delegate = self;
     [self.view addSubview:findTeamView];
     [self.view sendSubviewToBack:findTeamView];
 }
@@ -45,9 +45,9 @@
 -(void)findTeamRequest
 {
     NSDictionary * parametersDic = @{@"limit":@"-1",
-                                     @"MASTERTABLE":KLB_TEAMCIRCLE_INFO,
+                                     @"MASTERTABLE":V_KLB_TEAMCIRCLE_INFO,
                                      @"MENUAPP":@"EMARK_APP",
-                                     @"ORDERSQL":@"",
+                                     @"ORDERSQL":@"TEAMMEMBERS desc ",
                                      @"WHERESQL":@"",
                                      @"start":@"0",
                                      @"METHOD":METHOD_SEARCH,
@@ -58,17 +58,18 @@
     
     NSDictionary * fieldsDic =@{};
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_TEAMCIRCLE_INFO]
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_TEAMCIRCLE_INFO]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:KLB_TEAMCIRCLE_INFO];
+                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:V_KLB_TEAMCIRCLE_INFO];
                                  if ([dataArr count] > 0) {
                                      [findTeamView reloadFindTeamView:dataArr];
                                  }else{
+                                     [findTeamView reloadFindTeamView:dataArr];
                                      [self showTips:@"暂时没有发现任何团队~"];
                                  }
                              } fail:^(NSError *errorCode) {
@@ -82,7 +83,17 @@
 {
     ZECreateTeamVC * createTeamVC = [[ZECreateTeamVC alloc]init];
     [self.navigationController pushViewController:createTeamVC animated:YES];
+    createTeamVC.enterType = ENTER_TEAM_CREATE;
 }
+
+-(void)goTeamVCDetail:(ZETeamCircleModel *)teamCircleInfo;
+{
+    ZECreateTeamVC * createTeamVC = [[ZECreateTeamVC alloc]init];
+    createTeamVC.enterType = ENTER_TEAM_DETAIL;
+    createTeamVC.teamCircleInfo = teamCircleInfo;
+    [self.navigationController pushViewController:createTeamVC animated:YES];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -1,4 +1,4 @@
-    //
+//
 //  ZEQuestionsDetailVC.m
 //  nbsj-know
 //
@@ -6,15 +6,16 @@
 //  Copyright © 2016年 Hangzhou Zenith Electronic Technology Co., Ltd. All rights reserved.
 //
 
-#import "ZEQuestionsDetailVC.h"
+#import "ZETeamQuestionDetailVC.h"
+
 #import "ZEQuestionsDetailView.h"
-#import "ZEAnswerQuestionsVC.h"
+#import "ZEAnswerTeamQuestionVC.h"
 
 #import "ZEAskQuesViewController.h"
 
 #import "ZEChatVC.h"
 
-@interface ZEQuestionsDetailVC ()<ZEQuestionsDetailViewDelegate>
+@interface ZETeamQuestionDetailVC ()<ZEQuestionsDetailViewDelegate>
 {
     ZEQuestionsDetailView * _quesDetailView;
     UIAlertController * alertC;
@@ -24,18 +25,16 @@
 
 @end
 
-@implementation ZEQuestionsDetailVC
+@implementation ZETeamQuestionDetailVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self initView];
     self.title = [NSString stringWithFormat:@"%@的提问",_questionInfoModel.NICKNAME];
-    if(_questionInfoModel.ISANONYMITY){
-        self.title = [NSString stringWithFormat:@"%@的提问",@"匿名用户"];
-    }
     if ([_questionInfoModel.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
-        [self.rightBtn setTitle:@"修改" forState:UIControlStateNormal];
+//        [self.rightBtn setTitle:@"修改" forState:UIControlStateNormal];
+        self.rightBtn.hidden = YES;
     }else{
         [self.rightBtn setTitle:@"回答" forState:UIControlStateNormal];
     }
@@ -43,7 +42,7 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     [self sendSearchAnswerRequest];
-
+    
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(acceptSuccess) name:kNOTI_ACCEPT_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(sendSearchAnswerRequestWithoutOperateType) name:kNOTI_BACK_QUEANSVIEW object:nil];
 }
@@ -105,7 +104,7 @@
 -(void)sendSearchAnswerRequest
 {
     NSString * operatetype = @"";
-
+    
     if ([_questionInfoModel.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
         operatetype = @"2";
     }else{
@@ -123,28 +122,28 @@
                                      @"CLASSNAME":@"com.nci.klb.app.answer.AnswerGood",
                                      @"DETAILTABLE":@"",
                                      @"OPERATETYPE":operatetype};
-
+    
     NSDictionary * fieldsDic =@{};
     
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_ANSWER_INFO]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-
+    
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
                                  _datasArr = [ZEUtil getServerData:data withTabelName:V_KLB_ANSWER_INFO];
                                  [_quesDetailView reloadData:_datasArr];
                              } fail:^(NSError *errorCode) {
-
+                                 
                              }];
 }
 
 -(void)initView
 {
     _quesDetailView = [[ZEQuestionsDetailView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
-                                                                         withQuestionInfo:_questionInfoModel];
+                                                 withQuestionInfo:_questionInfoModel];
     _quesDetailView.delegate = self;
     [self.view addSubview:_quesDetailView];
     [self.view sendSubviewToBack:_quesDetailView];
@@ -152,7 +151,7 @@
 
 -(void)rightBtnClick
 {
-
+    
     if ([_questionInfoModel.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
         [self changePersonalQuestion];
         return;
@@ -172,7 +171,7 @@
         return;
     }
     
-    ZEAnswerQuestionsVC * answerQuesVC = [[ZEAnswerQuestionsVC alloc]init];
+    ZEAnswerTeamQuestionVC * answerQuesVC = [[ZEAnswerTeamQuestionVC alloc]init];
     answerQuesVC.questionSEQKEY = _questionInfoModel.SEQKEY;
     [self.navigationController pushViewController:answerQuesVC animated:YES];
 }
@@ -214,15 +213,15 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-
+    
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-
+                                 
                                  
                                  [self sendSearchAnswerRequest];
                              } fail:^(NSError *errorCode) {
-
+                                 
                              }];
 }
 
@@ -242,17 +241,17 @@
     
     [[SDImageCache sharedImageCache] setValue:nil forKey:@"memCache"];
     [[SDImageCache sharedImageCache] clearDisk];
-
+    
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

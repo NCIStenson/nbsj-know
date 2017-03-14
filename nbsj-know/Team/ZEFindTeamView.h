@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZETeamCircleModel.h"
+
+@class ZEFindTeamView;
 
 @interface ZEFindTeamCell : UITableViewCell
 
@@ -17,11 +20,17 @@
 
 @end
 
+@protocol ZEFindTeamViewDelegate <NSObject>
+
+-(void)goTeamVCDetail:(ZETeamCircleModel *)teamCircleInfo;
+
+@end
+
 @interface ZEFindTeamView : UIView<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView * contentTableView;
 }
-
+@property (nonatomic,weak) id <ZEFindTeamViewDelegate> delegate;
 @property (nonatomic,strong) NSMutableArray * teamsDataArr;
 -(void)reloadFindTeamView:(NSArray *)dataArr;
 

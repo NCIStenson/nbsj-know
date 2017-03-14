@@ -30,7 +30,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.alreadyInviteNumbersArr = [NSMutableArray array];
+//        self.alreadyInviteNumbersArr = [NSMutableArray array];
         self.searchNumbersArr = [NSMutableArray array];
         [self initNavBar];
     }
@@ -175,6 +175,17 @@
     stateBtn.layer.cornerRadius = 5;
     stateBtn.tag = indexPath.row;
     
+    for (NSDictionary * dic in self.alreadyInviteNumbersArr) {
+        ZEUSER_BASE_INFOM * invitedUserinfo = [ZEUSER_BASE_INFOM getDetailWithDic:dic];
+        if ([invitedUserinfo.USERCODE isEqualToString:userinfo.USERCODE]) {
+            stateBtn.backgroundColor = [UIColor lightGrayColor];
+            [stateBtn setTitleColor:kTextColor forState:UIControlStateNormal];
+            [stateBtn setTitle:@"已邀请" forState:UIControlStateNormal];
+            [stateBtn removeTarget:self action:@selector(inviteNumber:) forControlEvents:UIControlEventTouchUpInside];
+            break;
+        }
+    }
+    
     UIView * lineView = [[UIView alloc]initWithFrame:CGRectMake(0, 59.5, SCREEN_WIDTH, 0.5f)];
     [cell.contentView addSubview:lineView];
     lineView.backgroundColor = MAIN_LINE_COLOR;
@@ -185,7 +196,8 @@
 -(void)inviteNumber:(UIButton *)btn
 {
 //    ZEUSER_BASE_INFOM * userinfo = [ZEUSER_BASE_INFOM getDetailWithDic:self.searchNumbersArr[btn.tag]];
- 
+    NSLog(@">>>>  %@",self.alreadyInviteNumbersArr);
+
     btn.backgroundColor = [UIColor lightGrayColor];
     [btn setTitleColor:kTextColor forState:UIControlStateNormal];
     [btn setTitle:@"已邀请" forState:UIControlStateNormal];

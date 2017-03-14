@@ -30,6 +30,8 @@
     queryNumberView = [[ZEQueryNumberView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     queryNumberView.delegate = self;
     [self.view addSubview:queryNumberView];
+    queryNumberView.alreadyInviteNumbersArr = [NSMutableArray arrayWithArray:self.alreadyInviteNumbersArr];
+    
 }
 
 -(void)goBack
@@ -72,7 +74,7 @@
                                  if ([arr count] > 0) {
                                      [queryNumberView showSearchNumberResult:arr];
                                  }else{
-                                     [self showTips:@"查无此人，请检查输入工号"];
+                                     [self showTips:@"查无此人，请检查输入工号" afterDelay:1.5];
                                  }
                              } fail:^(NSError *errorCode) {
                                  

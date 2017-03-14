@@ -16,10 +16,11 @@
 
 @implementation ZECreateTeamMessageView
 
--(id)initWithFrame:(CGRect)frame
+-(id)initWithFrame:(CGRect)frame withTeamCircleInfo:(ZETeamCircleModel *)teamCircleM;
 {
     self = [super initWithFrame:frame];
     if (self) {
+        teamCircleInfo = teamCircleM;
         self.backgroundColor = [UIColor whiteColor];
         [self initTeamMsgView];
         [self initTeamProfileView];
@@ -33,9 +34,8 @@
     _teamHeadImgBtn.frame = CGRectMake(10 , 10 , 90, 90);
     [self addSubview:_teamHeadImgBtn];
     [_teamHeadImgBtn setImage:[UIImage imageNamed:@"logo.png"] forState:UIControlStateNormal];
-//    teamHeadImgBtn.backgroundColor = MAIN_NAV_COLOR_A(0.9);
     [_teamHeadImgBtn addTarget:self action:@selector(showCamera) forControlEvents:UIControlEventTouchUpInside];
-
+    
     for (int i = 0; i < 3;  i ++) {
         UILabel * caseNameLab = [[UILabel alloc]initWithFrame:CGRectMake(110, 15 + 30 * i, 70, 30)];
         caseNameLab.text = @"团队名称:";
@@ -101,6 +101,36 @@
     _profileTextView.textColor = [UIColor lightGrayColor];
     _profileTextView.delegate = self;
     [teamProfileView addSubview:_profileTextView];
+    
+    if ([ZEUtil isNotNull:teamCircleInfo] ) {
+        
+        // 不是团长 不允许编辑
+        if (![teamCircleInfo.SYSCREATORID isEqualToString:[ZESettingLocalData getUSERCODE]]) {
+            [_teamHeadImgBtn removeTarget:self action:@selector(showCamera) forControlEvents:UIControlEventTouchUpInside];
+            _teamNameField.enabled = NO;
+            _manifestoTextView.editable = NO;
+            _profileTextView.editable = NO;
+            [_teamTypeBtn removeTarget:self action:@selector(showQuestionTypeView) forControlEvents:UIControlEventTouchUpInside];
+        }
+        
+        [_teamHeadImgBtn sd_setImageWithURL:ZENITH_IMAGEURL(teamCircleInfo.FILEURL) forState:UIControlStateNormal placeholderImage:ZENITH_PLACEHODLER_IMAGE];
+        
+        _teamNameField.text = teamCircleInfo.TEAMCIRCLENAME;
+        
+        [_teamTypeBtn setTitle:teamCircleInfo.TEAMCIRCLECODENAME forState:UIControlStateNormal];
+        [_teamTypeBtn setTitleColor:kTextColor forState:UIControlStateNormal];
+
+        _manifestoTextView.text = teamCircleInfo.TEAMMANIFESTO;
+        _manifestoTextView.textColor = kTextColor;
+
+        _profileTextView.text  = teamCircleInfo.TEAMCIRCLEREMARK;
+        _profileTextView.textColor = kTextColor;
+        
+        _TEAMCIRCLECODE = teamCircleInfo.TEAMCIRCLECODE;
+        _TEAMCIRCLECODENAME = teamCircleInfo.TEAMCIRCLECODENAME;
+
+    }
+
 }
 
 #pragma mark - UITextViewDelegate
@@ -152,6 +182,7 @@
 
 -(void)showCamera
 {
+    [self endEditing:YES];
     if ([_createTeamView.delegate respondsToSelector:@selector(takePhotosOrChoosePictures)]) {
         [_createTeamView.delegate takePhotosOrChoosePictures];
     }
@@ -159,6 +190,7 @@
 
 -(void)showQuestionTypeView
 {
+    [self endEditing:YES];
     teamTypeView = [[ZEAskQuestionTypeView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     teamTypeView.delegate = self;
     [_createTeamView addSubview:teamTypeView];
@@ -217,7 +249,15 @@
 }
 #pragma mark  - Public Method
 -(void)reloadNumbersView:(NSArray *)numbersArr
+           withEnterType:(ENTER_TEAM)type
 {
+    if (type == ENTER_TEAM_CREATE) {
+        self.alreadyInviteNumbersArr = [NSMutableArray arrayWithArray:@[[ZESettingLocalData getUSERINFO]]];
+    }else if (type == ENTER_TEAM_DETAIL){
+        self.alreadyInviteNumbersArr = [NSMutableArray array];
+
+    }
+    _enterTeamType = type;
     [self.alreadyInviteNumbersArr addObjectsFromArray:numbersArr];
     
     [_collectionView reloadData];
@@ -228,7 +268,20 @@
 //定义展示的UICollectionViewCell的个数
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.alreadyInviteNumbersArr.count + 2;
+    if (_enterTeamType == ENTER_TEAM_CREATE) {
+        return self.alreadyInviteNumbersArr.count + 2 ;
+    }
+    if (self.alreadyInviteNumbersArr.count > 0) {
+        for (NSDictionary * dic in self.alreadyInviteNumbersArr){
+            ZEUSER_BASE_INFOM * USERINFO = [ZEUSER_BASE_INFOM getDetailWithDic:dic];
+
+            if ([USERINFO.USERCODE isEqualToString:[ZESettingLocalData getUSERCODE]] && [USERINFO.USERTYPE integerValue] == 2) {
+                return self.alreadyInviteNumbersArr.count + 2;
+            }
+
+        }
+    }
+    return self.alreadyInviteNumbersArr.count ;
 }
 
 //定义展示的Section的个数
@@ -324,10 +377,11 @@
 
 @implementation ZECreateTeamView
 
--(id)initWithFrame:(CGRect)frame
+-(id)initWithFrame:(CGRect)frame withTeamCircleInfo:(ZETeamCircleModel *)teamCircleM
 {
     self = [super initWithFrame:frame];
     if (self) {
+        teamCircleInfo = teamCircleM;
         [self initView];
     }
     return self;
@@ -338,7 +392,7 @@
     scrollView.backgroundColor = [UIColor redColor];
     [self addSubview:scrollView];
     
-    _messageView = [[ZECreateTeamMessageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 225)];
+    _messageView = [[ZECreateTeamMessageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 225) withTeamCircleInfo:teamCircleInfo];
     _messageView.createTeamView = self;
     [scrollView addSubview:_messageView];
     

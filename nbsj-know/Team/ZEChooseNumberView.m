@@ -104,6 +104,15 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.row == 0) {
+        
+        MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self animated:YES];
+        hud3.mode = MBProgressHUDModeText;
+        hud3.labelText = @"班组长不能被移除";
+        [hud3 hide:YES afterDelay:1];
+
+        return;
+    }
     UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
     if ([self.maskArr[indexPath.row] boolValue]) {
         cell.accessoryType = UITableViewCellAccessoryNone;

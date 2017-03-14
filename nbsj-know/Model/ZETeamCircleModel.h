@@ -18,8 +18,9 @@
 @property (nonatomic,copy) NSString * TEAMCIRCLECODENAME; // 团队所属分类name
 
 @property (nonatomic,copy) NSString * TEAMCIRCLEREMARK;  // 团队简介
+@property (nonatomic,copy) NSString * TEAMMEMBERS;  // 团队成员
 @property (nonatomic,copy) NSString * TEAMMANIFESTO;     //  团队宣言
-
+@property (nonatomic,copy) NSString * SYSCREATORID;     //  创建班组圈的工号
 +(ZETeamCircleModel *)getDetailWithDic:(NSDictionary *)dic;
 
 @end

@@ -36,7 +36,9 @@ static ZEAnswerInfoModel * ansertInfoM = nil;
     
     NSArray * urlArr = [ansertInfoM.FILEURL componentsSeparatedByString:@","];
     NSMutableArray * imageUrlArr = [NSMutableArray arrayWithArray:urlArr];
-    [imageUrlArr removeObjectAtIndex:0];
+    if(imageUrlArr.count > 0){
+        [imageUrlArr removeObjectAtIndex:0];
+    }
     ansertInfoM.FILEURLARR = imageUrlArr;
 
     return ansertInfoM;

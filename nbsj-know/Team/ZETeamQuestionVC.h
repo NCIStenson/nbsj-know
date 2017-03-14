@@ -1,17 +1,16 @@
 //
-//  ZECreateTeamVC.h
+//  ZETeamQuestionVC.h
 //  nbsj-know
 //
-//  Created by Stenson on 17/3/8.
+//  Created by Stenson on 17/3/13.
 //  Copyright © 2017年 Hangzhou Zenith Electronic Technology Co., Ltd. All rights reserved.
 //
 
 #import "ZESettingRootVC.h"
 #import "ZETeamCircleModel.h"
 
-@interface ZECreateTeamVC : ZESettingRootVC<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
-
-@property (nonatomic,assign) ENTER_TEAM enterType;
+@interface ZETeamQuestionVC : ZESettingRootVC
 
 @property (nonatomic,strong) ZETeamCircleModel * teamCircleInfo;
+
 @end

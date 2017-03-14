@@ -10,19 +10,33 @@
 
 @implementation MKJCollectionViewCell
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
+
+-(id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self initView];
+    }
+    return self;
+}
+- (void)initView
+{
+    self.heroImageVIew = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH / 3, SCREEN_WIDTH / 3)];
+    [self addSubview:self.heroImageVIew];
+    
     self.heroImageVIew.layer.cornerRadius = 5.0f;
     self.heroImageVIew.layer.masksToBounds = YES;
-    self.backView.backgroundColor = [UIColor clearColor];
+
     self.contentView.backgroundColor = [UIColor clearColor];
     self.backgroundColor = [UIColor clearColor];
-    self.backView.layer.shadowColor = [UIColor cyanColor].CGColor;
-    self.backView.layer.shadowOpacity = 0.7;
-    self.backView.layer.shadowRadius = 5.0f;
-    self.backView.layer.shadowOffset = CGSizeMake(2, 6);
-    self.backView.layer.cornerRadius = 15.0;
-    self.backView.layer.masksToBounds = YES;
+    
+    
+    self.nameLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.width, 20)];
+    _nameLab.backgroundColor = [UIColor redColor];
+    
+    [self addSubview:self.nameLab];
+    
+    
 }
 
 @end

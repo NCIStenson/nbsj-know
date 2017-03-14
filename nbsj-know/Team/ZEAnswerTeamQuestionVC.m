@@ -6,14 +6,12 @@
 //  Copyright © 2016年 Hangzhou Zenith Electronic Technology Co., Ltd. All rights reserved.
 //
 
-#import "ZEAnswerQuestionsVC.h"
+#import "ZEAnswerTeamQuestionVC.h"
 #import "ZEAnswerQuestionsView.h"
-
-#import "ZELookViewController.h"
 
 #define textViewStr @"这个问题将由您来解答。"
 
-@interface ZEAnswerQuestionsVC ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,ZELookViewControllerDelegate,ZEAnswerQuestionsViewDelegate>
+@interface ZEAnswerTeamQuestionVC ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,ZEAnswerQuestionsViewDelegate>
 {
     ZEAnswerQuestionsView * _answerQuesView;
 }
@@ -22,7 +20,7 @@
 
 @end
 
-@implementation ZEAnswerQuestionsVC
+@implementation ZEAnswerTeamQuestionVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -125,14 +123,6 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
--(void)goLookImageView:(NSArray *)imageArr
-{
-    ZELookViewController * lookVC = [[ ZELookViewController alloc]init];
-    lookVC.delegate = self;
-    lookVC.imageArr = self.imagesArr;
-    [self.navigationController pushViewController:lookVC animated:YES];
-}
-
 -(void)goBackViewWithImages:(NSArray *)imageArr
 {
     self.imagesArr = [NSMutableArray arrayWithArray:imageArr];
@@ -170,7 +160,7 @@
 -(void)insertData
 {
     NSDictionary * parametersDic = @{@"limit":@"20",
-                                     @"MASTERTABLE":KLB_ANSWER_INFO,
+                                     @"MASTERTABLE":KLB_TEAMCIRCLE_ANSWER_INFO,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"",
                                      @"WHERESQL":@"",
@@ -178,15 +168,9 @@
                                      @"METHOD":METHOD_INSERT,
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.klb.app.answer.AnswerPoints",
+                                     @"CLASSNAME":@"com.nci.klb.app.teamcircle.TeamcircleAnswer",
                                      @"DETAILTABLE":@"",};
-    NSString * ANSWERLEVEL = nil;
-    if ([ZESettingLocalData getISEXPERT]) {
-        ANSWERLEVEL = @"2";
-    }else{
-        ANSWERLEVEL = @"1";
-    }
-
+    
     NSDictionary * fieldsDic =@{@"SEQKEY":@"",
                                 @"QUESTIONID":_questionSEQKEY,
                                 @"ANSWEREXPLAIN":_answerQuesView.inputView.text,
@@ -194,12 +178,12 @@
                                 @"USERHEADIMAGE":[ZESettingLocalData getUSERHHEADURL],
                                 @"ANSWERUSERCODE":[ZESettingLocalData getUSERCODE],
                                 @"ANSWERUSERNAME":[ZESettingLocalData getNICKNAME],
-                                @"ANSWERLEVEL":ANSWERLEVEL,
+                                @"ANSWERLEVEL":@"",
                                 @"ISPASS":@"0",
                                 @"ISENABLED":@"0"};
     
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_ANSWER_INFO]
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_TEAMCIRCLE_ANSWER_INFO]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
@@ -244,13 +228,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

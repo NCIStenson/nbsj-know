@@ -30,7 +30,7 @@
     [super prepareLayout];
 }
 
-#warning 以下三个方法必须一起重载  分别是返回可见区域尺寸    获取可见区域内可见的item数组    当滚动的时候一直重绘collectionView
+//#warning 以下三个方法必须一起重载  分别是返回可见区域尺寸    获取可见区域内可见的item数组    当滚动的时候一直重绘collectionView
 
 // 重载第一个方法
 // 返回可见区域的的内容尺寸

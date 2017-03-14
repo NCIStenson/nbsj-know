@@ -11,4 +11,6 @@
 
 @interface ZEQueryNumberVC : ZESettingRootVC<ZEQueryNumberViewDelegate>
 
+@property (nonatomic,strong) NSMutableArray * alreadyInviteNumbersArr;  // 当前页面已将邀请过的人员
+
 @end

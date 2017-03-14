@@ -86,6 +86,7 @@ static ZEUSER_BASE_INFOM * userinfo = nil;
     userinfo = [[ZEUSER_BASE_INFOM alloc]init];
     
     userinfo.USERNAME           = [dic objectForKey:@"USERNAME"];
+    userinfo.USERTYPE           = [dic objectForKey:@"USERTYPE"];
     userinfo.USERCODE           = [dic objectForKey:@"USERCODE"];
     userinfo.FILEURL          = [[[dic objectForKey:@"FILEURL"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"] stringByReplacingOccurrencesOfString:@"," withString:@""];
     

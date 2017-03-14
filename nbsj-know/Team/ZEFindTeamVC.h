@@ -7,7 +7,7 @@
 //
 
 #import "ZESettingRootVC.h"
-
-@interface ZEFindTeamVC : ZESettingRootVC
+#import "ZEFindTeamView.h"
+@interface ZEFindTeamVC : ZESettingRootVC<ZEFindTeamViewDelegate>
 
 @end

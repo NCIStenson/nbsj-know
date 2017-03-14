@@ -10,7 +10,10 @@
 
 @interface MKJCollectionViewCell : UICollectionViewCell
 
-@property (weak, nonatomic) IBOutlet UIImageView *heroImageVIew;
-@property (weak, nonatomic) IBOutlet UIView *backView;
+-(id)initWithFrame:(CGRect)frame;
+
+@property (strong, nonatomic) UIImageView *heroImageVIew;
+
+@property (nonatomic,strong) UILabel * nameLab;
 
 @end

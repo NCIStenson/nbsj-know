@@ -54,7 +54,7 @@
 
 -(void)initWebView
 {
-     webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT - 49.0f)];
+     webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
     webView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:webView];
     webView.delegate = self;

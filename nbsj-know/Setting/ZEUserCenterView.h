@@ -32,6 +32,8 @@
 
 -(void)goSinginVC;
 
+-(void)goSchollVC;
+
 @end
 
 @interface ZEUserCenterView : UIView<UITableViewDelegate,UITableViewDataSource>

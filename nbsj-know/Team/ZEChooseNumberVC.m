@@ -36,17 +36,26 @@
 
 -(void)deleteNumbers
 {
+    NSMutableArray * addMembersArr = [NSMutableArray array];
+    NSMutableArray * subMembersArr = [NSMutableArray array];
+    
+    NSLog(@">>>  %@",chooseNumberView.maskArr);
+
     for (int i = 0; i < _numbersArr.count; i ++) {
-        BOOL mask  = chooseNumberView.maskArr[i];
-        if (mask) {
-            [self.numbersArr removeObjectAtIndex:i];
+        BOOL mask  = [chooseNumberView.maskArr[i] boolValue];
+        if (!mask) {
+            [addMembersArr addObject:_numbersArr[i]];
+        }else{
+            [subMembersArr addObject:_numbersArr[i]];
         }
     }
-//    for (BOOL mask in chooseNumberView.maskArr) {
-//        if (mask) {
-//            <#statements#>
-//        }
-//    }
+
+//    NSLog(@">>>  %@",addMembersArr);
+//    NSLog(@">>>  %@",subMembersArr);
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_FINISH_DELETE_TEAMCIRCLENUMBERS object:addMembersArr];
+    [self.navigationController popViewControllerAnimated:YES];
+    
 }
 
 - (void)didReceiveMemoryWarning {

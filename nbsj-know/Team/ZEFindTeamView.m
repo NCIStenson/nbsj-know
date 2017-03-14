@@ -13,8 +13,6 @@
 
 #import "ZEFindTeamView.h"
 
-#import "ZETeamCircleModel.h"
-
 @implementation ZEFindTeamCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style
@@ -42,7 +40,7 @@
     detailImageView.contentMode = UIViewContentModeScaleAspectFill;
     detailImageView.clipsToBounds = YES;    
     
-    UILabel * caseNameLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH / 3 + 10, 15, SCREEN_WIDTH - SCREEN_WIDTH / 3 - 25, 20)];
+    UILabel * caseNameLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH / 3 + 15, 15, SCREEN_WIDTH - SCREEN_WIDTH / 3 - 25, 20)];
     caseNameLab.text = teamCircleInfo.TEAMCIRCLENAME;
     [caseNameLab setTextColor:kTextColor];
     caseNameLab.font = [UIFont systemFontOfSize:16];
@@ -53,7 +51,7 @@
     if (IPHONE5_MORE) {
         questionTypeLabWidth += 10;
     }
-    UILabel * questionTypeLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH / 3 + 10, 40, questionTypeLabWidth, 30)];
+    UILabel * questionTypeLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH / 3 + 15, 40, questionTypeLabWidth, 30)];
     questionTypeLab.text = questionTypeLabText;
     questionTypeLab.numberOfLines = 0;
     questionTypeLab.textAlignment = NSTextAlignmentCenter;
@@ -64,7 +62,7 @@
     questionTypeLab.clipsToBounds = YES;
     questionTypeLab.layer.cornerRadius = 5;
     
-    NSString * numbersLabText = @"100000人";
+    NSString * numbersLabText = [NSString stringWithFormat:@"%@人",teamCircleInfo.TEAMMEMBERS ];
     float numbersLabWidth = [ZEUtil widthForString:numbersLabText font:[UIFont systemFontOfSize:kSubTiltlFontSize] maxSize:CGSizeMake(SCREEN_WIDTH / 5, 30)] ;
     if (IPHONE5_MORE) {
         numbersLabWidth += 10;
@@ -122,7 +120,6 @@
     contentTableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
     contentTableView.delegate = self;
     contentTableView.dataSource = self;
-    contentTableView.backgroundColor = [UIColor redColor];
     [self addSubview:contentTableView];
     [contentTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(kContentTableViewMarginLeft);
@@ -181,4 +178,13 @@
 
     return cell;
 }
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if([self.delegate respondsToSelector:@selector(goTeamVCDetail:)]){
+        ZETeamCircleModel * teamCircleInfo = [ZETeamCircleModel getDetailWithDic:self.teamsDataArr[indexPath.row]];
+        [self.delegate goTeamVCDetail:teamCircleInfo];
+    }
+}
+
 @end

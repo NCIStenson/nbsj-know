@@ -151,7 +151,7 @@
         }
         
     }else{
-        self.title = @"团队中提问";
+        self.title = [NSString stringWithFormat:@"%@中提问",_teamInfoModel.TEAMCIRCLENAME];
         askView = [[ZEAskTeamQuestionView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
     }
     askView.delegate = self;
@@ -309,15 +309,15 @@
 -(void)insertData
 {
     NSDictionary * parametersDic = @{@"limit":@"20",
-                                     @"MASTERTABLE":KLB_QUESTION_INFO,
+                                     @"MASTERTABLE":KLB_TEAMCIRCLE_QUESTION_INFO,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"",
                                      @"WHERESQL":@"",
                                      @"start":@"0",
-                                     @"METHOD":@"addSave",
+                                     @"METHOD":METHOD_INSERT,
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.klb.app.question.QuestionPoints",
+                                     @"CLASSNAME":@"com.nci.klb.app.teamcircle.TeamcircleQuestion",
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{@"SEQKEY":@"",
@@ -332,10 +332,10 @@
                                 @"ISLOSE":@"0",
                                 @"ISEXPERTANSWER":@"0",
                                 @"ISSOLVE":@"0",
-                                @"ISANONYMITY":[NSString stringWithFormat:@"%d",askView.isAnonymousAsk],
-                                @"BONUSPOINTS":[ZEUtil isStrNotEmpty:askView.goldScore] ? askView.goldScore : @""};
+                                @"TEAMCIRCLECODE":_teamInfoModel.TEAMCIRCLECODE,
+                                };
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_QUESTION_INFO]
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_TEAMCIRCLE_QUESTION_INFO]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];

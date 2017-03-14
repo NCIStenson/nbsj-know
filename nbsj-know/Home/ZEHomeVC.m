@@ -107,8 +107,6 @@
 {
     [super viewWillAppear:YES];
     self.tabBarController.tabBar.hidden = NO;
-//    [self sendIsSigninToday];
-//    [self sendSigninViewMessage];
     [self checkUpdate];
     
     [[NSNotificationCenter defaultCenter]postNotificationName:kNOTI_ASK_QUESTION object:nil];
@@ -141,7 +139,6 @@
                                 @"QUESTIONCOUNT":@"",
                                 @"ANSWERCOUNT":@"",
                                 };
-//     NSDictionary * fieldsDic = @{};
     
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_USER_BASE_INFO]
                                                                            withFields:@[fieldsDic]

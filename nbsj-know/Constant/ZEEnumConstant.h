@@ -38,6 +38,12 @@ typedef enum : NSUInteger {
 } ENTER_CASE_TYPE;
 
 typedef enum : NSUInteger {
+    ENTER_TEAM_CREATE, // 创建团队
+    ENTER_TEAM_DETAIL, // 团队详情
+} ENTER_TEAM;   // 进入团队详情页面
+
+
+typedef enum : NSUInteger {
     ENTER_SETTING_TYPE_PERSONAL,
     ENTER_SETTING_TYPE_SETTING,
 } ENTER_SETTING_TYPE;

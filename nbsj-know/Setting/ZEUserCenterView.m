@@ -77,21 +77,30 @@
     
     if ([questionCount integerValue ] == 0) {
         questionBadgeLab.hidden = YES;
-    }else if (questionCount.length < 3){
+    }else if ([questionCount integerValue] < 100){
         questionBadgeLab.size = CGSizeMake(20.0f, 20.0f);
-    }else if (questionCount.length > 2){
+        questionBadgeLab.hidden = NO;
+    }else if ([questionCount integerValue] > 99){
+        questionBadgeLab.hidden = NO;
         questionBadgeLab.width = 30.0f;
         questionBadgeLab.center = CGPointMake(questionBadgeLab.superview.size.width - 25, 20);
     }
     
     if ([answerCount integerValue] == 0) {
         answerBadgeLab.hidden = YES;
-    }else if (questionCount.length < 3){
-        questionBadgeLab.size = CGSizeMake(20.0f, 20.0f);
-    }else if (answerCount.length > 2){
+    }else if ([answerCount integerValue] < 100){
+        answerBadgeLab.hidden = NO;
+        answerBadgeLab.size = CGSizeMake(20.0f, 20.0f);
+    }else if ([answerCount integerValue] > 99){
+        answerBadgeLab.hidden = NO;
         answerBadgeLab.width = 30.0f;
         answerBadgeLab.center = CGPointMake(answerBadgeLab.superview.size.width - 25, 20);
     }
+    
+    answerBadgeLab.clipsToBounds = YES;
+    answerBadgeLab.layer.cornerRadius = answerBadgeLab.height / 2;
+    questionBadgeLab.clipsToBounds = YES;
+    questionBadgeLab.layer.cornerRadius = questionBadgeLab.height / 2;
 
 }
 #pragma mark - UITableViewDataSource
@@ -158,12 +167,15 @@
             contentLabel.text = @"我的收藏";
         }
     }else if (indexPath.section == 0){
+        
         if (indexPath.row == 0) {
+            logoImageView.image = [UIImage imageNamed:@"icon_school.png" color:MAIN_NAV_COLOR];
+            contentLabel.text = @"学堂";
+
+        }else if (indexPath.row == 1) {
             logoImageView.image = [UIImage imageNamed:@"icon_record.png" color:MAIN_NAV_COLOR];
             contentLabel.text = @"意见反馈";
-        }else if (indexPath.row == 1) {
-            logoImageView.image = [UIImage imageNamed:@"icon_phone.png" color:MAIN_NAV_COLOR];
-            contentLabel.text = @"客服";
+
         }else if(indexPath.row == 2){
             logoImageView.image = [UIImage imageNamed:@"icon_setting.png" color:MAIN_NAV_COLOR];
             contentLabel.text = @"设置";
@@ -387,16 +399,18 @@
         case 0:
         {
             switch (indexPath.row) {
-                case 0:
+                case 1:
                 {
                     if ([self.delegate respondsToSelector:@selector(changePersonalMsg:)]) {
                         [self.delegate changePersonalMsg:CHANGE_PERSONALMSG_ADVICE];
                     }
                 }
                     break;
-                case 1:
+                case 0:
                 {
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"telprompt:15867208300"]];
+                    if ([self.delegate respondsToSelector:@selector(goSchollVC)]) {
+                        [self.delegate goSchollVC];
+                    }
                 }
                     break;
                 case 2:

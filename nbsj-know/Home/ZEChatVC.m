@@ -22,6 +22,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+
     self.automaticallyAdjustsScrollViewInsets = NO;
 
     if([_questionInfo.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]){
@@ -32,6 +33,8 @@
             [self.rightBtn addTarget:self action:@selector(acceptAnswer) forControlEvents:UIControlEventTouchUpInside];
         }
     }
+    [self sendSearchAnswerRequest];
+
     if (_enterChatVCType == 1) {
         self.title = @"";
         [self sendAnswerModelRequest];
@@ -39,6 +42,12 @@
         self.title = [NSString stringWithFormat:@"%@的回答",_answerInfo.NICKNAME];
         [self initContentView];
     }
+}
+
+-(void)leftBtnClick
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_BACK_QUEANSVIEW object:nil];
 }
 
 -(void)sendAnswerModelRequest
@@ -80,7 +89,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    [self sendSearchAnswerRequest];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -88,8 +96,10 @@
     [super viewWillDisappear:YES];
 }
 
--(void)sendSearchAnswerRequest
+-(void)sendSearchAnswerRequestWithoutOPERATETYPE
 {
+    NSString * operatetype = @"";
+    
     NSDictionary * parametersDic = @{@"limit":@"-1",
                                      @"MASTERTABLE":KLB_QUE_ANS_DETAIL,
                                      @"MENUAPP":@"EMARK_APP",
@@ -100,7 +110,45 @@
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
                                      @"CLASSNAME":@"com.nci.klb.app.answer.QueAnsDetail",
-                                     @"DETAILTABLE":@"",};
+                                     @"DETAILTABLE":@"",
+                                     @"OPERATETYPE":operatetype};
+    
+    NSDictionary * fieldsDic =@{};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_QUE_ANS_DETAIL]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 NSArray *  _datasArr = [ZEUtil getServerData:data withTabelName:KLB_QUE_ANS_DETAIL];
+                                 [_chatView reloadDataWithArr:_datasArr];
+                             } fail:^(NSError *errorCode) {
+                             }];
+}
+
+-(void)sendSearchAnswerRequest
+{
+    NSString * operatetype = @"";
+    if ([_questionInfo.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
+        operatetype = @"2";
+    }else{
+        operatetype = @"1";
+    }
+    
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":KLB_QUE_ANS_DETAIL,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"SYSCREATEDATE asc",
+                                     @"WHERESQL":[NSString stringWithFormat:@"ANSWERCODE='%@'",_answerInfo.SEQKEY],
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_SEARCH,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.answer.QueAnsDetail",
+                                     @"DETAILTABLE":@"",
+                                     @"OPERATETYPE":operatetype};
     
     NSDictionary * fieldsDic =@{};
     
@@ -216,7 +264,7 @@
                             withImageArr:@[chatImage]
                            showAlertView:YES
                                  success:^(id data) {
-                                     [self sendSearchAnswerRequest];
+                                     [self sendSearchAnswerRequestWithoutOPERATETYPE];
                             } fail:^(NSError *error) {
                                 
                             }];
@@ -264,7 +312,7 @@
                        showAlertView:NO
                              success:^(id data) {
                                  [_chatView uploadTextSuccess];
-                                 [self sendSearchAnswerRequest];
+                                 [self sendSearchAnswerRequestWithoutOPERATETYPE];
                              } fail:^(NSError *errorCode) {
 
                              }];

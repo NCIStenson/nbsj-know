@@ -22,10 +22,12 @@
 #import "LBTabBar.h"
 #import "UIImage+Image.h"
 
-
+#import "ZETeamCircleModel.h"
 @interface LBTabBarController ()<LBTabBarDelegate>
 {
     BOOL _isTeamAsk; //是否是班组圈提问
+    
+    ZETeamCircleModel * _teamCircleInfo;
 }
 @end
 
@@ -61,6 +63,7 @@
     [self setUpAllChildVc];
 
     _isTeamAsk = NO;
+    _teamCircleInfo = NULL;
     //创建自己的tabbar，然后用kvc将自己的tabbar和系统的tabBar替换下
     LBTabBar *tabbar = [[LBTabBar alloc] init];
     tabbar.myDelegate = self;
@@ -68,7 +71,7 @@
     [self setValue:tabbar forKeyPath:@"tabBar"];
 
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeAskStateNO) name:kNOTI_ASK_QUESTION object:nil];;
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeAskState) name:kNOTI_ASK_TEAM_QUESTION object:nil];;
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeAskState:) name:kNOTI_ASK_TEAM_QUESTION object:nil];;
 }
 
 -(void)changeAskStateNO
@@ -76,9 +79,15 @@
     _isTeamAsk = NO;
 }
 
--(void)changeAskState
+-(void)changeAskState:(NSNotification *)noti
 {
     _isTeamAsk = YES;
+
+    if ([ZEUtil isNotNull:noti] && [noti.object isKindOfClass:[ZETeamCircleModel class]]) {
+        _teamCircleInfo = noti.object;
+    }else{
+        _teamCircleInfo = NULL;
+    }
 }
 
 -(void)dealloc
@@ -170,9 +179,18 @@
 - (void)tabBarPlusBtnClick:(LBTabBar *)tabBar
 {
     if (_isTeamAsk) {
-        ZEAskTeamQuestionVC * askQues = [[ZEAskTeamQuestionVC alloc]init];
-        askQues.enterType = ENTER_GROUP_TYPE_TABBAR;
-        [self presentViewController:askQues animated:YES completion:nil];
+        if ([ZEUtil isNotNull:_teamCircleInfo]) {
+            ZEAskTeamQuestionVC * askQues = [[ZEAskTeamQuestionVC alloc]init];
+            askQues.enterType = ENTER_GROUP_TYPE_TABBAR;
+            askQues.teamInfoModel = _teamCircleInfo;
+            [self presentViewController:askQues animated:YES completion:nil];
+        }else{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud3.mode = MBProgressHUDModeText;
+            hud3.labelText = @"请先选择班组圈";
+            [hud3 hide:YES afterDelay:1.5];
+        }
         return;
     }
     

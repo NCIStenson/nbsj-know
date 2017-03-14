@@ -18,6 +18,8 @@
 #import "ZETypicalCaseVC.h"
 #import "ZEChangePersonalMsgVC.h"
 
+#import "ZESchoolWebVC.h"
+
 @interface ZEUserCenterVC ()<ZEUserCenterViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 {
     ZEUserCenterView * usView;
@@ -276,6 +278,13 @@
     [self.navigationController pushViewController:personalMsgVC animated:YES];
 }
 
+-(void)goSchollVC
+{
+    ZESchoolWebVC * schoolVC = [[ZESchoolWebVC alloc]init];
+    
+    [self.navigationController pushViewController:schoolVC animated:YES];
+    
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

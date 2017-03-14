@@ -8,9 +8,13 @@
 
 #import "ZESettingRootVC.h"
 
+#import "ZETeamCircleModel.h"
+
 @interface ZEAskTeamQuestionVC : ZESettingRootVC
 
 @property (nonatomic,strong) ZEQuestionInfoModel * QUESINFOM;
 @property (nonatomic,assign) ENTER_GROUP_TYPE enterType;
+
+@property (nonatomic,strong) ZETeamCircleModel * teamInfoModel;
 
 @end
