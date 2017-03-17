@@ -70,8 +70,8 @@
     //kvc实质是修改了系统的_tabBar
     [self setValue:tabbar forKeyPath:@"tabBar"];
 
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeAskStateNO) name:kNOTI_ASK_QUESTION object:nil];;
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeAskState:) name:kNOTI_ASK_TEAM_QUESTION object:nil];;
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeAskStateNO) name:kNOTI_ASK_QUESTION object:nil];;
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeAskState:) name:kNOTI_ASK_TEAM_QUESTION object:nil];;
 }
 
 -(void)changeAskStateNO
@@ -109,7 +109,7 @@
     [self setUpOneChildVcWithVc:FishVC Image:@"icon_circle" selectedImage:@"icon_circle" title:@"圈子"];
 
     ZETeamVC *MessageVC = [[ZETeamVC alloc] init];
-    [self setUpOneChildVcWithVc:MessageVC Image:@"icon_school" selectedImage:@"icon_school" title:@"团队"];
+    [self setUpOneChildVcWithVc:MessageVC Image:@"icon_team" selectedImage:@"icon_team" title:@"团队"];
 
 //    ZESchoolWebVC *MessageVC = [[ZESchoolWebVC alloc] init];
 //    [self setUpOneChildVcWithVc:MessageVC Image:@"icon_school" selectedImage:@"icon_school" title:@"学堂"];

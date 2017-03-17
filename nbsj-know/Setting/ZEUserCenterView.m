@@ -75,7 +75,7 @@
     questionBadgeLab.text = questionCount;
     answerBadgeLab.text = answerCount;
     
-    if ([questionCount integerValue ] == 0) {
+    if ([questionCount integerValue ] <= 0) {
         questionBadgeLab.hidden = YES;
     }else if ([questionCount integerValue] < 100){
         questionBadgeLab.size = CGSizeMake(20.0f, 20.0f);
@@ -86,7 +86,7 @@
         questionBadgeLab.center = CGPointMake(questionBadgeLab.superview.size.width - 25, 20);
     }
     
-    if ([answerCount integerValue] == 0) {
+    if ([answerCount integerValue] <= 0) {
         answerBadgeLab.hidden = YES;
     }else if ([answerCount integerValue] < 100){
         answerBadgeLab.hidden = NO;

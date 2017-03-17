@@ -425,6 +425,14 @@
 #pragma mark - 匿名提问
 
 -(void)anonymousAsk{
+    if ([self.SUMPOINTS integerValue] < 10) {
+        MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self animated:YES];
+        hud3.mode = MBProgressHUDModeText;
+        hud3.labelText = @"当前积分过少，快去获取积分吧。";
+        [hud3 hide:YES afterDelay:1.5];
+        return;
+    }
+    
     [self endEditing:YES];
 
     _anonymousAskView.hidden = NO;

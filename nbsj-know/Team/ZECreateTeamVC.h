@@ -14,4 +14,7 @@
 @property (nonatomic,assign) ENTER_TEAM enterType;
 
 @property (nonatomic,strong) ZETeamCircleModel * teamCircleInfo;
+
+@property (nonatomic,copy) NSString * TEAMCODE;
+
 @end

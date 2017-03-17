@@ -268,7 +268,7 @@
                                          [_questionsView loadNoMoreData];
                                          return ;
                                      }else{
-                                         [self showTips:@"您还没有回答过任何问题，快去试试吧~" afterDelay:1.5];
+                                         [self showTips:@"快去帮助小伙伴们解决他们的疑问吧！" afterDelay:1.5];
                                      }
                                      [_questionsView reloadFirstView:dataArr];
                                      [_questionsView headerEndRefreshing];
@@ -301,6 +301,7 @@
     detailVC.questionInfoModel = infoModel;
     detailVC.questionTypeModel = typeModel;
     [self.navigationController pushViewController:detailVC animated:YES];
+    detailVC.enterQuestionDetailType = _showQuestionListType;
 }
 
 -(void)goSearch:(NSString *)str

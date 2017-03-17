@@ -14,7 +14,9 @@
 }
 @property (nonatomic,strong) NSMutableArray * alreadyInviteNumbersArr;
 
+@property (nonatomic,copy) NSString * TEAMCODE;
 @property (nonatomic,strong) NSMutableArray * maskArr;
 -(void)reloadViewWithAlreadyInviteNumbers:(NSArray *)arr;
+
 
 @end

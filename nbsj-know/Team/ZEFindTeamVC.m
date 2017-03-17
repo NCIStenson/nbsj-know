@@ -26,6 +26,7 @@
     [self.rightBtn addTarget:self action:@selector(goCreateTeamVC) forControlEvents:UIControlEventTouchUpInside];
     
     [self initView];
+    
 }
 
 -(void)initView{

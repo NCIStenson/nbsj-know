@@ -14,6 +14,8 @@
 
 #import "ZEQuestionTypeCache.h"
 
+#import "ZEChooseNumberVC.h"
+
 #import "ZEShowQuestionVC.h"
 #define textViewStr @"试着将问题尽可能清晰的描述出来，这样回答者们才能更完整、更高质量的为您解答。"
 
@@ -24,6 +26,7 @@
     NSDictionary * showQuesTypeDic;
     
     NSString * questionTypeCode;
+    NSString * targetMembersStr; // 指定人员回答
 }
 
 @property (nonatomic,retain) NSMutableArray * imagesArr;
@@ -38,7 +41,9 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.imagesArr = [NSMutableArray array];
     
+    targetMembersStr = @"";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(goBackShowView) name:kNOTI_CHANGE_ASK_SUCCESS object:nil];;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishChooseTeamMember:) name:kNOTI_FINISH_CHOOSE_TEAMCIRCLENUMBERS object:nil];;
     
     [self initView];
 }
@@ -52,10 +57,31 @@
         }
     }
 }
+-(void)finishChooseTeamMember:(NSNotification*)noti
+{
+    NSString * nameStr = @"";
+    targetMembersStr = @"";
+    for (id obj in noti.object) {
+        ZEUSER_BASE_INFOM * userinfo = [ZEUSER_BASE_INFOM getDetailWithDic:obj];
+        if(nameStr.length == 0){
+            nameStr = userinfo.USERNAME;
+            targetMembersStr = userinfo.USERCODE;
+        }else{
+            nameStr = [NSString stringWithFormat:@"%@,%@",nameStr,userinfo.USERNAME];
+            targetMembersStr = [NSString stringWithFormat:@"%@,%@",targetMembersStr,userinfo.USERCODE];
+        }
+    }
+    if (nameStr.length > 0) {
+        [askView.designatedNumberBtn setTitle:nameStr forState:UIControlStateNormal];
+    }else{
+        [askView.designatedNumberBtn  setTitle:@"指定提问：只能选取团队中的人，可多选" forState:UIControlStateNormal];
+    }
+}
 
 -(void)dealloc
 {
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kNOTI_CHANGE_ASK_SUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kNOTI_FINISH_CHOOSE_TEAMCIRCLENUMBERS object:nil];
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -332,7 +358,8 @@
                                 @"ISLOSE":@"0",
                                 @"ISEXPERTANSWER":@"0",
                                 @"ISSOLVE":@"0",
-                                @"TEAMCIRCLECODE":_teamInfoModel.TEAMCIRCLECODE,
+                                @"TEAMCIRCLECODE":_teamInfoModel.TEAMCODE,
+                                @"TARGETUSERCODE":targetMembersStr,
                                 };
     
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_TEAMCIRCLE_QUESTION_INFO]
@@ -432,6 +459,13 @@
     }else{
         [self.navigationController popViewControllerAnimated:YES];
     }
+}
+
+-(void)goChoooseMemberVC
+{
+    ZEChooseNumberVC * chooseNumber = [[ZEChooseNumberVC alloc]init];
+    chooseNumber.TEAMCODE = _teamInfoModel.TEAMCODE;
+    [self presentViewController:chooseNumber animated:YES completion:nil];
 }
 
 -(void)showAlertView:(NSString *)alertMsg isBack:(BOOL)isBack

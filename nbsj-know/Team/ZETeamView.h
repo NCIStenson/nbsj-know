@@ -18,8 +18,9 @@
 //  添加团队页面
 -(void)goFindTeamVC;
 
+-(void)goTeamQuestionVC:(NSInteger)selectIndex;
 
--(void)goTeamQuestionVC;
+-(void)cellClikcGoTeamQuestionVC:(NSInteger)selectIndex;
 
 @end
 
@@ -40,15 +41,20 @@
 @interface ZETeamView : UIView<UITableViewDataSource,UITableViewDelegate>
 {
     ZETeamViewHeaderView * _headerView;
+    UITableView * contentTableView;
+    NSArray * alreadyJoinTeamArr;
 }
 
 @property (nonatomic,weak) id <ZETeamViewDelegate> delegate;
 
+@property (nonatomic,strong) NSMutableArray * dynamicDatasArr; // 动态数组
 @property (nonatomic,copy) NSString * teamCircleCode;
 
 #pragma mark - Public Method
 
 -(void)reloadHeaderView:(NSArray *)arr;
+
+-(void)reloadContentView:(NSArray  *)datasArr;
 
 @end
 

@@ -36,7 +36,7 @@
     
     UIImageView * detailImageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH / 3, SCREEN_WIDTH / 3)];
     [detailView addSubview:detailImageView];
-    [detailImageView sd_setImageWithURL:ZENITH_IMAGEURL(teamCircleInfo.FILEURL) placeholderImage:ZENITH_PLACEHODLER_IMAGE];
+    [detailImageView sd_setImageWithURL:ZENITH_IMAGEURL(teamCircleInfo.FILEURL) placeholderImage:ZENITH_PLACEHODLER_TEAM_IMAGE];
     detailImageView.contentMode = UIViewContentModeScaleAspectFill;
     detailImageView.clipsToBounds = YES;    
     
@@ -90,17 +90,17 @@
         caseAuthorLab.top = 80;
     }
     
-    UIButton * stateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    stateBtn.frame = CGRectMake(SCREEN_WIDTH - 60 , 0 , 60, SCREEN_WIDTH / 3 + 10);
-    [stateBtn  setTitle:@"申请加入" forState:UIControlStateNormal];
-    [self addSubview:stateBtn];
-    stateBtn.backgroundColor = MAIN_NAV_COLOR_A(0.9);
-//    [stateBtn addTarget:self action:@selector(showQuestionTypeView) forControlEvents:UIControlEventTouchUpInside];
-    stateBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    stateBtn.titleLabel.font = [UIFont systemFontOfSize:kTiltlFontSize];
-    stateBtn.titleLabel.numberOfLines = 0;
-    stateBtn.clipsToBounds = YES;
-    stateBtn.layer.cornerRadius = 5;
+//    UIButton * stateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    stateBtn.frame = CGRectMake(SCREEN_WIDTH - 60 , 0 , 60, SCREEN_WIDTH / 3 + 10);
+//    [stateBtn  setTitle:@"申请加入" forState:UIControlStateNormal];
+//    [self addSubview:stateBtn];
+//    stateBtn.backgroundColor = MAIN_NAV_COLOR_A(0.9);
+////    [stateBtn addTarget:self action:@selector(showQuestionTypeView) forControlEvents:UIControlEventTouchUpInside];
+//    stateBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+//    stateBtn.titleLabel.font = [UIFont systemFontOfSize:kTiltlFontSize];
+//    stateBtn.titleLabel.numberOfLines = 0;
+//    stateBtn.clipsToBounds = YES;
+//    stateBtn.layer.cornerRadius = 5;
 }
 
 @end

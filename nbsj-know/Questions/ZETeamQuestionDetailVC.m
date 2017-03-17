@@ -13,7 +13,7 @@
 
 #import "ZEAskQuesViewController.h"
 
-#import "ZEChatVC.h"
+#import "ZETeamCircleChatVC.h"
 
 @interface ZETeamQuestionDetailVC ()<ZEQuestionsDetailViewDelegate>
 {
@@ -72,7 +72,7 @@
     NSString * operatetype = @"";
     
     NSDictionary * parametersDic = @{@"limit":@"-1",
-                                     @"MASTERTABLE":V_KLB_ANSWER_INFO,
+                                     @"MASTERTABLE":V_KLB_TEAMCIRCLE_ANSWER_INFO,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"ISPASS desc, GOODNUMS desc, QACOUNT desc,SYSCREATEDATE asc",
                                      @"WHERESQL":[NSString stringWithFormat:@"QUESTIONID='%@'",_questionInfoModel.SEQKEY],
@@ -80,13 +80,13 @@
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.klb.app.answer.AnswerGood",
+                                     @"CLASSNAME":@"com.nci.klb.app.teamcircle.AnswerGood",
                                      @"DETAILTABLE":@"",
                                      @"OPERATETYPE":operatetype};
     
     NSDictionary * fieldsDic =@{};
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_ANSWER_INFO]
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_TEAMCIRCLE_ANSWER_INFO]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
@@ -94,7 +94,7 @@
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 _datasArr = [ZEUtil getServerData:data withTabelName:V_KLB_ANSWER_INFO];
+                                 _datasArr = [ZEUtil getServerData:data withTabelName:V_KLB_TEAMCIRCLE_ANSWER_INFO];
                                  [_quesDetailView reloadData:_datasArr];
                              } fail:^(NSError *errorCode) {
                                  
@@ -111,7 +111,7 @@
         operatetype = @"1";
     }
     NSDictionary * parametersDic = @{@"limit":@"-1",
-                                     @"MASTERTABLE":V_KLB_ANSWER_INFO,
+                                     @"MASTERTABLE":V_KLB_TEAMCIRCLE_ANSWER_INFO,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"ISPASS desc, GOODNUMS desc, QACOUNT desc,SYSCREATEDATE asc",
                                      @"WHERESQL":[NSString stringWithFormat:@"QUESTIONID='%@'",_questionInfoModel.SEQKEY],
@@ -119,13 +119,13 @@
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.klb.app.answer.AnswerGood",
+                                     @"CLASSNAME":@"com.nci.klb.app.teamcircle.AnswerGood",
                                      @"DETAILTABLE":@"",
                                      @"OPERATETYPE":operatetype};
-    
+
     NSDictionary * fieldsDic =@{};
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_ANSWER_INFO]
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_TEAMCIRCLE_ANSWER_INFO]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
@@ -133,7 +133,7 @@
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 _datasArr = [ZEUtil getServerData:data withTabelName:V_KLB_ANSWER_INFO];
+                                 _datasArr = [ZEUtil getServerData:data withTabelName:V_KLB_TEAMCIRCLE_ANSWER_INFO];
                                  [_quesDetailView reloadData:_datasArr];
                              } fail:^(NSError *errorCode) {
                                  
@@ -151,7 +151,6 @@
 
 -(void)rightBtnClick
 {
-    
     if ([_questionInfoModel.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
         [self changePersonalQuestion];
         return;
@@ -181,7 +180,7 @@
 -(void)acceptTheAnswerWithQuestionInfo:(ZEQuestionInfoModel *)infoModel
                         withAnswerInfo:(ZEAnswerInfoModel *)answerModel
 {
-    ZEChatVC * chatVC = [[ZEChatVC alloc]init];
+    ZETeamCircleChatVC * chatVC = [[ZETeamCircleChatVC alloc]init];
     chatVC.questionInfo = infoModel;
     chatVC.answerInfo = answerModel;
     [self.navigationController pushViewController:chatVC animated:YES];
@@ -193,7 +192,7 @@
 -(void)giveLikes:(NSString *)answerSeqkey
 {
     NSDictionary * parametersDic = @{@"limit":@"20",
-                                     @"MASTERTABLE":KLB_ANSWER_GOOD,
+                                     @"MASTERTABLE":KLB_TEAMCIRCLE_ANSWER_GOOD,
                                      @"DETAILTABLE":@"",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
@@ -209,16 +208,14 @@
                                 @"ANSWERID":answerSeqkey,
                                 };
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_ANSWER_GOOD]
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_TEAMCIRCLE_ANSWER_GOOD]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
     
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
-                             success:^(id data) {
-                                 
-                                 
+                             success:^(id data) {                                 
                                  [self sendSearchAnswerRequest];
                              } fail:^(NSError *errorCode) {
                                  

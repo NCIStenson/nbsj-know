@@ -34,10 +34,43 @@
     [super viewWillAppear:YES];
     self.tabBarController.tabBar.hidden = YES;
     [self isShowJoin];
-    
+    [self sendCaseQuestionsRequest];
     [self proCirecleMember];
 }
+/************* 查询典型案例 *************/
+-(void)sendCaseQuestionsRequest
+{
+    NSDictionary * parametersDic = @{@"limit":@"3",
+                                     @"MASTERTABLE":V_KLB_CLASSICCASE_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"CLICKCOUNT desc",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_SEARCH,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.classiccase.ClassicCase",
+                                     @"DETAILTABLE":@"",};
 
+    NSDictionary * fieldsDic =@{};
+
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_CLASSICCASE_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 if ([[ZEUtil getServerData:data withTabelName:V_KLB_CLASSICCASE_INFO] count] > 0) {
+                                     
+//                                     [_homeView reloadSectionView:[ZEUtil getServerData:data withTabelName:V_KLB_CLASSICCASE_INFO]];
+                                 }
+
+                             } fail:^(NSError *errorCode) {
+
+                             }];
+
+}
 
 -(void)proCirecleMember
 {

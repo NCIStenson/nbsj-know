@@ -73,4 +73,12 @@
 
 -(void)reloadContentViewWithNoMoreData:(NSArray *)dataArr withHomeContent:(HOME_CONTENT)content_page;
 
+
+/**
+ 滚动到指定视图
+
+ @param toContent 需要显示的视图索引
+ */
+-(void)scrollContentViewToIndex:(HOME_CONTENT)toContent;
+
 @end

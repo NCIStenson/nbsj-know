@@ -141,6 +141,12 @@
                                  if (_enter_group_type == ENTER_GROUP_TYPE_SETTING) {
                                      [self reloadMyCircleView:self.myCircleArr];
                                  }
+                                 if(arr.count == 0 ){
+                                     MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                                     hud3.mode = MBProgressHUDModeText;
+                                     hud3.labelText = @"您还没有关注的专业圈。";
+                                     [hud3 hide:YES afterDelay:1];
+                                 }
                                  [contentView reloadData];
                              } fail:^(NSError *errorCode) {
                              }];

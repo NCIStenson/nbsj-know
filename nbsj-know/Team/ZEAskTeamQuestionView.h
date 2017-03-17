@@ -28,6 +28,12 @@
 
 -(void)deleteSelectedImageWIthIndex:(NSInteger)index;
 
+
+/**
+ 指定人员回答
+ */
+-(void)goChoooseMemberVC;
+
 @end
 
 @interface ZEAskTeamQuestionView : UIView
@@ -38,6 +44,7 @@
 @property (nonatomic,assign) BOOL isAnonymousAsk; //  是否匿名提问
 @property (nonatomic,copy) NSString * goldScore;  // 悬赏值
 
+@property (nonatomic,strong) UIButton * designatedNumberBtn;
 @property (nonatomic,strong) UITextView * inputView;
 /************** 问题主键 *************/
 @property (nonatomic,copy) NSString * quesTypeSEQKEY;
@@ -56,5 +63,12 @@
  刷新当前拥有积分分数
  */
 -(void)reloadRewardGold:(NSString *)sumpoints;
+
+
+/**
+ 刷新
+
+ */
+-(void)reloadChooseMembersBtn:(NSString *)nameSre;
 
 @end

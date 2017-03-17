@@ -42,6 +42,12 @@ typedef enum : NSUInteger {
     ENTER_TEAM_DETAIL, // 团队详情
 } ENTER_TEAM;   // 进入团队详情页面
 
+typedef enum : NSUInteger {
+    ENTER_TEAM_SEARCH_COMMON, // 所有问题展示
+    ENTER_TEAM_SEARCH_ONLYYOU, // 我来挑战问题展示
+    ENTER_TEAM_SEARCH_MYQUESTION, // 我的问题列表展示
+} ENTER_TEAM_SEARCH;   // 进入团队问题搜索页面
+
 
 typedef enum : NSUInteger {
     ENTER_SETTING_TYPE_PERSONAL,

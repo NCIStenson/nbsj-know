@@ -26,7 +26,7 @@
     
     
     UIButton * questionTypeBtn; // 选择问题分类Button
-    UIButton * designatedNumberBtn; // 选择问题回答人员Button
+    UIButton * _designatedNumberBtn; // 选择问题回答人员Button
     ZEAskQuestionTypeView * askTypeView; // 选择问题分类视图
     
     UIView * _backImageView;//   上传图片背景view
@@ -154,15 +154,15 @@
     [self addSubview:dashView2];
     [self drawDashLine:dashView2 lineLength:5 lineSpacing:2 lineColor:[UIColor lightGrayColor]];
     
-    designatedNumberBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    designatedNumberBtn.frame = CGRectMake(10 , kInputViewHeight + NAV_HEIGHT + 40 , SCREEN_WIDTH - 20, 40.0f);
-    [designatedNumberBtn  setTitle:@"指定提问：只能选取团队中的人，可多选" forState:UIControlStateNormal];
-    [self addSubview:designatedNumberBtn];
-    [designatedNumberBtn addTarget:self action:@selector(showQuestionTypeView) forControlEvents:UIControlEventTouchUpInside];
-    designatedNumberBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [designatedNumberBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    designatedNumberBtn.titleLabel.font = [UIFont systemFontOfSize:kTiltlFontSize];
-    designatedNumberBtn.titleLabel.numberOfLines = 0;
+    _designatedNumberBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _designatedNumberBtn.frame = CGRectMake(10 , kInputViewHeight + NAV_HEIGHT + 40 , SCREEN_WIDTH - 20, 40.0f);
+    [_designatedNumberBtn  setTitle:@"指定提问：只能选取团队中的人，可多选" forState:UIControlStateNormal];
+    [self addSubview:_designatedNumberBtn];
+    [_designatedNumberBtn addTarget:self action:@selector(goChoooseNumberVC) forControlEvents:UIControlEventTouchUpInside];
+    _designatedNumberBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [_designatedNumberBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    _designatedNumberBtn.titleLabel.font = [UIFont systemFontOfSize:kTiltlFontSize];
+    _designatedNumberBtn.titleLabel.numberOfLines = 0;
     
     UIView * dashView3= [[UIView alloc]initWithFrame:CGRectMake( 0, kInputViewHeight + NAV_HEIGHT + 80, SCREEN_WIDTH, 1)];
     [self addSubview:dashView3];
@@ -528,6 +528,11 @@
     [self initImageView];
 }
 
+-(void)reloadChooseMembersBtn:(NSString *)nameStr
+{
+    
+}
+
 #pragma mark - 展示提问问题分类列表
 
 -(void)showQuestionTypeView
@@ -538,6 +543,13 @@
     NSArray * typeArr = [[ZEQuestionTypeCache instance] getQuestionTypeCaches];
     if (typeArr.count > 0) {
         [askTypeView reloadData];
+    }
+}
+
+-(void)goChoooseNumberVC
+{
+    if ([self.delegate respondsToSelector:@selector(goChoooseMemberVC)]) {
+        [self.delegate goChoooseMemberVC];
     }
 }
 

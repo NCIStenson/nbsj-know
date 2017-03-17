@@ -403,6 +403,12 @@
         }
     }
 
+    if ([quesInfoM.ISSOLVE boolValue]) {
+        UIImageView * iconAccept = [[UIImageView alloc]init];
+        [questionsView addSubview:iconAccept];
+        iconAccept.frame = CGRectMake(SCREEN_WIDTH - 35, 0, 35, 35);
+        [iconAccept setImage:[UIImage imageNamed:@"ic_best_answer"]];
+    }
     
     return questionsView;
 }

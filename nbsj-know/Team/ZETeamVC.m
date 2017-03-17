@@ -19,6 +19,7 @@
     NSInteger _currentSelectTeam;
     
     NSArray * alreadyJoinTeam;
+    NSArray * _dynamicArr;
 }
 @end
 
@@ -41,12 +42,13 @@
     [super viewWillAppear:YES];
     
     [self teamHomeRequest];
+//    [self teamDynamics];
     
-    if (_currentSelectTeam > 0 && _currentSelectTeam < alreadyJoinTeam.count) {
-        _teamCircleInfo = [ZETeamCircleModel getDetailWithDic:alreadyJoinTeam[_currentSelectTeam]];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_ASK_TEAM_QUESTION object:_teamCircleInfo];
-
-    }
+//    if (_currentSelectTeam > 0 && _currentSelectTeam < alreadyJoinTeam.count) {
+//        _teamCircleInfo = [ZETeamCircleModel getDetailWithDic:alreadyJoinTeam[_currentSelectTeam]];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_ASK_TEAM_QUESTION object:_teamCircleInfo];
+//
+//    }
 }
 
 -(void)changeAskState:(NSNotification *)noti
@@ -71,7 +73,7 @@
 -(void)teamHomeRequest
 {
     NSDictionary * parametersDic = @{@"limit":@"-1",
-                                     @"MASTERTABLE":KLB_TEAMCIRCLE_USER_TEAMNAME,
+                                     @"MASTERTABLE":V_KLB_TEAMUSER_TEAMNAME,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"",
                                      @"WHERESQL":[NSString stringWithFormat:@"USERCODE = '%@'",[ZESettingLocalData getUSERCODE]],
@@ -84,19 +86,20 @@
     
     NSDictionary * fieldsDic =@{};
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_TEAMCIRCLE_USER_TEAMNAME]
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_TEAMUSER_TEAMNAME]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:KLB_TEAMCIRCLE_USER_TEAMNAME];
+                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:V_KLB_TEAMUSER_TEAMNAME];
                                  if ([dataArr count] > 0) {
                                      alreadyJoinTeam = dataArr;
                                      [teamView reloadHeaderView:dataArr];
-                                     _teamCircleInfo = [ZETeamCircleModel getDetailWithDic:dataArr[0]];
-                                     [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_ASK_TEAM_QUESTION object:_teamCircleInfo];
+                                     [self teamDynamics];
+//                                     _teamCircleInfo = [ZETeamCircleModel getDetailWithDic:dataArr[0]];
+//                                     [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_ASK_TEAM_QUESTION object:_teamCircleInfo];
                                  }else{
                                      [self showTips:@"您还没有加入任何团队，快去加一个吧"];
                                  }
@@ -105,9 +108,61 @@
                              }];
 }
 
+//  团队动态
+-(void)teamDynamics
+{
+    
+    NSLog(@" alreadyJoinTeam >>>>  %@",alreadyJoinTeam);
+    
+    NSString * str = nil;
+    
+    for (int i = 0 ; i < alreadyJoinTeam.count; i ++) {
+        ZETeamCircleModel * teaminfo = [ZETeamCircleModel getDetailWithDic:alreadyJoinTeam[i]];
+
+        if (str.length > 0) {
+            str = [NSString stringWithFormat:@"%@,%@",str,teaminfo.TEAMCODE];
+        }else{
+            str = teaminfo.TEAMCODE;
+        }
+
+    }
+    NSDictionary * parametersDic = @{@"limit":@"30",
+                                     @"MASTERTABLE":V_KLB_DYNAMIC_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"SYSCREATEDATE desc",
+                                     @"WHERESQL":[NSString stringWithFormat:@"TEAMCIRCLECODE in (%@)",str],
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_SEARCH,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.teamcircle.TeamcircleDynamic",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_DYNAMIC_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:V_KLB_DYNAMIC_INFO];
+                                 if ([dataArr count] > 0) {
+                                     _dynamicArr = dataArr;
+                                     [teamView reloadContentView:dataArr];
+
+                                 }else{
+
+                                 }
+                             } fail:^(NSError *errorCode) {
+                                 
+                             }];
+}
+
 -(void)initView
 {
-     teamView = [[ZETeamView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    teamView = [[ZETeamView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     teamView.delegate = self;
     [self.view addSubview:teamView];
 }
@@ -119,14 +174,52 @@
     ZEFindTeamVC * findTeamVC = [[ZEFindTeamVC alloc]init];
     
     [self.navigationController pushViewController:findTeamVC animated:YES];
-
 }
 
--(void)goTeamQuestionVC
+-(void)goTeamQuestionVC:(NSInteger)selectIndex
 {
+    _teamCircleInfo = [ZETeamCircleModel getDetailWithDic:alreadyJoinTeam[selectIndex]];
+
     ZETeamQuestionVC * questionVC = [[ZETeamQuestionVC alloc]init];
     questionVC.teamCircleInfo = _teamCircleInfo;
     [self.navigationController pushViewController:questionVC animated:YES];
+}
+
+-(void)cellClikcGoTeamQuestionVC:(NSInteger)selectIndex
+{
+    NSDictionary * currentSelectDic = _dynamicArr[selectIndex];
+    
+    ZETeamCircleModel * cirecleInfo = [ZETeamCircleModel getDetailWithDic:currentSelectDic];
+    
+    for (int i = 0 ; i < alreadyJoinTeam.count ; i ++) {
+        ZETeamCircleModel * teaminfo = [ZETeamCircleModel getDetailWithDic:alreadyJoinTeam[i]];
+        if ([teaminfo.TEAMCODE isEqualToString:cirecleInfo.TEAMCIRCLECODE]) {
+            _teamCircleInfo = teaminfo;
+            
+            ZETeamQuestionVC * questionVC = [[ZETeamQuestionVC alloc]init];
+            questionVC.teamCircleInfo = _teamCircleInfo;
+            [self.navigationController pushViewController:questionVC animated:YES];
+            NSLog(@" =======  %@",teaminfo.DYNAMICTYPE);
+            switch ([cirecleInfo.DYNAMICTYPE integerValue]) {
+                case 1:
+                    questionVC.currentContent = HOME_CONTENT_RECOMMAND;
+                    break;
+                    
+                case 2:
+                    questionVC.currentContent = HOME_CONTENT_BOUNS;
+                    break;
+                   
+                case 3:
+                    questionVC.currentContent = HOME_CONTENT_NEWEST;
+                    break;
+
+                default:
+                    break;
+            }
+
+            break;
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning {

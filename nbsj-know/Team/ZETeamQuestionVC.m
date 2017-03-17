@@ -10,9 +10,11 @@
 #import "ZETeamQuestionView.h"
 
 #import "ZETeamQuestionDetailVC.h"
-
+#import "ZEAskTeamQuestionVC.h"
 
 #import "ZEAnswerTeamQuestionVC.h"
+
+#import "ZESearchTeamQuestionVC.h"
 
 #import "ZEChatVC.h"
 
@@ -39,13 +41,14 @@
     self.title = _teamCircleInfo.TEAMCIRCLENAME;
     [self addNavBarBtn];
     [self initView];
-
+    
     self.automaticallyAdjustsScrollViewInsets = NO;
         
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendHomeDataRequest) name:kNOTI_ASK_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendHomeDataRequest) name:kNOTI_ACCEPT_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendHomeDataRequest) name:kNOTI_ANSWER_SUCCESS object:nil];
-    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeTeamCircleInfo:) name:kNOTI_CHANGE_TEAMCIRCLEINFO_SUCCESS object:nil];
+
     UITapGestureRecognizer *tapGr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
     tapGr.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapGr];
@@ -53,17 +56,30 @@
     [self sendHomeDataRequest];
 }
 
+#pragma mark - NOTI
+-(void)changeTeamCircleInfo:(NSNotification *)noti
+{
+    if ([noti.object isKindOfClass:[ZETeamCircleModel class]]) {
+        _teamCircleInfo = noti.object;
+    }
+}
 -(void)addNavBarBtn
 {
-    for (int i = 0; i < 2; i ++) {
+    for (int i = 0; i < 3; i ++) {
         UIButton * _typeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _typeBtn.frame = CGRectMake(SCREEN_WIDTH - 100 + 50 * i, 20, 44.0, 44.0);
-        _typeBtn.contentMode = UIViewContentModeScaleAspectFill;
-        _typeBtn.imageView.contentMode = UIViewContentModeScaleAspectFill;
-        [_typeBtn setImage:[UIImage imageNamed:@"type" tintColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+        _typeBtn.frame = CGRectMake(SCREEN_WIDTH - 110 + 33 * i, 27, 30.0, 30.0);
+        _typeBtn.contentMode = UIViewContentModeScaleAspectFit;
+        _typeBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
         [_typeBtn addTarget:self action:@selector(typeBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [self.leftBtn.superview addSubview:_typeBtn];
         _typeBtn.tag = i + 100;
+        if (i == 0) {
+            [_typeBtn setImage:[UIImage imageNamed:@"icon_team_msg" ] forState:UIControlStateNormal];
+        }else if (i == 1){
+            [_typeBtn setImage:[UIImage imageNamed:@"icon_team_search" ] forState:UIControlStateNormal];
+        }else if (i == 2){
+            [_typeBtn setImage:[UIImage imageNamed:@"icon_team_ask" ] forState:UIControlStateNormal];
+        }
     }
 }
 
@@ -73,8 +89,10 @@
 {
     if (btn.tag == 100) {
         [self goTeamDetailVC];
-    }else{
+    }else if(btn.tag == 101){
         [self goSearchQuestionVC];
+    }else if (btn.tag == 102){
+        [self goAskTeamQuestionVC];
     }
 }
 
@@ -82,12 +100,19 @@
 {
     ZECreateTeamVC * createTeamVC = [[ZECreateTeamVC alloc]init];
     createTeamVC.enterType = ENTER_TEAM_DETAIL;
+    createTeamVC.teamCircleInfo = _teamCircleInfo;
+    createTeamVC.TEAMCODE = _teamCircleInfo.TEAMCODE;
     [self.navigationController pushViewController:createTeamVC animated:YES];
     
 }
 -(void)goSearchQuestionVC
 {
+    ZESearchTeamQuestionVC * showQuestionsList = [[ZESearchTeamQuestionVC alloc]init];
+    //    showQuestionsList.showQuestionListType = QUESTION_LIST_NEW;
+    //    showQuestionsList.currentInputStr = str;
+    showQuestionsList.TEAMCIRCLECODE = _teamCircleInfo.TEAMCODE;
     
+    [self.navigationController pushViewController:showQuestionsList animated:YES];
 }
 
 
@@ -99,7 +124,7 @@
 
 -(void)dealloc
 {
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:kVerifyLogin object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNOTI_CHANGE_TEAMCIRCLEINFO_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kNOTI_ASK_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kNOTI_ANSWER_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kNOTI_ACCEPT_SUCCESS object:nil];
@@ -114,8 +139,8 @@
     
     [[ZEServerEngine sharedInstance] cancelAllTask];
     
-    [self sendNewestQuestionsRequest:@""];
-    [self sendRecommandQuestionsRequest:@""];
+    [self sendCommonQuestionsRequest:@""];
+    [self sendOnlyMeAskQuestionsRequest:@""];
     [self sendMyQuestionsRequest:@""];
 }
 
@@ -131,8 +156,11 @@
 {
     _teamQuestionView = [[ZETeamQuestionView alloc] initWithFrame:self.view.frame];
     _teamQuestionView.delegate = self;
+    _teamQuestionView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_teamQuestionView];
     [self.view sendSubviewToBack:_teamQuestionView];
+    
+    [_teamQuestionView scrollContentViewToIndex:_currentContent];
 }
 #pragma mark - 是否有新消息提醒
 -(void)isHaveNewMessage
@@ -181,80 +209,21 @@
 
 
 #pragma mark - Request
-
-/************* 查询最新问题 *************/
--(void)sendNewestQuestionsRequest:(NSString *)searchStr
-{
-    NSString * WHERESQL = [NSString stringWithFormat:@"ISLOSE = 0 and ISSOLVE = 0 and QUESTIONEXPLAIN like '%%%@%%'",searchStr];
-    if (![ZEUtil isStrNotEmpty:searchStr]) {
-        WHERESQL = [NSString stringWithFormat:@"ISLOSE = 0 and ISSOLVE = 0 and QUESTIONEXPLAIN like '%%'"];
-    }
-    NSDictionary * parametersDic = @{@"limit":[NSString stringWithFormat:@"%ld",(long) MAX_PAGE_COUNT],
-                                     @"MASTERTABLE":V_KLB_QUESTION_INFO,
-                                     @"MENUAPP":@"EMARK_APP",
-                                     @"ORDERSQL":@"SYSCREATEDATE desc",
-                                     @"WHERESQL":WHERESQL,
-                                     @"start":[NSString stringWithFormat:@"%ld",(long)_currentNewestPage * MAX_PAGE_COUNT],
-                                     @"METHOD":@"search",
-                                     @"MASTERFIELD":@"SEQKEY",
-                                     @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.klb.app.question.QuestionPoints",
-                                     @"DETAILTABLE":@"",};
-    
-    NSDictionary * fieldsDic =@{};
-    
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_QUESTION_INFO]
-                                                                           withFields:@[fieldsDic]
-                                                                       withPARAMETERS:parametersDic
-                                                                       withActionFlag:nil];
-    
-    [ZEUserServer getDataWithJsonDic:packageDic
-                       showAlertView:NO
-                             success:^(id data) {
-                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_INFO];
-                                 if (dataArr.count > 0) {
-                                     if (_currentNewestPage == 0) {
-                                         [_teamQuestionView reloadFirstView:dataArr withHomeContent:HOME_CONTENT_NEWEST ];
-                                     }else{
-                                         [_teamQuestionView reloadContentViewWithArr:dataArr withHomeContent:HOME_CONTENT_NEWEST];
-                                     }
-                                     if (dataArr.count % MAX_PAGE_COUNT == 0) {
-                                         _currentNewestPage += 1;
-                                     }else{
-                                         [_teamQuestionView loadNoMoreDataWithHomeContent:HOME_CONTENT_NEWEST];
-                                     }
-                                 }else{
-                                     if (_currentNewestPage > 0) {
-                                         [_teamQuestionView loadNoMoreDataWithHomeContent:HOME_CONTENT_NEWEST];
-                                         return ;
-                                     }
-                                     [_teamQuestionView reloadFirstView:dataArr withHomeContent:HOME_CONTENT_NEWEST];
-                                     [_teamQuestionView headerEndRefreshingWithHomeContent:HOME_CONTENT_NEWEST];
-                                     [_teamQuestionView loadNoMoreDataWithHomeContent:HOME_CONTENT_NEWEST];
-                                 }
-                                 
-                             } fail:^(NSError *errorCode) {
-                                 [_teamQuestionView endRefreshingWithHomeContent:HOME_CONTENT_NEWEST];
-                             }];
-    
-}
-
-
 /**
- 推荐问题列表
+ 你问我答列表
  
  @param searchStr 推荐问题搜索
  */
--(void)sendRecommandQuestionsRequest:(NSString *)searchStr
+-(void)sendCommonQuestionsRequest:(NSString *)searchStr
 {
-//    NSString * WHERESQL = [NSString stringWithFormat:@" ISSOLVE = 0 and TEAMCIRCLECODE = @ and QUESTIONEXPLAIN like '%%%@%%'",,searchStr];
-//    if (![ZEUtil isStrNotEmpty:searchStr]) {
-      NSString *  WHERESQL = [NSString stringWithFormat:@" ISSOLVE = 0 and TEAMCIRCLECODE = '%@'",_teamCircleInfo.TEAMCIRCLECODE];
-//    }
+    //    NSString * WHERESQL = [NSString stringWithFormat:@" ISSOLVE = 0 and TEAMCIRCLECODE = @ and QUESTIONEXPLAIN like '%%%@%%'",,searchStr];
+    //    if (![ZEUtil isStrNotEmpty:searchStr]) {
+    NSString *  WHERESQL = [NSString stringWithFormat:@" ISSOLVE = 0 and TEAMCIRCLECODE = '%@' and TARGETUSERCODE is NULL",_teamCircleInfo.TEAMCODE];
+    //    }
     NSDictionary * parametersDic = @{@"limit":[NSString stringWithFormat:@"%ld",(long) MAX_PAGE_COUNT],
                                      @"MASTERTABLE":V_KLB_TEAMCIRCLE_QUESTION_INFO,
                                      @"MENUAPP":@"EMARK_APP",
-                                     @"ORDERSQL":@" SYSCREATEDATE,ANSWERSUM desc ",
+                                     @"ORDERSQL":@" ANSWERSUM,SYSCREATEDATE desc ",
                                      @"WHERESQL":WHERESQL,
                                      @"start":[NSString stringWithFormat:@"%ld",(long)_currentRecommandPage * MAX_PAGE_COUNT],
                                      @"METHOD":METHOD_SEARCH,
@@ -299,14 +268,70 @@
                              }];
     
 }
+
+/************* 我来挑战问题列表 *************/
+-(void)sendOnlyMeAskQuestionsRequest:(NSString *)searchStr
+{
+    NSString *  WHERESQL = [NSString stringWithFormat:@" ISSOLVE = 0 and TEAMCIRCLECODE = '%@' and TARGETUSERCODE like '%%%@%%'",_teamCircleInfo.TEAMCODE,[ZESettingLocalData getUSERCODE]];
+    //    }
+    NSDictionary * parametersDic = @{@"limit":[NSString stringWithFormat:@"%ld",(long) MAX_PAGE_COUNT],
+                                     @"MASTERTABLE":V_KLB_TEAMCIRCLE_QUESTION_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@" SYSCREATEDATE,ANSWERSUM desc ",
+                                     @"WHERESQL":WHERESQL,
+                                     @"start":[NSString stringWithFormat:@"%ld",(long)_currentNewestPage * MAX_PAGE_COUNT],
+                                     @"METHOD":METHOD_SEARCH,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.teamcircle.TeamcircleQuestion",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_TEAMCIRCLE_QUESTION_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:V_KLB_TEAMCIRCLE_QUESTION_INFO ];
+                                 if (dataArr.count > 0) {
+                                     if (_currentNewestPage == 0) {
+                                         [_teamQuestionView reloadFirstView:dataArr withHomeContent:HOME_CONTENT_NEWEST ];
+                                     }else{
+                                         [_teamQuestionView reloadContentViewWithArr:dataArr withHomeContent:HOME_CONTENT_NEWEST];
+                                     }
+                                     if (dataArr.count % MAX_PAGE_COUNT == 0) {
+                                         _currentNewestPage += 1;
+                                     }else{
+                                         [_teamQuestionView loadNoMoreDataWithHomeContent:HOME_CONTENT_NEWEST];
+                                     }
+                                 }else{
+                                     if (_currentNewestPage > 0) {
+                                         [_teamQuestionView loadNoMoreDataWithHomeContent:HOME_CONTENT_NEWEST];
+                                         return ;
+                                     }
+                                     [_teamQuestionView reloadFirstView:dataArr withHomeContent:HOME_CONTENT_NEWEST];
+                                     [_teamQuestionView headerEndRefreshingWithHomeContent:HOME_CONTENT_NEWEST];
+                                     [_teamQuestionView loadNoMoreDataWithHomeContent:HOME_CONTENT_NEWEST];
+                                 }
+                             } fail:^(NSError *errorCode) {
+                                 [_teamQuestionView endRefreshingWithHomeContent:HOME_CONTENT_NEWEST];
+                             }];
+
+}
+
+
 /**
- 高悬赏问题列表
+ 我的问题列表
  
  @param searchStr 高悬赏问题搜索
  */
 -(void)sendMyQuestionsRequest:(NSString *)searchStr
 {
-    NSString *  WHERESQL = [NSString stringWithFormat:@" ISSOLVE = 0 and TEAMCIRCLECODE = '%@' and QUESTIONUSERCODE = '%@'",_teamCircleInfo.TEAMCIRCLECODE,[ZESettingLocalData getUSERCODE]];
+    NSString *  WHERESQL = [NSString stringWithFormat:@" TEAMCIRCLECODE = '%@' and QUESTIONUSERCODE = '%@'",_teamCircleInfo.TEAMCODE,[ZESettingLocalData getUSERCODE]];
 
     NSDictionary * parametersDic = @{@"limit":[NSString stringWithFormat:@"%ld",(long) MAX_PAGE_COUNT],
                                      @"MASTERTABLE":V_KLB_TEAMCIRCLE_QUESTION_INFO,
@@ -368,21 +393,6 @@
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 
--(void)goSearch:(NSString *)str
-{
-//    ZEShowQuestionVC * showQuestionsList = [[ZEShowQuestionVC alloc]init];
-//    showQuestionsList.showQuestionListType = QUESTION_LIST_NEW;
-//    showQuestionsList.currentInputStr = str;
-//    [self.navigationController pushViewController:showQuestionsList animated:YES];
-}
-//
-//-(void)goTypeQuestionVC
-//{
-//    ZEShowQuestionVC * askQues = [[ZEShowQuestionVC alloc]init];
-//    askQues.showQuestionListType =  QUESTION_LIST_TYPE;
-//    [self.navigationController pushViewController:askQues animated:YES];
-//}
-
 -(void)goAnswerQuestionVC:(ZEQuestionInfoModel *)_questionInfoModel
 {
     
@@ -410,6 +420,15 @@
     
 }
 
+-(void)goAskTeamQuestionVC
+{
+    ZEAskTeamQuestionVC * askQues = [[ZEAskTeamQuestionVC alloc]init];
+    askQues.enterType = ENTER_GROUP_TYPE_TABBAR;
+    askQues.teamInfoModel = _teamCircleInfo;
+    [self presentViewController:askQues animated:YES completion:nil];
+
+}
+
 - (void)showTips:(NSString *)labelText {
     
     [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -425,13 +444,12 @@
     switch (contentPage) {
         case HOME_CONTENT_RECOMMAND:
             _currentRecommandPage = 0;
-            [self sendRecommandQuestionsRequest:@""];
+            [self sendCommonQuestionsRequest:@""];
             break;
             
         case HOME_CONTENT_NEWEST:
             _currentNewestPage = 0;
-            [self sendNewestQuestionsRequest:@""];
-            
+            [self sendOnlyMeAskQuestionsRequest:@""];
             break;
             
         case HOME_CONTENT_BOUNS:
@@ -448,11 +466,11 @@
 {
     switch (contentPage) {
         case HOME_CONTENT_RECOMMAND:
-            [self sendRecommandQuestionsRequest:@""];
+            [self sendCommonQuestionsRequest:@""];
             break;
             
         case HOME_CONTENT_NEWEST:
-            [self sendNewestQuestionsRequest:@""];
+            [self sendOnlyMeAskQuestionsRequest:@""];
             
             break;
             

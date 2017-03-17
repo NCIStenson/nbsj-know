@@ -89,6 +89,7 @@
     [self addSubview:[self createTypicalCaseView]];
 }
 
+
 //-(void)initNavBar
 //{
 //    UIView * navView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -209,6 +210,7 @@
     _contentScrollView.pagingEnabled = YES;
     _contentScrollView.showsHorizontalScrollIndicator = NO;
     _contentScrollView.delegate = self;
+    _contentScrollView.contentOffset = CGPointMake(100, 100);
     
     for (int i = 0; i < 3; i ++) {
         UITableView * contentTableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
@@ -346,6 +348,15 @@
     [contentTableView.mj_footer endRefreshing];
     [contentTableView.mj_header endRefreshing];
 }
+
+-(void)scrollContentViewToIndex:(HOME_CONTENT)toContent
+{
+    _contentScrollView.backgroundColor = [UIColor whiteColor];
+    _contentScrollView.contentOffset = CGPointMake(SCREEN_WIDTH * toContent, 0);
+//    _currentHomeContentPage = toContent;
+    [self scrollViewDidEndDecelerating:_contentScrollView];
+}
+
 
 #pragma mark - UITableViewDelegate
 
@@ -730,6 +741,20 @@
     answerBtn.tag = indexpath.row;
     answerBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [answerBtn addTarget:self action:@selector(answerQuestion:) forControlEvents:UIControlEventTouchUpInside];
+    
+    if ([quesInfoM.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
+        answerBtn.hidden = YES;
+        praiseNumLab.left =  answerBtn.left + 10;
+
+    }
+    
+    if ([quesInfoM.ISSOLVE boolValue]) {
+        UIImageView * iconAccept = [[UIImageView alloc]init];
+        [questionsView addSubview:iconAccept];
+        iconAccept.frame = CGRectMake(SCREEN_WIDTH - 35, 0, 35, 35);
+        [iconAccept setImage:[UIImage imageNamed:@"ic_best_answer"]];
+    }
+
     
     UIView * grayView = [[UIView alloc]initWithFrame:CGRectMake(0, userY + 25.0f, SCREEN_WIDTH, 5.0f)];
     grayView.backgroundColor = MAIN_LINE_COLOR;

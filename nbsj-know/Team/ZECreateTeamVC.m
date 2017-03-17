@@ -13,6 +13,10 @@
 #import "ZEChooseNumberVC.h"
 
 #import "ZETeamCircleModel.h"
+
+#define textViewStr @"请输入团队宣言（不超过20字）"
+#define textViewProfileStr @"请输入团队简介，建议不超过100字！"
+
 @interface ZECreateTeamVC ()<ZECreateTeamViewDelegate>
 {
     ZECreateTeamView * createTeamView;
@@ -62,7 +66,7 @@
     NSDictionary * parametersDic = @{@"limit":@"-1",
                                      @"MASTERTABLE":V_KLB_TEAMCIRCLE_REL_USER,
                                      @"MENUAPP":@"EMARK_APP",
-                                     @"ORDERSQL":@"USERTYPE DESC",
+                                     @"ORDERSQL":@"USERTYPE DESC , SYSCREATEDATE DESC",
                                      @"WHERESQL":@"",
                                      @"start":@"0",
                                      @"METHOD":METHOD_SEARCH,
@@ -76,6 +80,14 @@
                                 @"USERNAME":@"",
                                 @"FILEURL":@"",
                                 @"USERTYPE":@""};
+    if ( _TEAMCODE.length > 0) {
+        fieldsDic =@{@"TEAMCIRCLECODE":_TEAMCODE,
+                     @"USERCODE":@"",
+                     @"USERNAME":@"",
+                     @"FILEURL":@"",
+                     @"USERTYPE":@""};
+
+    }
     
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_TEAMCIRCLE_REL_USER]
                                                                            withFields:@[fieldsDic]
@@ -114,7 +126,6 @@
 -(void)deleteMembers:(NSNotification *)noti
 {
     _originMembersArr = [NSMutableArray arrayWithArray:noti.object];
-    NSLog(@">>>>>  %@",_originMembersArr);
     [createTeamView.numbersView reloadNumbersView:noti.object withEnterType:ENTER_TEAM_DETAIL];
 }
 
@@ -138,6 +149,10 @@
     NSString * TEAMCIRCLECODENAME =createTeamView.messageView.TEAMCIRCLECODENAME;
     
     if (TEAMCIRCLENAME.length == 0|| TEAMCIRCLEREMARK.length == 0 ||  TEAMMANIFESTO.length == 0 || TEAMCIRCLECODENAME.length == 0) {
+        [self showTips:@"请完善班组圈信息"];
+        return;
+    }
+    if ([TEAMMANIFESTO isEqualToString:textViewStr] || [TEAMCIRCLEREMARK isEqualToString:textViewProfileStr]) {
         [self showTips:@"请完善班组圈信息"];
         return;
     }
@@ -225,7 +240,7 @@
                                      @"DETAILTABLE":KLB_TEAMCIRCLE_REL_USER,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"",
-                                     @"WHERESQL":[NSString stringWithFormat:@"SEQKEY = %@",_teamCircleInfo.SEQKEY],
+                                     @"WHERESQL":@"",
                                      @"start":@"0",
                                      @"METHOD":METHOD_UPDATE,
                                      @"MASTERFIELD":@"SEQKEY",
@@ -239,7 +254,21 @@
                                 @"TEAMMANIFESTO":TEAMMANIFESTO,
                                 @"TEAMCIRCLECODE":TEAMCIRCLECODE,
                                 @"TEAMCIRCLECODENAME":TEAMCIRCLECODENAME,
+                                @"SYSCREATORID":_teamCircleInfo.SYSCREATORID,
+                                @"FILEURL":@"",
                                 };
+    if (_TEAMCODE.length > 0) {
+        fieldsDic =@{@"SEQKEY":_teamCircleInfo.TEAMCODE,
+                     @"TEAMCIRCLENAME":TEAMCIRCLENAME,
+                     @"TEAMCIRCLEREMARK":TEAMCIRCLEREMARK,
+                     @"TEAMMANIFESTO":TEAMMANIFESTO,
+                     @"TEAMCIRCLECODE":TEAMCIRCLECODE,
+                     @"TEAMCIRCLECODENAME":TEAMCIRCLECODENAME,
+                     @"SYSCREATORID":_teamCircleInfo.SYSCREATORID,
+                     @"FILEURL":@"",
+                     };
+    }
+    
     NSMutableArray * tableArr = [NSMutableArray arrayWithArray:@[KLB_TEAMCIRCLE_INFO]];
     NSMutableArray * fieldsArr = [NSMutableArray arrayWithArray:@[fieldsDic]];
     
@@ -266,7 +295,9 @@
                                showAlertView:NO
                                      success:^(id data) {
                                          [self showTips:@"更新班组圈信息成功"];
-                                         [self performSelector:@selector(goBack) withObject:nil afterDelay:1.5];
+                                         [self performSelector:@selector(goBack) withObject:nil afterDelay:1];
+                                         ZETeamCircleModel * teamCircleInfo = [ZETeamCircleModel getDetailWithDic:[ZEUtil getServerData:data withTabelName:KLB_TEAMCIRCLE_INFO][0]];
+                                         [[NSNotificationCenter defaultCenter]postNotificationName:kNOTI_CHANGE_TEAMCIRCLEINFO_SUCCESS object:teamCircleInfo];
                                      } fail:^(NSError *errorCode) {
                                          
                                      }];
@@ -275,7 +306,9 @@
                            showAlertView:YES
                                  success:^(id data) {
                                      [self showTips:@"更新班组圈信息成功"];
-                                     [self performSelector:@selector(goBack) withObject:nil afterDelay:1.5];
+                                     [self performSelector:@selector(goBack) withObject:nil afterDelay:1];
+                                     ZETeamCircleModel * teamCircleInfo = [ZETeamCircleModel getDetailWithDic:[ZEUtil getServerData:data withTabelName:KLB_TEAMCIRCLE_INFO][0]];
+                                     [[NSNotificationCenter defaultCenter]postNotificationName:kNOTI_CHANGE_TEAMCIRCLEINFO_SUCCESS object:teamCircleInfo];
                                  } fail:^(NSError *error) {
                                      
                                  }];

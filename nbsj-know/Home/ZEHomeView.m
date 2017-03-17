@@ -772,7 +772,7 @@
     SYSCREATEDATE.font = [UIFont systemFontOfSize:12];
     [questionsView addSubview:SYSCREATEDATE];
     SYSCREATEDATE.userInteractionEnabled = YES;
-
+    NSLog(@">>>>>>>>>  %@",quesInfoM.SYSCREATEDATE);
     
     NSString * praiseNumLabText =[NSString stringWithFormat:@"%ld 回答",(long)[quesInfoM.ANSWERSUM integerValue]];
 

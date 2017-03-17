@@ -11,6 +11,7 @@
 
 @interface ZETeamQuestionVC : ZESettingRootVC
 
+@property (nonatomic,assign) HOME_CONTENT currentContent; 
 @property (nonatomic,strong) ZETeamCircleModel * teamCircleInfo;
 
 @end

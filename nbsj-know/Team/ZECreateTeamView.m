@@ -35,6 +35,7 @@
     [self addSubview:_teamHeadImgBtn];
     [_teamHeadImgBtn setImage:[UIImage imageNamed:@"logo.png"] forState:UIControlStateNormal];
     [_teamHeadImgBtn addTarget:self action:@selector(showCamera) forControlEvents:UIControlEventTouchUpInside];
+    _teamHeadImgBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
     
     for (int i = 0; i < 3;  i ++) {
         UILabel * caseNameLab = [[UILabel alloc]initWithFrame:CGRectMake(110, 15 + 30 * i, 70, 30)];
@@ -113,7 +114,7 @@
             [_teamTypeBtn removeTarget:self action:@selector(showQuestionTypeView) forControlEvents:UIControlEventTouchUpInside];
         }
         
-        [_teamHeadImgBtn sd_setImageWithURL:ZENITH_IMAGEURL(teamCircleInfo.FILEURL) forState:UIControlStateNormal placeholderImage:ZENITH_PLACEHODLER_IMAGE];
+        [_teamHeadImgBtn sd_setImageWithURL:ZENITH_IMAGEURL(teamCircleInfo.FILEURL) forState:UIControlStateNormal placeholderImage:ZENITH_PLACEHODLER_TEAM_IMAGE];
         
         _teamNameField.text = teamCircleInfo.TEAMCIRCLENAME;
         
@@ -305,7 +306,7 @@
         UIImageView * headImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kItemSizeWidth, kItemSizeWidth)];
         [headImage sd_setImageWithURL:ZENITH_IMAGEURL(userinfo.FILEURL) placeholderImage:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
         [cell.contentView addSubview:headImage];
-        //    headImage.backgroundColor = [UIColor redColor];
+        headImage.contentMode = UIViewContentModeScaleAspectFit;
         
         UILabel * nameLab = [[UILabel alloc]initWithFrame:CGRectMake(0, kItemSizeWidth, kItemSizeWidth, kItemSizeHeight - kItemSizeWidth)];
         nameLab.text = userinfo.USERNAME;

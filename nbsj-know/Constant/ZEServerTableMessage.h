@@ -45,6 +45,7 @@
 #define KLB_PROCIRCLE_USER_POS             @"KLB_PROCIRCLE_USER_POS"            /***   圈子成员表   ***/
 #define KLB_PROCIRCLEPOINT_INFO             @"KLB_PROCIRCLEPOINT_INFO"            /***   圈子成员表   ***/
 #define KLB_DYNAMIC_INFO             @"KLB_DYNAMIC_INFO"            /***   圈子动态表   ***/
+#define V_KLB_DYNAMIC_INFO             @"V_KLB_DYNAMIC_INFO"            /***   圈子动态表   ***/
 
 
 #define KLB_PROCIRCLE_REL_USER         @"KLB_PROCIRCLE_REL_USER"        /***   专业圈人员关系表   ***/
@@ -54,13 +55,17 @@
 #define KLB_TEAMCIRCLE_REL_USER        @"KLB_TEAMCIRCLE_REL_USER"       /***   班组圈人员关系表   ***/
 #define V_KLB_TEAMCIRCLE_REL_USER        @"V_KLB_TEAMCIRCLE_REL_USER"       /***   班组圈人员关系表   ***/
 
-#define KLB_TEAMCIRCLE_USER_TEAMNAME        @"KLB_TEAMCIRCLE_USER_TEAMNAME"       /***   班组圈首页   ***/
+#define V_KLB_TEAMUSER_TEAMNAME        @"V_KLB_TEAMUSER_TEAMNAME"       /***   班组圈首页   ***/
 
 #define KLB_TEAMCIRCLE_QUESTION_INFO   @"KLB_TEAMCIRCLE_QUESTION_INFO"  /***   班组圈问题交流表   ***/
-#define KLB_TEAMCIRCLE_QUESTION_INFO   @"KLB_TEAMCIRCLE_QUESTION_INFO"  /***   班组圈问题交流表   ***/
+#define V_KLB_TEAMCIRCLE_ANSWER_INFO   @"V_KLB_TEAMCIRCLE_ANSWER_INFO"  /***   班组圈问题交流表   ***/
 #define KLB_TEAMCIRCLE_ANSWER_INFO   @"KLB_TEAMCIRCLE_ANSWER_INFO"  /***   班组圈回答问题表   ***/
 #define KLB_TEAMCIRCLE_ANSWER_GOOD   @"KLB_TEAMCIRCLE_ANSWER_GOOD"  /***   班组圈问题点赞表   ***/
 #define V_KLB_TEAMCIRCLE_QUESTION_INFO     @"V_KLB_TEAMCIRCLE_QUESTION_INFO"    /***   班组圈问题视图  ***/
+#define V_KLB_TEAMCIRCLE_QUESTION_INFO     @"V_KLB_TEAMCIRCLE_QUESTION_INFO"    /***   班组圈问题视图  ***/
+#define KLB_TEAMCIRCLE_QUE_ANS_DETAIL             @"KLB_TEAM_QUE_ANS_DETAIL"               /***   追问表   ***/
+
+
 #define KLB_SETUP_RECORD               @"KLB_SETUP_RECORD"              /***   我的个人设置记录   ***/
 #define KLB_POINT_RULE_INFO            @"KLB_POINT_RULE_INFO"           /***   积分等级规则维护表   ***/
 #define KLB_ANSWER_GOOD                @"KLB_ANSWER_GOOD"               /***   点赞记录表   ***/

@@ -147,8 +147,10 @@
         for (NSString * str in self.QUESINFOM.FILEURLARR) {
             NSString * strUrl =[NSString stringWithFormat:@"%@/file/%@",Zenith_Server,str];
             UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:strUrl];
-            [askView reloadChoosedImageView:cachedImage];
-            [self.imagesArr addObject:cachedImage];
+            if([ZEUtil isNotNull:cachedImage]){
+                [askView reloadChoosedImageView:cachedImage];
+                [self.imagesArr addObject:cachedImage];
+            }
         }
 
     }else{

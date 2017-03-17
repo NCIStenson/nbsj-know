@@ -10,6 +10,8 @@
 
 @interface ZEQuestionsDetailVC : ZESettingRootVC
 
+@property (nonatomic,assign) QUESTION_LIST enterQuestionDetailType;
+
 @property (nonatomic,strong) ZEQuestionInfoModel * questionInfoModel;
 @property (nonatomic,strong) ZEQuestionTypeModel * questionTypeModel;
 

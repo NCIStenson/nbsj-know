@@ -18,6 +18,7 @@ static ZETeamCircleModel * teamCircleInfo = nil;
     
     teamCircleInfo.SEQKEY         = [dic objectForKey:@"SEQKEY"];
     teamCircleInfo.TEAMCIRCLECODE  = [dic objectForKey:@"TEAMCIRCLECODE"];
+    teamCircleInfo.TEAMCODE  = [dic objectForKey:@"TEAMCODE"];
     teamCircleInfo.TEAMCIRCLECODENAME  = [dic objectForKey:@"TEAMCIRCLECODENAME"];
     teamCircleInfo.TEAMCIRCLENAME    = [dic objectForKey:@"TEAMCIRCLENAME"];
     teamCircleInfo.TEAMCIRCLEREMARK = [dic objectForKey:@"TEAMCIRCLEREMARK"];
@@ -26,6 +27,8 @@ static ZETeamCircleModel * teamCircleInfo = nil;
     teamCircleInfo.TEAMMEMBERS = [dic objectForKey:@"TEAMMEMBERS"];
     teamCircleInfo.FILEURL        = [[[dic objectForKey:@"FILEURL"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"] stringByReplacingOccurrencesOfString:@"," withString:@""];
     
+    teamCircleInfo.DYNAMICTYPE = [dic objectForKey:@"DYNAMICTYPE"];
+
     return teamCircleInfo;
 }
 

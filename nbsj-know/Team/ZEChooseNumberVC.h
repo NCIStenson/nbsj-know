@@ -11,6 +11,7 @@
 
 @interface ZEChooseNumberVC : ZESettingRootVC
 
+@property (nonatomic,copy) NSString * TEAMCODE;
 @property (nonatomic,strong) NSMutableArray * numbersArr;
 
 @end
