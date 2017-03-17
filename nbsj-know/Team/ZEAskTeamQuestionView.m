@@ -27,7 +27,7 @@
     
     UIButton * questionTypeBtn; // 选择问题分类Button
     UIButton * _designatedNumberBtn; // 选择问题回答人员Button
-    ZEAskQuestionTypeView * askTypeView; // 选择问题分类视图
+    ZEAskQuestionTypeView * _askTypeView; // 选择问题分类视图
     
     UIView * _backImageView;//   上传图片背景view
     
@@ -537,12 +537,12 @@
 
 -(void)showQuestionTypeView
 {
-    askTypeView = [[ZEAskQuestionTypeView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    askTypeView.delegate = self;
-    [self addSubview:askTypeView];
+    _askTypeView = [[ZEAskQuestionTypeView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    _askTypeView.delegate = self;
+    [self addSubview:_askTypeView];
     NSArray * typeArr = [[ZEQuestionTypeCache instance] getQuestionTypeCaches];
     if (typeArr.count > 0) {
-        [askTypeView reloadData];
+        [_askTypeView reloadTypeData];
     }
 }
 
@@ -559,10 +559,11 @@
 {
     [questionTypeBtn  setTitle:[NSString stringWithFormat:@"关键词：%@",typeName] forState:UIControlStateNormal];
     self.quesTypeSEQKEY = typeCode;
-    for (UIView * view in askTypeView.subviews) {
+    for (UIView * view in _askTypeView.subviews) {
         [view removeFromSuperview];
     }
-    [askTypeView removeFromSuperview];
+    [_askTypeView removeFromSuperview];
+    _askTypeView = nil;
 }
 
 

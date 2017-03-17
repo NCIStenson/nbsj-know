@@ -11,7 +11,25 @@
 @class ZEProCirDetailView;
 @protocol ZEProCirDeatilViewDelegate <NSObject>
 
+
+/**
+ 展示动态
+ */
 -(void)goDynamic;
+
+
+/**
+ 更多经典案例
+ */
+-(void)goMoreCaseVC;
+
+
+/**
+ *  @author Stenson, 17-03-17 10:07:18
+ *
+ *  去经典案例详情
+ */
+-(void)goTypicalDetail:(NSDictionary *)detailDic;
 
 @end
 
@@ -24,4 +42,7 @@
 -(void)reloadSection:(NSInteger)section
             scoreDic:(NSDictionary *)dic
           memberData:(id)data;
+
+-(void)reloadCaseView:(NSArray *)arr;
+
 @end

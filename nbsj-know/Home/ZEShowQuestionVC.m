@@ -65,7 +65,7 @@
 {
     NSArray * typeArr = [[ZEQuestionTypeCache instance] getQuestionTypeCaches];
     if (typeArr.count > 0) {
-        [askTypeView reloadData];
+        [askTypeView reloadTypeData];
         return;
     }
     
@@ -92,7 +92,7 @@
                        showAlertView:NO
                              success:^(id data) {
                                  [[ZEQuestionTypeCache instance]setQuestionTypeCaches:[ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_TYPE]];
-                                 [askTypeView reloadData];
+                                 [askTypeView reloadTypeData];
                              } fail:^(NSError *errorCode) {
                                  
                              }];
@@ -111,7 +111,7 @@
     
     NSArray * typeArr = [[ZEQuestionTypeCache instance] getQuestionTypeCaches];
     if (typeArr.count > 0) {
-        [askTypeView reloadData];
+        [askTypeView reloadTypeData];
     }else{
         [self cacheQuestionType];
     }
@@ -144,9 +144,9 @@
             searchCondition = [NSString stringWithFormat:@"ISLOSE = 0"];
         }
     }else if (_showQuestionListType == QUESTION_LIST_TYPE){
-        searchCondition = [NSString stringWithFormat:@"ISLOSE = 0 and QUESTIONTYPECODE = '%@' and QUESTIONEXPLAIN like '%%%@%%'",_typeSEQKEY,searchStr];
+        searchCondition = [NSString stringWithFormat:@"ISLOSE = 0 and QUESTIONTYPECODE like '%%%@%%' and QUESTIONEXPLAIN like '%%%@%%'",_typeSEQKEY,searchStr];
         if (![ZEUtil isStrNotEmpty:searchStr]) {
-            searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONTYPECODE = '%@'",_typeSEQKEY];
+            searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONTYPECODE like '%%%@%%'",_typeSEQKEY];
         }
     }else if (_showQuestionListType == QUESTION_LIST_MY_QUESTION){
         searchCondition = [NSString stringWithFormat:@"ISLOSE = 0 and QUESTIONUSERCODE = '%@' and QUESTIONEXPLAIN like '%%%@%%'",[ZESettingLocalData getUSERCODE],searchStr];

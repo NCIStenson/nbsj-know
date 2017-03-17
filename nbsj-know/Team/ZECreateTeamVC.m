@@ -136,6 +136,17 @@
     [self.view sendSubviewToBack:createTeamView];
 }
 
+-(void)leftBtnClick{
+    if ([ZEUtil isNotNull:createTeamView.messageView.teamTypeView]) {
+        [createTeamView.messageView.teamTypeView removeAllSubviews];
+        [createTeamView.messageView.teamTypeView removeFromSuperview];
+        createTeamView.messageView.teamTypeView = nil;
+        return;
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
+
 #pragma mark - 创建班组圈发送请求
 
 -(void)createTeamData

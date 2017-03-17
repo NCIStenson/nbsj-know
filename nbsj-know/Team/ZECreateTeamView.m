@@ -192,12 +192,12 @@
 -(void)showQuestionTypeView
 {
     [self endEditing:YES];
-    teamTypeView = [[ZEAskQuestionTypeView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    teamTypeView.delegate = self;
-    [_createTeamView addSubview:teamTypeView];
+    _teamTypeView = [[ZEAskQuestionTypeView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    _teamTypeView.delegate = self;
+    [_createTeamView addSubview:_teamTypeView];
     NSArray * typeArr = [[ZEQuestionTypeCache instance] getQuestionTypeCaches];
     if (typeArr.count > 0) {
-        [teamTypeView reloadData];
+        [_teamTypeView reloadTypeData];
     }
 }
 
@@ -209,10 +209,11 @@
     [_teamTypeBtn setTitleColor:kTextColor forState:UIControlStateNormal];
     self.TEAMCIRCLECODE = typeCode;
     self.TEAMCIRCLECODENAME = typeName;
-    for (UIView * view in teamTypeView.subviews) {
+    for (UIView * view in _teamTypeView.subviews) {
         [view removeFromSuperview];
     }
-    [teamTypeView removeFromSuperview];
+    [_teamTypeView removeFromSuperview];
+    _teamTypeView = nil;
 }
 
 @end

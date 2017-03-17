@@ -22,6 +22,6 @@
 
 -(id)initWithFrame:(CGRect)frame;
 
--(void)reloadData;
+-(void)reloadTypeData;
 
 @end

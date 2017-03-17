@@ -63,7 +63,7 @@
     _typeTableView.showsHorizontalScrollIndicator = NO;
 }
 
--(void)reloadData
+-(void)reloadTypeData
 {
     NSArray * typeDataArr = [[ZEQuestionTypeCache instance] getQuestionTypeCaches];
 

@@ -11,6 +11,9 @@
 
 #import "ZEProCirDynamicVC.h"
 
+#import "ZETypicalCaseVC.h"
+#import "ZETypicalCaseDetailVC.h"
+
 @interface ZEProCirDetailVC ()<ZEProCirDeatilViewDelegate>
 {
     ZEProCirDeatilView * detailView;
@@ -61,9 +64,9 @@
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 if ([[ZEUtil getServerData:data withTabelName:V_KLB_CLASSICCASE_INFO] count] > 0) {
-                                     
-//                                     [_homeView reloadSectionView:[ZEUtil getServerData:data withTabelName:V_KLB_CLASSICCASE_INFO]];
+                                 NSArray * arr = [ZEUtil getServerData:data withTabelName:V_KLB_CLASSICCASE_INFO] ;
+                                 if ([ZEUtil isNotNull:arr] && [arr count] > 0) {
+                                     [detailView reloadCaseView:arr];
                                  }
 
                              } fail:^(NSError *errorCode) {
@@ -234,7 +237,19 @@
     [self.navigationController pushViewController:dynamicVC animated:YES];
 }
 
+-(void)goMoreCaseVC
+{
+    ZETypicalCaseVC * caseVC = [[ZETypicalCaseVC alloc]init];
+    caseVC.enterType = ENTER_CASE_TYPE_DEFAULT;
+    [self.navigationController pushViewController:caseVC animated:YES];
+}
 
+-(void)goTypicalDetail:(NSDictionary *)detailDic
+{
+    ZETypicalCaseDetailVC * caseDetailVC = [[ZETypicalCaseDetailVC alloc]init];
+    caseDetailVC.classicalCaseDetailDic = detailDic;
+    [self.navigationController pushViewController:caseDetailVC animated:YES];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

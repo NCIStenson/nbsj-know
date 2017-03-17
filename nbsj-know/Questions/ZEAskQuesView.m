@@ -25,7 +25,6 @@
     
     
     UIButton * questionTypeBtn; // 选择问题Button
-    ZEAskQuestionTypeView * askTypeView; // 选择问题分类视图
     
     UIView * _backImageView;//   上传图片背景view
     
@@ -309,7 +308,6 @@
     switchView.right = SCREEN_WIDTH - 20;
     switchView.top = 10.0f;
     if ([ZEUtil isNotNull:self.QUESINFOM]) {
-//        BOOL isOn = self.QUESINFOM.ISANONYMITY;
         switchView.on = self.QUESINFOM.ISANONYMITY;
     }
     
@@ -331,6 +329,9 @@
     currentGodeLab.font = [UIFont systemFontOfSize:12];
     currentGodeLab.textColor = [UIColor grayColor];
     currentGodeLab.text = @"当前积分：0";
+    if([self.SUMPOINTS integerValue] > 0){
+        currentGodeLab.text = [NSString stringWithFormat:@"当前积分：%@",self.SUMPOINTS];
+    }
     currentGodeLab.textAlignment = NSTextAlignmentRight;
     [_anonymousAskView addSubview:currentGodeLab];
     currentGodeLab.frame = CGRectMake(0 , 55, 100, 20);
@@ -525,12 +526,12 @@
 
 -(void)showQuestionTypeView
 {
-    askTypeView = [[ZEAskQuestionTypeView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    askTypeView.delegate = self;
-    [self addSubview:askTypeView];
+    _askTypeView = [[ZEAskQuestionTypeView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    _askTypeView.delegate = self;
+    [self addSubview:_askTypeView];
     NSArray * typeArr = [[ZEQuestionTypeCache instance] getQuestionTypeCaches];
     if (typeArr.count > 0) {
-        [askTypeView reloadData];
+        [_askTypeView reloadTypeData];
     }
 }
 
@@ -540,10 +541,11 @@
 {
     [questionTypeBtn  setTitle:[NSString stringWithFormat:@"关键词：%@",typeName] forState:UIControlStateNormal];
     self.quesTypeSEQKEY = typeCode;
-    for (UIView * view in askTypeView.subviews) {
+    for (UIView * view in _askTypeView.subviews) {
         [view removeFromSuperview];
     }
-    [askTypeView removeFromSuperview];
+    [_askTypeView removeFromSuperview];
+    _askTypeView = nil;
 }
 
 
@@ -553,7 +555,9 @@
     self.SUMPOINTS = sumpoints;
     
     [_rewardGoldView removeAllSubviews];
+    [_anonymousAskView removeAllSubviews];
     
+    [self initAnonymousView];
     [self initRewardGoldView];
     
 }

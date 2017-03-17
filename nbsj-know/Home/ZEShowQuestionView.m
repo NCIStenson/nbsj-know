@@ -449,31 +449,6 @@
 
 #pragma mark - 展示图片
 
-//-(void)showImage:(UIButton *)btn
-//{
-//    NSDictionary * datasDic = nil;
-//    if (btn.tag / 10000000 == SECTION_TITLE_ANSWER) {
-//        datasDic = self.newestQuestionArr[btn.tag / 10000];
-//    }else{
-//        datasDic = self.expertQuestionArr[btn.tag / 10000];
-//    }
-//    
-//    ZEQuestionInfoModel * quesInfoM = [ZEQuestionInfoModel getDetailWithDic:datasDic];
-//    if([ZEUtil isStrNotEmpty:quesInfoM.FILEURL]){
-//        self.photosArr = [quesInfoM.FILEURL componentsSeparatedByString:@","];
-//    }
-//    
-//    NSMutableArray * urlsArr = [NSMutableArray array];
-//    for (NSString * str in self.photosArr) {
-//        [urlsArr addObject:[NSString stringWithFormat:@"%@/file/%@",Zenith_Server,str]];
-//    }
-//    
-//    PYPhotoBrowseView *browser = [[PYPhotoBrowseView alloc] init];
-//    browser.imagesURL = urlsArr; // 图片总数
-//    browser.currentIndex = btn.tag % 10;
-//    [browser show];
-//}
-
 
 #pragma mark - ZEQuestionsViewDelegate
 

@@ -111,9 +111,6 @@
 //  团队动态
 -(void)teamDynamics
 {
-    
-    NSLog(@" alreadyJoinTeam >>>>  %@",alreadyJoinTeam);
-    
     NSString * str = nil;
     
     for (int i = 0 ; i < alreadyJoinTeam.count; i ++) {

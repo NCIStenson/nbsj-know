@@ -100,7 +100,7 @@
                              success:^(id data) {
                                  [MBProgressHUD hideHUDForView:self.view animated:YES ];
                                  [[ZEQuestionTypeCache instance]setQuestionTypeCaches:[ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_TYPE]];
-                                 [askTypeView reloadData];
+                                 [askTypeView reloadTypeData];
                              } fail:^(NSError *errorCode) {
                                  [MBProgressHUD hideHUDForView:self.view animated:YES ];
                              }];
@@ -229,7 +229,7 @@
         
         NSArray * typeArr = [[ZEQuestionTypeCache instance] getQuestionTypeCaches];
         if (typeArr.count > 0) {
-            [askTypeView reloadData];
+            [askTypeView reloadTypeData];
         }
     }
     _isShowTypicalTypeView = !_isShowTypicalTypeView;

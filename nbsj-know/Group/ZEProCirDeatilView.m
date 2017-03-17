@@ -9,14 +9,23 @@
 #define kDynamicsHeight  80.0f
 #define kMemberHeight  30.0f
 
-#import "ZEProCirDeatilView.h"
+#define kTypicalViewMarginLeft  0.0f
+#define kTypicalViewMarginTop   NAV_HEIGHT
+#define kTypicalViewWidth       SCREEN_WIDTH
+#define kTypicalViewHeight      135.0f
 
+
+#import "ZEProCirDeatilView.h"
+#import "ZEKLB_CLASSICCASE_INFOModel.h"
 @interface ZEProCirDeatilView ()<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView * contentView;
+    
+    NSMutableArray * _caseQuestionArr;
 }
 @property (nonatomic,strong) NSDictionary * scoreDic;
 @property (nonatomic,strong) NSArray * memberArr;
+@property (nonatomic,strong) NSMutableArray * caseQuestionArr;
 @end
 
 @implementation ZEProCirDeatilView
@@ -31,12 +40,93 @@
 }
 
 -(void)initView{
-    contentView = [[UITableView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT) style:UITableViewStylePlain];
+    [self addSubview:[self createTypicalCaseView]];
+    
+    contentView = [[UITableView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT + kTypicalViewHeight, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT) style:UITableViewStylePlain];
     contentView.separatorStyle = UITableViewCellSeparatorStyleNone;
     contentView.delegate = self;
     contentView.dataSource = self;
     [self addSubview:contentView];
 }
+
+#pragma mark - 经典案例
+
+-(UIView *)createTypicalCaseView
+{
+    UIView * typicalCaseView = [[UIView alloc]initWithFrame:CGRectMake(kTypicalViewMarginLeft, kTypicalViewMarginTop, kTypicalViewWidth, kTypicalViewHeight)];
+    typicalCaseView.backgroundColor = [UIColor whiteColor];
+    typicalCaseView.tag = 100;
+    
+    UIView * newestComment = [[UIView alloc]initWithFrame:CGRectMake(10, 0, 5.0f, 20.0f)];
+    newestComment.backgroundColor = MAIN_NAV_COLOR_A(0.5);
+    [typicalCaseView addSubview:newestComment];
+    
+    UILabel * newestLab = [[UILabel alloc]initWithFrame:CGRectMake(20.0f, 0.0f, SCREEN_WIDTH - 100.0f, 20.0f)];
+    newestLab.text = @"技能充电桩";
+    newestLab.numberOfLines = 0;
+    newestLab.font = [UIFont systemFontOfSize:12];
+    [typicalCaseView addSubview:newestLab];
+    
+    UIButton * sectionSubTitleBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    [sectionSubTitleBtn setTitleColor:MAIN_NAV_COLOR forState:UIControlStateNormal];
+    sectionSubTitleBtn.frame = CGRectMake(SCREEN_WIDTH - 110 , 0, 90, 20);
+    [sectionSubTitleBtn setTitle:@"更多  >" forState:UIControlStateNormal];
+    sectionSubTitleBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+    sectionSubTitleBtn.contentHorizontalAlignment =  UIControlContentHorizontalAlignmentRight;
+    [typicalCaseView addSubview:sectionSubTitleBtn];
+    [sectionSubTitleBtn addTarget:self action:@selector(moreCaseBtnClck) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIScrollView * typicalScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(10, 20.0f, SCREEN_WIDTH - 20.0f, kTypicalViewHeight - 25.0f)];
+    typicalScrollView.showsHorizontalScrollIndicator = NO;
+    [typicalCaseView addSubview:typicalScrollView];
+    
+    for (int i = 0 ; i < self.caseQuestionArr.count; i ++ ) {
+        ZEKLB_CLASSICCASE_INFOModel * classicalCaseM = [ZEKLB_CLASSICCASE_INFOModel getDetailWithDic:self.caseQuestionArr[i]];
+        
+        UIButton * typicalImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        typicalImageBtn.frame = CGRectMake( (SCREEN_WIDTH - 20) / 3 * i , 0, (SCREEN_WIDTH - 20) / 3 - 10, kTypicalViewHeight - 55);
+        typicalImageBtn.contentHorizontalAlignment =  UIControlContentHorizontalAlignmentRight;
+        [typicalScrollView addSubview:typicalImageBtn];
+        [typicalImageBtn addTarget:self action:@selector(goTypicalCaseDetail:) forControlEvents:UIControlEventTouchUpInside];
+        typicalImageBtn.tag = i;
+        if ([ZEUtil isStrNotEmpty:classicalCaseM.FILEURL]) {
+            NSURL * fileURL =[NSURL URLWithString:ZENITH_IMAGE_FILESTR(classicalCaseM.FILEURL)] ;
+            [typicalImageBtn sd_setImageWithURL:fileURL forState:UIControlStateNormal placeholderImage:ZENITH_PLACEHODLER_IMAGE];
+        }
+        if (i == 3) {
+            typicalScrollView.contentSize = CGSizeMake((SCREEN_WIDTH - 20) / 3 * 4 - 10, kTypicalViewHeight - 55);
+        }
+        
+        UILabel * typicalLab = [[UILabel alloc]initWithFrame:CGRectMake(typicalImageBtn.frame.origin.x, typicalImageBtn.frame.origin.y + typicalImageBtn.frame.size.height, typicalImageBtn.frame.size.width, 15.0f)];
+        typicalLab.text = classicalCaseM.CASENAME;
+        typicalLab.numberOfLines = 0;
+        typicalLab.textAlignment = NSTextAlignmentCenter;
+        typicalLab.font = [UIFont systemFontOfSize:12];
+        [typicalScrollView addSubview:typicalLab];
+        
+        UIButton * browseBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        browseBtn.frame = CGRectMake(typicalImageBtn.frame.origin.x, typicalImageBtn.frame.origin.y + typicalImageBtn.frame.size.height + 15.0f, typicalImageBtn.frame.size.width, 15.0f);
+        browseBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+        [browseBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        if (![ZEUtil isStrNotEmpty:classicalCaseM.CLICKCOUNT]) {
+            [browseBtn setTitle:@" 0" forState:UIControlStateNormal];
+        }else{
+            [browseBtn setTitle:[NSString stringWithFormat:@" %@",classicalCaseM.CLICKCOUNT] forState:UIControlStateNormal];
+        }
+        [browseBtn setImage:[UIImage imageNamed:@"discuss_pv.png" color:[UIColor lightGrayColor]] forState:UIControlStateNormal];
+        [typicalScrollView addSubview:browseBtn];
+    }
+    
+    CALayer * grayLine = [CALayer layer];
+    grayLine.frame = CGRectMake(0, kTypicalViewHeight - 5.0f, SCREEN_WIDTH, 5);
+    [typicalCaseView.layer addSublayer:grayLine];
+    grayLine.backgroundColor = [MAIN_LINE_COLOR CGColor];
+    
+    return  typicalCaseView;
+}
+
+
+#pragma mark - Publick Method
 
 -(void)reloadSection:(NSInteger)section
             scoreDic:(NSDictionary *)dic
@@ -50,6 +140,21 @@
     }
     
     [contentView reloadData];
+}
+
+-(void)reloadCaseView:(NSArray *)arr
+{
+    self.caseQuestionArr = [NSMutableArray arrayWithArray:arr];
+    
+    UIView * typicalCaseView = [self viewWithTag:100];
+    for (id view in typicalCaseView.subviews) {
+        [view removeFromSuperview];
+    }
+    if(self.caseQuestionArr.count > 0){
+        [self addSubview:[self createTypicalCaseView]];
+    }else{
+        contentView.frame = CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT);
+    }
 }
 
 #pragma mark - UITableViewDelegate
@@ -459,6 +564,7 @@
     }
 }
 
+#pragma mark - DELEGATE
 
 -(void)goDynamic
 {
@@ -466,6 +572,22 @@
         [self.delegate goDynamic];
     }
 }
+
+-(void)moreCaseBtnClck
+{
+    if([self.delegate respondsToSelector:@selector(goMoreCaseVC)]){
+        [self.delegate goMoreCaseVC];
+    }
+}
+
+-(void)goTypicalCaseDetail:(UIButton *)btn
+{
+    if([self.delegate respondsToSelector:@selector(goTypicalDetail:)]){
+        [self.delegate goTypicalDetail:self.caseQuestionArr[btn.tag]];
+    }
+}
+
+
 
 /*
 // Only override drawRect: if you perform custom drawing.

@@ -14,14 +14,14 @@
 {
     UITextView * _manifestoTextView;
     UITextField * _teamNameField;
-    ZEAskQuestionTypeView * teamTypeView;
+    
     UITextView * _profileTextView; // 团队简介输入框
     UIButton * _teamHeadImgBtn;
     ZETeamCircleModel * teamCircleInfo;
 }
 
 @property (nonatomic,weak) ZECreateTeamView * createTeamView;
-
+@property (nonatomic,strong) ZEAskQuestionTypeView * teamTypeView;
 @property (nonatomic,strong) UITextField * teamNameField;    // 团队名称
 @property (nonatomic,strong) UIButton * teamTypeBtn;
 @property (nonatomic,strong) UITextView * manifestoTextView; // 团队宣言

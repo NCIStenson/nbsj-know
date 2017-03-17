@@ -121,7 +121,7 @@
                              success:^(id data) {
                                  [MBProgressHUD hideHUDForView:self.view animated:YES ];
                                  [[ZEQuestionTypeCache instance]setQuestionTypeCaches:[ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_TYPE]];
-                                 [askTypeView reloadData];
+                                 [askTypeView reloadTypeData];
                              } fail:^(NSError *errorCode) {
                                  [MBProgressHUD hideHUDForView:self.view animated:YES ];
                              }];
@@ -263,6 +263,13 @@
 
 -(void)leftBtnClick
 {
+    if ([ZEUtil isNotNull:askView.askTypeView]) {
+        [askView.askTypeView removeAllSubviews];
+        [askView.askTypeView removeFromSuperview];
+        askView.askTypeView = nil;
+        return;
+    }
+    
     if (_enterType == ENTER_GROUP_TYPE_CHANGE && [askView.inputView.text isEqualToString:self.QUESINFOM.QUESTIONEXPLAIN]) {
         [self.navigationController popViewControllerAnimated:YES];
         return;

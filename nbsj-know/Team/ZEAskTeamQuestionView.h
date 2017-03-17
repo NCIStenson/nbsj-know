@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZEAskQuestionTypeView.h"
 
 @class ZEAskTeamQuestionView;
 
@@ -52,6 +53,8 @@
 /************** 修改问题时传入的问题Model *************/
 
 @property (nonatomic,strong) ZEQuestionInfoModel * QUESINFOM;
+
+@property (nonatomic,strong) ZEAskQuestionTypeView * askTypeView;
 
 -(id)initWithFrame:(CGRect)frame;
 

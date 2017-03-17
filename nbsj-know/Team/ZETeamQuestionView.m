@@ -619,21 +619,22 @@
     //  问题文字与用户信息之间间隔
     float userY = questionHeight + 20.0f;
     
-    for (int i = 0; i < quesInfoM.FILEURLARR.count; i ++) {
-        UIButton * questionImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        questionImageBtn.userInteractionEnabled = YES;
-        questionImageBtn.frame = CGRectMake(20 + (kCellImgaeHeight + 10) * i, userY, kCellImgaeHeight, kCellImgaeHeight);
-        questionImageBtn.tag = indexpath.section * 10000000 + indexpath.row * 10000 + i;
-        questionImageBtn.imageView.contentMode = UIViewContentModeScaleAspectFill;
-        [questionImageBtn addTarget:self action:@selector(showImage:) forControlEvents:UIControlEventTouchUpInside];
-        [questionImageBtn  sd_setImageWithURL:ZENITH_IMAGEURL(quesInfoM.FILEURLARR[i]) forState:UIControlStateNormal placeholderImage:ZENITH_PLACEHODLER_IMAGE];
+    NSMutableArray * urlsArr = [NSMutableArray array];
+    for (NSString * str in quesInfoM.FILEURLARR) {
+        [urlsArr addObject:[NSString stringWithFormat:@"%@/file/%@",Zenith_Server,str]];
+    }
+    
+    if (quesInfoM.FILEURLARR.count > 0) {
+        PYPhotosView *linePhotosView = [PYPhotosView photosViewWithThumbnailUrls:urlsArr originalUrls:urlsArr layoutType:PYPhotosViewLayoutTypeLine];
+        // 设置Frame
+        linePhotosView.py_y = userY;
+        linePhotosView.py_x = PYMargin;
+        linePhotosView.py_width = SCREEN_WIDTH - 40;
         
-        [questionsView addSubview:questionImageBtn];
-        questionImageBtn.clipsToBounds = YES;
+        // 3. 添加到指定视图中
+        [questionsView addSubview:linePhotosView];
         
-        if (i == quesInfoM.FILEURLARR.count - 1) {
-            userY += kCellImgaeHeight + 10.0f;
-        }
+        userY += kCellImgaeHeight + 10.0f;
     }
     
     NSArray * typeCodeArr = [quesInfoM.QUESTIONTYPECODE componentsSeparatedByString:@","];
@@ -828,79 +829,6 @@
         [self.delegate loadMoreData:footer.superview.tag - 100];
     }
 }
-
-
-
-
-/**
- 页面直接回答问题
- */
--(void)answerQuestion:(UIButton *)btn
-{
-    NSDictionary * datasDic = nil;
-    switch (_currentHomeContentPage) {
-        case HOME_CONTENT_RECOMMAND:
-            datasDic = self.recommandQuestionArr[btn.tag];
-            break;
-            
-        case HOME_CONTENT_NEWEST:
-            datasDic = self.newestQuestionArr[btn.tag];
-            break;
-            
-        case HOME_CONTENT_BOUNS:
-            datasDic = self.bonusQuestionArr[btn.tag];
-            break;
-            
-        default:
-            break;
-    }
-    
-    ZEQuestionInfoModel * questionInfoModel = [ZEQuestionInfoModel getDetailWithDic:datasDic];
-    if ([self.delegate respondsToSelector:@selector(goAnswerQuestionVC:)]) {
-        [self.delegate goAnswerQuestionVC:questionInfoModel];
-    }
-    
-}
-
-
--(void)showImage:(UIButton *)btn
-{
-    NSDictionary * datasDic = nil;
-    
-    switch (_currentHomeContentPage) {
-        case HOME_CONTENT_RECOMMAND:
-            datasDic = self.recommandQuestionArr[btn.tag / 10000];
-            break;
-            
-        case HOME_CONTENT_NEWEST:
-            datasDic = self.newestQuestionArr[btn.tag / 10000];
-            break;
-            
-        case HOME_CONTENT_BOUNS:
-            datasDic = self.bonusQuestionArr[btn.tag / 10000];
-            break;
-            
-        default:
-            break;
-    }
-    //        datasDic = self.newestQuestionArr[btn.tag / 10000];
-    //    }else{
-    //        datasDic = self.expertQuestionArr[btn.tag / 10000];
-    //    }
-    
-    ZEQuestionInfoModel * quesInfoM = [ZEQuestionInfoModel getDetailWithDic:datasDic];
-    
-    NSMutableArray * urlsArr = [NSMutableArray array];
-    for (NSString * str in quesInfoM.FILEURLARR) {
-        [urlsArr addObject:[NSString stringWithFormat:@"%@/file/%@",Zenith_Server,str]];
-    }
-    
-    PYPhotoBrowseView *browser = [[PYPhotoBrowseView alloc] init];
-    browser.imagesURL = urlsArr; // 图片总数
-    browser.currentIndex = btn.tag % 10;
-    [browser show];
-}
-
 
 /*
  // Only override drawRect: if you perform custom drawing.

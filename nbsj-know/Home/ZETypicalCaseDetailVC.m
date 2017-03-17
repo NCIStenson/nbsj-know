@@ -425,20 +425,6 @@ NSDictionary * fieldsDic =@{@"CASECODE":[self.classicalCaseDetailDic objectForKe
                              }];
 }
 
-//-(void)loadLocalImageFile:(NSString *)imagePath withType:(NSString *)pngType withPageNum:(NSString *)pageNum
-//{
-//    self.photosArr = [NSMutableArray array];
-//    self.downloadImageArr = [NSMutableArray array];
-//    for(int i = 0; i < [pageNum integerValue]; i ++){
-//        NSString *str                = [[NSString stringWithFormat:@"file://%@/\%ld%@",[ZEUtil changeURLStrFormat:imagePath],(long)i + 1,pngType] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//        [self.downloadImageArr addObject:str];
-//    }
-//    PYPhotoBrowseView *browser = [[PYPhotoBrowseView alloc] init];
-//    browser.imagesURL = urlsArr; // 图片总数
-//    browser.currentIndex = btn.tag % 10;
-//    [browser show];
-//}
-
 -(void)playCourswareImagePath:(NSString *)filepath
 {
     NSMutableArray * photosArr = [NSMutableArray arrayWithObject:[ZEUtil changeURLStrFormat:filepath]];
