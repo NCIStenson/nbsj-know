@@ -30,6 +30,9 @@
 {
     _joinTeam = [NSMutableArray arrayWithArray:arr];
     [_collectionView reloadData];
+    if (_joinTeam.count > 0) {
+        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    }
 }
 
 -(void)initView

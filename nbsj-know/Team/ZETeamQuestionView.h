@@ -11,7 +11,7 @@
 @class ZETeamQuestionView;
 @protocol ZETeamQuestionViewDelegate <NSObject>
 
-
+@optional
 /**
  *  @author Stenson, 16-08-04 09:08:55
  *

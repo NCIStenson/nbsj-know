@@ -2184,7 +2184,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/nbsj-know/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/nbsj-know/ThirdSource/JPush",
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -2232,7 +2235,7 @@
 				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = "com.zenithElec.know-Debug";
-				ZENITH_SERVER = "http://192.168.1.175:8080/nbsjzd";
+				ZENITH_SERVER = "http://117.149.2.229:1622/emarkspg_nbsjzd";
 			};
 			name = Debug;
 		};
@@ -2254,6 +2257,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/nbsj-know/ThirdSource/XC_chat/Main/Lib/VoiceConvert/lib",
+					"$(PROJECT_DIR)/nbsj-know/ThirdSource/JPush",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",

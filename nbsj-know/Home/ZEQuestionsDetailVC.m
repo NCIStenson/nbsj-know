@@ -136,7 +136,7 @@
                              success:^(id data) {
                                  _datasArr = [ZEUtil getServerData:data withTabelName:V_KLB_ANSWER_INFO];
                                  [_quesDetailView reloadData:_datasArr];
-                                 if(_enterQuestionDetailType == QUESTION_LIST_MY_QUESTION){
+                                 if(_enterQuestionDetailType == QUESTION_LIST_MY_QUESTION && _datasArr.count == 0){
                                      [self showTips:@"快让小伙伴们来帮助你解答吧！"];
                                  }
                              } fail:^(NSError *errorCode) {

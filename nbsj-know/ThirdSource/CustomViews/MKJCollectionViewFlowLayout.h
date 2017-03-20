@@ -10,6 +10,7 @@
 
 @protocol MKJCollectionViewFlowLayoutDelegate <NSObject>
 
+@optional
 - (void)collectioViewScrollToIndex:(NSInteger)index;
 
 @end

@@ -9,7 +9,7 @@
 #import "ZESearchTeamQuestionVC.h"
 #import "ZETeamQuestionDetailVC.h"
 #import "ZEShowQuestionView.h"
-@interface ZESearchTeamQuestionVC ()
+@interface ZESearchTeamQuestionVC ()<ZEShowQuestionViewDelegate>
 {
     ZEShowQuestionView * _questionsView;
     NSInteger _currentPage;
@@ -48,7 +48,6 @@
     NSString * whereSQL = [NSString stringWithFormat:@" QUESTIONEXPLAIN like '%%%@%%' and teamcirclecode ='%@' and ( targetusercode is null or targetusercode like '%%%@%%' ) ",_currentInputStr,_TEAMCIRCLECODE,[ZESettingLocalData getUSERCODE]];
     [self sendRequestWithCondition:whereSQL ];
 }
-
 
 -(void)sendRequestWithCondition:(NSString *)conditionStr
 {

@@ -830,6 +830,33 @@
     }
 }
 
+-(void)answerQuestion:(UIButton *)btn
+{
+    NSDictionary * datasDic = nil;
+    switch (_currentHomeContentPage) {
+        case HOME_CONTENT_RECOMMAND:
+            datasDic = self.recommandQuestionArr[btn.tag];
+            break;
+            
+        case HOME_CONTENT_NEWEST:
+            datasDic = self.newestQuestionArr[btn.tag];
+            break;
+            
+        case HOME_CONTENT_BOUNS:
+            datasDic = self.bonusQuestionArr[btn.tag];
+            break;
+            
+        default:
+            break;
+    }
+    
+    ZEQuestionInfoModel * questionInfoModel = [ZEQuestionInfoModel getDetailWithDic:datasDic];
+    if ([self.delegate respondsToSelector:@selector(goAnswerQuestionVC:)]) {
+        [self.delegate goAnswerQuestionVC:questionInfoModel];
+    }
+    
+}
+
 /*
  // Only override drawRect: if you perform custom drawing.
  // An empty implementation adversely affects performance during animation.

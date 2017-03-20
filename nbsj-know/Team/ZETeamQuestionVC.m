@@ -20,7 +20,7 @@
 
 #import "ZECreateTeamVC.h"
 
-@interface ZETeamQuestionVC ()<ZETeamQuestionViewDelegate>
+@interface ZETeamQuestionVC ()<ZETeamQuestionViewDelegate,ZETeamQuestionViewDelegate>
 {
     ZETeamQuestionView * _teamQuestionView;
     
