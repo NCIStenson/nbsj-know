@@ -12,7 +12,7 @@
 #define kTypicalViewMarginLeft  0.0f
 #define kTypicalViewMarginTop   NAV_HEIGHT
 #define kTypicalViewWidth       SCREEN_WIDTH
-#define kTypicalViewHeight      135.0f
+#define kTypicalViewHeight      155.0f
 
 
 #import "ZEProCirDeatilView.h"
@@ -57,26 +57,33 @@
     typicalCaseView.backgroundColor = [UIColor whiteColor];
     typicalCaseView.tag = 100;
     
-    UIView * newestComment = [[UIView alloc]initWithFrame:CGRectMake(10, 0, 5.0f, 20.0f)];
-    newestComment.backgroundColor = MAIN_NAV_COLOR_A(0.5);
-    [typicalCaseView addSubview:newestComment];
+//    UIView * newestComment = [[UIView alloc]initWithFrame:CGRectMake(10, 0, 5.0f, 20.0f)];
+//    newestComment.backgroundColor = MAIN_NAV_COLOR_A(0.5);
+//    [typicalCaseView addSubview:newestComment];
     
-    UILabel * newestLab = [[UILabel alloc]initWithFrame:CGRectMake(20.0f, 0.0f, SCREEN_WIDTH - 100.0f, 20.0f)];
-    newestLab.text = @"技能充电桩";
-    newestLab.numberOfLines = 0;
-    newestLab.font = [UIFont systemFontOfSize:12];
-    [typicalCaseView addSubview:newestLab];
+    CAGradientLayer *layer = [CAGradientLayer new];
+    layer.colors = @[(__bridge id)MAIN_NAV_COLOR.CGColor, (__bridge id) MAIN_LINE_COLOR.CGColor];
+    layer.startPoint = CGPointMake(0, 0);
+    layer.endPoint = CGPointMake(1, 0);
+    layer.frame = CGRectMake(0, 0, SCREEN_WIDTH, 40.0f);
+    [typicalCaseView.layer addSublayer:layer];
+    
+    UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 80, 40)];
+    rowTitleLab.text = @"技能充电桩";
+    rowTitleLab.textAlignment = NSTextAlignmentCenter;
+    rowTitleLab.font = [UIFont systemFontOfSize:16];
+    [typicalCaseView addSubview:rowTitleLab];
     
     UIButton * sectionSubTitleBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     [sectionSubTitleBtn setTitleColor:MAIN_NAV_COLOR forState:UIControlStateNormal];
-    sectionSubTitleBtn.frame = CGRectMake(SCREEN_WIDTH - 110 , 0, 90, 20);
+    sectionSubTitleBtn.frame = CGRectMake(SCREEN_WIDTH - 110 , 0, 90, 40);
     [sectionSubTitleBtn setTitle:@"更多  >" forState:UIControlStateNormal];
     sectionSubTitleBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     sectionSubTitleBtn.contentHorizontalAlignment =  UIControlContentHorizontalAlignmentRight;
     [typicalCaseView addSubview:sectionSubTitleBtn];
     [sectionSubTitleBtn addTarget:self action:@selector(moreCaseBtnClck) forControlEvents:UIControlEventTouchUpInside];
     
-    UIScrollView * typicalScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(10, 20.0f, SCREEN_WIDTH - 20.0f, kTypicalViewHeight - 25.0f)];
+    UIScrollView * typicalScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(10, 40.0f, SCREEN_WIDTH - 20.0f, kTypicalViewHeight - 25.0f)];
     typicalScrollView.showsHorizontalScrollIndicator = NO;
     [typicalCaseView addSubview:typicalScrollView];
     
@@ -84,7 +91,7 @@
         ZEKLB_CLASSICCASE_INFOModel * classicalCaseM = [ZEKLB_CLASSICCASE_INFOModel getDetailWithDic:self.caseQuestionArr[i]];
         
         UIButton * typicalImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        typicalImageBtn.frame = CGRectMake( (SCREEN_WIDTH - 20) / 3 * i , 0, (SCREEN_WIDTH - 20) / 3 - 10, kTypicalViewHeight - 55);
+        typicalImageBtn.frame = CGRectMake( (SCREEN_WIDTH - 20) / 3 * i , 0, (SCREEN_WIDTH - 20) / 3 - 10, kTypicalViewHeight - 75);
         typicalImageBtn.contentHorizontalAlignment =  UIControlContentHorizontalAlignmentRight;
         [typicalScrollView addSubview:typicalImageBtn];
         [typicalImageBtn addTarget:self action:@selector(goTypicalCaseDetail:) forControlEvents:UIControlEventTouchUpInside];
@@ -94,7 +101,7 @@
             [typicalImageBtn sd_setImageWithURL:fileURL forState:UIControlStateNormal placeholderImage:ZENITH_PLACEHODLER_IMAGE];
         }
         if (i == 3) {
-            typicalScrollView.contentSize = CGSizeMake((SCREEN_WIDTH - 20) / 3 * 4 - 10, kTypicalViewHeight - 55);
+            typicalScrollView.contentSize = CGSizeMake((SCREEN_WIDTH - 20) / 3 * 4 - 10, kTypicalViewHeight - 75);
         }
         
         UILabel * typicalLab = [[UILabel alloc]initWithFrame:CGRectMake(typicalImageBtn.frame.origin.x, typicalImageBtn.frame.origin.y + typicalImageBtn.frame.size.height, typicalImageBtn.frame.size.width, 15.0f)];
@@ -118,11 +125,22 @@
     }
     
     CALayer * grayLine = [CALayer layer];
-    grayLine.frame = CGRectMake(0, kTypicalViewHeight - 5.0f, SCREEN_WIDTH, 5);
+    grayLine.frame = CGRectMake(0, kTypicalViewHeight - 0.5f, SCREEN_WIDTH, .5f);
     [typicalCaseView.layer addSublayer:grayLine];
     grayLine.backgroundColor = [MAIN_LINE_COLOR CGColor];
     
     return  typicalCaseView;
+}
+
+#pragma mark - 渐变色
+-(void)makeColor:(UIView *)view
+{
+    CAGradientLayer *layer = [CAGradientLayer new];
+    layer.colors = @[(__bridge id)MAIN_NAV_COLOR.CGColor, (__bridge id) MAIN_LINE_COLOR.CGColor];
+    layer.startPoint = CGPointMake(0, 0);
+    layer.endPoint = CGPointMake(0, 1);
+    layer.frame = CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, 65.0f);
+    [self.layer addSublayer:layer];
 }
 
 
@@ -202,13 +220,20 @@
 
 -(void)initCircleMessage:(UIView *)superView indexPath:(NSIndexPath *)indexpath
 {
-    UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 80, 40)];
+    
+    CAGradientLayer *layer = [CAGradientLayer new];
+    layer.colors = @[(__bridge id)MAIN_NAV_COLOR.CGColor, (__bridge id) MAIN_LINE_COLOR.CGColor];
+    layer.startPoint = CGPointMake(0, 0);
+    layer.endPoint = CGPointMake(1, 0);
+    layer.frame = CGRectMake(0, 0, SCREEN_WIDTH, 40.0f);
+    [superView.layer addSublayer:layer];
+    
+    UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 80, 40)];
     rowTitleLab.text = @"圈子成绩";
-    rowTitleLab.textAlignment = NSTextAlignmentCenter;
-    rowTitleLab.backgroundColor = MAIN_NAV_COLOR_A(0.5);
+    rowTitleLab.textAlignment = NSTextAlignmentLeft;
     rowTitleLab.font = [UIFont systemFontOfSize:16];
     [superView addSubview:rowTitleLab];
-    
+
     for (int i = 0 ; i < 3; i ++) {
         CALayer * lineLayer = [CALayer layer];
         lineLayer.frame = CGRectMake(0, 40 + 40 * i, SCREEN_WIDTH, 1);
@@ -438,13 +463,19 @@
 
 -(void)initMember:(UIView *)superView indexPath:(NSIndexPath *)indexpath
 {
-    UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 80, 40)];
+    CAGradientLayer *layer = [CAGradientLayer new];
+    layer.colors = @[(__bridge id)MAIN_NAV_COLOR.CGColor, (__bridge id) MAIN_LINE_COLOR.CGColor];
+    layer.startPoint = CGPointMake(0, 0);
+    layer.endPoint = CGPointMake(1, 0);
+    layer.frame = CGRectMake(0, 0, SCREEN_WIDTH, 40.0f);
+    [superView.layer addSublayer:layer];
+    
+    UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 80, 40)];
     rowTitleLab.text = @"团队成员";
-    rowTitleLab.textAlignment = NSTextAlignmentCenter;
-    rowTitleLab.backgroundColor = MAIN_NAV_COLOR_A(0.5);
+    rowTitleLab.textAlignment = NSTextAlignmentLeft;
     rowTitleLab.font = [UIFont systemFontOfSize:16];
     [superView addSubview:rowTitleLab];
-
+    
     UIView * lineLayer = [UIView new];
     lineLayer.frame = CGRectMake(0, 40, SCREEN_WIDTH, 1);
     [superView addSubview:lineLayer];
