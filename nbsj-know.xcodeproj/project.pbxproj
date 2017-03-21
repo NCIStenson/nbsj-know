@@ -192,6 +192,18 @@
 		984A32A31DAC8E8A00B9F53B /* DACircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A32A01DAC8E8A00B9F53B /* DACircularProgressView.m */; };
 		984A32A41DAC8E8A00B9F53B /* DALabeledCircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A32A21DAC8E8A00B9F53B /* DALabeledCircularProgressView.m */; };
 		984A32A71DAF756100B9F53B /* ZEProCirDynamicVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A32A61DAF756100B9F53B /* ZEProCirDynamicVC.m */; };
+		985069061E7FC3FB005F30A6 /* jcore-ios-1.1.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 985069031E7FC3FB005F30A6 /* jcore-ios-1.1.1.a */; };
+		985069071E7FC3FB005F30A6 /* jpush-ios-3.0.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 985069041E7FC3FB005F30A6 /* jpush-ios-3.0.2.a */; };
+		985069091E7FC41D005F30A6 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985069081E7FC41D005F30A6 /* CFNetwork.framework */; };
+		9850690B1E7FC426005F30A6 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9850690A1E7FC426005F30A6 /* CoreFoundation.framework */; };
+		9850690D1E7FC42E005F30A6 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9850690C1E7FC42E005F30A6 /* CoreTelephony.framework */; };
+		9850690F1E7FC435005F30A6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9850690E1E7FC435005F30A6 /* SystemConfiguration.framework */; };
+		985069111E7FC43C005F30A6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985069101E7FC43C005F30A6 /* CoreGraphics.framework */; };
+		985069131E7FC444005F30A6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985069121E7FC444005F30A6 /* Foundation.framework */; };
+		985069151E7FC44B005F30A6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985069141E7FC44B005F30A6 /* Security.framework */; };
+		985069171E7FC452005F30A6 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 985069161E7FC452005F30A6 /* libz.tbd */; };
+		9850691B1E7FC463005F30A6 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9850691A1E7FC463005F30A6 /* UserNotifications.framework */; };
+		9850691D1E7FC46B005F30A6 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9850691C1E7FC46B005F30A6 /* libresolv.tbd */; };
 		985138261E2E0DF80044ED35 /* center_name_logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 985138251E2E0DF80044ED35 /* center_name_logo@3x.png */; };
 		9861B5E51E5533C80095EE2C /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9861B5E21E5533C80095EE2C /* logo@2x.png */; };
 		9861B5E61E5533C80095EE2C /* logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9861B5E31E5533C80095EE2C /* logo@3x.png */; };
@@ -575,6 +587,21 @@
 		984A32A21DAC8E8A00B9F53B /* DALabeledCircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALabeledCircularProgressView.m; sourceTree = "<group>"; };
 		984A32A51DAF756100B9F53B /* ZEProCirDynamicVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEProCirDynamicVC.h; path = Group/ZEProCirDynamicVC.h; sourceTree = "<group>"; };
 		984A32A61DAF756100B9F53B /* ZEProCirDynamicVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEProCirDynamicVC.m; path = Group/ZEProCirDynamicVC.m; sourceTree = "<group>"; };
+		985069031E7FC3FB005F30A6 /* jcore-ios-1.1.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jcore-ios-1.1.1.a"; sourceTree = "<group>"; };
+		985069041E7FC3FB005F30A6 /* jpush-ios-3.0.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jpush-ios-3.0.2.a"; sourceTree = "<group>"; };
+		985069051E7FC3FB005F30A6 /* JPUSHService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPUSHService.h; sourceTree = "<group>"; };
+		985069081E7FC41D005F30A6 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		9850690A1E7FC426005F30A6 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		9850690C1E7FC42E005F30A6 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		9850690E1E7FC435005F30A6 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		985069101E7FC43C005F30A6 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		985069121E7FC444005F30A6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		985069141E7FC44B005F30A6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		985069161E7FC452005F30A6 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		985069181E7FC45B005F30A6 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		9850691A1E7FC463005F30A6 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		9850691C1E7FC46B005F30A6 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		9850691E1E7FC47F005F30A6 /* 电知道.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "电知道.entitlements"; sourceTree = "<group>"; };
 		985138251E2E0DF80044ED35 /* center_name_logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "center_name_logo@3x.png"; path = "nbsj-know/SourceImg/center_name_logo@3x.png"; sourceTree = SOURCE_ROOT; };
 		9861B5E21E5533C80095EE2C /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo@2x.png"; path = "nbsj-know/SourceImg/logo@2x.png"; sourceTree = SOURCE_ROOT; };
 		9861B5E31E5533C80095EE2C /* logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo@3x.png"; path = "nbsj-know/SourceImg/logo@3x.png"; sourceTree = SOURCE_ROOT; };
@@ -756,7 +783,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9850691D1E7FC46B005F30A6 /* libresolv.tbd in Frameworks */,
+				9850691B1E7FC463005F30A6 /* UserNotifications.framework in Frameworks */,
+				985069171E7FC452005F30A6 /* libz.tbd in Frameworks */,
+				985069151E7FC44B005F30A6 /* Security.framework in Frameworks */,
+				985069131E7FC444005F30A6 /* Foundation.framework in Frameworks */,
+				985069111E7FC43C005F30A6 /* CoreGraphics.framework in Frameworks */,
+				9850690F1E7FC435005F30A6 /* SystemConfiguration.framework in Frameworks */,
+				9850690D1E7FC42E005F30A6 /* CoreTelephony.framework in Frameworks */,
+				9850690B1E7FC426005F30A6 /* CoreFoundation.framework in Frameworks */,
+				985069091E7FC41D005F30A6 /* CFNetwork.framework in Frameworks */,
+				985069071E7FC3FB005F30A6 /* jpush-ios-3.0.2.a in Frameworks */,
 				98EE5DBB1DE576FF00C82FCB /* QuartzCore.framework in Frameworks */,
+				985069061E7FC3FB005F30A6 /* jcore-ios-1.1.1.a in Frameworks */,
 				9FBE7A32BDB566C417E1113F /* libPods-nbsj-know.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -896,6 +935,7 @@
 		982ED3851D420AC900F87343 /* ThirdSource */ = {
 			isa = PBXGroup;
 			children = (
+				985069021E7FC3FB005F30A6 /* JPush */,
 				98B13C2C1E6E9996006C783B /* CustomViews */,
 				98253DEF1E2DB9BB005C3E10 /* Tabbar */,
 				983D47AD1DCC2B1100D61BC9 /* JRVideoPlayerViewController */,
@@ -1228,6 +1268,16 @@
 			path = DACircularProgress;
 			sourceTree = "<group>";
 		};
+		985069021E7FC3FB005F30A6 /* JPush */ = {
+			isa = PBXGroup;
+			children = (
+				985069031E7FC3FB005F30A6 /* jcore-ios-1.1.1.a */,
+				985069041E7FC3FB005F30A6 /* jpush-ios-3.0.2.a */,
+				985069051E7FC3FB005F30A6 /* JPUSHService.h */,
+			);
+			path = JPush;
+			sourceTree = "<group>";
+		};
 		9863DE4D1D65813F00410475 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -1316,6 +1366,7 @@
 		989B2C451C4DE7AA00F14EFA /* nbsj-know */ = {
 			isa = PBXGroup;
 			children = (
+				9850691E1E7FC47F005F30A6 /* 电知道.entitlements */,
 				989B2C491C4DE7AA00F14EFA /* ZEAppDelegate.h */,
 				989B2C4A1C4DE7AA00F14EFA /* ZEAppDelegate.m */,
 				98DB7C541C4F53EA0046D405 /* ZEMainViewController.h */,
@@ -1553,6 +1604,17 @@
 		B7D1F079C1E85BD7D2342805 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9850691C1E7FC46B005F30A6 /* libresolv.tbd */,
+				9850691A1E7FC463005F30A6 /* UserNotifications.framework */,
+				985069181E7FC45B005F30A6 /* AdSupport.framework */,
+				985069161E7FC452005F30A6 /* libz.tbd */,
+				985069141E7FC44B005F30A6 /* Security.framework */,
+				985069121E7FC444005F30A6 /* Foundation.framework */,
+				985069101E7FC43C005F30A6 /* CoreGraphics.framework */,
+				9850690E1E7FC435005F30A6 /* SystemConfiguration.framework */,
+				9850690C1E7FC42E005F30A6 /* CoreTelephony.framework */,
+				9850690A1E7FC426005F30A6 /* CoreFoundation.framework */,
+				985069081E7FC41D005F30A6 /* CFNetwork.framework */,
 				98EE5DBA1DE576FF00C82FCB /* QuartzCore.framework */,
 				7EF64F73ABC42A2CC3AC9B45 /* libPods-nbsj-know.a */,
 			);
@@ -1625,13 +1687,21 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = ZE;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Hangzhou Zenith Electronic Technology Co., Ltd";
 				TargetAttributes = {
 					989B2C421C4DE7AA00F14EFA = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = CJ8CND7Y24;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					989B2C5B1C4DE7AA00F14EFA = {
 						CreatedOnToolsVersion = 7.2;
@@ -2175,6 +2245,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = "nbsj-know/电知道.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: HangZhou Zenith Electronic Technology Co., Ltd. (CJ8CND7Y24)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = CJ8CND7Y24;
@@ -2227,6 +2298,7 @@
 					"-framework",
 					"\"UIKit\"",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "$(ZENITH_BUNDLEID)";
 				PRODUCT_NAME = "电知道-Debug";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2235,7 +2307,7 @@
 				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = "com.zenithElec.know-Debug";
-				ZENITH_SERVER = "http://117.149.2.229:1622/emarkspg_nbsjzd";
+				ZENITH_SERVER = "http://192.168.1.189:8080/nbsjzd";
 			};
 			name = Debug;
 		};
@@ -2245,6 +2317,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = "nbsj-know/电知道.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: HangZhou Zenith Electronic Technology Co., Ltd. (CJ8CND7Y24)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = CJ8CND7Y24;
@@ -2256,7 +2329,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/nbsj-know/ThirdSource/XC_chat/Main/Lib/VoiceConvert/lib",
 					"$(PROJECT_DIR)/nbsj-know/ThirdSource/JPush",
 				);
 				OTHER_LDFLAGS = (
@@ -2297,6 +2369,7 @@
 					"-framework",
 					"\"UIKit\"",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "$(ZENITH_BUNDLEID)";
 				PRODUCT_NAME = "电知道";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2305,7 +2378,7 @@
 				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = com.zenithElec.know;
-				ZENITH_SERVER = "http://120.27.152.63:8888/emarkspg_nbsjzd";
+				ZENITH_SERVER = "http://192.168.1.189:8080/nbsjzd";
 			};
 			name = Release;
 		};

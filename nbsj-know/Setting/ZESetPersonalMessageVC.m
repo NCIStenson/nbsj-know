@@ -14,6 +14,8 @@
 
 #import "ZEQuestionTypeCache.h"
 
+#import "JPUSHService.h"
+
 @interface ZESetPersonalMessageVC ()<ZESetPersonalMessageViewDelegate>
 {
     ZESetPersonalMessageView * personalMsgView;
@@ -105,6 +107,9 @@
 
 -(void)logoutSuccess
 {
+    if ([ZESettingLocalData getUSERCODE] > 0) {
+        [JPUSHService setAlias:[ZESettingLocalData getUSERCODE] callbackSelector:nil object:nil];
+    }
     [ZESettingLocalData clearLocalData];
     [[ZEQuestionTypeCache instance] clear];
     UIWindow * keyWindow = [UIApplication sharedApplication].keyWindow;
