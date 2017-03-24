@@ -57,6 +57,7 @@
 
 @interface ZEUSER_BASE_INFOM : NSObject
 
+@property (nonatomic,copy) NSString * SEQKEY;
 @property (nonatomic,copy) NSString * USERNAME;
 @property (nonatomic,copy) NSString * USERCODE;
 @property (nonatomic,copy) NSString * FILEURL;

@@ -472,6 +472,7 @@
 {
     ZEChooseNumberVC * chooseNumber = [[ZEChooseNumberVC alloc]init];
     chooseNumber.TEAMCODE = _teamInfoModel.TEAMCODE;
+    chooseNumber.enterType = ENTER_CHOOSE_TEAM_MEMBERS_ASK;
     [self presentViewController:chooseNumber animated:YES completion:nil];
 }
 

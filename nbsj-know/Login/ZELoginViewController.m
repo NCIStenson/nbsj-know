@@ -19,6 +19,8 @@
 
 #import "LBTabBarController.h"
 
+#import "JPUSHService.h"
+
 @interface ZELoginViewController ()<ZELoginViewDelegate>
 
 @end
@@ -121,6 +123,10 @@
                                      NSMutableDictionary * userinfoDic = [NSMutableDictionary dictionaryWithDictionary:arr[0]];
                                      [userinfoDic setObject:[userinfoDic objectForKey:@"USERNAME"] forKey:@"NAME"];
                                      [ZESettingLocalData setUSERINFODic:userinfoDic];
+                                     //  重新注册通知
+                                     if ([ZESettingLocalData getUSERCODE] > 0) {
+                                         [JPUSHService setAlias:[ZESettingLocalData getUSERCODE] callbackSelector:nil object:nil];
+                                     }
 
                                      if([ZEUtil isStrNotEmpty:[userinfoDic objectForKey:@"FILEURL"]]){
                                          NSArray * headUrlArr = [[userinfoDic objectForKey:@"FILEURL"] componentsSeparatedByString:@","];

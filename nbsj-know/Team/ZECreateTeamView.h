@@ -67,6 +67,22 @@
 -(void)takePhotosOrChoosePictures;
 
 
+/**
+ 是否同意加入团队
+ */
+-(void)whetherAgreeJoinTeam:(ZEUSER_BASE_INFOM *)userinfo;
+
+
+/**
+ 是否转让团队
+ */
+-(void)whetherTransferTeam:(ZEUSER_BASE_INFOM *)userinfo;
+
+/**
+ 是否解散团队
+ */
+-(void)whetherDeleteTeam;
+
 @end
 
 @interface ZECreateTeamView : UIView

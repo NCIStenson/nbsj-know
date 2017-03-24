@@ -65,9 +65,9 @@
 }
 -(void)addNavBarBtn
 {
-    for (int i = 0; i < 3; i ++) {
+    for (int i = 0; i < 4; i ++) {
         UIButton * _typeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _typeBtn.frame = CGRectMake(SCREEN_WIDTH - 110 + 33 * i, 27, 30.0, 30.0);
+        _typeBtn.frame = CGRectMake(SCREEN_WIDTH - 145 + 33 * i, 27, 30.0, 30.0);
         _typeBtn.contentMode = UIViewContentModeScaleAspectFit;
         _typeBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
         [_typeBtn addTarget:self action:@selector(typeBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -79,6 +79,8 @@
             [_typeBtn setImage:[UIImage imageNamed:@"icon_team_search" ] forState:UIControlStateNormal];
         }else if (i == 2){
             [_typeBtn setImage:[UIImage imageNamed:@"icon_team_ask" ] forState:UIControlStateNormal];
+        }else if (i == 3){
+            [_typeBtn setImage:[UIImage imageNamed:@"icon_team_discuss" color:[UIColor whiteColor]] forState:UIControlStateNormal];
         }
     }
 }
@@ -102,6 +104,7 @@
     createTeamVC.enterType = ENTER_TEAM_DETAIL;
     createTeamVC.teamCircleInfo = _teamCircleInfo;
     createTeamVC.TEAMCODE = _teamCircleInfo.TEAMCODE;
+    createTeamVC.TEAMSEQKEY = _teamCircleInfo.SEQKEY;
     [self.navigationController pushViewController:createTeamVC animated:YES];
     
 }

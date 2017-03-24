@@ -572,9 +572,9 @@
  */
 -(void)sendBounsQuestionsRequest:(NSString *)searchStr
 {
-    NSString * WHERESQL = [NSString stringWithFormat:@"ISLOSE = 0 and BONUSPOINTS IS NOT NULL and QUESTIONEXPLAIN like '%%%@%%'",searchStr];
+    NSString * WHERESQL = [NSString stringWithFormat:@"ISLOSE = 0 and BONUSPOINTS IS NOT NULL and BONUSPOINTS != 0 and QUESTIONEXPLAIN like '%%%@%%'",searchStr];
     if (![ZEUtil isStrNotEmpty:searchStr]) {
-        WHERESQL = [NSString stringWithFormat:@"ISLOSE = 0 and BONUSPOINTS IS NOT NULL and ISSOLVE = 0 and QUESTIONEXPLAIN like '%%'"];
+        WHERESQL = [NSString stringWithFormat:@"ISLOSE = 0 and BONUSPOINTS IS NOT NULL and ISSOLVE = 0 and BONUSPOINTS != 0 and QUESTIONEXPLAIN like '%%'"];
     }
     NSDictionary * parametersDic = @{@"limit":[NSString stringWithFormat:@"%ld",(long) MAX_PAGE_COUNT],
                                      @"MASTERTABLE":V_KLB_QUESTION_INFO,

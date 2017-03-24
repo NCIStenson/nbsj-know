@@ -80,57 +80,91 @@
     numberCode.font = [UIFont systemFontOfSize:16];
     [cell.contentView addSubview:numberCode];
     
-    if ([self.maskArr[indexPath.row] boolValue]) {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    if (_whetherMultiselect) {
+        if ([self.maskArr[indexPath.row] boolValue]) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        }else{
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
     }else{
-        cell.accessoryType = UITableViewCellAccessoryNone;
+        if([userinfo.USERCODE isEqualToString:_currentSelectUserinfo.USERCODE]){
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        }else{
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
     }
-    
-//    UIButton * stateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    stateBtn.frame = CGRectMake(SCREEN_WIDTH - 100 , 10 , 80, 40);
-//    [stateBtn  setTitle:@"邀请加入" forState:UIControlStateNormal];
-//    [cell.contentView addSubview:stateBtn];
-//    stateBtn.backgroundColor = MAIN_NAV_COLOR_A(0.9);
-//    //    [stateBtn addTarget:self action:@selector(showQuestionTypeView) forControlEvents:UIControlEventTouchUpInside];
-//    stateBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-//    stateBtn.titleLabel.font = [UIFont systemFontOfSize:kTiltlFontSize];
-//    stateBtn.titleLabel.numberOfLines = 0;
-//    stateBtn.clipsToBounds = YES;
-//    stateBtn.layer.cornerRadius = 5;
-    
     return cell;
 }
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0 && _TEAMCODE.length == 0) {
-        MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self animated:YES];
-        hud3.mode = MBProgressHUDModeText;
-        hud3.labelText = @"班组长不能被移除";
-        [hud3 hide:YES afterDelay:1];
-
-        return;
-    }
-    ZEUSER_BASE_INFOM * userinfo = [ZEUSER_BASE_INFOM getDetailWithDic:self.alreadyInviteNumbersArr[indexPath.row]];
-    if (_TEAMCODE.length > 0 && [userinfo.USERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
-        MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self animated:YES];
-        hud3.mode = MBProgressHUDModeText;
-        hud3.labelText = @"不能指定自己回答";
-        [hud3 hide:YES afterDelay:1];
-        return;
+    if (_whetherMultiselect) {
+        if (indexPath.row == 0 && _TEAMCODE.length == 0) {
+            MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self animated:YES];
+            hud3.mode = MBProgressHUDModeText;
+            hud3.labelText = @"班组长不能被移除";
+            [hud3 hide:YES afterDelay:1];
+            
+            return;
+        }
+        ZEUSER_BASE_INFOM * userinfo = [ZEUSER_BASE_INFOM getDetailWithDic:self.alreadyInviteNumbersArr[indexPath.row]];
+        if (_TEAMCODE.length > 0 && [userinfo.USERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
+            MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self animated:YES];
+            hud3.mode = MBProgressHUDModeText;
+            hud3.labelText = @"不能指定自己回答";
+            [hud3 hide:YES afterDelay:1];
+            return;
+        }
+        
+        UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
+        if ([self.maskArr[indexPath.row] boolValue]) {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            [self.maskArr replaceObjectAtIndex:indexPath.row withObject:@"0"];
+        }else{
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            [self.maskArr replaceObjectAtIndex:indexPath.row withObject:@"1"];
+        }
+    }else{
+        if (indexPath.row == 0) {
+            MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self animated:YES];
+            hud3.mode = MBProgressHUDModeText;
+            hud3.labelText = @"您已经是团长了";
+            [hud3 hide:YES afterDelay:1];
+            
+            return;
+        }
+        
+        
+        ZEUSER_BASE_INFOM * userinfo = [ZEUSER_BASE_INFOM getDetailWithDic:self.alreadyInviteNumbersArr[indexPath.row]];
+        _currentSelectUserinfo = userinfo;
+        [contentView reloadData];
+//        if (_TEAMCODE.length > 0 && [userinfo.USERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
+//            MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self animated:YES];
+//            hud3.mode = MBProgressHUDModeText;
+//            hud3.labelText = @"不能指定自己回答";
+//            [hud3 hide:YES afterDelay:1];
+//            return;
+//        }
+//
+//        UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
+//        if ([self.maskArr[indexPath.row] boolValue]) {
+//            cell.accessoryType = UITableViewCellAccessoryNone;
+//            [self.maskArr replaceObjectAtIndex:indexPath.row withObject:@"0"];
+//        }else{
+//            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+//            [self.maskArr replaceObjectAtIndex:indexPath.row withObject:@"1"];
+//        }
     }
     
-    UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-    if ([self.maskArr[indexPath.row] boolValue]) {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        [self.maskArr replaceObjectAtIndex:indexPath.row withObject:@"0"];
-    }else{
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-        [self.maskArr replaceObjectAtIndex:indexPath.row withObject:@"1"];
-    }
+    
 }
 
+
+-(void)setWhetherMultiselect:(BOOL)whetherMultiselect{
+    _whetherMultiselect = whetherMultiselect;
+    
+}
 
 
 @end

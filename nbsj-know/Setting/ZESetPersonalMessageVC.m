@@ -107,8 +107,13 @@
 
 -(void)logoutSuccess
 {
+    //  退出成功注销JPush别名
     if ([ZESettingLocalData getUSERCODE] > 0) {
-        [JPUSHService setAlias:[ZESettingLocalData getUSERCODE] callbackSelector:nil object:nil];
+        [JPUSHService setTags:nil alias:@"" fetchCompletionHandle:^(int iResCode, NSSet *iTags, NSString *iAlias) {
+            if (iResCode == 0) {//对应的状态码返回为0，代表成功
+                [[NSNotificationCenter defaultCenter] removeObserver:self name:kJPFNetworkDidLoginNotification object:nil];
+            }
+        }];
     }
     [ZESettingLocalData clearLocalData];
     [[ZEQuestionTypeCache instance] clear];

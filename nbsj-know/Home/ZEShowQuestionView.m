@@ -386,7 +386,7 @@
         UILabel * badgeLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 20, 20.0f)];
         badgeLab.backgroundColor = [UIColor redColor];
         badgeLab.tag = 100;
-        badgeLab.center = CGPointMake(SCREEN_WIDTH - 20, 20);
+        badgeLab.center = CGPointMake(SCREEN_WIDTH - 20, (userY + 30.0f) / 2);
         badgeLab.font = [UIFont systemFontOfSize:kTiltlFontSize];
         badgeLab.textColor = [UIColor whiteColor];
         badgeLab.textAlignment = NSTextAlignmentCenter;
@@ -396,7 +396,7 @@
         badgeLab.text = quesInfoM.INFOCOUNT;
         if (badgeLab.text.length > 2){
             badgeLab.width = 30.0f;
-            badgeLab.center = CGPointMake(SCREEN_WIDTH - 25, 20);
+            badgeLab.center = CGPointMake(SCREEN_WIDTH - 25,  (userY + 30.0f) / 2);
         }
         if ([quesInfoM.INFOCOUNT integerValue] > 99) {
             badgeLab.text = @"99+";

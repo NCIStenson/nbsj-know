@@ -277,7 +277,7 @@
         for (NSDictionary * dic in self.alreadyInviteNumbersArr){
             ZEUSER_BASE_INFOM * USERINFO = [ZEUSER_BASE_INFOM getDetailWithDic:dic];
 
-            if ([USERINFO.USERCODE isEqualToString:[ZESettingLocalData getUSERCODE]] && [USERINFO.USERTYPE integerValue] == 2) {
+            if ([USERINFO.USERCODE isEqualToString:[ZESettingLocalData getUSERCODE]] && [USERINFO.USERTYPE integerValue] == 4) {
                 return self.alreadyInviteNumbersArr.count + 2;
             }
 
@@ -316,20 +316,34 @@
         [cell.contentView addSubview:nameLab];
         //    nameLab.backgroundColor = [UIColor cyanColor];
         nameLab.textAlignment = NSTextAlignmentCenter;
+        
+        if ([userinfo.USERTYPE integerValue]== 2) {
+            UILabel * leaderLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 35, 20)];
+            leaderLab.center = CGPointMake(kItemSizeWidth - 8, kItemSizeWidth -  (IPHONE6_MORE ? 5 : 10));
+            leaderLab.text = @"审核中";
+            leaderLab.textAlignment = NSTextAlignmentCenter;
+            [leaderLab setTextColor:[UIColor whiteColor]];
+            leaderLab.backgroundColor = RGBA(255, 100, 100, 1);
+            leaderLab.font = [UIFont systemFontOfSize:11];
+            [cell.contentView addSubview:leaderLab];
+            leaderLab.clipsToBounds = YES;
+            leaderLab.layer.cornerRadius = 5;
+        }
+        if (indexPath.row == 0 && [userinfo.USERTYPE integerValue] == 4 &&  self.alreadyInviteNumbersArr.count > 0) {
+            UILabel * leaderLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 30, 20)];
+            leaderLab.center = CGPointMake(kItemSizeWidth - 5, kItemSizeWidth -  (IPHONE6_MORE ? 5 : 10));
+            leaderLab.text = @"团长";
+            leaderLab.textAlignment = NSTextAlignmentCenter;
+            [leaderLab setTextColor:[UIColor whiteColor]];
+            leaderLab.backgroundColor = RGBA(22, 155, 213, 1);
+            leaderLab.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
+            [cell.contentView addSubview:leaderLab];
+            leaderLab.clipsToBounds = YES;
+            leaderLab.layer.cornerRadius = 5;
+        }
     }
     
-    if (indexPath.row == 0 && self.alreadyInviteNumbersArr.count > 0) {
-        UILabel * leaderLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 30, 20)];
-        leaderLab.center = CGPointMake(kItemSizeWidth - 5, kItemSizeWidth -  (IPHONE6_MORE ? 5 : 10));
-        leaderLab.text = @"团长";
-        leaderLab.textAlignment = NSTextAlignmentCenter;
-        [leaderLab setTextColor:[UIColor whiteColor]];
-        leaderLab.backgroundColor = RGBA(22, 155, 213, 1);
-        leaderLab.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
-        [cell.contentView addSubview:leaderLab];
-        leaderLab.clipsToBounds = YES;
-        leaderLab.layer.cornerRadius = 5;
-    }else if (indexPath.row == self.alreadyInviteNumbersArr.count){
+    else if (indexPath.row == self.alreadyInviteNumbersArr.count){
         UIImageView * addImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"addimg"]];
         addImage.frame = CGRectMake(0,(kItemSizeHeight - kItemSizeWidth) / 2, kItemSizeWidth, kItemSizeWidth);
         [cell.contentView addSubview:addImage];
@@ -365,8 +379,19 @@
             [_createTeamView.delegate goQueryNumberView];
         }
     }else{
-        
+        if (self.alreadyInviteNumbersArr.count > 0) {
+            ZEUSER_BASE_INFOM * leaderUserinfo = [ZEUSER_BASE_INFOM getDetailWithDic:self.alreadyInviteNumbersArr[0]];
+            ZEUSER_BASE_INFOM * userinfo = [ZEUSER_BASE_INFOM getDetailWithDic:self.alreadyInviteNumbersArr[indexPath.row]];
+            
+            if ([[ZESettingLocalData getUSERCODE] isEqualToString:leaderUserinfo.USERCODE] && [userinfo.USERTYPE integerValue] == 2) {
+                if([_createTeamView.delegate respondsToSelector:@selector(whetherAgreeJoinTeam:)]){
+                    [_createTeamView.delegate whetherAgreeJoinTeam:userinfo];
+                }
+            }
+        }
     }
+    
+    
 }
 
 //返回这个UICollectionView是否可以被选择
@@ -398,9 +423,47 @@
     _messageView.createTeamView = self;
     [scrollView addSubview:_messageView];
     
-    _numbersView = [[ZECreateTeamNumbersView alloc]initWithFrame:CGRectMake(0, 225, SCREEN_WIDTH, SCREEN_HEIGHT -NAV_HEIGHT - 225)];
+    _numbersView = [[ZECreateTeamNumbersView alloc]initWithFrame:CGRectMake(0, 225, SCREEN_WIDTH, SCREEN_HEIGHT -NAV_HEIGHT - 265)];
     _numbersView.createTeamView = self;
     [scrollView addSubview:_numbersView];
+    
+    UIView * leaderJuridiction = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - NAV_HEIGHT - 40, SCREEN_WIDTH, 40)];
+    [scrollView addSubview:leaderJuridiction];
+    leaderJuridiction.backgroundColor = MAIN_BACKGROUND_COLOR;
+
+    for (int i = 0 ; i < 2; i ++) {
+        UIButton * juridictionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        juridictionBtn.frame = CGRectMake(0 + SCREEN_WIDTH / 2 * i, 0 , SCREEN_WIDTH / 2 , 40);
+        [leaderJuridiction addSubview:juridictionBtn];
+        juridictionBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        [juridictionBtn setTitleColor:kTextColor forState:UIControlStateNormal];
+        juridictionBtn.backgroundColor = [UIColor whiteColor];
+        if(i == 0){
+            [juridictionBtn setImage:[UIImage imageNamed:@"icon_team_transfer.png"] forState:UIControlStateNormal];
+            [juridictionBtn setTitle:@"转移团队" forState:UIControlStateNormal];
+            [juridictionBtn addTarget:self action:@selector(goTransferTeam) forControlEvents:UIControlEventTouchUpInside];
+
+        }else{
+            [juridictionBtn setImage:[UIImage imageNamed:@"icon_team_delete.png"] forState:UIControlStateNormal];
+            [juridictionBtn setTitle:@"解散团队" forState:UIControlStateNormal];
+            [juridictionBtn addTarget:self action:@selector(goDeleteTeam) forControlEvents:UIControlEventTouchUpInside];
+        }
+
+    }
+    
+    UIView * lineView1 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.5)];
+    lineView1.backgroundColor = kTextColor;
+    [leaderJuridiction addSubview:lineView1];
+
+    
+    UIView * lineView = [[UIView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 0.5, 3, .5, 34)];
+    lineView.backgroundColor = kTextColor;
+    [leaderJuridiction addSubview:lineView];
+    
+    if(![teamCircleInfo.SYSCREATORID isEqualToString:[ZESettingLocalData getUSERCODE]]){
+        leaderJuridiction.hidden = YES;
+        _numbersView.frame = CGRectMake(0, 225, SCREEN_WIDTH, SCREEN_HEIGHT -NAV_HEIGHT - 225);
+    }
 
 }
 
@@ -409,6 +472,20 @@
     [self endEditing:YES];
 }
 
+#pragma mark - ZECreateTeamViewDelegate
+
+-(void)goTransferTeam{
+    if ([self.delegate respondsToSelector:@selector(whetherTransferTeam:)]) {
+        [self.delegate whetherTransferTeam:nil];
+    }
+}
+
+-(void)goDeleteTeam
+{
+    if ([self.delegate respondsToSelector:@selector(whetherDeleteTeam)]) {
+        [self.delegate whetherDeleteTeam];
+    }
+}
 
 
 /*

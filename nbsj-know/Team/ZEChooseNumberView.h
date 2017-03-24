@@ -14,9 +14,12 @@
 }
 @property (nonatomic,strong) NSMutableArray * alreadyInviteNumbersArr;
 
+@property (nonatomic,strong) ZEUSER_BASE_INFOM * currentSelectUserinfo;
+
+@property (nonatomic,assign) BOOL whetherMultiselect; // 是否可以多选
 @property (nonatomic,copy) NSString * TEAMCODE;
 @property (nonatomic,strong) NSMutableArray * maskArr;
--(void)reloadViewWithAlreadyInviteNumbers:(NSArray *)arr;
 
+-(void)reloadViewWithAlreadyInviteNumbers:(NSArray *)arr;
 
 @end

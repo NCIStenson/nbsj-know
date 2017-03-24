@@ -16,5 +16,6 @@
 @property (nonatomic,strong) ZETeamCircleModel * teamCircleInfo;
 
 @property (nonatomic,copy) NSString * TEAMCODE;
+@property (nonatomic,copy) NSString * TEAMSEQKEY;
 
 @end

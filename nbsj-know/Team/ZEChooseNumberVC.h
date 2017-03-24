@@ -8,10 +8,17 @@
 
 #import "ZESettingRootVC.h"
 #import "ZEChooseNumberView.h"
-
+#import "ZETeamCircleModel.h"
 @interface ZEChooseNumberVC : ZESettingRootVC
 
-@property (nonatomic,copy) NSString * TEAMCODE;
+@property (nonatomic,copy) NSString * TEAMCODE;  // 指定问答时 团队主键
+
+@property (nonatomic,strong) ZETeamCircleModel * teaminfo;
+
+
+
 @property (nonatomic,strong) NSMutableArray * numbersArr;
+
+@property (nonatomic,assign) ENTER_CHOOSE_TEAM_MEMBERS enterType;
 
 @end

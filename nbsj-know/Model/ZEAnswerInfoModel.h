@@ -26,6 +26,8 @@
 @property (nonatomic,copy) NSString * NICKNAME;
 @property (nonatomic,copy) NSString * HEADIMAGE;
 @property (nonatomic,copy) NSString * QACOUNT;
+@property (nonatomic,copy) NSString * ANSWERCOUNT;
+@property (nonatomic,copy) NSString * INFOCOUNT;
 
 @property (nonatomic,strong) NSArray * FILEURLARR;
 

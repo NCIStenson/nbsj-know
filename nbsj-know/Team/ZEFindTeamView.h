@@ -12,10 +12,13 @@
 @class ZEFindTeamView;
 
 @interface ZEFindTeamCell : UITableViewCell
-
+{
+    NSDictionary * dataDic;
+}
 
 - (void)reloadCellView:(NSDictionary *)dic;
 
+@property (nonatomic,weak) ZEFindTeamView * findTeamView;
 @property (nonatomic,strong) UIView * baseView;
 
 @end
@@ -23,6 +26,8 @@
 @protocol ZEFindTeamViewDelegate <NSObject>
 
 -(void)goTeamVCDetail:(ZETeamCircleModel *)teamCircleInfo;
+
+-(void)goApplyJoinTeam:(ZETeamCircleModel *)teamCircleInfo;
 
 @end
 

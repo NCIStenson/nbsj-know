@@ -141,11 +141,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "nbsj-know/Questions/ZEAnswerQuestionsVC.m"
-            timestampString = "511075617.205556"
+            timestampString = "511860501.147578"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "211"
-            endingLineNumber = "211"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
             landmarkName = "-insertData"
             landmarkType = "7">
          </BreakpointContent>
@@ -332,13 +332,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "nbsj-know/ZEAppDelegate.m"
-            timestampString = "511777378.054053"
+            filePath = "nbsj-know/Team/ZETeamCircleChatVC.m"
+            timestampString = "511792694.975829"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "-application:didReceiveRemoteNotification:fetchCompletionHandler:"
+            startingLineNumber = "366"
+            endingLineNumber = "366"
+            landmarkName = "-updateKLB_ANSWER_INFOWithQuestionInfo:withAnswerInfo:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "nbsj-know/Team/ZETeamCircleChatVC.m"
+            timestampString = "511792694.975829"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "369"
+            endingLineNumber = "369"
+            landmarkName = "-updateKLB_ANSWER_INFOWithQuestionInfo:withAnswerInfo:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

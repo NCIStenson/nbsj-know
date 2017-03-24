@@ -198,7 +198,6 @@
                                 @"ISPASS":@"0",
                                 @"ISENABLED":@"0"};
     
-    
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_ANSWER_INFO]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic

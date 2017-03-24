@@ -25,10 +25,10 @@
     return self;
 }
 
-- (void)reloadCellView:(NSDictionary *)dic;
+- (void)reloadCellView:(NSDictionary *)dic withIndexPath:(NSIndexPath *)indexPath;
 {
     ZETeamCircleModel * teamCircleInfo = [ZETeamCircleModel getDetailWithDic:dic];
-    
+    dataDic = dic;
     UIImageView * detailView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 5, SCREEN_WIDTH, SCREEN_WIDTH / 3)];
     detailView.contentMode=UIViewContentModeScaleAspectFill;
     detailView.clipsToBounds=YES;
@@ -90,17 +90,50 @@
         caseAuthorLab.top = 80;
     }
     
-//    UIButton * stateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    stateBtn.frame = CGRectMake(SCREEN_WIDTH - 60 , 0 , 60, SCREEN_WIDTH / 3 + 10);
-//    [stateBtn  setTitle:@"申请加入" forState:UIControlStateNormal];
-//    [self addSubview:stateBtn];
-//    stateBtn.backgroundColor = MAIN_NAV_COLOR_A(0.9);
-////    [stateBtn addTarget:self action:@selector(showQuestionTypeView) forControlEvents:UIControlEventTouchUpInside];
-//    stateBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-//    stateBtn.titleLabel.font = [UIFont systemFontOfSize:kTiltlFontSize];
-//    stateBtn.titleLabel.numberOfLines = 0;
-//    stateBtn.clipsToBounds = YES;
-//    stateBtn.layer.cornerRadius = 5;
+    UIButton * stateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    stateBtn.frame = CGRectMake(SCREEN_WIDTH - 60 , 0 , 60, SCREEN_WIDTH / 3 + 10);
+    [self addSubview:stateBtn];
+//    [stateBtn addTarget:self action:@selector(showQuestionTypeView) forControlEvents:UIControlEventTouchUpInside];
+    stateBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    stateBtn.titleLabel.font = [UIFont systemFontOfSize:kTiltlFontSize];
+    stateBtn.titleLabel.numberOfLines = 0;
+    stateBtn.clipsToBounds = YES;
+    stateBtn.layer.cornerRadius = 5;
+    [stateBtn setEnabled:NO];
+    [stateBtn setBackgroundColor:MAIN_BACKGROUND_COLOR];
+    [stateBtn setTitleColor:kTextColor forState:UIControlStateNormal];
+
+    switch ([teamCircleInfo.STATUS integerValue]) {
+        case 0:
+            [stateBtn  setTitle:@"申请加入" forState:UIControlStateNormal];
+            stateBtn.tag = indexPath.row;
+            [stateBtn addTarget:self action:@selector(applyToJoinTheTeam) forControlEvents:UIControlEventTouchUpInside];
+            stateBtn.backgroundColor = MAIN_NAV_COLOR_A(0.9);
+            [stateBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [stateBtn setEnabled:YES];
+            break;
+        case 1:
+            [stateBtn  setTitle:@"待审核" forState:UIControlStateNormal];
+            break;
+        case 2:
+            [stateBtn  setTitle:@"已加入" forState:UIControlStateNormal];
+            break;
+        case 3:
+            [stateBtn  setTitle:@"已加入" forState:UIControlStateNormal];
+            break;
+            
+        default:
+            break;
+    }
+}
+
+-(void)applyToJoinTheTeam
+{
+    if([_findTeamView.delegate respondsToSelector:@selector(goApplyJoinTeam:)]){
+        ZETeamCircleModel * teamCircleInfo = [ZETeamCircleModel getDetailWithDic:dataDic];
+        [_findTeamView.delegate goApplyJoinTeam:teamCircleInfo];
+    }
+    
 }
 
 @end
@@ -172,12 +205,15 @@
         UIView * lastView = cell.contentView.subviews.lastObject;
         [lastView removeFromSuperview];
     }
-    [cell reloadCellView:self.teamsDataArr[indexPath.row]];
+    cell.findTeamView = self;
+    [cell reloadCellView:self.teamsDataArr[indexPath.row] withIndexPath:indexPath];
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
     return cell;
 }
+
+#pragma mark - ZEFindTeamViewDelegate
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -186,5 +222,6 @@
         [self.delegate goTeamVCDetail:teamCircleInfo];
     }
 }
+
 
 @end

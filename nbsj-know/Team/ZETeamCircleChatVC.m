@@ -362,6 +362,7 @@
                                                                            withFields:@[fieldsDic,fieldsDic2]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
+    NSLog(@"<<<  %@",packageDic);
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {

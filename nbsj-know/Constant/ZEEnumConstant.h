@@ -43,6 +43,12 @@ typedef enum : NSUInteger {
 } ENTER_TEAM;   // 进入团队详情页面
 
 typedef enum : NSUInteger {
+    ENTER_CHOOSE_TEAM_MEMBERS_DELETE, // 删除团队成员
+    ENTER_CHOOSE_TEAM_MEMBERS_ASK, // 指定团队成员回答问题
+    ENTER_CHOOSE_TEAM_MEMBERS_TRANSFERTEAM, // 转让团长
+} ENTER_CHOOSE_TEAM_MEMBERS;   // 进入团队详情页面
+
+typedef enum : NSUInteger {
     ENTER_TEAM_SEARCH_COMMON, // 所有问题展示
     ENTER_TEAM_SEARCH_ONLYYOU, // 我来挑战问题展示
     ENTER_TEAM_SEARCH_MYQUESTION, // 我的问题列表展示

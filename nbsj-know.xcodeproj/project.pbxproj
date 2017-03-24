@@ -205,6 +205,11 @@
 		9850691B1E7FC463005F30A6 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9850691A1E7FC463005F30A6 /* UserNotifications.framework */; };
 		9850691D1E7FC46B005F30A6 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9850691C1E7FC46B005F30A6 /* libresolv.tbd */; };
 		985138261E2E0DF80044ED35 /* center_name_logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 985138251E2E0DF80044ED35 /* center_name_logo@3x.png */; };
+		985C28561E83AC2A004DDE37 /* icon_team_transfer@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 985C28551E83AC2A004DDE37 /* icon_team_transfer@3x.png */; };
+		985C28581E83AC4C004DDE37 /* icon_team_delete@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 985C28571E83AC4C004DDE37 /* icon_team_delete@3x.png */; };
+		985C285A1E83AD85004DDE37 /* icon_team_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 985C28591E83AD85004DDE37 /* icon_team_delete@2x.png */; };
+		985C285C1E83AD8F004DDE37 /* icon_team_transfer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 985C285B1E83AD8F004DDE37 /* icon_team_transfer@2x.png */; };
+		985C285E1E84CC3E004DDE37 /* icon_team_discuss@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 985C285D1E84CC3E004DDE37 /* icon_team_discuss@2x.png */; };
 		9861B5E51E5533C80095EE2C /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9861B5E21E5533C80095EE2C /* logo@2x.png */; };
 		9861B5E61E5533C80095EE2C /* logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9861B5E31E5533C80095EE2C /* logo@3x.png */; };
 		9861B5E91E5533D40095EE2C /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9861B5E81E5533D40095EE2C /* logo.png */; };
@@ -603,6 +608,11 @@
 		9850691C1E7FC46B005F30A6 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		9850691E1E7FC47F005F30A6 /* 电知道.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "电知道.entitlements"; sourceTree = "<group>"; };
 		985138251E2E0DF80044ED35 /* center_name_logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "center_name_logo@3x.png"; path = "nbsj-know/SourceImg/center_name_logo@3x.png"; sourceTree = SOURCE_ROOT; };
+		985C28551E83AC2A004DDE37 /* icon_team_transfer@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_team_transfer@3x.png"; path = "../SourceImg/icon_team_transfer@3x.png"; sourceTree = "<group>"; };
+		985C28571E83AC4C004DDE37 /* icon_team_delete@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_team_delete@3x.png"; path = "nbsj-know/SourceImg/icon_team_delete@3x.png"; sourceTree = SOURCE_ROOT; };
+		985C28591E83AD85004DDE37 /* icon_team_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_team_delete@2x.png"; path = "nbsj-know/SourceImg/icon_team_delete@2x.png"; sourceTree = SOURCE_ROOT; };
+		985C285B1E83AD8F004DDE37 /* icon_team_transfer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_team_transfer@2x.png"; path = "nbsj-know/SourceImg/icon_team_transfer@2x.png"; sourceTree = SOURCE_ROOT; };
+		985C285D1E84CC3E004DDE37 /* icon_team_discuss@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_team_discuss@2x.png"; path = "nbsj-know/SourceImg/icon_team_discuss@2x.png"; sourceTree = SOURCE_ROOT; };
 		9861B5E21E5533C80095EE2C /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo@2x.png"; path = "nbsj-know/SourceImg/logo@2x.png"; sourceTree = SOURCE_ROOT; };
 		9861B5E31E5533C80095EE2C /* logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo@3x.png"; path = "nbsj-know/SourceImg/logo@3x.png"; sourceTree = SOURCE_ROOT; };
 		9861B5E81E5533D40095EE2C /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = "nbsj-know/SourceImg/logo.png"; sourceTree = SOURCE_ROOT; };
@@ -949,6 +959,11 @@
 		982ED3B71D45A37A00F87343 /* SourceImg */ = {
 			isa = PBXGroup;
 			children = (
+				985C28551E83AC2A004DDE37 /* icon_team_transfer@3x.png */,
+				985C285B1E83AD8F004DDE37 /* icon_team_transfer@2x.png */,
+				985C28591E83AD85004DDE37 /* icon_team_delete@2x.png */,
+				985C28571E83AC4C004DDE37 /* icon_team_delete@3x.png */,
+				985C285D1E84CC3E004DDE37 /* icon_team_discuss@2x.png */,
 				9831B03B1E602C5C00729BA8 /* icon_type */,
 				9831AFD31E60113600729BA8 /* icon_setting */,
 				9831AF5D1E5FF6CF00729BA8 /* loginVC */,
@@ -1773,6 +1788,7 @@
 				9831B0111E60113600729BA8 /* icon_person_msg@3x.png.png in Resources */,
 				9877258A1DDAA632003BDC1C /* myTab_singin@2x.png in Resources */,
 				9831B05A1E602C5C00729BA8 /* 技术@2x.png in Resources */,
+				985C28561E83AC2A004DDE37 /* icon_team_transfer@3x.png in Resources */,
 				98E4861C1D9BB78100AA0278 /* placeholder.png in Resources */,
 				983D47DD1DCC7D7500D61BC9 /* discuss_pv@2x.png in Resources */,
 				9831B0541E602C5C00729BA8 /* 互换@2x.png in Resources */,
@@ -1798,6 +1814,7 @@
 				98D5980F1DC83E78002074C7 /* detail_star_normal@3x.png in Resources */,
 				9831AF6F1E5FF6CF00729BA8 /* login_password@3x.png in Resources */,
 				9861B5E61E5533C80095EE2C /* logo@3x.png in Resources */,
+				985C285C1E83AD8F004DDE37 /* icon_team_transfer@2x.png in Resources */,
 				983D47D41DCC2B1100D61BC9 /* video_num_bg@2x.png in Resources */,
 				98D42BD61DC73FBB003A3812 /* coursecell_list_score@3x.png in Resources */,
 				982ED4331D48517600F87343 /* icon_down@2x.png in Resources */,
@@ -1813,6 +1830,7 @@
 				9831B0221E60113600729BA8 /* 修改@2x.png in Resources */,
 				9831B00C1E60113600729BA8 /* icon_my_question@2x.png in Resources */,
 				982ED4451D48517600F87343 /* tab_setting_normal@3x.png in Resources */,
+				985C285E1E84CC3E004DDE37 /* icon_team_discuss@2x.png in Resources */,
 				987725881DDAA632003BDC1C /* myTab_userInfo@2x.png in Resources */,
 				9814754E1E790EA90019DA79 /* icon_team@2x.png in Resources */,
 				9831B0041E60113600729BA8 /* icon_circle@2x.png in Resources */,
@@ -1836,6 +1854,7 @@
 				9814754B1E7908A00019DA79 /* icon_team_headimage.jpg in Resources */,
 				9814755F1E7B73F00019DA79 /* icon_team_search@2x.png in Resources */,
 				98F094261D49DD2D002D4E3B /* qb_praiseBtn_hand@2x.png in Resources */,
+				985C285A1E83AD85004DDE37 /* icon_team_delete@2x.png in Resources */,
 				98D598231DC8726A002074C7 /* zl_share@2x.png in Resources */,
 				987ACBD21D4AEE08006D692E /* refresh_Rank@3x.png in Resources */,
 				9831B01F1E60113600729BA8 /* post_normal@3x.png in Resources */,
@@ -1849,6 +1868,7 @@
 				982ED43A1D48517600F87343 /* icon_up@3x.png in Resources */,
 				98D5981B1DC86F1A002074C7 /* ic_square_small@2x.png in Resources */,
 				98D5982C1DC87278002074C7 /* detail_nav_star@2x.png in Resources */,
+				985C28581E83AC4C004DDE37 /* icon_team_delete@3x.png in Resources */,
 				9831B00A1E60113600729BA8 /* icon_my_answer@2x.png in Resources */,
 				9831B0241E60113600729BA8 /* 收藏-(1)@2x.png in Resources */,
 				9831B05E1E602C5C00729BA8 /* 辅助元素@2x.png in Resources */,
@@ -2307,7 +2327,7 @@
 				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = "com.zenithElec.know-Debug";
-				ZENITH_SERVER = "http://192.168.1.189:8080/nbsjzd";
+				ZENITH_SERVER = "http://117.149.2.229:1622/emarkspg_nbsjzd";
 			};
 			name = Debug;
 		};
@@ -2378,7 +2398,7 @@
 				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = com.zenithElec.know;
-				ZENITH_SERVER = "http://192.168.1.189:8080/nbsjzd";
+				ZENITH_SERVER = "http://117.149.2.229:1622/emarkspg_nbsjzd";
 			};
 			name = Release;
 		};

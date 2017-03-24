@@ -124,12 +124,13 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     NSLog(@">>>>  %@",userInfo);
     NSString *alert = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
     if (application.applicationState == UIApplicationStateActive) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"推送消息"
-                                                            message:alert
-                                                           delegate:self
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-        [alertView show];
+        UIViewController * vc = [ZEUtil getCurrentVC];
+        [MBProgressHUD hideHUDForView:vc.view animated:YES];
+        MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:vc.view animated:YES];
+        hud3.mode = MBProgressHUDModeText;
+        hud3.labelText = alert;
+        [hud3 hide:YES afterDelay:2];
+        hud3.yOffset = SCREEN_HEIGHT / 2 - 80;
     }
     [application setApplicationIconBadgeNumber:0];
     [JPUSHService handleRemoteNotification:userInfo];
@@ -184,6 +185,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [self reLogin];
     if ([UIApplication sharedApplication].applicationIconBadgeNumber > 0) {
         [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+        [JPUSHService setBadge:0];
     }
 }
 

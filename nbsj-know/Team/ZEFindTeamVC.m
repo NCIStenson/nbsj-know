@@ -95,6 +95,42 @@
     [self.navigationController pushViewController:createTeamVC animated:YES];
 }
 
+-(void)goApplyJoinTeam:(ZETeamCircleModel *)teamCircleInfo
+{
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":KLB_TEAMCIRCLE_REL_USER,
+                                     @"DETAILTABLE":@"",
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_INSERT,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     };
+    
+    NSDictionary * fieldsDic =@{@"USERCODE":[ZESettingLocalData getUSERCODE],
+                                @"TEAMCIRCLECODE":teamCircleInfo.SEQKEY,
+                                @"USERTYPE":@"2"};
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_TEAMCIRCLE_REL_USER]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+
+        [ZEUserServer getDataWithJsonDic:packageDic
+                           showAlertView:YES
+                                 success:^(id data) {
+                                     [self showTips:@"申请成功"];
+                                     [self findTeamRequest];
+//                                     [self performSelector:@selector(goBack) withObject:nil afterDelay:1.5];
+                                 } fail:^(NSError *error) {
+                                     
+                                 }];
+        
+    
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

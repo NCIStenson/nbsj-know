@@ -25,7 +25,7 @@
 
 @property (nonatomic,copy) NSString * DYNAMICTYPE;     //  动态类型  1 提问 2 回答 3 指定提问
 
-
+@property (nonatomic,copy) NSString * STATUS; //  加入团队状态  0 未加入  1 审核中  2 已加入  3 已创建
 +(ZETeamCircleModel *)getDetailWithDic:(NSDictionary *)dic;
 
 @end

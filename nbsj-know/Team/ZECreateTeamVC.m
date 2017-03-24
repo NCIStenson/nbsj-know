@@ -45,6 +45,7 @@
         if([[ZESettingLocalData getUSERCODE] isEqualToString:_teamCircleInfo.SYSCREATORID]){
             [self.rightBtn setTitle:@"确认修改" forState:UIControlStateNormal];
             [self.rightBtn addTarget:self action:@selector(updateTeamData) forControlEvents:UIControlEventTouchUpInside];
+        }else{
         }
     }
     
@@ -59,55 +60,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-}
-
--(void)sendNumbersRequest
-{
-    NSDictionary * parametersDic = @{@"limit":@"-1",
-                                     @"MASTERTABLE":V_KLB_TEAMCIRCLE_REL_USER,
-                                     @"MENUAPP":@"EMARK_APP",
-                                     @"ORDERSQL":@"USERTYPE DESC , SYSCREATEDATE DESC",
-                                     @"WHERESQL":@"",
-                                     @"start":@"0",
-                                     @"METHOD":METHOD_SEARCH,
-                                     @"MASTERFIELD":@"SEQKEY",
-                                     @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.klb.app.teamcircle.UserInfo",
-                                     @"DETAILTABLE":@"",};
-    
-    NSDictionary * fieldsDic =@{@"TEAMCIRCLECODE":_teamCircleInfo.SEQKEY,
-                                @"USERCODE":@"",
-                                @"USERNAME":@"",
-                                @"FILEURL":@"",
-                                @"USERTYPE":@""};
-    if ( _TEAMCODE.length > 0) {
-        fieldsDic =@{@"TEAMCIRCLECODE":_TEAMCODE,
-                     @"USERCODE":@"",
-                     @"USERNAME":@"",
-                     @"FILEURL":@"",
-                     @"USERTYPE":@""};
-
-    }
-    
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_TEAMCIRCLE_REL_USER]
-                                                                           withFields:@[fieldsDic]
-                                                                       withPARAMETERS:parametersDic
-                                                                       withActionFlag:nil];
-    [ZEUserServer getDataWithJsonDic:packageDic
-                           showAlertView:NO
-                                 success:^(id data) {
-                                     NSArray * arr = [ZEUtil getServerData:data withTabelName:V_KLB_TEAMCIRCLE_REL_USER];
-                                     if (arr.count > 0) {
-                                         [createTeamView.numbersView reloadNumbersView:arr withEnterType:ENTER_TEAM_DETAIL];
-
-                                         _originMembersArr = [NSMutableArray arrayWithArray: arr];
-//                                         [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_FINISH_INVITE_TEAMCIRCLENUMBERS object:arr];
-                                     }else{
-//                                         [self showTips:@"暂无相关成员~"];
-                                     }
-                                 } fail:^(NSError *error) {
-                                 }];
-
 }
 
 -(void)dealloc
@@ -148,6 +100,63 @@
 }
 
 #pragma mark - 创建班组圈发送请求
+-(void)sendNumbersRequest
+{
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":V_KLB_TEAMCIRCLE_REL_USER,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"USERTYPE DESC , SYSCREATEDATE DESC",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_SEARCH,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.teamcircle.UserInfo",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{@"SEQKEY":@"",
+                                @"TEAMCIRCLECODE":_teamCircleInfo.SEQKEY,
+                                @"USERCODE":@"",
+                                @"USERNAME":@"",
+                                @"FILEURL":@"",
+                                @"USERTYPE":@""};
+    if ( _TEAMCODE.length > 0) {
+        fieldsDic =@{@"SEQKEY":@"",
+                     @"TEAMCIRCLECODE":_TEAMCODE,
+                     @"USERCODE":@"",
+                     @"USERNAME":@"",
+                     @"FILEURL":@"",
+                     @"USERTYPE":@""};
+        
+    }
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_TEAMCIRCLE_REL_USER]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 NSArray * arr = [ZEUtil getServerData:data withTabelName:V_KLB_TEAMCIRCLE_REL_USER];
+                                 if (arr.count > 0) {
+                                     [createTeamView.numbersView reloadNumbersView:arr withEnterType:ENTER_TEAM_DETAIL];
+                                     
+                                     _originMembersArr = [NSMutableArray arrayWithArray: arr];
+                                     for (NSDictionary * dic in _originMembersArr ){
+                                         ZEUSER_BASE_INFOM * userinfo = [ZEUSER_BASE_INFOM getDetailWithDic:dic];
+                                         if ([[ZESettingLocalData getUSERCODE] isEqualToString:userinfo.USERCODE] && ![[ZESettingLocalData getUSERCODE] isEqualToString:_teamCircleInfo.SYSCREATORID]) {
+                                             [self.rightBtn setTitle:@"退出团队" forState:UIControlStateNormal];
+                                             [self.rightBtn addTarget:self action:@selector(quitTeam) forControlEvents:UIControlEventTouchUpInside];
+                                             break;
+                                         }
+                                     }
+                                 }else{
+                                     //                                         [self showTips:@"暂无相关成员~"];
+                                 }
+                             } fail:^(NSError *error) {
+                             }];
+    
+}
 
 -(void)createTeamData
 {
@@ -193,10 +202,10 @@
     for (int i = 0; i < createTeamView.numbersView.alreadyInviteNumbersArr.count; i ++) {
         ZEUSER_BASE_INFOM * userinfo = [ZEUSER_BASE_INFOM getDetailWithDic:createTeamView.numbersView.alreadyInviteNumbersArr[i]];
         NSDictionary * numbersFieldsDic = @{@"USERCODE":userinfo.USERCODE,
-                                            @"USERTYPE":@"1"};
+                                            @"USERTYPE":@"0"};
         if (i == 0) {
             numbersFieldsDic = @{@"USERCODE":userinfo.USERCODE,
-                                 @"USERTYPE":@"2"};
+                                 @"USERTYPE":@"4"};
         }
         
         [tableArr addObject:KLB_TEAMCIRCLE_REL_USER];
@@ -285,13 +294,14 @@
     
     for (int i = 0; i < _originMembersArr.count; i ++) {
         ZEUSER_BASE_INFOM * userinfo = [ZEUSER_BASE_INFOM getDetailWithDic:_originMembersArr[i]];
-        NSDictionary * numbersFieldsDic = @{@"USERCODE":userinfo.USERCODE,
-                                            @"USERTYPE":@"1"};
-        if(i == 0){
-            numbersFieldsDic = @{@"USERCODE":userinfo.USERCODE,
-                                 @"USERTYPE":@"2"};
-        }
         
+        NSDictionary * numbersFieldsDic = @{@"USERCODE":userinfo.USERCODE,
+                                            @"USERTYPE":userinfo.USERTYPE};
+
+        if ([userinfo.USERTYPE integerValue] == 0) {
+            numbersFieldsDic = @{@"USERCODE":userinfo.USERCODE,
+                                 @"USERTYPE":@"0"};
+        }
         [tableArr addObject:KLB_TEAMCIRCLE_REL_USER];
         [fieldsArr addObject:numbersFieldsDic];
     }
@@ -327,8 +337,174 @@
     }
 }
 
-#pragma mark - 更新班组圈人员信息
+#pragma mark - 同意或者拒绝加入团队
 
+-(void)agreeJoinTheTeam:(ZEUSER_BASE_INFOM *)userinfo
+{
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":KLB_TEAMCIRCLE_REL_USER,
+                                     @"DETAILTABLE":@"",
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_UPDATE,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     };
+    
+    NSDictionary * fieldsDic =@{@"SEQKEY":userinfo.SEQKEY,
+                                @"USERCODE":userinfo.USERCODE,
+                                @"TEAMCIRCLECODE":_teamCircleInfo.SEQKEY,
+                                @"USERTYPE":@"1"};
+    if (_TEAMCODE.length > 0) {
+        fieldsDic =@{@"SEQKEY":userinfo.SEQKEY,
+                     @"USERCODE":userinfo.USERCODE,
+                     @"TEAMCIRCLECODE":_TEAMCODE,
+                     @"USERTYPE":@"1"};
+    }
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_TEAMCIRCLE_REL_USER]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:YES
+                             success:^(id data) {
+                                 [self showTips:[NSString stringWithFormat:@"已同意%@的入团申请",userinfo.USERNAME]];
+                                 [self sendNumbersRequest];
+                                 //                                     [self performSelector:@selector(goBack) withObject:nil afterDelay:1.5];
+                             } fail:^(NSError *error) {
+                                 
+                             }];
+    
+    
+}
+-(void)disagreeJoinTheTeam:(ZEUSER_BASE_INFOM *)userinfo
+{
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":KLB_TEAMCIRCLE_REL_USER,
+                                     @"DETAILTABLE":@"",
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_DELETE,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     };
+    
+    NSDictionary * fieldsDic =@{@"SEQKEY":userinfo.SEQKEY,};
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_TEAMCIRCLE_REL_USER]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:YES
+                             success:^(id data) {
+                                 [self showTips:[NSString stringWithFormat:@"已拒绝%@的入团申请",userinfo.USERNAME]];
+                                 [self sendNumbersRequest];
+                                 //                                     [self performSelector:@selector(goBack) withObject:nil afterDelay:1.5];
+                             } fail:^(NSError *error) {
+                                 
+                             }];
+}
+
+#pragma mark - 退出团队
+-(void)quitTeam
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"确定退出该团队" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self confirmQuitTeam];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    
+    [alertController addAction:cancelAction];
+    [alertController addAction:okAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+    
+}
+
+-(void)confirmQuitTeam
+{
+    ZEUSER_BASE_INFOM * userinfo = nil;
+    for (NSDictionary * dic in _originMembersArr ){
+        userinfo = [ZEUSER_BASE_INFOM getDetailWithDic:dic];
+        if ([[ZESettingLocalData getUSERCODE] isEqualToString:userinfo.USERCODE]) {
+            break;
+        }
+    }
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":KLB_TEAMCIRCLE_REL_USER,
+                                     @"DETAILTABLE":@"",
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_DELETE,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     };
+    
+    NSDictionary * fieldsDic =@{@"SEQKEY":userinfo.SEQKEY,};
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_TEAMCIRCLE_REL_USER]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:YES
+                             success:^(id data) {
+                                 [self showTips:@"退出团队成功"];
+                                 [self sendNumbersRequest];
+                             } fail:^(NSError *error) {
+                                 
+                             }];
+}
+
+
+#pragma mark - 确认解散团队
+
+-(void)confirmDeleteTeam
+{
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":KLB_TEAMCIRCLE_INFO,
+                                     @"DETAILTABLE":@"",
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_DELETE,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.teamcircle.TeamcircleManager",
+                                     };
+    
+    NSDictionary * fieldsDic =@{@"SEQKEY":_teamCircleInfo.SEQKEY};
+    if (_TEAMSEQKEY.length > 0) {
+        fieldsDic =@{@"SEQKEY":_TEAMCODE};
+    }
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_TEAMCIRCLE_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:YES
+                             success:^(id data) {
+                                 [self showTips:@"解散团队成功"];
+                                 [self.navigationController popViewControllerAnimated:YES];
+                             } fail:^(NSError *error) {
+                                 
+                             }];
+}
 
 
 #pragma mark - 上传头像
@@ -385,36 +561,6 @@
     _choosedImage = [info objectForKey:@"UIImagePickerControllerEditedImage"];
     [self dismissViewControllerAnimated:YES completion:nil];
     [createTeamView.messageView reloadTeamHeadImageView:_choosedImage];
-//    NSDictionary * parametersDic = @{@"limit":@"20",
-//                                     @"MASTERTABLE":KLB_USER_BASE_INFO,
-//                                     @"MENUAPP":@"EMARK_APP",
-//                                     @"ORDERSQL":@"",
-//                                     @"WHERESQL":@"",
-//                                     @"start":@"0",
-//                                     @"METHOD":@"updateSave",
-//                                     @"MASTERFIELD":@"SEQKEY",
-//                                     @"DETAILFIELD":@"",
-//                                     @"CLASSNAME":@"com.nci.klb.app.userinfo.UserInfo",
-//                                     @"DETAILTABLE":@"",};
-//    
-//    NSDictionary * fieldsDic =@{@"SEQKEY":[ZESettingLocalData getUSERCODE],
-//                                @"USERCODE":[ZESettingLocalData getUSERCODE],
-//                                @"FILEURL":@""};
-//    
-//    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_USER_BASE_INFO]
-//                                                                           withFields:@[fieldsDic]
-//                                                                       withPARAMETERS:parametersDic
-//                                                                       withActionFlag:nil];
-//    [ZEUserServer uploadImageWithJsonDic:packageDic
-//                            withImageArr:@[_choosedImage]
-//                           showAlertView:YES
-//                                 success:^(id data) {
-//                                     NSArray * arr = [ZEUtil getServerData:data withTabelName:KLB_USER_BASE_INFO];
-//                                     if (arr.count > 0) {
-//
-//                                     }
-//                                 } fail:^(NSError *error) {
-//                                 }];
 }
 
 
@@ -431,9 +577,58 @@
 -(void)goRemoveNumberView
 {
     ZEChooseNumberVC* chooseNumberVC = [[ZEChooseNumberVC alloc]init];
+    chooseNumberVC.enterType = ENTER_CHOOSE_TEAM_MEMBERS_DELETE;
     chooseNumberVC.numbersArr = [NSMutableArray arrayWithArray:_originMembersArr];
     [self.navigationController pushViewController:chooseNumberVC animated:YES];
 }
+
+
+-(void)whetherAgreeJoinTeam:(ZEUSER_BASE_INFOM *)userinfo
+{
+    NSString * alertMsg = [NSString stringWithFormat:@"是否同意%@加入团队",userinfo.USERNAME];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:alertMsg message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self agreeJoinTheTeam:userinfo];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"拒绝" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self disagreeJoinTheTeam:userinfo];
+    }];
+
+    [alertController addAction:cancelAction];
+    [alertController addAction:okAction];
+
+    [self presentViewController:alertController animated:YES completion:nil];
+
+}
+
+-(void)whetherTransferTeam:(ZEUSER_BASE_INFOM *)userinfo
+{
+    ZEChooseNumberVC* chooseNumberVC = [[ZEChooseNumberVC alloc]init];
+    chooseNumberVC.enterType = ENTER_CHOOSE_TEAM_MEMBERS_TRANSFERTEAM;
+    chooseNumberVC.numbersArr = [NSMutableArray arrayWithArray:_originMembersArr];
+    chooseNumberVC.teaminfo = _teamCircleInfo;
+    chooseNumberVC.TEAMCODE = _TEAMCODE;
+    [self.navigationController pushViewController:chooseNumberVC animated:YES];
+}
+
+-(void)whetherDeleteTeam
+{
+    NSString * alertMsg = [NSString stringWithFormat:@"团队一旦解散，该团队数据信息就会被清除，确认解散团队？"];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:alertMsg message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确认解散" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        [self confirmDeleteTeam];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"我再想想" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    
+    [alertController addAction:okAction];
+    [alertController addAction:cancelAction];
+
+    [self presentViewController:alertController animated:YES completion:nil];
+    
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
