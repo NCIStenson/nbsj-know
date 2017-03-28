@@ -114,6 +114,12 @@
                 [[NSNotificationCenter defaultCenter] removeObserver:self name:kJPFNetworkDidLoginNotification object:nil];
             }
         }];
+        [JMSGUser logout:^(id resultObject, NSError *error) {
+            if(!error){
+                
+            }else{
+            }
+        }];
     }
     [ZESettingLocalData clearLocalData];
     [[ZEQuestionTypeCache instance] clear];

@@ -32,7 +32,7 @@
 
 -(void)goSinginVC;
 
--(void)goSchollVC;
+-(void)goSchollVC:(ENTER_WEBVC)type;
 
 @end
 

@@ -107,7 +107,7 @@
         case 0:
             [stateBtn  setTitle:@"申请加入" forState:UIControlStateNormal];
             stateBtn.tag = indexPath.row;
-            [stateBtn addTarget:self action:@selector(applyToJoinTheTeam) forControlEvents:UIControlEventTouchUpInside];
+            [stateBtn addTarget:self action:@selector(applyToJoinTheTeam:) forControlEvents:UIControlEventTouchUpInside];
             stateBtn.backgroundColor = MAIN_NAV_COLOR_A(0.9);
             [stateBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [stateBtn setEnabled:YES];
@@ -127,8 +127,10 @@
     }
 }
 
--(void)applyToJoinTheTeam
+-(void)applyToJoinTheTeam:(UIButton *)btn
 {
+    [btn setEnabled:NO];
+
     if([_findTeamView.delegate respondsToSelector:@selector(goApplyJoinTeam:)]){
         ZETeamCircleModel * teamCircleInfo = [ZETeamCircleModel getDetailWithDic:dataDic];
         [_findTeamView.delegate goApplyJoinTeam:teamCircleInfo];

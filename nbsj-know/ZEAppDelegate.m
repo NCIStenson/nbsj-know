@@ -64,11 +64,18 @@
     // notice: 2.1.5版本的SDK新增的注册方法，改成可上报IDFA，如果没有使用IDFA直接传nil
     // 如需继续使用pushConfig.plist文件声明appKey等配置内容，请依旧使用[JPUSHService setupWithOption:launchOptions]方式初始化。
     [JPUSHService setupWithOption:launchOptions
-                           appKey:@"921311c06b555b9309eab799"
+                           appKey:JMESSAGE_APPKEY
                           channel:@"App Store"
                  apsForProduction:NO
             advertisingIdentifier:nil];
     
+    [JMessage setupJMessage:launchOptions
+                     appKey:JMESSAGE_APPKEY
+                    channel:@"App Store"
+           apsForProduction:NO
+                   category:nil];
+    [JMessage addDelegate:self withConversation:nil];
+
     NSLog(@"%@",NSHomeDirectory());
     NSLog(@"%@",Zenith_Server);
     
@@ -165,6 +172,59 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
         }
     }];
 }
+
+#pragma - mark JMessageDelegate
+- (void)onReceiveNotificationEvent:(JMSGNotificationEvent *)event{
+    SInt32 eventType = (JMSGEventNotificationType)event.eventType;
+    switch (eventType) {
+        case kJMSGEventNotificationCurrentUserInfoChange:{
+            NSLog(@"Current user info change Notification Event ");
+        }
+            break;
+        case kJMSGEventNotificationReceiveFriendInvitation:
+        case kJMSGEventNotificationAcceptedFriendInvitation:
+        case kJMSGEventNotificationDeclinedFriendInvitation:
+        case kJMSGEventNotificationDeletedFriend:
+        {
+            //JMSGFriendNotificationEvent *friendEvent = (JMSGFriendNotificationEvent *)event;
+            NSLog(@"Friend Notification Event");
+        }
+            break;
+        case kJMSGEventNotificationReceiveServerFriendUpdate:
+            NSLog(@"Receive Server Friend update Notification Event");
+            break;
+            
+            
+        case kJMSGEventNotificationLoginKicked:
+            NSLog(@"LoginKicked Notification Event ");
+        case kJMSGEventNotificationServerAlterPassword:{
+            if (event.eventType == kJMSGEventNotificationServerAlterPassword) {
+                NSLog(@"AlterPassword Notification Event ");
+            }
+        case kJMSGEventNotificationUserLoginStatusUnexpected:
+            if (event.eventType == kJMSGEventNotificationServerAlterPassword) {
+                NSLog(@"User login status unexpected Notification Event ");
+            }
+            //  退出成功注销JPush别名
+            if ([ZESettingLocalData getUSERCODE] > 0) {
+                [JPUSHService setTags:nil alias:@"" fetchCompletionHandle:^(int iResCode, NSSet *iTags, NSString *iAlias) {
+                    if (iResCode == 0) {//对应的状态码返回为0，代表成功
+                        [[NSNotificationCenter defaultCenter] removeObserver:self name:kJPFNetworkDidLoginNotification object:nil];
+                    }
+                }];
+            }
+            [ZESettingLocalData clearLocalData];
+            [[ZEQuestionTypeCache instance] clear];
+            [self goLoginVC:@"您的账号已在其他设备登录，请重新登录"];
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

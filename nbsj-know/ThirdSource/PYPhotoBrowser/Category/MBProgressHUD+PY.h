@@ -4,7 +4,7 @@
 //  Copyright © 2016年 iphone5solo. All rights reserved.
 //  MBProgressHUD的分类
 
-#import "MBProgressHUD.h"
+#import <JMUICommon/MBProgressHUD.h>
 
 @interface MBProgressHUD (PY)
 /** 显示成功信息 */

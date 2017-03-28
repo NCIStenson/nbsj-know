@@ -54,6 +54,12 @@ typedef enum : NSUInteger {
     ENTER_TEAM_SEARCH_MYQUESTION, // 我的问题列表展示
 } ENTER_TEAM_SEARCH;   // 进入团队问题搜索页面
 
+typedef enum : NSUInteger {
+    ENTER_WEBVC_SCHOOL, // 学堂
+    ENTER_WEBVC_OPERATION, // 操作手册
+    ENTER_WEBVC_ABOUT, // 关于知道
+} ENTER_WEBVC;   // 进入团队问题搜索页面
+
 
 typedef enum : NSUInteger {
     ENTER_SETTING_TYPE_PERSONAL,

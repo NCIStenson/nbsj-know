@@ -16,7 +16,7 @@
     NSDictionary * dataDic;
 }
 
-- (void)reloadCellView:(NSDictionary *)dic;
+//- (void)reloadCellView:(NSDictionary *)dic;
 
 @property (nonatomic,weak) ZEFindTeamView * findTeamView;
 @property (nonatomic,strong) UIView * baseView;
@@ -37,6 +37,7 @@
 }
 @property (nonatomic,weak) id <ZEFindTeamViewDelegate> delegate;
 @property (nonatomic,strong) NSMutableArray * teamsDataArr;
+
 -(void)reloadFindTeamView:(NSArray *)dataArr;
 
 @end

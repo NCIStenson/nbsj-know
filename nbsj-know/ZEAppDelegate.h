@@ -14,6 +14,7 @@
 //  King 机器版     http://192.168.1.175:8080/nbsjzd
 //  Juan 机器版     http://192.168.1.189:8080/nbsjzd
 
+#define JMESSAGE_APPKEY @"921311c06b555b9309eab799"
 
 #import <UIKit/UIKit.h>
 #import "JPUSHService.h"
@@ -25,7 +26,7 @@
 //#import <AdSupport/AdSupport.h>
 
 
-@interface ZEAppDelegate : UIResponder <UIApplicationDelegate,JPUSHRegisterDelegate>
+@interface ZEAppDelegate : UIResponder <UIApplicationDelegate,JPUSHRegisterDelegate,JMessageDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

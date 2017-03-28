@@ -11,6 +11,7 @@
 
 #import "ZETeamQuestionDetailVC.h"
 #import "ZEAskTeamQuestionVC.h"
+#import "ZETeamChatRoomVC.h"
 
 #import "ZEAnswerTeamQuestionVC.h"
 
@@ -95,7 +96,10 @@
         [self goSearchQuestionVC];
     }else if (btn.tag == 102){
         [self goAskTeamQuestionVC];
+    }else if (btn.tag == 103){
+        [self goTeamChatRoom];
     }
+
 }
 
 -(void)goTeamDetailVC
@@ -111,11 +115,33 @@
 -(void)goSearchQuestionVC
 {
     ZESearchTeamQuestionVC * showQuestionsList = [[ZESearchTeamQuestionVC alloc]init];
-    //    showQuestionsList.showQuestionListType = QUESTION_LIST_NEW;
-    //    showQuestionsList.currentInputStr = str;
     showQuestionsList.TEAMCIRCLECODE = _teamCircleInfo.TEAMCODE;
-    
     [self.navigationController pushViewController:showQuestionsList animated:YES];
+}
+
+-(void)goTeamChatRoom
+{
+    JMSGConversation *conversation = [JMSGConversation groupConversationWithGroupId:@"22519211"];
+    if (conversation == nil) {
+        [self showTips:@"获取会话" afterDelay:1.5];
+        
+        [JMSGConversation createGroupConversationWithGroupId:@"22519211" completionHandler:^(id resultObject, NSError *error) {
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            if (error) {
+                NSLog(@"创建会话失败");
+                return ;
+            }
+            ZETeamChatRoomVC *conversationVC = [ZETeamChatRoomVC new];
+            conversationVC.conversation = (JMSGConversation *)resultObject;
+            [self.navigationController pushViewController:conversationVC animated:YES];
+            
+        }];
+    } else {
+        ZETeamChatRoomVC *conversationVC = [ZETeamChatRoomVC new];
+        conversationVC.conversation = conversation;
+        [self.navigationController pushViewController:conversationVC animated:YES];
+    }
+    
 }
 
 

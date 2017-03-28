@@ -6,7 +6,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MBProgressHUD.h"
 
 #define kScale (SCREEN_HEIGHT - (IPHONE4S_LESS ? 40.0 : 50.0f)) / (666.0f - (IPHONE4S_LESS ? 40.0 : 50.0f))
 

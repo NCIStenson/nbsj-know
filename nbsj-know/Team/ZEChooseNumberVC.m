@@ -105,6 +105,28 @@
 
 -(void)confirmTransferTeam
 {
+    
+    NSMutableArray * USERCODELIST = [NSMutableArray array];
+    
+    for (NSDictionary * dic in chooseNumberView.alreadyInviteNumbersArr) {
+        ZEUSER_BASE_INFOM * userinfo = [ZEUSER_BASE_INFOM getDetailWithDic:dic];
+        NSDictionary * listDic;
+        if ([userinfo.USERTYPE integerValue] == 0 || [userinfo.USERTYPE integerValue] == 4) {
+             listDic = @{@"USERCODE":userinfo.USERCODE,
+                                       @"USERTYPE":@"0"};
+        }else if ([userinfo.USERTYPE integerValue] == 2){
+            listDic = @{@"USERCODE":userinfo.USERCODE,
+                        @"USERTYPE":@"2"};
+        }
+        
+        if ([userinfo.USERCODE isEqualToString:chooseNumberView.currentSelectUserinfo.USERCODE]) {
+            listDic = @{@"USERCODE":userinfo.USERCODE,
+                        @"USERTYPE":@"4"};
+        }
+        [USERCODELIST addObject:listDic];
+    }
+    
+    
     NSDictionary * parametersDic = @{@"limit":@"-1",
                                      @"MASTERTABLE":KLB_TEAMCIRCLE_INFO,
                                      @"DETAILTABLE":@"",
@@ -116,6 +138,7 @@
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
                                      @"CLASSNAME":@"com.nci.klb.app.teamcircle.TeamcircleManager",
+                                     @"USERCODELIST":USERCODELIST,
                                      };
     
     NSDictionary * fieldsDic =@{@"SEQKEY":_teaminfo.SEQKEY,

@@ -7,7 +7,7 @@
 //
 
 #import "ZELoginViewController.h"
-#import "MBProgressHUD.h"
+#import <JMUICommon/MBProgressHUD.h>
 #import "ZELoginView.h"
 
 #import "ZEUserServer.h"
@@ -123,6 +123,9 @@
                                      NSMutableDictionary * userinfoDic = [NSMutableDictionary dictionaryWithDictionary:arr[0]];
                                      [userinfoDic setObject:[userinfoDic objectForKey:@"USERNAME"] forKey:@"NAME"];
                                      [ZESettingLocalData setUSERINFODic:userinfoDic];
+                                     
+                                     [self loginJPushServer:username];
+
                                      //  重新注册通知
                                      if ([ZESettingLocalData getUSERCODE] > 0) {
                                          [JPUSHService setAlias:[ZESettingLocalData getUSERCODE] callbackSelector:nil object:nil];
@@ -139,6 +142,28 @@
                              }];
 
 }
+
+#pragma mark - 登陆极光用户
+-(void)loginJPushServer:(NSString *)username
+{
+    [JMSGUser loginWithUsername:username
+                       password:@"1234"
+              completionHandler:^(id resultObject, NSError *error) {
+                  
+                  if (error == nil) {
+                      NSLog(@">>>>>>  登陆成功  ！！！ %@ ",resultObject);
+                  } else {
+                      NSLog(@">>>>>>  登陆失败  ！！！ %@ ",error);
+                  }
+              }];
+    
+    //  重新注册通知
+    if ([ZESettingLocalData getUSERCODE] > 0) {
+        [JPUSHService setAlias:[ZESettingLocalData getUSERCODE] callbackSelector:nil object:nil];
+    }
+    
+}
+
 
 #pragma mark - 查询该用户是否为专家
 

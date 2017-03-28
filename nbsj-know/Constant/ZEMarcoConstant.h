@@ -81,6 +81,9 @@
 
 #define kNOTI_BACK_QUEANSVIEW @"NOTI_BACK_QUEANSVIEW" // 追问追答页面返回界面时，发送请求OPERATETYPE为空
 
+#define kJMESSAGE_TAP_IMAGE @"kJMESSAGE_TAP_IMAGE" // 聊天界面FrameWork发送出的固定通知 点击聊天内容图片
+#define kJMESSAGE_TAP_HEADVIEW @"kJMESSAGE_TAP_HEADVIEW" // 聊天界面FrameWork发送出的固定通知 点击聊天头像
+
 #define kRelogin @"kRelogin"
 #define kVerifyLogin @"kVerifyLogin"
 #endif /* ZEMarcoConstant_h */

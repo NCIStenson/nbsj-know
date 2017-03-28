@@ -101,6 +101,7 @@
 //                                     _teamCircleInfo = [ZETeamCircleModel getDetailWithDic:dataArr[0]];
 //                                     [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_ASK_TEAM_QUESTION object:_teamCircleInfo];
                                  }else{
+                                     [teamView reloadHeaderView:dataArr];
                                      [self showTips:@"您还没有加入任何团队，快去加一个吧"];
                                  }
                              } fail:^(NSError *errorCode) {

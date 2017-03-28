@@ -8,9 +8,6 @@
 
 #import "ZETeamCircleVC.h"
 
-
-#import "MBProgressHUD.h"
-
 @interface ZETeamCircleVC ()<UITableViewDelegate,UITableViewDataSource>
 {
     UITableView * _contentView;

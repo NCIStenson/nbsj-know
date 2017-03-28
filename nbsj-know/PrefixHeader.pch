@@ -28,6 +28,8 @@
 #import "MJRefresh.h"
 #import "PYPhotoBrowser.h"
 
+#import <JMUICommon/JMUICommon.h>
+
 #import "YYKit.h"
 
 #pragma mark - Model

@@ -10,4 +10,6 @@
 
 @interface ZESchoolWebVC : ZESettingRootVC
 
+@property (nonatomic,assign) ENTER_WEBVC enterType;
+
 @end

@@ -178,7 +178,6 @@
     if([self.delegate respondsToSelector:@selector(didSelectType:typeCode:)]){
         [self.delegate didSelectType:[dic objectForKey:@"NAME"] typeCode:[dic objectForKey:@"CODE"]];
     }
-
 }
 
 //返回这个UICollectionView是否可以被选择
@@ -264,6 +263,10 @@
         [contentLab setText:[dic objectForKey:@"NAME"]];
         contentLab.textAlignment = NSTextAlignmentCenter;
         
+        UITapGestureRecognizer *doubleTabGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
+        [doubleTabGesture setNumberOfTapsRequired:2];
+        [cell addGestureRecognizer:doubleTabGesture];
+        
         if (_currentSelectType == indexPath.row) {
             contentView.backgroundColor = MAIN_BACKGROUND_COLOR;
 
@@ -271,10 +274,6 @@
             [contentView addSubview:maskView];
             maskView.backgroundColor = MAIN_NAV_COLOR_A(0.7);
         }
-//        else if (_currentSelectType >= 0){
-//            cell.textLabel.font = [UIFont systemFontOfSize:12];
-//            cell.contentView.backgroundColor = MAIN_LINE_COLOR;
-//        }
     }
     return cell;
 }
@@ -289,6 +288,17 @@
             [_collectionView reloadData];
         }];
     }
+}
+
+
+
+-(void)handleDoubleTap:(UIView *)view
+{
+    NSDictionary * dic = self.typeArr[_currentSelectType];
+    if([self.delegate respondsToSelector:@selector(didSelectType:typeCode:)]){
+        [self.delegate didSelectType:[dic objectForKey:@"NAME"] typeCode:[dic objectForKey:@"CODE"]];
+    }
+
 }
 
 

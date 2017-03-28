@@ -278,10 +278,10 @@
     [self.navigationController pushViewController:personalMsgVC animated:YES];
 }
 
--(void)goSchollVC
+-(void)goSchollVC:(ENTER_WEBVC)type
 {
     ZESchoolWebVC * schoolVC = [[ZESchoolWebVC alloc]init];
-    
+    schoolVC.enterType = type;
     [self.navigationController pushViewController:schoolVC animated:YES];
     
 }
