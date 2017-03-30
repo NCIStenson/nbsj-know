@@ -39,7 +39,8 @@
     // Do any additional setup after loading the view.
     self.navigationController.navigationBarHidden = YES;
     self.view.backgroundColor = [UIColor whiteColor];
-    self.title = _teamCircleInfo.TEAMCIRCLENAME;
+//    self.title = _teamCircleInfo.TEAMCIRCLENAME;
+    self.title = @"";
     [self addNavBarBtn];
     [self initView];
     
@@ -121,17 +122,18 @@
 
 -(void)goTeamChatRoom
 {
-    JMSGConversation *conversation = [JMSGConversation groupConversationWithGroupId:@"22519211"];
+    JMSGConversation *conversation = [JMSGConversation groupConversationWithGroupId:_teamCircleInfo.JMESSAGEGROUPID];
     if (conversation == nil) {
         [self showTips:@"获取会话" afterDelay:1.5];
         
-        [JMSGConversation createGroupConversationWithGroupId:@"22519211" completionHandler:^(id resultObject, NSError *error) {
+        [JMSGConversation createGroupConversationWithGroupId:_teamCircleInfo.JMESSAGEGROUPID completionHandler:^(id resultObject, NSError *error) {
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             if (error) {
                 NSLog(@"创建会话失败");
                 return ;
             }
             ZETeamChatRoomVC *conversationVC = [ZETeamChatRoomVC new];
+            conversationVC.teamcircleModel = _teamCircleInfo;
             conversationVC.conversation = (JMSGConversation *)resultObject;
             [self.navigationController pushViewController:conversationVC animated:YES];
             
@@ -139,6 +141,7 @@
     } else {
         ZETeamChatRoomVC *conversationVC = [ZETeamChatRoomVC new];
         conversationVC.conversation = conversation;
+        conversationVC.teamcircleModel = _teamCircleInfo;
         [self.navigationController pushViewController:conversationVC animated:YES];
     }
     

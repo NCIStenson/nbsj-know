@@ -25,6 +25,7 @@ static ZETeamCircleModel * teamCircleInfo = nil;
     teamCircleInfo.TEAMMANIFESTO = [dic objectForKey:@"TEAMMANIFESTO"];
     teamCircleInfo.SYSCREATORID = [dic objectForKey:@"SYSCREATORID"];
     teamCircleInfo.TEAMMEMBERS = [dic objectForKey:@"TEAMMEMBERS"];
+    teamCircleInfo.JMESSAGEGROUPID = [dic objectForKey:@"JMESSAGEGROUPID"];
     teamCircleInfo.FILEURL        = [[[dic objectForKey:@"FILEURL"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"] stringByReplacingOccurrencesOfString:@"," withString:@""];
     teamCircleInfo.STATUS = [dic objectForKey:@"STATUS"];
     teamCircleInfo.DYNAMICTYPE = [dic objectForKey:@"DYNAMICTYPE"];

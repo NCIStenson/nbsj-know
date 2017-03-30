@@ -23,6 +23,8 @@
 @property (nonatomic,copy) NSString * TEAMMANIFESTO;     //  团队宣言
 @property (nonatomic,copy) NSString * SYSCREATORID;     //  创建班组圈的工号
 
+@property (nonatomic,copy) NSString * JMESSAGEGROUPID;     //  创建极光群组会话
+
 @property (nonatomic,copy) NSString * DYNAMICTYPE;     //  动态类型  1 提问 2 回答 3 指定提问
 
 @property (nonatomic,copy) NSString * STATUS; //  加入团队状态  0 未加入  1 审核中  2 已加入  3 已创建

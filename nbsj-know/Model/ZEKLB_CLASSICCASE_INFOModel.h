@@ -22,6 +22,8 @@
 @property (nonatomic,copy) NSString * QUESTIONTYPECODE;
 @property (nonatomic,copy) NSString * SEQKEY;
 @property (nonatomic,copy) NSString * SYSCREATEDATE;
+@property (nonatomic,copy) NSString * H5URL;
+@property (nonatomic,copy) NSString * H5URLNAME;
 
 @property (nonatomic,copy) NSArray * COURSEFILEURLARR;
 @property (nonatomic,copy) NSString * COURSEFILEURL;

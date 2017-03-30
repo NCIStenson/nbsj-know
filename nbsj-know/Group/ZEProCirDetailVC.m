@@ -14,6 +14,9 @@
 #import "ZETypicalCaseVC.h"
 #import "ZETypicalCaseDetailVC.h"
 
+#import "ZEExpertListVC.h"
+#import "ZEExpertDetailVC.h"
+
 @interface ZEProCirDetailVC ()<ZEProCirDeatilViewDelegate>
 {
     ZEProCirDeatilView * detailView;
@@ -38,8 +41,10 @@
     self.tabBarController.tabBar.hidden = YES;
     [self isShowJoin];
     [self sendCaseQuestionsRequest];
+    [self sendExpertListRequest];
     [self proCirecleMember];
 }
+#pragma mark - 典型案例
 /************* 查询典型案例 *************/
 -(void)sendCaseQuestionsRequest
 {
@@ -73,6 +78,42 @@
 
                              }];
 
+}
+
+#pragma mark - 专家列表
+
+-(void)sendExpertListRequest
+{
+    NSDictionary * parametersDic = @{@"limit":@"3",
+                                     @"MASTERTABLE":KLB_EXPERT_DETAIL,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":[NSString stringWithFormat:@"PROCIRCLECODE = '%@'",_PROCIRCLECODE],
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_SEARCH,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_EXPERT_DETAIL]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 NSArray * arr = [ZEUtil getServerData:data withTabelName:KLB_EXPERT_DETAIL] ;
+                                 if ([ZEUtil isNotNull:arr] && [arr count] > 0) {
+                                     [detailView reloadExpertView:arr];
+                                 }
+                                 
+                             } fail:^(NSError *errorCode) {
+                                 
+                             }];
+    
 }
 
 -(void)proCirecleMember
@@ -244,11 +285,25 @@
     [self.navigationController pushViewController:caseVC animated:YES];
 }
 
+-(void)goMoreExpertVC
+{
+    ZEExpertListVC * experListVC = [[ZEExpertListVC alloc]init];
+    experListVC.PROCIRCLECODE = _PROCIRCLECODE;
+    [self.navigationController pushViewController:experListVC animated:YES];
+}
+
 -(void)goTypicalDetail:(NSDictionary *)detailDic
 {
     ZETypicalCaseDetailVC * caseDetailVC = [[ZETypicalCaseDetailVC alloc]init];
     caseDetailVC.classicalCaseDetailDic = detailDic;
     [self.navigationController pushViewController:caseDetailVC animated:YES];
+}
+
+-(void)goExpertDetail:(ZEExpertModel *)expertM
+{
+    ZEExpertDetailVC * expertDetailVC = [[ZEExpertDetailVC alloc]init];
+    expertDetailVC.expertModel = expertM;
+    [self.navigationController pushViewController:expertDetailVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

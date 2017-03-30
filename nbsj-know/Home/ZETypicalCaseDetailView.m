@@ -217,6 +217,11 @@
     }else{
         ZEKLB_CLASSICCASE_INFOModel * infoM = [ZEKLB_CLASSICCASE_INFOModel getDetailWithDic:typicalCaseDetailDic];
         
+        NSArray * H5ARR = [infoM.H5URL componentsSeparatedByString:@","];
+        if (H5ARR.count > 0) {
+            return [infoM.COURSEFILENAMEARR count] + [H5ARR count];
+        }
+        
         if ([infoM.COURSEFILENAMEARR count] > 0) {
             return [infoM.COURSEFILENAMEARR count];
         }
@@ -527,10 +532,17 @@
     iconImageView.layer.cornerRadius = 15.0f;
     
     UILabel * courseLab = [[UILabel alloc]initWithFrame:CGRectMake(50.0f, 7.0f, SCREEN_WIDTH - 100.0f, 36.0f)];
-    courseLab.text = infoM.COURSEFILENAMEARR[indexPath.row];
     courseLab.numberOfLines = 0;
     courseLab.font = [UIFont systemFontOfSize:12];
     [cellView addSubview:courseLab];
+    if (indexPath.row < infoM.COURSEFILENAMEARR.count ) {
+        courseLab.text = infoM.COURSEFILENAMEARR[indexPath.row];
+    }else{
+        //  h5连接根据','分割
+        NSArray * H5URLNAMEarr = [infoM.H5URLNAME componentsSeparatedByString:@","];
+        
+        courseLab.text = H5URLNAMEarr[indexPath.row - infoM.COURSEFILENAMEARR.count];
+    }
     
 //    UIView * lineLayer = [UIView new];
 //    lineLayer.frame = CGRectMake(SCREEN_WIDTH - 45.0f, 10.0f, 1.0f, 30.0f);
@@ -554,23 +566,35 @@
         
     }else{
         ZEKLB_CLASSICCASE_INFOModel * infoM = [ZEKLB_CLASSICCASE_INFOModel getDetailWithDic:typicalCaseDetailDic];
-        
-        NSString * fileTypeStr = infoM.COURSEFILETYPEARR[indexPath.row];
-        
-        NSString * serverAdress = [NSString stringWithFormat:@"%@/file/%@",Zenith_Server,infoM.COURSEFILEURLARR[indexPath.row]];
-        
-        if ([fileTypeStr isEqualToString:@".mp4"]) {
-            if ([self.delegate respondsToSelector:@selector(playCourswareVideo:)]) {
-                [self.delegate playCourswareVideo:serverAdress];
-            }
-        }else if([fileTypeStr isEqualToString:@".jpg"] | [fileTypeStr isEqualToString:@".png"]){
-            if ([self.delegate respondsToSelector:@selector(playCourswareImagePath:)]) {
-                [self.delegate playCourswareImagePath:serverAdress];
+
+        if (indexPath.row < infoM.COURSEFILETYPEARR.count) {
+            
+            NSString * fileTypeStr = infoM.COURSEFILETYPEARR[indexPath.row];
+            
+            NSString * serverAdress = [NSString stringWithFormat:@"%@/file/%@",Zenith_Server,infoM.COURSEFILEURLARR[indexPath.row]];
+            
+            if ([fileTypeStr isEqualToString:@".mp4"]) {
+                if ([self.delegate respondsToSelector:@selector(playCourswareVideo:)]) {
+                    [self.delegate playCourswareVideo:serverAdress];
+                }
+            }else if([fileTypeStr isEqualToString:@".jpg"] | [fileTypeStr isEqualToString:@".png"]){
+                if ([self.delegate respondsToSelector:@selector(playCourswareImagePath:)]) {
+                    [self.delegate playCourswareImagePath:serverAdress];
+                }
+            }else{
+                if ([self.delegate respondsToSelector:@selector(loadFile:)]) {
+                    [self.delegate loadFile:serverAdress];
+                }
             }
         }else{
+            ZEKLB_CLASSICCASE_INFOModel * infoM = [ZEKLB_CLASSICCASE_INFOModel getDetailWithDic:typicalCaseDetailDic];
+
+            NSArray * H5URLArr = [infoM.H5URL componentsSeparatedByString:@","];
             if ([self.delegate respondsToSelector:@selector(loadFile:)]) {
-                [self.delegate loadFile:serverAdress];
+                [self.delegate loadFile:H5URLArr[indexPath.row - infoM.COURSEFILETYPEARR.count]];
             }
+
+            
         }
         
     }

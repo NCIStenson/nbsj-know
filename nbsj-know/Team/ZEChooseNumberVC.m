@@ -106,6 +106,9 @@
 -(void)confirmTransferTeam
 {
     
+    NSMutableArray * fieldsArr = [NSMutableArray array];
+    NSMutableArray * tableArr = [NSMutableArray array];
+    
     NSMutableArray * USERCODELIST = [NSMutableArray array];
     
     for (NSDictionary * dic in chooseNumberView.alreadyInviteNumbersArr) {
@@ -113,43 +116,54 @@
         NSDictionary * listDic;
         if ([userinfo.USERTYPE integerValue] == 0 || [userinfo.USERTYPE integerValue] == 4) {
              listDic = @{@"USERCODE":userinfo.USERCODE,
-                                       @"USERTYPE":@"0"};
+                         @"USERNAME":userinfo.USERNAME,
+                         @"USERTYPE":@"0"};
         }else if ([userinfo.USERTYPE integerValue] == 2){
             listDic = @{@"USERCODE":userinfo.USERCODE,
+                        @"USERNAME":userinfo.USERNAME,
                         @"USERTYPE":@"2"};
         }
         
         if ([userinfo.USERCODE isEqualToString:chooseNumberView.currentSelectUserinfo.USERCODE]) {
             listDic = @{@"USERCODE":userinfo.USERCODE,
+                        @"USERNAME":userinfo.USERNAME,
                         @"USERTYPE":@"4"};
         }
         [USERCODELIST addObject:listDic];
+        [tableArr addObject:KLB_TEAMCIRCLE_REL_USER];
     }
     
     
     NSDictionary * parametersDic = @{@"limit":@"-1",
                                      @"MASTERTABLE":KLB_TEAMCIRCLE_INFO,
-                                     @"DETAILTABLE":@"",
+                                     @"DETAILTABLE":KLB_TEAMCIRCLE_REL_USER,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"",
                                      @"WHERESQL":@"",
                                      @"start":@"0",
-                                     @"METHOD":METHOD_UPDATE,
+                                     @"METHOD":@"GroupUserTran",
                                      @"MASTERFIELD":@"SEQKEY",
-                                     @"DETAILFIELD":@"",
+                                     @"DETAILFIELD":@"TEAMCIRCLECODE",
                                      @"CLASSNAME":@"com.nci.klb.app.teamcircle.TeamcircleManager",
                                      @"USERCODELIST":USERCODELIST,
                                      };
     
     NSDictionary * fieldsDic =@{@"SEQKEY":_teaminfo.SEQKEY,
+                                @"JMESSAGEGROUPID":_teaminfo.JMESSAGEGROUPID,
                                 @"SYSCREATORID":chooseNumberView.currentSelectUserinfo.USERCODE};
     if (_TEAMCODE.length > 0) {
         fieldsDic =@{@"SEQKEY":_TEAMCODE,
+                     @"JMESSAGEGROUPID":_teaminfo.JMESSAGEGROUPID,
                      @"SYSCREATORID":chooseNumberView.currentSelectUserinfo.USERCODE};
     }
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_TEAMCIRCLE_INFO]
-                                                                           withFields:@[fieldsDic]
+    [fieldsArr addObject:fieldsDic];
+    [fieldsArr addObjectsFromArray:USERCODELIST];
+    
+    [tableArr insertObject:KLB_TEAMCIRCLE_INFO atIndex:0];
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:tableArr
+                                                                           withFields:fieldsArr
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
     

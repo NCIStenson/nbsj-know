@@ -9,14 +9,23 @@
 #define kDynamicsHeight  80.0f
 #define kMemberHeight  30.0f
 
-#define kTypicalViewMarginLeft  0.0f
-#define kTypicalViewMarginTop   NAV_HEIGHT
-#define kTypicalViewWidth       SCREEN_WIDTH
-#define kTypicalViewHeight      155.0f
+#define kExpertViewMarginLeft  0.0f
+#define kExpertViewMarginTop   0
+#define kExpertViewWidth       SCREEN_WIDTH
+#define kExpertViewHeight      ((SCREEN_WIDTH - 20) / 3 - 10) * 1.4 + 60.0f
 
+
+#define kTypicalViewMarginLeft  0.0f
+#define kTypicalViewMarginTop   (kExpertViewHeight + kExpertViewMarginTop)
+#define kTypicalViewWidth       SCREEN_WIDTH
+#define kTypicalViewHeight      ((SCREEN_WIDTH - 20) / 3 - 10) * 1.4
+
+#define kCircleMessageMarginTop (kTypicalViewMarginTop + kTypicalViewHeight)
+#define kCircleMessageHeight 161.0f
 
 #import "ZEProCirDeatilView.h"
 #import "ZEKLB_CLASSICCASE_INFOModel.h"
+
 @interface ZEProCirDeatilView ()<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView * contentView;
@@ -26,6 +35,7 @@
 @property (nonatomic,strong) NSDictionary * scoreDic;
 @property (nonatomic,strong) NSArray * memberArr;
 @property (nonatomic,strong) NSMutableArray * caseQuestionArr;
+@property (nonatomic,strong) NSMutableArray * expertListArr;
 @end
 
 @implementation ZEProCirDeatilView
@@ -40,13 +50,81 @@
 }
 
 -(void)initView{
-    [self addSubview:[self createTypicalCaseView]];
     
-    contentView = [[UITableView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT + kTypicalViewHeight, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT) style:UITableViewStylePlain];
+    contentView = [[UITableView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT , SCREEN_WIDTH, (SCREEN_HEIGHT - NAV_HEIGHT)) style:UITableViewStyleGrouped];
     contentView.separatorStyle = UITableViewCellSeparatorStyleNone;
     contentView.delegate = self;
     contentView.dataSource = self;
     [self addSubview:contentView];
+}
+
+#pragma mark - 专家列表
+-(UIView *)createExpertView
+{
+    UIView * typicalCaseView = [[UIView alloc]initWithFrame:CGRectMake(kExpertViewMarginLeft, kExpertViewMarginTop, kExpertViewWidth, kExpertViewHeight)];
+    typicalCaseView.backgroundColor = [UIColor whiteColor];
+    typicalCaseView.tag = 100;
+    
+    CAGradientLayer *layer = [CAGradientLayer new];
+    layer.colors = @[(__bridge id)MAIN_NAV_COLOR.CGColor, (__bridge id) MAIN_LINE_COLOR.CGColor];
+    layer.startPoint = CGPointMake(0, 0);
+    layer.endPoint = CGPointMake(1, 0);
+    layer.frame = CGRectMake(0, 0, SCREEN_WIDTH, 40.0f);
+    [typicalCaseView.layer addSublayer:layer];
+    
+    UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 80, 40)];
+    rowTitleLab.text = @"圈子专家";
+    rowTitleLab.textAlignment = NSTextAlignmentCenter;
+    rowTitleLab.font = [UIFont systemFontOfSize:16];
+    [typicalCaseView addSubview:rowTitleLab];
+    
+    UIButton * sectionSubTitleBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    [sectionSubTitleBtn setTitleColor:MAIN_NAV_COLOR forState:UIControlStateNormal];
+    sectionSubTitleBtn.frame = CGRectMake(SCREEN_WIDTH - 110 , 0, 90, 40);
+    [sectionSubTitleBtn setTitle:@"更多  >" forState:UIControlStateNormal];
+    sectionSubTitleBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+    sectionSubTitleBtn.contentHorizontalAlignment =  UIControlContentHorizontalAlignmentRight;
+    [typicalCaseView addSubview:sectionSubTitleBtn];
+    [sectionSubTitleBtn addTarget:self action:@selector(moreExpertBtnClck) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIScrollView * typicalScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(10, 40.0f, SCREEN_WIDTH - 20.0f, kExpertViewHeight - 25.0f)];
+    typicalScrollView.showsHorizontalScrollIndicator = NO;
+    [typicalCaseView addSubview:typicalScrollView];
+    typicalScrollView.backgroundColor = [UIColor whiteColor];
+    
+    for (int i = 0 ; i < self.expertListArr.count; i ++ ) {
+        ZEExpertModel * classicalCaseM = [ZEExpertModel getDetailWithDic:self.expertListArr[i]];
+        
+        UIButton * typicalImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        typicalImageBtn.frame = CGRectMake( (SCREEN_WIDTH - 20) / 3 * i , 0, (SCREEN_WIDTH - 20) / 3 - 10,((SCREEN_WIDTH - 20) / 3 - 10) * 1.4);
+        typicalImageBtn.contentHorizontalAlignment =  UIControlContentHorizontalAlignmentRight;
+        [typicalScrollView addSubview:typicalImageBtn];
+        [typicalImageBtn addTarget:self action:@selector(goExpertDetail:) forControlEvents:UIControlEventTouchUpInside];
+        typicalImageBtn.tag = i;
+//        if ([ZEUtil isStrNotEmpty:classicalCaseM.FILEURL]) {
+            NSURL * fileURL =[NSURL URLWithString:ZENITH_IMAGE_FILESTR(classicalCaseM.FILEURL)] ;
+            [typicalImageBtn sd_setImageWithURL:fileURL forState:UIControlStateNormal placeholderImage:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
+//        }
+        if (i > 2) {
+            typicalScrollView.contentSize = CGSizeMake((SCREEN_WIDTH - 20) / 3 * (i + 1) - 10, kTypicalViewHeight - 75);
+        }
+        
+        UILabel * typicalLab = [[UILabel alloc]initWithFrame:CGRectMake(typicalImageBtn.frame.origin.x, typicalImageBtn.frame.origin.y + typicalImageBtn.frame.size.height, typicalImageBtn.frame.size.width, 15.0f)];
+        typicalLab.text = classicalCaseM.USERNAME;
+        NSLog(@">>>>  %@",classicalCaseM.USERNAME);
+        typicalLab.numberOfLines = 0;
+        typicalLab.textAlignment = NSTextAlignmentCenter;
+        typicalLab.font = [UIFont systemFontOfSize:12];
+        [typicalScrollView addSubview:typicalLab];
+        
+    }
+    
+    CALayer * grayLine = [CALayer layer];
+    grayLine.frame = CGRectMake(0, kExpertViewHeight - 0.5f, SCREEN_WIDTH, .5f);
+    [typicalCaseView.layer addSublayer:grayLine];
+    grayLine.backgroundColor = [MAIN_LINE_COLOR CGColor];
+    
+    return  typicalCaseView;
 }
 
 #pragma mark - 经典案例
@@ -56,10 +134,6 @@
     UIView * typicalCaseView = [[UIView alloc]initWithFrame:CGRectMake(kTypicalViewMarginLeft, kTypicalViewMarginTop, kTypicalViewWidth, kTypicalViewHeight)];
     typicalCaseView.backgroundColor = [UIColor whiteColor];
     typicalCaseView.tag = 100;
-    
-//    UIView * newestComment = [[UIView alloc]initWithFrame:CGRectMake(10, 0, 5.0f, 20.0f)];
-//    newestComment.backgroundColor = MAIN_NAV_COLOR_A(0.5);
-//    [typicalCaseView addSubview:newestComment];
     
     CAGradientLayer *layer = [CAGradientLayer new];
     layer.colors = @[(__bridge id)MAIN_NAV_COLOR.CGColor, (__bridge id) MAIN_LINE_COLOR.CGColor];
@@ -100,8 +174,8 @@
             NSURL * fileURL =[NSURL URLWithString:ZENITH_IMAGE_FILESTR(classicalCaseM.FILEURL)] ;
             [typicalImageBtn sd_setImageWithURL:fileURL forState:UIControlStateNormal placeholderImage:ZENITH_PLACEHODLER_IMAGE];
         }
-        if (i == 3) {
-            typicalScrollView.contentSize = CGSizeMake((SCREEN_WIDTH - 20) / 3 * 4 - 10, kTypicalViewHeight - 75);
+        if (i > 2) {
+            typicalScrollView.contentSize = CGSizeMake((SCREEN_WIDTH - 20) / 3 * (i + 1) - 10, kTypicalViewHeight - 75);
         }
         
         UILabel * typicalLab = [[UILabel alloc]initWithFrame:CGRectMake(typicalImageBtn.frame.origin.x, typicalImageBtn.frame.origin.y + typicalImageBtn.frame.size.height, typicalImageBtn.frame.size.width, 15.0f)];
@@ -164,32 +238,65 @@
 {
     self.caseQuestionArr = [NSMutableArray arrayWithArray:arr];
     
-    UIView * typicalCaseView = [self viewWithTag:100];
-    for (id view in typicalCaseView.subviews) {
-        [view removeFromSuperview];
-    }
+//    UIView * typicalCaseView = [self viewWithTag:100];
+//    for (id view in typicalCaseView.subviews) {
+//        [view removeFromSuperview];
+//    }
     if(self.caseQuestionArr.count > 0){
-        [self addSubview:[self createTypicalCaseView]];
-    }else{
-        contentView.frame = CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT);
+        [contentView reloadData];
     }
 }
 
+-(void)reloadExpertView:(NSArray *)arr
+{
+    self.expertListArr = [NSMutableArray arrayWithArray:arr];
+    
+//    UIView * typicalCaseView = [self viewWithTag:100];
+//    for (id view in typicalCaseView.subviews) {
+//        [view removeFromSuperview];
+//    }
+    if(self.expertListArr.count > 0){
+        [contentView reloadData];
+    }
+}
+
+
 #pragma mark - UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return kCircleMessageMarginTop + kCircleMessageHeight;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView * headerView = [UIView new];
+    headerView.backgroundColor = [UIColor whiteColor];
+
+    [headerView addSubview:[self createExpertView]];
+    [headerView addSubview:[self createTypicalCaseView]];
+
+    UIView * circleMessageView =  [UIView new];
+    circleMessageView.frame = CGRectMake(0, kCircleMessageMarginTop, SCREEN_WIDTH, kCircleMessageHeight);
+    [self initCircleMessage:circleMessageView];
+    [headerView addSubview:circleMessageView];
+
+    return headerView;
+}
+
+-(CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.01f;
+}
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    return self.memberArr.count + 1;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
-        return 121;
-    }else if (indexPath.section == 1){
-        return self.memberArr.count * kMemberHeight + 40 ;
-    }
-    return 11 * kMemberHeight + 40 ;
+    return kMemberHeight ;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -211,16 +318,15 @@
 
 -(void)initCellView:(UIView *)superView indexPath:(NSIndexPath *)indexpath
 {
-    if (indexpath.row == 0) {
-        [self initCircleMessage:superView indexPath:indexpath];
-    }else if (indexpath.row == 1){
+//    if (indexpath.row == 0) {
+//        [self initCircleMessage:superView];
+//    }else if (indexpath.row == 1){
         [self initMember:superView indexPath:indexpath];
-    }
+//    }/
 }
 
--(void)initCircleMessage:(UIView *)superView indexPath:(NSIndexPath *)indexpath
+-(void)initCircleMessage:(UIView *)superView
 {
-    
     CAGradientLayer *layer = [CAGradientLayer new];
     layer.colors = @[(__bridge id)MAIN_NAV_COLOR.CGColor, (__bridge id) MAIN_LINE_COLOR.CGColor];
     layer.startPoint = CGPointMake(0, 0);
@@ -320,197 +426,60 @@
             default:
                 break;
         }
-
     }
     
-   /*
-//    UIButton * secondRowTitleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    secondRowTitleBtn.frame = CGRectMake(SCREEN_WIDTH - 80, 0, 80, 40);
-//    [secondRowTitleBtn setTitle:@"圈子动态" forState:UIControlStateNormal];
-//    secondRowTitleBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-//    secondRowTitleBtn.titleLabel.font = [UIFont systemFontOfSize:16];
-//    [secondRowTitleBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//    [secondRowTitleBtn addTarget:self action:@selector(goDynamic) forControlEvents:UIControlEventTouchUpInside];
-//    [superView addSubview:secondRowTitleBtn];
-//    secondRowTitleBtn.backgroundColor = MAIN_NAV_COLOR_A(0.5);
-
+    CAGradientLayer *layer1 = [CAGradientLayer new];
+    layer1.colors = @[(__bridge id)MAIN_NAV_COLOR.CGColor, (__bridge id) MAIN_LINE_COLOR.CGColor];
+    layer1.startPoint = CGPointMake(0, 0);
+    layer1.endPoint = CGPointMake(1, 0);
+    layer1.frame = CGRectMake(0, 121, SCREEN_WIDTH, 40.0f);
+    [superView.layer addSublayer:layer1];
     
-    CALayer * lineLayer = [CALayer layer];
-    lineLayer.frame = CGRectMake(0, 40, SCREEN_WIDTH, 1);
-    [superView.layer addSublayer:lineLayer];
-    lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
+    UILabel * rowTitleLab1 = [[UILabel alloc]initWithFrame:CGRectMake(10, 121, 80, 40)];
+    rowTitleLab1.text = @"团队成员";
+    rowTitleLab1.textAlignment = NSTextAlignmentLeft;
+    rowTitleLab1.font = [UIFont systemFontOfSize:16];
+    [superView addSubview:rowTitleLab1];
 
-    CALayer * sLineLayer = [CALayer layer];
-    sLineLayer.frame = CGRectMake(0, 120, SCREEN_WIDTH, 1);
-    [superView.layer addSublayer:sLineLayer];
-    sLineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
-
-    UILabel * rankingTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 45, 80, 80)];
-    rankingTitleLab.text = [NSString stringWithFormat:@"圈子排名\n%@",[self.scoreDic objectForKey:@"PROCIRCLEPOSITION"]];
-    rankingTitleLab.numberOfLines = 0;
-    rankingTitleLab.textAlignment = NSTextAlignmentCenter;
-    rankingTitleLab.font = [UIFont systemFontOfSize:16];
-    [superView addSubview:rankingTitleLab];
-    
-    CALayer * detailLineLayer = [CALayer layer];
-    detailLineLayer.frame = CGRectMake(80, 80,(SCREEN_WIDTH - 80) / 5 * 3, 1);
-    [superView.layer addSublayer:detailLineLayer];
-    detailLineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
-
-    
-    for (int i = 0; i < 3; i ++ ) {
-        UILabel * detailLab = [[UILabel alloc]initWithFrame:CGRectMake(80 + (SCREEN_WIDTH - 80) / 5 * i, 40, (SCREEN_WIDTH - 80) / 5, 40)];
-        detailLab.textAlignment = NSTextAlignmentCenter;
-        detailLab.font = [UIFont systemFontOfSize:13];
-        [superView addSubview:detailLab];
-        
-        CALayer * detailLineLayer = [CALayer layer];
-        detailLineLayer.frame = CGRectMake(80+ (SCREEN_WIDTH - 80) / 5 * i, 40, 1, 80);
-        [superView.layer addSublayer:detailLineLayer];
-        detailLineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
-
-        if (i == 2) {
-            CALayer * lastLineLayer = [CALayer layer];
-            lastLineLayer.frame = CGRectMake(80+ (SCREEN_WIDTH - 80) / 5 * 3, 40, 1, 80);
-            [superView.layer addSublayer:lastLineLayer];
-            lastLineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
-        }
-        
-        UILabel * detailContentLab = [[UILabel alloc]initWithFrame:CGRectMake(80 + (SCREEN_WIDTH - 80) / 5 * i, 80, (SCREEN_WIDTH - 80) / 5, 40)];
-        detailContentLab.text = @"1234";
-        detailContentLab.textAlignment = NSTextAlignmentCenter;
-        detailContentLab.font = [UIFont systemFontOfSize:12];
-        [superView addSubview:detailContentLab];
-        
-        switch (i) {
-            case 0:
-                detailLab.text = @"回答数";
-                detailContentLab.text = [self.scoreDic objectForKey:@"ANSWERSUM"];
-                break;
-            case 1:
-                detailLab.text = @"采纳数";
-                detailContentLab.text = [self.scoreDic objectForKey:@"ANSWERTAKE"];
-                break;
-            case 2:
-                detailLab.text = @"团队积分";
-                detailContentLab.text = [self.scoreDic objectForKey:@"PROCIRCLEPOINTS"];
-                break;
-
-                
-            default:
-                break;
-        }
-    }
-    
-    UILabel * currentRankingLab = [[UILabel alloc]initWithFrame:CGRectMake(80 + (SCREEN_WIDTH - 80) / 5 * 3, 40, (SCREEN_WIDTH - 80) / 5, 80)];
-    currentRankingLab.text = @"本\n月\n成\n绩";
-    currentRankingLab.numberOfLines = 0;
-//    currentRankingLab.backgroundColor = MAIN_NAV_COLOR_A(0.5);
-    currentRankingLab.textAlignment = NSTextAlignmentCenter;
-    currentRankingLab.font = [UIFont systemFontOfSize:16];
-    [superView addSubview:currentRankingLab];
-    
-    CALayer * rankingLineLayer = [CALayer layer];
-    rankingLineLayer.frame = CGRectMake(currentRankingLab.frame.origin.x + currentRankingLab.frame.size.width - 1, 40, 1, 80);
-    [superView.layer addSublayer:rankingLineLayer];
-    rankingLineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
-    
-    UILabel * sumAnswerLab = [[UILabel alloc]initWithFrame:CGRectMake(80 + (SCREEN_WIDTH - 80) / 5 * 4, 40, (SCREEN_WIDTH - 80) / 5, 40)];
-    sumAnswerLab.text = [NSString stringWithFormat:@"回答数\n%@",[self.scoreDic objectForKey:@"MONTHANSWERSUM"]];
-    sumAnswerLab.numberOfLines = 0;
-    sumAnswerLab.textAlignment = NSTextAlignmentCenter;
-    sumAnswerLab.font = [UIFont systemFontOfSize:13];
-    [superView addSubview:sumAnswerLab];
-    
-    CALayer * sumLineLayer = [CALayer layer];
-    sumLineLayer.frame = CGRectMake(80 + (SCREEN_WIDTH - 80) / 5 * 4, 80, (SCREEN_WIDTH - 80) / 5, 1);
-    [superView.layer addSublayer:sumLineLayer];
-    sumLineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
-    
-    UILabel * sumAdoptLab = [[UILabel alloc]initWithFrame:CGRectMake(80 + (SCREEN_WIDTH - 80) / 5 * 4, 80, (SCREEN_WIDTH - 80) / 5, 40)];
-    sumAdoptLab.text = [NSString stringWithFormat:@"采纳数\n%@",[self.scoreDic objectForKey:@"MONTHANSWERTAKE"]];
-    sumAdoptLab.numberOfLines = 0;
-    sumAdoptLab.textAlignment = NSTextAlignmentCenter;
-    sumAdoptLab.font = [UIFont systemFontOfSize:13];
-    [superView addSubview:sumAdoptLab];
-
-    */
-}
-
--(void)initNewestCircleDynamics:(UIView *)superView indexPath:(NSIndexPath *)indexpath
-{
-    for (int i = 0; i < 3;  i ++) {
-        
-        CALayer * sumLineLayer = [CALayer layer];
-        sumLineLayer.frame = CGRectMake(0, kDynamicsHeight * (i + 1), SCREEN_WIDTH, 1);
-        [superView.layer addSublayer:sumLineLayer];
-        sumLineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
-
-        CALayer * vLineLayer = [CALayer layer];
-        vLineLayer.frame = CGRectMake(80, kDynamicsHeight * i, 1, kDynamicsHeight);
-        [superView.layer addSublayer:vLineLayer];
-        vLineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
-
-        
-        UILabel * timeTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(0, kDynamicsHeight * i , 80, kDynamicsHeight)];
-        timeTitleLab.text = @"10分钟前";
-        timeTitleLab.textAlignment = NSTextAlignmentCenter;
-        timeTitleLab.font = [UIFont systemFontOfSize:14];
-        [superView addSubview:timeTitleLab];
-
-    }
 }
 
 -(void)initMember:(UIView *)superView indexPath:(NSIndexPath *)indexpath
 {
-    CAGradientLayer *layer = [CAGradientLayer new];
-    layer.colors = @[(__bridge id)MAIN_NAV_COLOR.CGColor, (__bridge id) MAIN_LINE_COLOR.CGColor];
-    layer.startPoint = CGPointMake(0, 0);
-    layer.endPoint = CGPointMake(1, 0);
-    layer.frame = CGRectMake(0, 0, SCREEN_WIDTH, 40.0f);
-    [superView.layer addSublayer:layer];
+//    UIView * lineLayer = [UIView new];
+//    lineLayer.frame = CGRectMake(0, 30, SCREEN_WIDTH, 1);
+//    [superView addSubview:lineLayer];
+//    lineLayer.backgroundColor = MAIN_LINE_COLOR ;
     
-    UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 80, 40)];
-    rowTitleLab.text = @"团队成员";
-    rowTitleLab.textAlignment = NSTextAlignmentLeft;
-    rowTitleLab.font = [UIFont systemFontOfSize:16];
-    [superView addSubview:rowTitleLab];
+//    if(indexpath.row == 0){
+        UIView * fLineLayer = [UIView new];
+        fLineLayer.frame = CGRectMake(40, 0, 1, kMemberHeight * (self.memberArr.count + 1));
+        [superView addSubview:fLineLayer];
+        fLineLayer.backgroundColor = MAIN_LINE_COLOR;
+//    }
     
-    UIView * lineLayer = [UIView new];
-    lineLayer.frame = CGRectMake(0, 40, SCREEN_WIDTH, 1);
-    [superView addSubview:lineLayer];
-    lineLayer.backgroundColor = MAIN_LINE_COLOR ;
-    
-    UIView * fLineLayer = [UIView new];
-    fLineLayer.frame = CGRectMake(40, 40, 1, kMemberHeight * (self.memberArr.count + 1));
-    [superView addSubview:fLineLayer];
-    fLineLayer.backgroundColor = MAIN_LINE_COLOR;
-    
-    for (int i = 0; i < self.memberArr.count + 1;  i ++) {
-        
         UIView * sumLineLayer = [UIView new];
-        sumLineLayer.frame = CGRectMake(0, 40 + kMemberHeight * (i + 1), SCREEN_WIDTH, 1);
+        sumLineLayer.frame = CGRectMake(0, 0, SCREEN_WIDTH, 1);
         [superView addSubview:sumLineLayer];
         sumLineLayer.backgroundColor = MAIN_LINE_COLOR;
         
-        UILabel * timeTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(0,40 + kMemberHeight * i , 40, kMemberHeight)];
-        timeTitleLab.text = [NSString stringWithFormat:@"%dth",i];
+        UILabel * timeTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0 , 40, kMemberHeight)];
+        timeTitleLab.text = [NSString stringWithFormat:@"%ldth",(long)indexpath.row];
         timeTitleLab.textAlignment = NSTextAlignmentCenter;
         timeTitleLab.font = [UIFont systemFontOfSize:14];
         [superView addSubview:timeTitleLab];
         
-        if (i == 0) {
+        if (indexpath.row == 0) {
             timeTitleLab.text = @"排名";
-        }else if (i == 1){
+        }else if (indexpath.row == 1){
             timeTitleLab.text = @"1st";
-        }else if (i == 2){
+        }else if (indexpath.row == 2){
             timeTitleLab.text = @"2nd";
-        }else if (i == 3){
+        }else if (indexpath.row == 3){
             timeTitleLab.text = @"3rd";
         }
         
         for (int j = 0; j < 5; j ++ ) {
-            UILabel * contentLab = [[UILabel alloc]initWithFrame:CGRectMake(40 + (SCREEN_WIDTH - 40) / 5 * j, 40 + kMemberHeight * i , (SCREEN_WIDTH - 40) / 5, kMemberHeight)];
+            UILabel * contentLab = [[UILabel alloc]initWithFrame:CGRectMake(40 + (SCREEN_WIDTH - 40) / 5 * j, 0, (SCREEN_WIDTH - 40) / 5, kMemberHeight)];
             contentLab.textAlignment = NSTextAlignmentCenter;
             contentLab.font = [UIFont systemFontOfSize:14];
             [superView addSubview:contentLab];
@@ -520,7 +489,7 @@
             [superView addSubview:lineView];
 
             
-            if(i == 0){
+            if(indexpath.row == 0){
                 switch (j) {
                     case 0:
                         contentLab.text = @"昵称";
@@ -542,7 +511,8 @@
                         break;
                 }
             }else{
-                NSDictionary * dic = self.memberArr[i - 1];
+                NSDictionary * dic = self.memberArr[indexpath.row - 1];
+                
                 switch (j) {
                     case 0:
                     {
@@ -592,7 +562,7 @@
             }
         }
         
-    }
+    
 }
 
 #pragma mark - DELEGATE
@@ -611,6 +581,13 @@
     }
 }
 
+-(void)moreExpertBtnClck
+{
+    if([self.delegate respondsToSelector:@selector(goMoreExpertVC)]){
+        [self.delegate goMoreExpertVC];
+    }
+}
+
 -(void)goTypicalCaseDetail:(UIButton *)btn
 {
     if([self.delegate respondsToSelector:@selector(goTypicalDetail:)]){
@@ -618,7 +595,13 @@
     }
 }
 
-
+-(void)goExpertDetail:(UIButton *)btn
+{
+    if([self.delegate respondsToSelector:@selector(goTypicalDetail:)]){
+        ZEExpertModel * expertM = [ZEExpertModel getDetailWithDic:self.expertListArr[btn.tag]];
+        [self.delegate goExpertDetail:expertM];
+    }
+}
 
 /*
 // Only override drawRect: if you perform custom drawing.

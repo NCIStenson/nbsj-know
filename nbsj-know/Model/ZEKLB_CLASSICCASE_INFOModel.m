@@ -24,6 +24,8 @@ static ZEKLB_CLASSICCASE_INFOModel * model;
     model.FILENAME              = [[dic objectForKey:@"FILENAME"] componentsSeparatedByString:@","];
     
     model.FILEURL               = [[dic objectForKey:@"FILEURL"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
+    model.H5URL                 = [[dic objectForKey:@"H5URL"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
+    model.H5URLNAME             = [dic objectForKey:@"H5URLNAME"];
     
     NSArray * urlArr = [model.FILEURL componentsSeparatedByString:@","];
     NSMutableArray * imageUrlArr = [NSMutableArray arrayWithArray:urlArr];

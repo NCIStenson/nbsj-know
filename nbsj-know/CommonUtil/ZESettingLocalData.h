@@ -60,9 +60,7 @@
  *  保存是否是专家
  *
  */
-+(void)setISEXPERT:(BOOL)isExpert;
 +(BOOL)getISEXPERT;
-+(void)deleteISEXPERT;
 
 /**
  *  @author Stenson, 16-08-12 15:08:00

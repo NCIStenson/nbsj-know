@@ -100,6 +100,7 @@
 }
 
 #pragma mark - 创建班组圈发送请求
+
 -(void)sendNumbersRequest
 {
     NSDictionary * parametersDic = @{@"limit":@"-1",
@@ -177,6 +178,8 @@
         return;
     }
     
+    [self.rightBtn setEnabled:NO];
+    
     NSDictionary * parametersDic = @{@"limit":@"-1",
                                      @"MASTERTABLE":KLB_TEAMCIRCLE_INFO,
                                      @"DETAILTABLE":KLB_TEAMCIRCLE_REL_USER,
@@ -187,7 +190,7 @@
                                      @"METHOD":METHOD_INSERT,
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"TEAMCIRCLECODE",
-                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"CLASSNAME":@"com.nci.klb.app.teamcircle.TeamcircleManager",
                                      };
     
     NSDictionary * fieldsDic =@{@"TEAMCIRCLENAME":TEAMCIRCLENAME,
@@ -202,9 +205,11 @@
     for (int i = 0; i < createTeamView.numbersView.alreadyInviteNumbersArr.count; i ++) {
         ZEUSER_BASE_INFOM * userinfo = [ZEUSER_BASE_INFOM getDetailWithDic:createTeamView.numbersView.alreadyInviteNumbersArr[i]];
         NSDictionary * numbersFieldsDic = @{@"USERCODE":userinfo.USERCODE,
+                                            @"USERNAME":userinfo.USERNAME,
                                             @"USERTYPE":@"0"};
         if (i == 0) {
             numbersFieldsDic = @{@"USERCODE":userinfo.USERCODE,
+                                 @"USERNAME":userinfo.USERNAME,
                                  @"USERTYPE":@"4"};
         }
         
@@ -224,7 +229,7 @@
                                          [self showTips:@"创建成功"];
                                          [self performSelector:@selector(goBack) withObject:nil afterDelay:1.5];
                                      } fail:^(NSError *errorCode) {
-                                         
+                                         [self.rightBtn setEnabled:YES];
                                      }];
     }else{
         [ZEUserServer getDataWithJsonDic:packageDic
@@ -233,7 +238,7 @@
                                          [self showTips:@"创建成功"];
                                          [self performSelector:@selector(goBack) withObject:nil afterDelay:1.5];
                                      } fail:^(NSError *error) {
-                                         
+                                         [self.rightBtn setEnabled:YES];
                                      }];
 
     }
@@ -262,10 +267,10 @@
                                      @"ORDERSQL":@"",
                                      @"WHERESQL":@"",
                                      @"start":@"0",
-                                     @"METHOD":METHOD_UPDATE,
+                                     @"METHOD":@"GroupUserMan",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"TEAMCIRCLECODE",
-                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"CLASSNAME":@"com.nci.klb.app.teamcircle.TeamcircleManager",
                                      };
     
     NSDictionary * fieldsDic =@{@"SEQKEY":_teamCircleInfo.SEQKEY,
@@ -276,6 +281,7 @@
                                 @"TEAMCIRCLECODENAME":TEAMCIRCLECODENAME,
                                 @"SYSCREATORID":_teamCircleInfo.SYSCREATORID,
                                 @"FILEURL":@"",
+                                @"JMESSAGEGROUPID":_teamCircleInfo.JMESSAGEGROUPID,
                                 };
     if (_TEAMCODE.length > 0) {
         fieldsDic =@{@"SEQKEY":_teamCircleInfo.TEAMCODE,
@@ -286,6 +292,7 @@
                      @"TEAMCIRCLECODENAME":TEAMCIRCLECODENAME,
                      @"SYSCREATORID":_teamCircleInfo.SYSCREATORID,
                      @"FILEURL":@"",
+                     @"JMESSAGEGROUPID":_teamCircleInfo.JMESSAGEGROUPID,
                      };
     }
     
@@ -296,10 +303,12 @@
         ZEUSER_BASE_INFOM * userinfo = [ZEUSER_BASE_INFOM getDetailWithDic:_originMembersArr[i]];
         
         NSDictionary * numbersFieldsDic = @{@"USERCODE":userinfo.USERCODE,
+                                            @"USERNAME":userinfo.USERNAME,
                                             @"USERTYPE":userinfo.USERTYPE};
 
         if ([userinfo.USERTYPE integerValue] == 0) {
             numbersFieldsDic = @{@"USERCODE":userinfo.USERCODE,
+                                 @"USERNAME":userinfo.USERNAME,
                                  @"USERTYPE":@"0"};
         }
         [tableArr addObject:KLB_TEAMCIRCLE_REL_USER];
@@ -348,21 +357,24 @@
                                      @"ORDERSQL":@"",
                                      @"WHERESQL":@"",
                                      @"start":@"0",
-                                     @"METHOD":METHOD_UPDATE,
+                                     @"METHOD":@"groupUserCheck",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"CLASSNAME":@"com.nci.klb.app.teamcircle.TeamcircleManager",
+                                     @"GROUPID":_teamCircleInfo.JMESSAGEGROUPID,
                                      };
     
     NSDictionary * fieldsDic =@{@"SEQKEY":userinfo.SEQKEY,
                                 @"USERCODE":userinfo.USERCODE,
+                                @"USERNAME":userinfo.USERNAME,
                                 @"TEAMCIRCLECODE":_teamCircleInfo.SEQKEY,
-                                @"USERTYPE":@"1"};
+                                @"USERTYPE":@"0"};
     if (_TEAMCODE.length > 0) {
         fieldsDic =@{@"SEQKEY":userinfo.SEQKEY,
                      @"USERCODE":userinfo.USERCODE,
+                     @"USERNAME":userinfo.USERNAME,
                      @"TEAMCIRCLECODE":_TEAMCODE,
-                     @"USERTYPE":@"1"};
+                     @"USERTYPE":@"0"};
     }
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_TEAMCIRCLE_REL_USER]
                                                                            withFields:@[fieldsDic]
@@ -446,10 +458,11 @@
                                      @"ORDERSQL":@"",
                                      @"WHERESQL":@"",
                                      @"start":@"0",
-                                     @"METHOD":METHOD_DELETE,
+                                     @"METHOD":@"GroupUserQuit",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"CLASSNAME":@"com.nci.klb.app.teamcircle.TeamcircleManager",
+                                     @"GROUPID":_teamCircleInfo.JMESSAGEGROUPID,
                                      };
     
     NSDictionary * fieldsDic =@{@"SEQKEY":userinfo.SEQKEY,};

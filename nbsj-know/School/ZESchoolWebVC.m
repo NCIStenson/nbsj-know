@@ -76,10 +76,17 @@
         
         webView.hidden = YES;
         
-        UIImageView * sexImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, SCREEN_WIDTH - 40)];
-        sexImage.center = self.view.center;
-        sexImage.image = [UIImage imageNamed:@"qrcode.png"];
-        [self.view addSubview:sexImage];
+        UIImageView * qrcodeImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, SCREEN_WIDTH - 40)];
+        qrcodeImg.center = CGPointMake(self.view.center.x, self.view.center.y - 20);
+        qrcodeImg.image = [UIImage imageNamed:@"qrcode.png"];
+        [self.view addSubview:qrcodeImg];
+        
+        UILabel * qrcodeLab = [[UILabel alloc]initWithFrame:CGRectMake(0, qrcodeImg.top + qrcodeImg.height , SCREEN_WIDTH, 30.0f)];
+        qrcodeLab.text = @"扫一扫下载安装";
+        qrcodeLab.font = [UIFont boldSystemFontOfSize:22];
+        qrcodeLab.textColor = kTextColor;
+        qrcodeLab.textAlignment = NSTextAlignmentCenter;
+        [self.view addSubview:qrcodeLab];
     }
 }
 

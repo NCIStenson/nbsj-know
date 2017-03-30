@@ -47,7 +47,7 @@
 
 -(void)webViewDidStartLoad:(UIWebView *)webView
 {
-    [MBProgressHUD showHUDAddedTo:webView animated:YES];
+//    [MBProgressHUD showHUDAddedTo:webView animated:YES];
 }
 -(void)webViewDidFinishLoad:(UIWebView *)webView
 {

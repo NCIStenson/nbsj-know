@@ -107,6 +107,7 @@
                                 @"EXPERTTYPE":@"",
                                 @"STATUS":@"",
                                 @"EXPERTFRADE":@"",
+                                @"ISEXPERT":@"",
                                 @"USERACCOUNT":username,
                                 @"FILEURL":@""};
     

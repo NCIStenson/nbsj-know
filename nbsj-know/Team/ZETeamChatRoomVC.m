@@ -8,8 +8,10 @@
 
 #import "ZETeamChatRoomVC.h"
 //#import <JMUIChattingKit/JMUIMessageTableViewCell.h>
-@interface ZETeamChatRoomVC ()
-
+@interface ZETeamChatRoomVC ()<PYPhotoBrowseViewDelegate>
+{
+    PYPhotoBrowseView * browseView;
+}
 @end
 
 @implementation ZETeamChatRoomVC
@@ -22,6 +24,8 @@
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+
+    self.title = _teamcircleModel.TEAMCIRCLENAME;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showChatImage:) name:kJMESSAGE_TAP_IMAGE object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPersonalMessage:) name:kJMESSAGE_TAP_HEADVIEW object:nil];
@@ -40,24 +44,33 @@
 
 - (void)showChatImage:(NSNotification *)noti
 {
-    
-    NSLog(@"展示聊天图片。。。");
-    
     UIImage * image = noti.object;
-    PYPhotoBrowseView * browseView = [[PYPhotoBrowseView alloc]initWithFrame:self.view.frame];
+    browseView = [[PYPhotoBrowseView alloc]initWithFrame:self.view.frame];
     browseView.images = @[image];
+    browseView.delegate = self;
     [browseView show];
-    
-//     TODO: get image model
-//      JMUIChatModel *model = tableViewCell.model;
-//      [_messageDatasource getImageIndex:model];   //获得点击图片所在图片的位置
-//      _messageDatasource.imgMsgModelArr;  // 当前会话所有显示的图片 model（JMUIChatModel）
-//    NSLog(@"tap image content");
+}
+
+- (void)photoBrowseView:(PYPhotoBrowseView *)photoBrowseView willShowWithImages:(NSArray *)images index:(NSInteger)index
+{
+    self.navigationController.navigationBar.hidden = YES;
+}
+
+-(void)photoBrowseView:(PYPhotoBrowseView *)photoBrowseView didSingleClickedImage:(UIImage *)image index:(NSInteger)index
+{
+    self.navigationController.navigationBar.hidden = NO;
+    [browseView hidden];
 }
 
 -(void)showPersonalMessage:(NSNotification *)noti
 {
-    NSLog(@" 点击用户头像     >>>>>>>>  %@",noti.object);
+    if([noti.object isKindOfClass:[NSDictionary class]]){
+        MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud3.mode = MBProgressHUDModeText;
+        hud3.labelText = [NSString stringWithFormat:@"%@",[noti.object objectForKey:@"NICKNAME"]];
+        hud3.detailsLabelText = [noti.object objectForKey:@"USERNAME"];
+        [hud3 hide:YES afterDelay:1.5];
+    }
 }
 
 

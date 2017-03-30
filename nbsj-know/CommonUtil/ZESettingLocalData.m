@@ -159,20 +159,10 @@ static NSString * kUSERINFODic      = @"kUSERINFODic";
 }
 
 #pragma mark - ISEXPERT
-+(void)setISEXPERT:(BOOL)isExpert
-{
-    [self Set:kISEXPERT value:[NSString stringWithFormat:@"%d",isExpert]];
-
-}
 +(BOOL)getISEXPERT
 {
-    return [[self Get:kISEXPERT] boolValue];
+    return [[[self getUSERINFO] objectForKey:@"ISEXPERT"] boolValue];
 }
-+(void)deleteISEXPERT
-{
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kISEXPERT];
-}
-
 #pragma mark - USERINFODic
 +(void)setUSERINFODic:(NSDictionary *)userinfo
 {
@@ -217,7 +207,6 @@ static NSString * kUSERINFODic      = @"kUSERINFODic";
     [ZESettingLocalData deleteUSERNAME];
     [ZESettingLocalData deleteUSERPASSWORD];
     [ZESettingLocalData deleteUSERCODE];
-    [ZESettingLocalData deleteISEXPERT];
     [ZESettingLocalData deleteUSERINFODic];
 }
 

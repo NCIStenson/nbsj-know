@@ -31,7 +31,6 @@
     queryNumberView.delegate = self;
     [self.view addSubview:queryNumberView];
     queryNumberView.alreadyInviteNumbersArr = [NSMutableArray arrayWithArray:self.alreadyInviteNumbersArr];
-    
 }
 
 -(void)goBack

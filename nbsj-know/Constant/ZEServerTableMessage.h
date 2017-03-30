@@ -25,8 +25,10 @@
 #define V_KLB_QUESTION_INFO            @"V_KLB_QUESTION_INFO"             /***   知识库问题信息视图   ***/
 #define KLB_CLASSICCASE_INFO            @"KLB_CLASSICCASE_INFO"             /***   经典案例表   ***/
 #define V_KLB_CLASSICCASE_INFO            @"V_KLB_CLASSICCASE_INFO"             /***   经典案例视图   ***/
-#define KLB_CLASSICCASE_COMMENT            @"KLB_CLASSICCASE_COMMENT"             /***   经典案例评论表   ***/
+#define V_KLB_CLASSICCASE_INFO            @"V_KLB_CLASSICCASE_INFO"             /***   经典案例视图   ***/
+#define KLB_EXPERT_DETAIL            @"KLB_EXPERT_DETAIL"             /***      ***/
 #define V_KLB_CLASSICCASE_COMMENT            @"V_KLB_CLASSICCASE_COMMENT"             /***   经典案例评论表   ***/
+#define KLB_CLASSICCASE_COMMENT            @"KLB_CLASSICCASE_COMMENT"             /***   经典案例评论表   ***/
 #define KLB_CLASSICCASE_SCORE            @"KLB_CLASSICCASE_SCORE"             /***   经典案例评分表   ***/
 #define KLB_CLASSICCASE_COLLECT            @"KLB_CLASSICCASE_COLLECT"             /***   经典案例收藏表 ***/
 #define V_KLB_CLASSICCASE_COLLECT            @"V_KLB_CLASSICCASE_COLLECT"             /***   经典案例收藏表 ***/

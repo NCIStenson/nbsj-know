@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ZESettingRootVC.h"
 #import <JMUIChattingKit/JMUIChattingViewController.h>
+#import "ZETeamCircleModel.h"
 
 @interface ZETeamChatRoomVC : JMUIConversationViewController
+
+@property (nonatomic,strong) ZETeamCircleModel * teamcircleModel;
 
 @end

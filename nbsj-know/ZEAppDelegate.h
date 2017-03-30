@@ -25,7 +25,6 @@
 // 如果需要使用idfa功能所需要引入的头文件（可选）
 //#import <AdSupport/AdSupport.h>
 
-
 @interface ZEAppDelegate : UIResponder <UIApplicationDelegate,JPUSHRegisterDelegate,JMessageDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

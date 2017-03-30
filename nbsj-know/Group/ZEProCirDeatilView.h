@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "ZEExpertModel.h"
 @class ZEProCirDetailView;
 @protocol ZEProCirDeatilViewDelegate <NSObject>
 
@@ -31,6 +31,19 @@
  */
 -(void)goTypicalDetail:(NSDictionary *)detailDic;
 
+
+/**
+ 更多专家
+ */
+-(void)goMoreExpertVC;
+
+
+/**
+ 专家详情界面
+
+ @param detailDic <#detailDic description#>
+ */
+-(void)goExpertDetail:(ZEExpertModel *)expertM;
 @end
 
 @interface ZEProCirDeatilView : UIView
@@ -44,5 +57,7 @@
           memberData:(id)data;
 
 -(void)reloadCaseView:(NSArray *)arr;
+
+-(void)reloadExpertView:(NSArray *)arr;
 
 @end
