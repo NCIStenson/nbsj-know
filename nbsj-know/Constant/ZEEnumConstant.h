@@ -23,6 +23,7 @@ typedef enum:NSInteger{
     QUESTION_LIST_EXPERT,       // 专家解答
     QUESTION_LIST_CASE,         // 经典案例列表
     QUESTION_LIST_RECOMMAND,    // 推荐列表
+    QUESTION_LIST_EXPERTLIST,    // 推荐列表
 }QUESTION_LIST;
 
 typedef enum : NSUInteger {

@@ -14,6 +14,8 @@
 
 #import "ZETeamCircleModel.h"
 
+#import "ZEFindTeamVC.h"
+
 #define textViewStr @"请输入团队宣言（不超过20字）"
 #define textViewProfileStr @"请输入团队简介，建议不超过100字！"
 
@@ -499,9 +501,11 @@
                                      @"CLASSNAME":@"com.nci.klb.app.teamcircle.TeamcircleManager",
                                      };
     
-    NSDictionary * fieldsDic =@{@"SEQKEY":_teamCircleInfo.SEQKEY};
+    NSDictionary * fieldsDic =@{@"SEQKEY":_teamCircleInfo.SEQKEY,
+                                @"JMESSAGEGROUPID":_teamCircleInfo.JMESSAGEGROUPID};
     if (_TEAMSEQKEY.length > 0) {
-        fieldsDic =@{@"SEQKEY":_TEAMCODE};
+        fieldsDic =@{@"SEQKEY":_TEAMCODE,
+                     @"JMESSAGEGROUPID":_teamCircleInfo.JMESSAGEGROUPID};
     }
     
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_TEAMCIRCLE_INFO]
@@ -513,12 +517,23 @@
                        showAlertView:YES
                              success:^(id data) {
                                  [self showTips:@"解散团队成功"];
-                                 [self.navigationController popViewControllerAnimated:YES];
+                                 [self goBackVC];
                              } fail:^(NSError *error) {
                                  
                              }];
 }
 
+-(void)goBackVC
+{
+    for (UIViewController *viewCtl in self.navigationController.viewControllers) {
+        if([viewCtl isKindOfClass:[ZEFindTeamVC class]]){
+            [self.navigationController popToViewController:viewCtl animated:YES];
+            return;
+        }
+    }
+    
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 #pragma mark - 上传头像
 

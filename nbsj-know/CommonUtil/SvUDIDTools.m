@@ -187,13 +187,13 @@ static const char kKeyChainUDIDAccessGroup[] = "YOURAPPID.com.cnblogs.smileEvday
     queryErr = SecItemCopyMatching((CFDictionaryRef)dictForQuery, (CFTypeRef*)&dict);
     
     if (queryErr == errSecItemNotFound) {
-        NSLog(@"KeyChain Item: %@ not found!!!", [NSString stringWithUTF8String:kKeychainUDIDItemIdentifier]);
+//        NSLog(@"KeyChain Item: %@ not found!!!", [NSString stringWithUTF8String:kKeychainUDIDItemIdentifier]);
     }
     else if (queryErr != errSecSuccess) {
-        NSLog(@"KeyChain Item query Error!!! Error code:%ld", (long)queryErr);
+//        NSLog(@"KeyChain Item query Error!!! Error code:%ld", (long)queryErr);
     }
     if (queryErr == errSecSuccess) {
-        NSLog(@"KeyChain Item: %@", udidValue);
+//        NSLog(@"KeyChain Item: %@", udidValue);
         
         if (udidValue) {
             udid = [NSString stringWithUTF8String:udidValue.bytes];

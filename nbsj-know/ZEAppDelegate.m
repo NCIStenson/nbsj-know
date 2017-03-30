@@ -24,7 +24,6 @@
 
 @implementation ZEAppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         
     // Override point for customization after application launch.
@@ -75,9 +74,10 @@
            apsForProduction:NO
                    category:nil];
     [JMessage addDelegate:self withConversation:nil];
+    [JMessage setDebugMode];
 
-    NSLog(@"%@",NSHomeDirectory());
-    NSLog(@"%@",Zenith_Server);
+//    NSLog(@"%@",NSHomeDirectory());
+//    NSLog(@"%@",Zenith_Server);
     
     return YES;
 }
@@ -196,7 +196,8 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
             
             
         case kJMSGEventNotificationLoginKicked:
-            NSLog(@"LoginKicked Notification Event ");
+            [self goLoginVC:@"您的账号在其他设备登录，请重新登录"];
+            break;
         case kJMSGEventNotificationServerAlterPassword:{
             if (event.eventType == kJMSGEventNotificationServerAlterPassword) {
                 NSLog(@"AlterPassword Notification Event ");
@@ -205,18 +206,6 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
             if (event.eventType == kJMSGEventNotificationServerAlterPassword) {
                 NSLog(@"User login status unexpected Notification Event ");
             }
-            //  退出成功注销JPush别名
-            if ([ZESettingLocalData getUSERCODE] > 0) {
-                [JPUSHService setTags:nil alias:@"" fetchCompletionHandle:^(int iResCode, NSSet *iTags, NSString *iAlias) {
-                    if (iResCode == 0) {//对应的状态码返回为0，代表成功
-                        [[NSNotificationCenter defaultCenter] removeObserver:self name:kJPFNetworkDidLoginNotification object:nil];
-                    }
-                }];
-            }
-            [ZESettingLocalData clearLocalData];
-            [[ZEQuestionTypeCache instance] clear];
-            [self goLoginVC:@"您的账号已在其他设备登录，请重新登录"];
-            
         }
             break;
             
@@ -271,12 +260,34 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
                            }
                        } fail:^(NSError *errorCode) {
                        }];
+    
+//    NSLog(@" =======  %@",    [JMSGUser myInfo].username);
+//    
+//    [JMSGUser loginWithUsername:username password:@"1234" completionHandler:^(id resultObject, NSError *error) {
+//        NSLog(@"====================  %@ ",error);
+//    }];
+    
 }
 -(void)goLoginVC:(NSString *)str
 {
+    //  退出成功注销JPush别名
+    if ([ZESettingLocalData getUSERCODE] > 0) {
+        [JPUSHService setTags:nil alias:@"" fetchCompletionHandle:^(int iResCode, NSSet *iTags, NSString *iAlias) {
+            if (iResCode == 0) {//对应的状态码返回为0，代表成功
+                [[NSNotificationCenter defaultCenter] removeObserver:self name:kJPFNetworkDidLoginNotification object:nil];
+            }
+        }];
+    }
+    [ZESettingLocalData clearLocalData];
+    [JMSGUser logout:^(id resultObject, NSError *error) {
+        
+    }];
+
     ZELoginViewController * loginVC = [[ZELoginViewController alloc]init];
     self.window.rootViewController = loginVC;
-    [ZEUtil showAlertView:str viewController:loginVC];
+    if (str.length > 0) {
+        [ZEUtil showAlertView:str viewController:loginVC];
+    }
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication*)application

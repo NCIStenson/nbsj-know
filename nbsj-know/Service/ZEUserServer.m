@@ -102,7 +102,6 @@
                                                }];
 }
 +(void)operationFailed
-
 {
     UIAlertController * alertC = [UIAlertController alertControllerWithTitle:nil message:@"操作失败!" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {

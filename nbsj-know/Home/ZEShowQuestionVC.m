@@ -161,9 +161,9 @@
         [self sendMyAnswerRequestWithCondition:searchCondition];
         return;
     }else if (_showQuestionListType == QUESTION_LIST_EXPERT){
-        searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and ISEXPERTANSWER = 1 and QUESTIONEXPLAIN like '%%%@%%'",searchStr];
+        searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONEXPLAIN like '%%%@%%' and EXPERTUSERCODE like '%%%@%%'",searchStr,_expertModel.USERCODE];
         if (![ZEUtil isStrNotEmpty:searchStr]) {
-            searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and ISEXPERTANSWER = 1  and QUESTIONEXPLAIN like '%%'"];
+            searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and EXPERTUSERCODE like '%%%@%%'",_expertModel.USERCODE];
         }
     }else if (_showQuestionListType == QUESTION_LIST_CASE){
         searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONLEVEL = 2 and QUESTIONEXPLAIN like '%%%@%%'",searchStr];

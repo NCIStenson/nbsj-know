@@ -280,6 +280,9 @@
 		98B13C431E6E9996006C783B /* MKJOverLayLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B13C3B1E6E9996006C783B /* MKJOverLayLayout.m */; };
 		98B13C461E6E99E8006C783B /* NSArray+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B13C451E6E99E8006C783B /* NSArray+Extension.m */; };
 		98B1DA741E8B525F00CB6815 /* ZEExpertModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B1DA731E8B525F00CB6815 /* ZEExpertModel.m */; };
+		98B8FCA01E8D22340059D6F3 /* icon_circle_first.png in Resources */ = {isa = PBXBuildFile; fileRef = 98B8FC9D1E8D22340059D6F3 /* icon_circle_first.png */; };
+		98B8FCA11E8D22340059D6F3 /* icon_circle_second.png in Resources */ = {isa = PBXBuildFile; fileRef = 98B8FC9E1E8D22340059D6F3 /* icon_circle_second.png */; };
+		98B8FCA21E8D22340059D6F3 /* icon_circle_third.png in Resources */ = {isa = PBXBuildFile; fileRef = 98B8FC9F1E8D22340059D6F3 /* icon_circle_third.png */; };
 		98D42BB51DC70D27003A3812 /* ZETypicalCaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D42BB41DC70D27003A3812 /* ZETypicalCaseVC.m */; };
 		98D42BB81DC70DCD003A3812 /* ZETypicalCaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D42BB71DC70DCD003A3812 /* ZETypicalCaseView.m */; };
 		98D42BCF1DC73FBB003A3812 /* course_score_number@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98D42BC71DC73FBB003A3812 /* course_score_number@2x.png */; };
@@ -746,6 +749,9 @@
 		98B13C451E6E99E8006C783B /* NSArray+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Extension.m"; sourceTree = "<group>"; };
 		98B1DA721E8B525F00CB6815 /* ZEExpertModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEExpertModel.h; path = Group/EXPERT/ZEExpertModel.h; sourceTree = "<group>"; };
 		98B1DA731E8B525F00CB6815 /* ZEExpertModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEExpertModel.m; path = Group/EXPERT/ZEExpertModel.m; sourceTree = "<group>"; };
+		98B8FC9D1E8D22340059D6F3 /* icon_circle_first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_circle_first.png; sourceTree = "<group>"; };
+		98B8FC9E1E8D22340059D6F3 /* icon_circle_second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_circle_second.png; sourceTree = "<group>"; };
+		98B8FC9F1E8D22340059D6F3 /* icon_circle_third.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_circle_third.png; sourceTree = "<group>"; };
 		98D42BB31DC70D27003A3812 /* ZETypicalCaseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZETypicalCaseVC.h; path = Home/ZETypicalCaseVC.h; sourceTree = "<group>"; };
 		98D42BB41DC70D27003A3812 /* ZETypicalCaseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZETypicalCaseVC.m; path = Home/ZETypicalCaseVC.m; sourceTree = "<group>"; };
 		98D42BB61DC70DCD003A3812 /* ZETypicalCaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZETypicalCaseView.h; path = Home/ZETypicalCaseView.h; sourceTree = "<group>"; };
@@ -987,6 +993,7 @@
 				985C28591E83AD85004DDE37 /* icon_team_delete@2x.png */,
 				985C28571E83AC4C004DDE37 /* icon_team_delete@3x.png */,
 				985C285D1E84CC3E004DDE37 /* icon_team_discuss@2x.png */,
+				98B8FCA31E8D22390059D6F3 /* icon_circle */,
 				9831B03B1E602C5C00729BA8 /* icon_type */,
 				9831AF5D1E5FF6CF00729BA8 /* loginVC */,
 				986FE32E1E51796400D0756A /* delete_photo.png */,
@@ -1581,6 +1588,16 @@
 			path = CustomViews;
 			sourceTree = "<group>";
 		};
+		98B8FCA31E8D22390059D6F3 /* icon_circle */ = {
+			isa = PBXGroup;
+			children = (
+				98B8FC9D1E8D22340059D6F3 /* icon_circle_first.png */,
+				98B8FC9E1E8D22340059D6F3 /* icon_circle_second.png */,
+				98B8FC9F1E8D22340059D6F3 /* icon_circle_third.png */,
+			);
+			name = icon_circle;
+			sourceTree = "<group>";
+		};
 		98D42BC61DC73FBB003A3812 /* ClassicalCase */ = {
 			isa = PBXGroup;
 			children = (
@@ -1825,6 +1842,7 @@
 				982300261E78EB6200DD02B1 /* icon_addTeam_1.png in Resources */,
 				9831B0091E60113600729BA8 /* icon_girl@3x.png in Resources */,
 				9831AF6D1E5FF6CF00729BA8 /* Layer-14@3x.png in Resources */,
+				98B8FCA11E8D22340059D6F3 /* icon_circle_second.png in Resources */,
 				983D47CB1DCC2B1100D61BC9 /* fast_forward_nor@2x.png in Resources */,
 				98DB7C591C4F554E0046D405 /* Main.storyboard in Resources */,
 				9831B0571E602C5C00729BA8 /* 国家电网Logo@3x.png in Resources */,
@@ -1896,6 +1914,7 @@
 				989B2C531C4DE7AA00F14EFA /* Assets.xcassets in Resources */,
 				9831B01E1E60113600729BA8 /* post_normal@2x.png in Resources */,
 				9831AF691E5FF6CF00729BA8 /* login_background@3x.png in Resources */,
+				98B8FCA21E8D22340059D6F3 /* icon_circle_third.png in Resources */,
 				9831AF6C1E5FF6CF00729BA8 /* Layer-14@2x.png in Resources */,
 				982ED4371D48517600F87343 /* icon_search@2x.png in Resources */,
 				987ACBC21D49E08F006D692E /* rateTa@2x.png in Resources */,
@@ -1940,6 +1959,7 @@
 				98F094241D49DB11002D4E3B /* avatar_default.jpg in Resources */,
 				9831B0281E60113600729BA8 /* icon_home@2x.png in Resources */,
 				986FE32F1E51796400D0756A /* delete_photo.png in Resources */,
+				98B8FCA01E8D22340059D6F3 /* icon_circle_first.png in Resources */,
 				9861B5E91E5533D40095EE2C /* logo.png in Resources */,
 				981475581E7958C70019DA79 /* reduceimage@2x.png in Resources */,
 				98D42BD11DC73FBB003A3812 /* course_score_number_selectd@2x.png in Resources */,
@@ -2387,7 +2407,7 @@
 				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = "com.zenithElec.know-Debug";
-				ZENITH_SERVER = "http://192.168.1.175:8080/nbsjzd";
+				ZENITH_SERVER = "http://117.149.2.229:1622/emarkspg_nbsjzd";
 			};
 			name = Debug;
 		};
@@ -2458,7 +2478,7 @@
 				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = com.zenithElec.know;
-				ZENITH_SERVER = "http://192.168.1.175:8080/nbsjzd";
+				ZENITH_SERVER = "http://117.149.2.229:1622/emarkspg_nbsjzd";
 			};
 			name = Release;
 		};

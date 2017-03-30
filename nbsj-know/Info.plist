@@ -47,7 +47,11 @@
 		</dict>
 	</dict>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>获取您的相册权限，用于提交保存在手机中的相关图片</string>
+	<string>应用需要访问您的相册权限</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>应用需要访问您的录音权限</string>
+	<key>NSCameraUsageDescription</key>
+	<string>应用需要访问您的相机权限</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

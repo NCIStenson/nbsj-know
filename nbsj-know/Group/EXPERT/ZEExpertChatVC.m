@@ -8,7 +8,7 @@
 
 #import "ZEExpertChatVC.h"
 
-@interface ZEExpertChatVC ()
+@interface ZEExpertChatVC ()<PYPhotoBrowseViewDelegate>
 {
     PYPhotoBrowseView * browseView;
 }

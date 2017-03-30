@@ -23,6 +23,7 @@
 @interface ZEUserCenterVC ()<ZEUserCenterViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 {
     ZEUserCenterView * usView;
+    UIImage * _choosedImage;
 }
 @end
 
@@ -186,7 +187,7 @@
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
-    UIImage * _choosedImage = [info objectForKey:@"UIImagePickerControllerEditedImage"];
+    _choosedImage = [info objectForKey:@"UIImagePickerControllerEditedImage"];
     [self dismissViewControllerAnimated:YES completion:nil];
     
     NSDictionary * parametersDic = @{@"limit":@"20",
@@ -213,7 +214,7 @@
                             withImageArr:@[_choosedImage]
                            showAlertView:YES
                                  success:^(id data) {
-                                         NSArray * arr = [ZEUtil getServerData:data withTabelName:KLB_USER_BASE_INFO];
+                                    NSArray * arr = [ZEUtil getServerData:data withTabelName:KLB_USER_BASE_INFO];
                                      if (arr.count > 0) {
                                          [self getHeadImgUrl];
                                      }
@@ -251,11 +252,24 @@
                                          NSArray * headUrlArr = [[arr[0] objectForKey:@"FILEURL"] componentsSeparatedByString:@","];
                                          [ZESettingLocalData changeUSERHHEADURL:headUrlArr[1]];
                                          [usView reloadHeaderB];
+                                         [self updataJMESSAGEAvatar];
                                      }
                                  }
                              }
                                 fail:^(NSError *error) {
                                    }];
+}
+
+-(void)updataJMESSAGEAvatar
+{
+    
+    [JMSGUser updateMyInfoWithParameter:UIImageJPEGRepresentation(_choosedImage, 1) userFieldType:kJMSGUserFieldsAvatar completionHandler:^(id resultObject, NSError *error) {
+        if (!error) {
+            //updateMyInfoWithPareter success
+        } else {
+            //updateMyInfoWithPareter fail
+        }
+    }];
 }
 
 -(void)goSinginVC

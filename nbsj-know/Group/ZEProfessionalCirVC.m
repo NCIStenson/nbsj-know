@@ -269,31 +269,27 @@
         [contentImage sd_setImageWithURL:ZENITH_ICON_IMAGEURL(ICOPATH(self.datasArr[indexPath.row])) placeholderImage:ZENITH_PLACEHODLER_IMAGE];
         [contentLab setText:PROCIRCLENAME(self.datasArr[indexPath.row])];
 
-        UILabel * listLabel;
-        listLabel = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 50, 0, 30, 44.0f)];
-        [cell.contentView addSubview:listLabel];
-        listLabel.font = [UIFont systemFontOfSize:14];
-        listLabel.textAlignment = NSTextAlignmentCenter;
+        UIImageView * rankingImageView;
+        rankingImageView = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 50, 7, 30, 30.0f)];
+        [cell.contentView addSubview:rankingImageView];
+        rankingImageView.contentMode = UIViewContentModeScaleAspectFit;
 
         switch (indexPath.row) {
             case 0:
-                listLabel.text = @"1st";
-                listLabel.textColor = [UIColor redColor];
+                rankingImageView.image = [UIImage imageNamed:@"icon_circle_first"];
                 break;
             case 1:
-                listLabel.text = @"2nd";
-                listLabel.textColor = [UIColor blueColor];
+                rankingImageView.image = [UIImage imageNamed:@"icon_circle_second"];
                 break;
             case 2:
-                listLabel.text = @"3rd";
-                listLabel.textColor = [UIColor greenColor];
+                rankingImageView.image = [UIImage imageNamed:@"icon_circle_third"];
                 break;
                 
             default:
                 break;
         }
         if (_enter_group_type == ENTER_GROUP_TYPE_SETTING) {
-            listLabel.hidden = YES;
+            rankingImageView.hidden = YES;
         }
         for (int k = 0; k < self.myCircleArr.count ; k ++) {
             NSDictionary * myCircleDic = self.myCircleArr[k];

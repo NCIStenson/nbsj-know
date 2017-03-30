@@ -115,10 +115,6 @@
             }
         }];
         [JMSGUser logout:^(id resultObject, NSError *error) {
-            if(!error){
-                
-            }else{
-            }
         }];
     }
     [ZESettingLocalData clearLocalData];

@@ -9,6 +9,8 @@
 #import "ZEExpertDetailVC.h"
 #import "ZEButton.h"
 #import "ZEExpertChatVC.h"
+#import "ZEShowQuestionVC.h"
+
 @interface ZEExpertDetailVC ()
 
 @end
@@ -105,6 +107,8 @@
 -(void)didSelectMyOption:(UIButton *)btn
 {    
     if (btn.tag == 101) {
+        [self showTips:@"功能建设中"];
+        return;
         JMSGConversation *conversation = [JMSGConversation singleConversationWithUsername:_expertModel.USERCODE];
         if (conversation == nil) {
             [self showTips:@"获取会话" afterDelay:1.5];
@@ -127,6 +131,11 @@
             conversationVC.expertModel = _expertModel;
             [self.navigationController pushViewController:conversationVC animated:YES];
         }
+    }else if (btn.tag == 100){
+        ZEShowQuestionVC * showQuesVC = [[ZEShowQuestionVC alloc]init];
+        showQuesVC.showQuestionListType = QUESTION_LIST_EXPERT;
+        showQuesVC.expertModel = _expertModel;
+        [self.navigationController pushViewController:showQuesVC animated:YES];
     }
     
 }
