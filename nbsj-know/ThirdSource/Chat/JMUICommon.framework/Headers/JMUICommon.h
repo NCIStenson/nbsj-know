@@ -19,5 +19,4 @@
 #import <JMUICommon/XHVoiceRecordHUD.h>
 #import <JMUICommon/XHVoiceRecordHelper.h>
 #import <JMUICommon/XHVoiceCommonHelper.h>
-#import <JMUICommon/MBProgressHUD.h>
 #endif /* JMUICommon_h */

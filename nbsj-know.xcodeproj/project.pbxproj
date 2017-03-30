@@ -283,6 +283,7 @@
 		98B8FCA01E8D22340059D6F3 /* icon_circle_first.png in Resources */ = {isa = PBXBuildFile; fileRef = 98B8FC9D1E8D22340059D6F3 /* icon_circle_first.png */; };
 		98B8FCA11E8D22340059D6F3 /* icon_circle_second.png in Resources */ = {isa = PBXBuildFile; fileRef = 98B8FC9E1E8D22340059D6F3 /* icon_circle_second.png */; };
 		98B8FCA21E8D22340059D6F3 /* icon_circle_third.png in Resources */ = {isa = PBXBuildFile; fileRef = 98B8FC9F1E8D22340059D6F3 /* icon_circle_third.png */; };
+		98B8FCA81E8D2F880059D6F3 /* RecordViewResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 98B8FCA71E8D2F880059D6F3 /* RecordViewResources.bundle */; };
 		98D42BB51DC70D27003A3812 /* ZETypicalCaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D42BB41DC70D27003A3812 /* ZETypicalCaseVC.m */; };
 		98D42BB81DC70DCD003A3812 /* ZETypicalCaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D42BB71DC70DCD003A3812 /* ZETypicalCaseView.m */; };
 		98D42BCF1DC73FBB003A3812 /* course_score_number@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98D42BC71DC73FBB003A3812 /* course_score_number@2x.png */; };
@@ -752,6 +753,7 @@
 		98B8FC9D1E8D22340059D6F3 /* icon_circle_first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_circle_first.png; sourceTree = "<group>"; };
 		98B8FC9E1E8D22340059D6F3 /* icon_circle_second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_circle_second.png; sourceTree = "<group>"; };
 		98B8FC9F1E8D22340059D6F3 /* icon_circle_third.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_circle_third.png; sourceTree = "<group>"; };
+		98B8FCA71E8D2F880059D6F3 /* RecordViewResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = RecordViewResources.bundle; sourceTree = "<group>"; };
 		98D42BB31DC70D27003A3812 /* ZETypicalCaseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZETypicalCaseVC.h; path = Home/ZETypicalCaseVC.h; sourceTree = "<group>"; };
 		98D42BB41DC70D27003A3812 /* ZETypicalCaseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZETypicalCaseVC.m; path = Home/ZETypicalCaseVC.m; sourceTree = "<group>"; };
 		98D42BB61DC70DCD003A3812 /* ZETypicalCaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZETypicalCaseView.h; path = Home/ZETypicalCaseView.h; sourceTree = "<group>"; };
@@ -1381,6 +1383,7 @@
 		988C10591E8A3257006795F0 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				98B8FCA71E8D2F880059D6F3 /* RecordViewResources.bundle */,
 				988C105A1E8A3257006795F0 /* JMUIChattingKit.framework */,
 				988C105B1E8A3257006795F0 /* JMUIChattingKitResource.bundle */,
 				988C105C1E8A3257006795F0 /* JMUICommon.framework */,
@@ -1829,6 +1832,7 @@
 				98A1D5751DF558D000D92333 /* bubble_right@2x.png in Resources */,
 				9831B0651E602C5C00729BA8 /* 运营@3x.png in Resources */,
 				982ED4311D48517600F87343 /* icon_back@2x.png in Resources */,
+				98B8FCA81E8D2F880059D6F3 /* RecordViewResources.bundle in Resources */,
 				989AA6821D4F33E400A08022 /* TLdown@2x.png in Resources */,
 				9831AF6A1E5FF6CF00729BA8 /* icon修改1@2x.png in Resources */,
 				9896637B1E8B5F4700F42906 /* icon_expert_history@3x.png in Resources */,
