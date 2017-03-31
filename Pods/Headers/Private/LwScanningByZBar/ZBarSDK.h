@@ -1,1 +1,0 @@
-../../../LwScanningByZBar/Pod/Classes/ZBarSDK/Headers/ZBarSDK/ZBarSDK.h

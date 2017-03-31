@@ -1,1 +1,0 @@
-../../../LwScanningByZBar/Pod/Classes/QRCostom/RecognizeViewController.h
