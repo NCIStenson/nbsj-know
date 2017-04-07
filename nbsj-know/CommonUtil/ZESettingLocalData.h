@@ -93,6 +93,8 @@
 /********  用户主键 **********/
 +(NSString *)getUSERSEQKEY;
 
++(NSString *)getCurrentUsername;
+
 +(void)clearLocalData;
 
 @end

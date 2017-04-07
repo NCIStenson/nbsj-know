@@ -43,7 +43,7 @@
     }else if (_showQuestionListType == QUESTION_LIST_EXPERT){
         self.title = @"专家解答";
     }else if (_showQuestionListType == QUESTION_LIST_CASE){
-        self.title = @"技能充电桩";
+        self.title = @"典型案例";
     }
     if(_showQuestionListType != QUESTION_LIST_TYPE){
         [self createWhereSQL:_currentInputStr];

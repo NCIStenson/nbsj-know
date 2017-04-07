@@ -476,6 +476,7 @@
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:YES
                              success:^(id data) {
+                                 self.rightBtn.hidden = YES;
                                  [self showTips:@"退出团队成功"];
                                  [self sendNumbersRequest];
                              } fail:^(NSError *error) {

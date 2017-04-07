@@ -366,7 +366,7 @@
                                 @"QUESTIONIMAGE":@"",
                                 @"USERHEADIMAGE":[ZESettingLocalData getUSERHHEADURL],
                                 @"QUESTIONUSERCODE":[ZESettingLocalData getUSERCODE],
-                                @"QUESTIONUSERNAME":[ZESettingLocalData getNICKNAME],
+                                @"QUESTIONUSERNAME":[ZESettingLocalData getCurrentUsername],
                                 @"QUESTIONLEVEL":@"1",
                                 @"IMPORTLEVEL":@"1",
                                 @"ISLOSE":@"0",

@@ -21,7 +21,7 @@
 #define kTypicalViewHeight      ((SCREEN_WIDTH - 20) / 3 - 10) * 1.4
 
 #define kCircleMessageMarginTop (kTypicalViewMarginTop + kTypicalViewHeight)
-#define kCircleMessageHeight 161.0f
+#define kCircleMessageHeight 250.0f
 
 #import "ZEProCirDeatilView.h"
 #import "ZEKLB_CLASSICCASE_INFOModel.h"
@@ -65,27 +65,25 @@
     typicalCaseView.backgroundColor = [UIColor whiteColor];
     typicalCaseView.tag = 100;
     
-    CAGradientLayer *layer = [CAGradientLayer new];
-    layer.colors = @[(__bridge id)MAIN_NAV_COLOR.CGColor, (__bridge id) MAIN_LINE_COLOR.CGColor];
-    layer.startPoint = CGPointMake(0, 0);
-    layer.endPoint = CGPointMake(1, 0);
-    layer.frame = CGRectMake(0, 0, SCREEN_WIDTH, 40.0f);
-    [typicalCaseView.layer addSublayer:layer];
-    
-    UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 80, 40)];
-    rowTitleLab.text = @"圈子专家";
+    UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 80, 35)];
+    rowTitleLab.text = @"专家解答";
     rowTitleLab.textAlignment = NSTextAlignmentCenter;
     rowTitleLab.font = [UIFont systemFontOfSize:16];
     [typicalCaseView addSubview:rowTitleLab];
     
     UIButton * sectionSubTitleBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     [sectionSubTitleBtn setTitleColor:MAIN_NAV_COLOR forState:UIControlStateNormal];
-    sectionSubTitleBtn.frame = CGRectMake(SCREEN_WIDTH - 110 , 0, 90, 40);
+    sectionSubTitleBtn.frame = CGRectMake(SCREEN_WIDTH - 110 , 0, 90, 35);
     [sectionSubTitleBtn setTitle:@"更多  >" forState:UIControlStateNormal];
     sectionSubTitleBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     sectionSubTitleBtn.contentHorizontalAlignment =  UIControlContentHorizontalAlignmentRight;
     [typicalCaseView addSubview:sectionSubTitleBtn];
     [sectionSubTitleBtn addTarget:self action:@selector(moreExpertBtnClck) forControlEvents:UIControlEventTouchUpInside];
+    
+    CALayer * lineLayer = [CALayer layer];
+    lineLayer.frame = CGRectMake(0, 35, SCREEN_WIDTH, 1);
+    [typicalCaseView.layer addSublayer:lineLayer];
+    lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
     
     UIScrollView * typicalScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(10, 40.0f, SCREEN_WIDTH - 20.0f, kExpertViewHeight - 25.0f)];
     typicalScrollView.showsHorizontalScrollIndicator = NO;
@@ -132,27 +130,25 @@
     typicalCaseView.backgroundColor = [UIColor whiteColor];
     typicalCaseView.tag = 100;
     
-    CAGradientLayer *layer = [CAGradientLayer new];
-    layer.colors = @[(__bridge id)MAIN_NAV_COLOR.CGColor, (__bridge id) MAIN_LINE_COLOR.CGColor];
-    layer.startPoint = CGPointMake(0, 0);
-    layer.endPoint = CGPointMake(1, 0);
-    layer.frame = CGRectMake(0, 0, SCREEN_WIDTH, 40.0f);
-    [typicalCaseView.layer addSublayer:layer];
-    
-    UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 80, 40)];
-    rowTitleLab.text = @"技能充电桩";
+    UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 80, 35)];
+    rowTitleLab.text = @"典型案例";
     rowTitleLab.textAlignment = NSTextAlignmentCenter;
     rowTitleLab.font = [UIFont systemFontOfSize:16];
     [typicalCaseView addSubview:rowTitleLab];
     
     UIButton * sectionSubTitleBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     [sectionSubTitleBtn setTitleColor:MAIN_NAV_COLOR forState:UIControlStateNormal];
-    sectionSubTitleBtn.frame = CGRectMake(SCREEN_WIDTH - 110 , 0, 90, 40);
+    sectionSubTitleBtn.frame = CGRectMake(SCREEN_WIDTH - 110 , 0, 90, 35);
     [sectionSubTitleBtn setTitle:@"更多  >" forState:UIControlStateNormal];
     sectionSubTitleBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     sectionSubTitleBtn.contentHorizontalAlignment =  UIControlContentHorizontalAlignmentRight;
     [typicalCaseView addSubview:sectionSubTitleBtn];
     [sectionSubTitleBtn addTarget:self action:@selector(moreCaseBtnClck) forControlEvents:UIControlEventTouchUpInside];
+    
+    CALayer * lineLayer = [CALayer layer];
+    lineLayer.frame = CGRectMake(0, 35, SCREEN_WIDTH, 1);
+    [typicalCaseView.layer addSublayer:lineLayer];
+    lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
     
     UIScrollView * typicalScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(10, 40.0f, SCREEN_WIDTH - 20.0f, kTypicalViewHeight - 25.0f)];
     typicalScrollView.showsHorizontalScrollIndicator = NO;
@@ -204,15 +200,15 @@
 }
 
 #pragma mark - 渐变色
--(void)makeColor:(UIView *)view
-{
-    CAGradientLayer *layer = [CAGradientLayer new];
-    layer.colors = @[(__bridge id)MAIN_NAV_COLOR.CGColor, (__bridge id) MAIN_LINE_COLOR.CGColor];
-    layer.startPoint = CGPointMake(0, 0);
-    layer.endPoint = CGPointMake(0, 1);
-    layer.frame = CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, 65.0f);
-    [self.layer addSublayer:layer];
-}
+//-(void)makeColor:(UIView *)view
+//{
+//    CAGradientLayer *layer = [CAGradientLayer new];
+//    layer.colors = @[(__bridge id)MAIN_NAV_COLOR.CGColor, (__bridge id) MAIN_LINE_COLOR.CGColor];
+//    layer.startPoint = CGPointMake(0, 0);
+//    layer.endPoint = CGPointMake(0, 1);
+//    layer.frame = CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, 65.0f);
+//    [self.layer addSublayer:layer];
+//}
 
 
 #pragma mark - Publick Method
@@ -262,6 +258,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    
     return kCircleMessageMarginTop + kCircleMessageHeight;
 }
 
@@ -288,6 +285,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    return 0;
     return self.memberArr.count + 1;
 }
 
@@ -324,119 +322,177 @@
 
 -(void)initCircleMessage:(UIView *)superView
 {
-    CAGradientLayer *layer = [CAGradientLayer new];
-    layer.colors = @[(__bridge id)MAIN_NAV_COLOR.CGColor, (__bridge id) MAIN_LINE_COLOR.CGColor];
-    layer.startPoint = CGPointMake(0, 0);
-    layer.endPoint = CGPointMake(1, 0);
-    layer.frame = CGRectMake(0, 0, SCREEN_WIDTH, 40.0f);
-    [superView.layer addSublayer:layer];
+//    CAGradientLayer *layer = [CAGradientLayer new];
+//    layer.colors = @[(__bridge id)MAIN_NAV_COLOR.CGColor, (__bridge id) MAIN_LINE_COLOR.CGColor];
+//    layer.startPoint = CGPointMake(0, 0);
+//    layer.endPoint = CGPointMake(1, 0);
+//    layer.frame = CGRectMake(0, 0, SCREEN_WIDTH, 40.0f);
+//    [superView.layer addSublayer:layer];
     
     UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 80, 40)];
-    rowTitleLab.text = @"圈子成绩";
+    rowTitleLab.text = @"排行榜";
     rowTitleLab.textAlignment = NSTextAlignmentLeft;
     rowTitleLab.font = [UIFont systemFontOfSize:16];
     [superView addSubview:rowTitleLab];
 
-    for (int i = 0 ; i < 3; i ++) {
-        CALayer * lineLayer = [CALayer layer];
-        lineLayer.frame = CGRectMake(0, 40 + 40 * i, SCREEN_WIDTH, 1);
-        [superView.layer addSublayer:lineLayer];
-        lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
+    UIButton * sectionSubTitleBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    [sectionSubTitleBtn setTitleColor:MAIN_NAV_COLOR forState:UIControlStateNormal];
+    sectionSubTitleBtn.frame = CGRectMake(SCREEN_WIDTH - 110 , 0, 90, 40);
+    [sectionSubTitleBtn setTitle:@"更多  >" forState:UIControlStateNormal];
+    sectionSubTitleBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+    sectionSubTitleBtn.contentHorizontalAlignment =  UIControlContentHorizontalAlignmentRight;
+    [superView addSubview:sectionSubTitleBtn];
+    [sectionSubTitleBtn addTarget:self action:@selector(moreExpertBtnClck) forControlEvents:UIControlEventTouchUpInside];
 
-    }
-
-    for(int i = 0 ; i < 5 ; i++){
-        UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(0 + SCREEN_WIDTH / 5 * i, 40, SCREEN_WIDTH / 5 , 40)];
-        rowTitleLab.text = @"圈子成绩";
-        rowTitleLab.textAlignment = NSTextAlignmentCenter;
-//        rowTitleLab.backgroundColor = MAIN_NAV_COLOR_A(0.5);
-        rowTitleLab.font = [UIFont systemFontOfSize:14];
-        [superView addSubview:rowTitleLab];
+    for (int i = 0 ; i < 4; i ++) {
         
-        UILabel * rowSubTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(0 + SCREEN_WIDTH / 5 * i, 80, SCREEN_WIDTH / 5 , 40)];
-        rowSubTitleLab.text = @"圈子成绩";
-        rowSubTitleLab.textAlignment = NSTextAlignmentCenter;
-        //        rowTitleLab.backgroundColor = MAIN_NAV_COLOR_A(0.5);
-        rowSubTitleLab.font = [UIFont systemFontOfSize:12];
-        [superView addSubview:rowSubTitleLab];
+        UILabel * titleLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH / 4 * i, 40, SCREEN_WIDTH / 4, 80)];
+        titleLab.text = @"本月排行";
+        titleLab.textAlignment = NSTextAlignmentCenter;
+        titleLab.font = [UIFont systemFontOfSize:16];
+        [superView addSubview:titleLab];
 
-        
-        CALayer * lineLayer = [CALayer layer];
-        lineLayer.frame = CGRectMake(SCREEN_WIDTH / 5 * i, 40 , 1, 80);
-        [superView.layer addSublayer:lineLayer];
-        lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
+        if (i == 1) {
+            UIImageView * rankingImageView;
+            rankingImageView = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH / 4 * i, 50, SCREEN_WIDTH / 4, 60.0f)];
+            [superView addSubview:rankingImageView];
+            rankingImageView.contentMode = UIViewContentModeScaleAspectFit;
 
-        
-        switch (i) {
-            case 0:
-            {
-                rowTitleLab.text = @"月度排名";
-                if ([[self.scoreDic objectForKey:@"PROCIRCLERANKING"] integerValue] > 0) {
-                    rowSubTitleLab.text = [self.scoreDic objectForKey:@"PROCIRCLERANKING"];
-                }else{
-                    rowSubTitleLab.text = [self.scoreDic objectForKey:@"0"];
-                }
+            if ([[self.scoreDic objectForKey:@"PROCIRCLERANKING"] integerValue] > 3) {
+                titleLab.text = [self.scoreDic objectForKey:@"PROCIRCLERANKING"];
+            }else if([[self.scoreDic objectForKey:@"PROCIRCLERANKING"] integerValue] == 1){
+                titleLab.hidden = YES;
+                rankingImageView.image = [UIImage imageNamed:@"icon_circle_first"];
+            }else if([[self.scoreDic objectForKey:@"PROCIRCLERANKING"] integerValue] == 2){
+                rankingImageView.image = [UIImage imageNamed:@"icon_circle_second"];
+                titleLab.hidden = YES;
+            }else if([[self.scoreDic objectForKey:@"PROCIRCLERANKING"] integerValue] == 3){
+                rankingImageView.image = [UIImage imageNamed:@"icon_circle_third"];
+                titleLab.hidden = YES;
             }
-                break;
-                
-            case 1:
-            {
-                rowTitleLab.text = @"提问数";
-                if ([[self.scoreDic objectForKey:@"QUESTIONSUM"] integerValue] > 0) {
-                    rowSubTitleLab.text = [self.scoreDic objectForKey:@"QUESTIONSUM"];
-                }else{
-                    rowSubTitleLab.text = @"0";
-                }
-            }
-                break;
-            case 2:
-            {
-                rowTitleLab.text = @"回答数";
-                if ([[self.scoreDic objectForKey:@"ANSWERSUM"] integerValue] > 0) {
-                    rowSubTitleLab.text = [self.scoreDic objectForKey:@"ANSWERSUM"];
-                }else{
-                    rowSubTitleLab.text = @"0";
-                }
-            }
-                break;
-            case 3:
-            {
-                rowTitleLab.text = @"采纳数";
-                if ([[self.scoreDic objectForKey:@"ANSWERTAKESUM"] integerValue] > 0) {
-                    rowSubTitleLab.text = [self.scoreDic objectForKey:@"ANSWERTAKESUM"];
-                }else{
-                    rowSubTitleLab.text = @"0";
-                }
-            }
-                break;
-            case 4:
-            {
-                rowTitleLab.text = @"活跃度";
-                if ([[self.scoreDic objectForKey:@"ACTIVELEVEL"] length] > 0) {
-                    rowSubTitleLab.text = [self.scoreDic objectForKey:@"ACTIVELEVEL"];
-                }else{
-                    rowSubTitleLab.text = @"0";
-                }
-            }
-                break;
-
-            default:
-                break;
         }
+        
+        if(i == 2){
+            titleLab.text = @"圈子活跃度";
+            [titleLab adjustsFontSizeToFitWidth];
+        }
+        if(i == 3){
+            if ([[self.scoreDic objectForKey:@"ACTIVELEVEL"] length] > 0) {
+                titleLab.text = [self.scoreDic objectForKey:@"ACTIVELEVEL"];
+            }else{
+                titleLab.text = @"0";
+            }
+        }
+        
+        CALayer * lineLayer = [CALayer layer];
+        lineLayer.frame = CGRectMake( SCREEN_WIDTH / 4 * i - 1 , 40 , 1, 80);
+        [superView.layer addSublayer:lineLayer];
+        lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
     }
     
-    CAGradientLayer *layer1 = [CAGradientLayer new];
-    layer1.colors = @[(__bridge id)MAIN_NAV_COLOR.CGColor, (__bridge id) MAIN_LINE_COLOR.CGColor];
-    layer1.startPoint = CGPointMake(0, 0);
-    layer1.endPoint = CGPointMake(1, 0);
-    layer1.frame = CGRectMake(0, 121, SCREEN_WIDTH, 40.0f);
-    [superView.layer addSublayer:layer1];
+    CALayer * lineLayer = [CALayer layer];
+    lineLayer.frame = CGRectMake(0, 39, SCREEN_WIDTH, 1);
+    [superView.layer addSublayer:lineLayer];
+    lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
     
-    UILabel * rowTitleLab1 = [[UILabel alloc]initWithFrame:CGRectMake(10, 121, 80, 40)];
-    rowTitleLab1.text = @"团队成员";
-    rowTitleLab1.textAlignment = NSTextAlignmentLeft;
-    rowTitleLab1.font = [UIFont systemFontOfSize:16];
-    [superView addSubview:rowTitleLab1];
+    CALayer * lineLayer1 = [CALayer layer];
+    lineLayer1.frame = CGRectMake(0, 119, SCREEN_WIDTH, 1);
+    [superView.layer addSublayer:lineLayer1];
+    lineLayer1.backgroundColor = [MAIN_LINE_COLOR CGColor];
+
+    UIButton * rankingBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [superView addSubview:rankingBtn];
+    UIImage * rankingImage = [UIImage imageNamed:@"icon_circle_ranking.jpg"];
+    float rankHeight =  rankingImage.size.height * SCREEN_WIDTH / rankingImage.size.width ;
+    rankingBtn.frame = CGRectMake(0, 120, SCREEN_WIDTH, rankHeight);
+    [rankingBtn setImage:rankingImage forState:UIControlStateNormal];
+    [rankingBtn addTarget:self action:@selector(moreExpertBtnClck) forControlEvents:UIControlEventTouchUpInside];
+    
+//    for(int i = 0 ; i < 5 ; i++){
+//        UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(0 + SCREEN_WIDTH / 5 * i, 40, SCREEN_WIDTH / 5 , 40)];
+//        rowTitleLab.text = @"圈子成绩";
+//        rowTitleLab.textAlignment = NSTextAlignmentCenter;
+////        rowTitleLab.backgroundColor = MAIN_NAV_COLOR_A(0.5);
+//        rowTitleLab.font = [UIFont systemFontOfSize:14];
+//        [superView addSubview:rowTitleLab];
+//        
+//        UILabel * rowSubTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(0 + SCREEN_WIDTH / 5 * i, 80, SCREEN_WIDTH / 5 , 40)];
+//        rowSubTitleLab.text = @"圈子成绩";
+//        rowSubTitleLab.textAlignment = NSTextAlignmentCenter;
+//        //        rowTitleLab.backgroundColor = MAIN_NAV_COLOR_A(0.5);
+//        rowSubTitleLab.font = [UIFont systemFontOfSize:12];
+//        [superView addSubview:rowSubTitleLab];
+//
+//        
+//        CALayer * lineLayer = [CALayer layer];
+//        lineLayer.frame = CGRectMake(SCREEN_WIDTH / 5 * i, 40 , 1, 80);
+//        [superView.layer addSublayer:lineLayer];
+//        lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
+//
+//        
+//        switch (i) {
+//            case 0:
+//            {
+//                rowTitleLab.text = @"月度排名";
+//                if ([[self.scoreDic objectForKey:@"PROCIRCLERANKING"] integerValue] > 0) {
+//                    rowSubTitleLab.text = [self.scoreDic objectForKey:@"PROCIRCLERANKING"];
+//                }else{
+//                    rowSubTitleLab.text = [self.scoreDic objectForKey:@"0"];
+//                }
+//            }
+//                break;
+//                
+//            case 1:
+//            {
+//                rowTitleLab.text = @"提问数";
+//                if ([[self.scoreDic objectForKey:@"QUESTIONSUM"] integerValue] > 0) {
+//                    rowSubTitleLab.text = [self.scoreDic objectForKey:@"QUESTIONSUM"];
+//                }else{
+//                    rowSubTitleLab.text = @"0";
+//                }
+//            }
+//                break;
+//            case 2:
+//            {
+//                rowTitleLab.text = @"回答数";
+//                if ([[self.scoreDic objectForKey:@"ANSWERSUM"] integerValue] > 0) {
+//                    rowSubTitleLab.text = [self.scoreDic objectForKey:@"ANSWERSUM"];
+//                }else{
+//                    rowSubTitleLab.text = @"0";
+//                }
+//            }
+//                break;
+//            case 3:
+//            {
+//                rowTitleLab.text = @"采纳数";
+//                if ([[self.scoreDic objectForKey:@"ANSWERTAKESUM"] integerValue] > 0) {
+//                    rowSubTitleLab.text = [self.scoreDic objectForKey:@"ANSWERTAKESUM"];
+//                }else{
+//                    rowSubTitleLab.text = @"0";
+//                }
+//            }
+//                break;
+//            case 4:
+//            {
+//                rowTitleLab.text = @"活跃度";
+//                if ([[self.scoreDic objectForKey:@"ACTIVELEVEL"] length] > 0) {
+//                    rowSubTitleLab.text = [self.scoreDic objectForKey:@"ACTIVELEVEL"];
+//                }else{
+//                    rowSubTitleLab.text = @"0";
+//                }
+//            }
+//                break;
+//
+//            default:
+//                break;
+//        }
+//    }
+//        
+//    UILabel * rowTitleLab1 = [[UILabel alloc]initWithFrame:CGRectMake(10, 121, 80, 40)];
+//    rowTitleLab1.text = @"团队成员";
+//    rowTitleLab1.textAlignment = NSTextAlignmentLeft;
+//    rowTitleLab1.font = [UIFont systemFontOfSize:16];
+//    [superView addSubview:rowTitleLab1];
 
 }
 

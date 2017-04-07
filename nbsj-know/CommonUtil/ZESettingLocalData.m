@@ -178,6 +178,14 @@ static NSString * kUSERINFODic      = @"kUSERINFODic";
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUSERINFODic];
 }
 
++(NSString *)getCurrentUsername
+{
+    if([ZEUtil isNotNull:[[self Get:kUSERINFODic] objectForKey:@"USERNAME"]]){
+        return [[self Get:kUSERINFODic] objectForKey:@"USERNAME"];
+    }
+    return @"";
+}
+
 /******** 修改昵称 *******/
 +(void)changeNICKNAME:(NSString *)nickname
 {

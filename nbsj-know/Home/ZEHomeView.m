@@ -83,9 +83,9 @@
 
 -(void)initView
 {
-    _allTypeArr = @[@"推荐",@"最新",@"悬赏"];
+    _allTypeArr = @[@"最新",@"推荐",@"悬赏"];
 
-    _currentHomeContentPage = HOME_CONTENT_RECOMMAND;
+    _currentHomeContentPage = HOME_CONTENT_NEWEST;
     
     [self initNavBar];
     [self initContentView];

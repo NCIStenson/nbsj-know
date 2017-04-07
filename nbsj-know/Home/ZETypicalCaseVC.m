@@ -40,7 +40,7 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     _currentWHERESQL = @"";
     if (_enterType == ENTER_CASE_TYPE_DEFAULT) {
-        self.title = @"技能充电桩";
+        self.title = @"典型案例";
         [self sendRequestWithCurrentPage];
         
         questionTypeName = @"";

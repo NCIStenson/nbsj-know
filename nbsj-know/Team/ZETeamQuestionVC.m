@@ -185,6 +185,12 @@
     [self isHaveNewMessage];
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:YES];
+    [self.navigationController setNavigationBarHidden:YES];
+}
+
 -(void)initView
 {
     _teamQuestionView = [[ZETeamQuestionView alloc] initWithFrame:self.view.frame];

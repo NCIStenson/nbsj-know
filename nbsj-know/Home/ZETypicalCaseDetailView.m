@@ -219,6 +219,10 @@
         
         NSArray * H5ARR = [infoM.H5URL componentsSeparatedByString:@","];
         if (H5ARR.count > 0) {
+            if([H5ARR[0] length] == 0)
+            {
+                return [infoM.COURSEFILENAMEARR count];
+            }
             return [infoM.COURSEFILENAMEARR count] + [H5ARR count];
         }
         

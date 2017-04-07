@@ -171,18 +171,16 @@
         if (indexPath.row == 0) {
             logoImageView.image = [UIImage imageNamed:@"icon_school.png" color:MAIN_NAV_COLOR];
             contentLabel.text = @"学堂";
-
-        }else if (indexPath.row == 1) {
+        }else if (indexPath.row == 3) {
             logoImageView.image = [UIImage imageNamed:@"icon_record.png" color:MAIN_NAV_COLOR];
             contentLabel.text = @"意见反馈";
-
-        }else if(indexPath.row == 2){
+        }else if(indexPath.row == 4){
             logoImageView.image = [UIImage imageNamed:@"icon_setting.png" color:MAIN_NAV_COLOR];
             contentLabel.text = @"设置";
-        }else if (indexPath.row == 3){
+        }else if (indexPath.row == 1){
             logoImageView.image = [UIImage imageNamed:@"icon_setting_operation.png" color:MAIN_NAV_COLOR];
             contentLabel.text = @"操作手册";
-        }else if (indexPath.row == 4){
+        }else if (indexPath.row == 2){
             logoImageView.image = [UIImage imageNamed:@"icon_setting_about.png" color:MAIN_NAV_COLOR];
             contentLabel.text = @"关于电知道";
         }
@@ -413,28 +411,28 @@
                 }
                     break;
 
-                case 1:
+                case 3:
                 {
                     if ([self.delegate respondsToSelector:@selector(changePersonalMsg:)]) {
                         [self.delegate changePersonalMsg:CHANGE_PERSONALMSG_ADVICE];
                     }
                 }
                     break;
-                case 2:
+                case 4:
                 {
                     if ([self.delegate respondsToSelector:@selector(goSettingVC:)]) {
                         [self.delegate goSettingVC:ENTER_SETTING_TYPE_SETTING];
                     }
                 }
                     break;
-                case 3:
+                case 1:
                 {
                     if ([self.delegate respondsToSelector:@selector(goSchollVC:)]) {
                         [self.delegate goSchollVC:ENTER_WEBVC_OPERATION];
                     }
                 }
                     break;
-                case 4:
+                case 2:
                 {
                     if ([self.delegate respondsToSelector:@selector(goSchollVC:)]) {
                         [self.delegate goSchollVC:ENTER_WEBVC_ABOUT];

@@ -326,6 +326,7 @@
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
+                                 NSLog(@">>>>>>  %@",data);
                                  if([[ZEUtil getServerData:data withTabelName:SNOW_MOBILE_DEVICE] count] == 0){
                                      
                                  }else{

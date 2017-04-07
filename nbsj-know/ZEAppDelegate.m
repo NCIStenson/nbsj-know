@@ -18,6 +18,9 @@
 #import "LBTabBarController.h"
 
 #import "ZETypicalCaseDetailVC.h"
+
+#import "ZETeamChatRoomVC.h"
+
 @interface ZEAppDelegate ()
 
 @end
@@ -32,7 +35,6 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reLogin) name:kRelogin object:nil];
 
-    
     if([[ZESettingLocalData getUSERNAME] length] > 0 && [[ZESettingLocalData getUSERPASSWORD] length] > 0) {
         LBTabBarController *tab = [[LBTabBarController alloc] init];
         self.window.rootViewController = tab;
@@ -65,16 +67,15 @@
     [JPUSHService setupWithOption:launchOptions
                            appKey:JMESSAGE_APPKEY
                           channel:@"App Store"
-                 apsForProduction:NO
+                 apsForProduction:YES
             advertisingIdentifier:nil];
     
     [JMessage setupJMessage:launchOptions
                      appKey:JMESSAGE_APPKEY
                     channel:@"App Store"
-           apsForProduction:NO
+           apsForProduction:YES
                    category:nil];
     [JMessage addDelegate:self withConversation:nil];
-    [JMessage setDebugMode];
 
 //    NSLog(@"%@",NSHomeDirectory());
 //    NSLog(@"%@",Zenith_Server);
@@ -260,13 +261,6 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
                            }
                        } fail:^(NSError *errorCode) {
                        }];
-    
-//    NSLog(@" =======  %@",    [JMSGUser myInfo].username);
-//    
-//    [JMSGUser loginWithUsername:username password:@"1234" completionHandler:^(id resultObject, NSError *error) {
-//        NSLog(@"====================  %@ ",error);
-//    }];
-    
 }
 -(void)goLoginVC:(NSString *)str
 {
