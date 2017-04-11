@@ -21,6 +21,7 @@
     NSString * _currentInputStr;
     
     ZEAskQuestionTypeView * askTypeView;
+    
 }
 @end
 
@@ -285,7 +286,7 @@
 
 -(void)initView
 {
-    _questionsView = [[ZEShowQuestionView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
+    _questionsView = [[ZEShowQuestionView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT) withEnterType:_showQuestionListType];
     _questionsView.delegate = self;
     [self.view addSubview:_questionsView];
     _questionsView.searchStr = _currentInputStr;

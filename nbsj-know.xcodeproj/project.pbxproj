@@ -300,6 +300,7 @@
 		98D42BD41DC73FBB003A3812 /* discuss_comment_gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98D42BCC1DC73FBB003A3812 /* discuss_comment_gray@2x.png */; };
 		98D42BD51DC73FBB003A3812 /* discuss_comment_gray@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98D42BCD1DC73FBB003A3812 /* discuss_comment_gray@3x.png */; };
 		98D42BD61DC73FBB003A3812 /* coursecell_list_score@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98D42BCE1DC73FBB003A3812 /* coursecell_list_score@3x.png */; };
+		98D584581E9C842A004588EE /* ZEExpertChatListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D584571E9C842A004588EE /* ZEExpertChatListVC.m */; };
 		98D598081DC83402002074C7 /* ZETypicalCaseDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D598071DC83402002074C7 /* ZETypicalCaseDetailVC.m */; };
 		98D5980B1DC83424002074C7 /* ZETypicalCaseDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D5980A1DC83424002074C7 /* ZETypicalCaseDetailView.m */; };
 		98D5980E1DC83E78002074C7 /* detail_star_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98D5980C1DC83E78002074C7 /* detail_star_normal@2x.png */; };
@@ -781,6 +782,8 @@
 		98D42BCC1DC73FBB003A3812 /* discuss_comment_gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "discuss_comment_gray@2x.png"; sourceTree = "<group>"; };
 		98D42BCD1DC73FBB003A3812 /* discuss_comment_gray@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "discuss_comment_gray@3x.png"; sourceTree = "<group>"; };
 		98D42BCE1DC73FBB003A3812 /* coursecell_list_score@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coursecell_list_score@3x.png"; sourceTree = "<group>"; };
+		98D584561E9C842A004588EE /* ZEExpertChatListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEExpertChatListVC.h; path = Group/EXPERT/ZEExpertChatListVC.h; sourceTree = "<group>"; };
+		98D584571E9C842A004588EE /* ZEExpertChatListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEExpertChatListVC.m; path = Group/EXPERT/ZEExpertChatListVC.m; sourceTree = "<group>"; };
 		98D598061DC83402002074C7 /* ZETypicalCaseDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZETypicalCaseDetailVC.h; path = Home/ZETypicalCaseDetailVC.h; sourceTree = "<group>"; };
 		98D598071DC83402002074C7 /* ZETypicalCaseDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZETypicalCaseDetailVC.m; path = Home/ZETypicalCaseDetailVC.m; sourceTree = "<group>"; };
 		98D598091DC83424002074C7 /* ZETypicalCaseDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZETypicalCaseDetailView.h; path = Home/ZETypicalCaseDetailView.h; sourceTree = "<group>"; };
@@ -1412,6 +1415,8 @@
 				98B1DA731E8B525F00CB6815 /* ZEExpertModel.m */,
 				9896637C1E8BDB0000F42906 /* ZEExpertChatVC.h */,
 				9896637D1E8BDB0000F42906 /* ZEExpertChatVC.m */,
+				98D584561E9C842A004588EE /* ZEExpertChatListVC.h */,
+				98D584571E9C842A004588EE /* ZEExpertChatListVC.m */,
 			);
 			name = EXPERT;
 			sourceTree = "<group>";
@@ -2192,6 +2197,7 @@
 				9823000C1E72843600DD02B1 /* ZETeamCircleModel.m in Sources */,
 				98AB2A501D65A6C400F4DBF8 /* ZEAnswerInfoModel.m in Sources */,
 				989AA6891D507A9A00A08022 /* ZELookViewController.m in Sources */,
+				98D584581E9C842A004588EE /* ZEExpertChatListVC.m in Sources */,
 				984A32A71DAF756100B9F53B /* ZEProCirDynamicVC.m in Sources */,
 				987258F31D5C6F7E005C4AB9 /* ZESetPersonalMessageView.m in Sources */,
 				9801DB001D6153EE008B1676 /* ZEChangePersonalMsgVC.m in Sources */,
@@ -2456,7 +2462,7 @@
 				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = "com.zenithElec.know-Debug";
-				ZENITH_SERVER = "http://120.27.152.63:8888/emarkspg_nbsjzd";
+				ZENITH_SERVER = "http://117.149.2.229:1622/emarkspg_nbsjzd";
 			};
 			name = Debug;
 		};
@@ -2527,7 +2533,7 @@
 				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = com.zenithElec.know;
-				ZENITH_SERVER = "http://120.27.152.63:8888/emarkspg_nbsjzd";
+				ZENITH_SERVER = "http://117.149.2.229:1622/emarkspg_nbsjzd";
 			};
 			name = Release;
 		};

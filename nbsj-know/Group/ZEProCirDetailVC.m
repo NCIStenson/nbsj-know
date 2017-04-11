@@ -306,6 +306,11 @@
     [self.navigationController pushViewController:expertDetailVC animated:YES];
 }
 
+-(void)moreRankingMessage
+{
+    [self showTips:@"功能建设中,敬请期待" afterDelay:1.5];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

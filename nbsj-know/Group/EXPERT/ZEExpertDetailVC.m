@@ -107,29 +107,35 @@
 -(void)didSelectMyOption:(UIButton *)btn
 {    
     if (btn.tag == 101) {
-        [self showTips:@"功能建设中"];
-        return;
-        JMSGConversation *conversation = [JMSGConversation singleConversationWithUsername:_expertModel.USERCODE];
-        if (conversation == nil) {
-            [self showTips:@"获取会话" afterDelay:1.5];
+        if ([_expertModel.USERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
+            NSLog(@"是专家！！！");
             
-            [JMSGConversation createSingleConversationWithUsername:_expertModel.USERCODE completionHandler:^(id resultObject, NSError *error) {
-                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-                if (error) {
-                    NSLog(@"创建会话失败");
-                    return ;
-                }
-                ZEExpertChatVC *conversationVC = [ZEExpertChatVC new];
-                conversationVC.expertModel = _expertModel;
-                conversationVC.conversation = (JMSGConversation *)resultObject;
-                [self.navigationController pushViewController:conversationVC animated:YES];
+            
+            
+        }else{
+            
+            JMSGConversation *conversation = [JMSGConversation singleConversationWithUsername:_expertModel.USERCODE];
+            if (conversation == nil) {
+                [self showTips:@"获取会话" afterDelay:1.5];
                 
-            }];
-        } else {
-            ZEExpertChatVC *conversationVC = [ZEExpertChatVC new];
-            conversationVC.conversation = conversation;
-            conversationVC.expertModel = _expertModel;
-            [self.navigationController pushViewController:conversationVC animated:YES];
+                [JMSGConversation createSingleConversationWithUsername:_expertModel.USERCODE completionHandler:^(id resultObject, NSError *error) {
+                    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                    if (error) {
+                        NSLog(@"创建会话失败");
+                        return ;
+                    }
+                    ZEExpertChatVC *conversationVC = [ZEExpertChatVC new];
+                    conversationVC.expertModel = _expertModel;
+                    conversationVC.conversation = (JMSGConversation *)resultObject;
+                    [self.navigationController pushViewController:conversationVC animated:YES];
+                    
+                }];
+            } else {
+                ZEExpertChatVC *conversationVC = [ZEExpertChatVC new];
+                conversationVC.conversation = conversation;
+                conversationVC.expertModel = _expertModel;
+                [self.navigationController pushViewController:conversationVC animated:YES];
+            }
         }
     }else if (btn.tag == 100){
         ZEShowQuestionVC * showQuesVC = [[ZEShowQuestionVC alloc]init];

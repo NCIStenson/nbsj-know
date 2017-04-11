@@ -227,7 +227,7 @@
     if (![ZEUtil isStrNotEmpty:username]) {
         username = [ZESettingLocalData getNAME];
     }
-    float usernameWidth = [ZEUtil widthForString:username font:[UIFont systemFontOfSize:18] maxSize:CGSizeMake(SCREEN_WIDTH - 60, 20)];
+    float usernameWidth = [ZEUtil widthForString:username font:[UIFont boldSystemFontOfSize:18] maxSize:CGSizeMake(SCREEN_WIDTH - 60, 20)];
     
     UILabel * usernameLabel = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH - usernameWidth ) / 2, 60, usernameWidth, 20.0f)];
     usernameLabel.text = username;

@@ -188,7 +188,6 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:YES];
-    [self.navigationController setNavigationBarHidden:YES];
 }
 
 -(void)initView

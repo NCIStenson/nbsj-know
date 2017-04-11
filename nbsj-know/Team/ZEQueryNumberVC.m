@@ -43,10 +43,11 @@
     if (searchStr.length < 8) {
         [self showTips:@"请输入八位工号"];
         return;
-    }else if (searchStr.length > 8){
-        [self showTips:@"输入的工号位数过多"];
-        return;
     }
+//    else if (searchStr.length > 8){
+//        [self showTips:@"输入的工号位数过多"];
+//        return;
+//    }
     
     NSDictionary * parametersDic = @{@"limit":@"20",
                                      @"MASTERTABLE":V_KLB_USER_BASE_INFO,

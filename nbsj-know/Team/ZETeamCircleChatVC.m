@@ -22,7 +22,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     if([_questionInfo.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]){
@@ -94,6 +93,7 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];
+    [self.navigationController setNavigationBarHidden:YES];
 }
 
 -(void)sendSearchAnswerRequestWithoutOPERATETYPE

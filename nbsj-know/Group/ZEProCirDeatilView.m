@@ -342,7 +342,7 @@
     sectionSubTitleBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     sectionSubTitleBtn.contentHorizontalAlignment =  UIControlContentHorizontalAlignmentRight;
     [superView addSubview:sectionSubTitleBtn];
-    [sectionSubTitleBtn addTarget:self action:@selector(moreExpertBtnClck) forControlEvents:UIControlEventTouchUpInside];
+    [sectionSubTitleBtn addTarget:self action:@selector(goMoreRankingMessage) forControlEvents:UIControlEventTouchUpInside];
 
     for (int i = 0 ; i < 4; i ++) {
         
@@ -406,7 +406,7 @@
     float rankHeight =  rankingImage.size.height * SCREEN_WIDTH / rankingImage.size.width ;
     rankingBtn.frame = CGRectMake(0, 120, SCREEN_WIDTH, rankHeight);
     [rankingBtn setImage:rankingImage forState:UIControlStateNormal];
-    [rankingBtn addTarget:self action:@selector(moreExpertBtnClck) forControlEvents:UIControlEventTouchUpInside];
+    [rankingBtn addTarget:self action:@selector(goMoreRankingMessage) forControlEvents:UIControlEventTouchUpInside];
     
 //    for(int i = 0 ; i < 5 ; i++){
 //        UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(0 + SCREEN_WIDTH / 5 * i, 40, SCREEN_WIDTH / 5 , 40)];
@@ -656,6 +656,12 @@
     }
 }
 
+-(void)goMoreRankingMessage
+{
+    if ([self.delegate respondsToSelector:@selector(moreRankingMessage)]) {
+        [self.delegate moreRankingMessage];
+    }
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

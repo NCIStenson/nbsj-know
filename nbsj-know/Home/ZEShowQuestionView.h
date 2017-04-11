@@ -42,7 +42,7 @@
 @property (nonatomic,weak) id <ZEShowQuestionViewDelegate> delegate;
 @property (nonatomic,copy) NSString * searchStr;
 
--(id)initWithFrame:(CGRect)frame;
+-(id)initWithFrame:(CGRect)frame withEnterType:(QUESTION_LIST)enterType;
 
 -(void)reloadFirstView:(NSArray *)array;
 -(void)reloadContentViewWithArr:(NSArray *)arr;

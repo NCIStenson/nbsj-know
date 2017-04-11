@@ -37,13 +37,18 @@
  */
 -(void)goMoreExpertVC;
 
-
 /**
  专家详情界面
 
  @param detailDic <#detailDic description#>
  */
 -(void)goExpertDetail:(ZEExpertModel *)expertM;
+
+
+/**
+ 排行榜更多详情
+ */
+-(void)moreRankingMessage;
 @end
 
 @interface ZEProCirDeatilView : UIView

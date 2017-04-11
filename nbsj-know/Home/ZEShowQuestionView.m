@@ -20,6 +20,8 @@
 {
     UITableView * _contentTableView;
     UITextField * _questionSearchTF;
+    
+    QUESTION_LIST _enterShowQuestionListType;
 }
 
 @property (nonatomic,strong) NSMutableArray * datasArr;
@@ -28,10 +30,11 @@
 
 @implementation ZEShowQuestionView
 
--(id)initWithFrame:(CGRect)frame
+-(id)initWithFrame:(CGRect)frame withEnterType:(QUESTION_LIST)enterType
 {
     self = [super initWithFrame:frame];
     if (self) {
+        _enterShowQuestionListType = enterType;
         self.datasArr = [NSMutableArray array];
         [self initContentTableView];
     }
@@ -382,7 +385,7 @@
     
     questionsView.frame = CGRectMake(0, 0, SCREEN_WIDTH, userY + 30.0f);
     
-    if ([quesInfoM.INFOCOUNT integerValue] > 0) {
+    if ([quesInfoM.INFOCOUNT integerValue] > 0 && ( _enterShowQuestionListType == QUESTION_LIST_MY_ANSWER || _enterShowQuestionListType == QUESTION_LIST_MY_QUESTION )) {
         UILabel * badgeLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 20, 20.0f)];
         badgeLab.backgroundColor = [UIColor redColor];
         badgeLab.tag = 100;
