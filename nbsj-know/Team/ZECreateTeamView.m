@@ -203,7 +203,7 @@
 
 #pragma mark - 选择问题分类
 
--(void)didSelectType:(NSString *)typeName typeCode:(NSString *)typeCode;
+-(void)didSelectType:(NSString *)typeName typeCode:(NSString *)typeCode fatherCode:(NSString *)fatherCode
 {
     [_teamTypeBtn  setTitle:[NSString stringWithFormat:@"%@",typeName] forState:UIControlStateNormal];
     [_teamTypeBtn setTitleColor:kTextColor forState:UIControlStateNormal];

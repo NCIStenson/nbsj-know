@@ -177,6 +177,7 @@
     
     ZEAnswerQuestionsVC * answerQuesVC = [[ZEAnswerQuestionsVC alloc]init];
     answerQuesVC.questionSEQKEY = _questionInfoModel.SEQKEY;
+    answerQuesVC.questionInfoM = _questionInfoModel;
     [self.navigationController pushViewController:answerQuesVC animated:YES];
 }
 
@@ -189,7 +190,6 @@
     chatVC.questionInfo = infoModel;
     chatVC.answerInfo = answerModel;
     [self.navigationController pushViewController:chatVC animated:YES];
-    
 }
 
 #pragma mark - 点赞

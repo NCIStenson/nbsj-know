@@ -17,7 +17,7 @@
 
 #import "ZESearchTeamQuestionVC.h"
 
-#import "ZEChatVC.h"
+#import "ZETeamCircleChatVC.h"
 
 #import "ZECreateTeamVC.h"
 
@@ -135,7 +135,6 @@
             conversationVC.teamcircleModel = _teamCircleInfo;
             conversationVC.conversation = (JMSGConversation *)resultObject;
             [self.navigationController pushViewController:conversationVC animated:YES];
-            
         }];
     } else {
         ZETeamChatRoomVC *conversationVC = [ZETeamChatRoomVC new];
@@ -145,8 +144,6 @@
     }
     
 }
-
-
     
 -(void)viewTapped:(UITapGestureRecognizer*)tapGr
 {
@@ -501,7 +498,7 @@
     }
     
     if (_questionInfoModel.ISANSWER) {
-        ZEChatVC * chatVC = [[ZEChatVC alloc]init];
+        ZETeamCircleChatVC * chatVC = [[ZETeamCircleChatVC alloc]init];
         chatVC.questionInfo = _questionInfoModel;
         chatVC.enterChatVCType = 1;
         [self.navigationController pushViewController:chatVC animated:YES];
@@ -509,9 +506,9 @@
     }else{
         ZEAnswerTeamQuestionVC * answerQuesVC = [[ZEAnswerTeamQuestionVC alloc]init];
         answerQuesVC.questionSEQKEY = _questionInfoModel.SEQKEY;
+        answerQuesVC.questionInfoModel = _questionInfoModel;
         [self.navigationController pushViewController:answerQuesVC animated:YES];
     }
-    
 }
 
 -(void)goAskTeamQuestionVC

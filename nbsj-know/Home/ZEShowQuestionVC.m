@@ -120,10 +120,11 @@
 
 #pragma mark - ZEAskQuestionTypeViewDelegate
 
--(void)didSelectType:(NSString *)typeName typeCode:(NSString *)typeCode
+-(void)didSelectType:(NSString *)typeName typeCode:(NSString *)typeCode fatherCode:(NSString *)fatherCode
 {
     self.title = typeName;
     self.typeSEQKEY = typeCode;
+    self.typeParentID = fatherCode;
     
     [askTypeView removeFromSuperview];
     [self createWhereSQL:_currentInputStr];
@@ -148,6 +149,10 @@
         searchCondition = [NSString stringWithFormat:@"ISLOSE = 0 and QUESTIONTYPECODE like '%%%@%%' and QUESTIONEXPLAIN like '%%%@%%'",_typeSEQKEY,searchStr];
         if (![ZEUtil isStrNotEmpty:searchStr]) {
             searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONTYPECODE like '%%%@%%'",_typeSEQKEY];
+        }
+        if([ZEUtil isStrNotEmpty:self.typeParentID] && [self.typeParentID integerValue] == -1){
+            [self getAllTypeQuestion];
+            return;
         }
     }else if (_showQuestionListType == QUESTION_LIST_MY_QUESTION){
         searchCondition = [NSString stringWithFormat:@"ISLOSE = 0 and QUESTIONUSERCODE = '%@' and QUESTIONEXPLAIN like '%%%@%%'",[ZESettingLocalData getUSERCODE],searchStr];
@@ -175,6 +180,65 @@
     
     [self sendRequestWithCondition:searchCondition];
 }
+
+-(void)getAllTypeQuestion
+{
+    NSDictionary * parametersDic = @{@"limit":[NSString stringWithFormat:@"%d",MAX_PAGE_COUNT],
+                                     @"MASTERTABLE":V_KLB_QUESTION_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":[NSString stringWithFormat:@"%ld",(long)_currentPage * MAX_PAGE_COUNT],
+                                     @"METHOD":METHOD_SEARCH,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.question.QuestionSearch",
+                                     @"DETAILTABLE":@"",
+                                     @"PARENTID":self.typeParentID,
+                                     @"TYPECODE":self.typeSEQKEY};
+    
+    NSDictionary * fieldsDic =@{};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_QUESTION_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:@"SEARCH_PARENT_TYPE"];
+    
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 
+                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_INFO];
+                                 if (dataArr.count > 0) {
+                                     if (_currentPage == 0) {
+                                         [_questionsView reloadFirstView:dataArr];
+                                     }else{
+                                         [_questionsView reloadContentViewWithArr:dataArr];
+                                     }
+                                     if (dataArr.count%MAX_PAGE_COUNT == 0) {
+                                         _currentPage += 1;
+                                     }
+                                 }else{
+                                     if (_currentPage > 0) {
+                                         [_questionsView loadNoMoreData];
+                                         return ;
+                                     }else{
+                                         if (_showQuestionListType != QUESTION_LIST_MY_QUESTION) {
+                                             [self showTips:@"暂时没有相关问题，去提一个吧~" afterDelay:1.5];
+                                         }else{
+                                             [self showTips:@"您还没有提问过任何问题，去提一个吧~" afterDelay:1.5];
+                                         }
+                                     }
+                                     [_questionsView reloadFirstView:dataArr];
+                                     [_questionsView headerEndRefreshing];
+                                     [_questionsView loadNoMoreData];
+                                 }
+                             } fail:^(NSError *errorCode) {
+                                 
+                             }];
+    
+}
+
 -(void)sendRequestWithCondition:(NSString *)conditionStr
 {
     NSDictionary * parametersDic = @{@"limit":[NSString stringWithFormat:@"%d",MAX_PAGE_COUNT],

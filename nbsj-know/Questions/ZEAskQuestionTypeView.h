@@ -12,7 +12,7 @@
 
 @protocol ZEAskQuestionTypeViewDelegate <NSObject>
 
--(void)didSelectType:(NSString *)typeName typeCode:(NSString *)typeCode;
+-(void)didSelectType:(NSString *)typeName typeCode:(NSString *)typeCode fatherCode:(NSString *)fatherCode;
 
 @end
 

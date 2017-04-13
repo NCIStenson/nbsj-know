@@ -690,6 +690,7 @@
     showQuestionsList.showQuestionListType = QUESTION_LIST_EXPERT;
     [self.navigationController pushViewController:showQuestionsList animated:YES];
 }
+
 -(void)goQuestionDetailVCWithQuestionInfo:(ZEQuestionInfoModel *)infoModel
                          withQuestionType:(ZEQuestionTypeModel *)typeModel;
 {
@@ -746,6 +747,7 @@
     }else{
         ZEAnswerQuestionsVC * answerQuesVC = [[ZEAnswerQuestionsVC alloc]init];
         answerQuesVC.questionSEQKEY = _questionInfoModel.SEQKEY;
+        answerQuesVC.questionInfoM = _questionInfoModel;
         [self.navigationController pushViewController:answerQuesVC animated:YES];
     }
     

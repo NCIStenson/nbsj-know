@@ -41,6 +41,8 @@
 #define METHOD_INSERT @"addSave"
 #define METHOD_DELETE @"delete"
 
+#define JMESSAGE_APPKEY @"921311c06b555b9309eab799"
+
 #define kTiltlFontSize 14.0f
 #define kSubTiltlFontSize 12.0f
 
@@ -61,7 +63,8 @@
 #define ZENITH_PLACEHODLER_IMAGE [UIImage imageNamed:@"placeholder.png"]
 #define ZENITH_PLACEHODLER_USERHEAD_IMAGE [UIImage imageNamed:@"avatar_default.jpg"]
 #define ZENITH_PLACEHODLER_TEAM_IMAGE [UIImage imageNamed:@"icon_team_headimage.jpg"]
-#define kCellImgaeHeight    (SCREEN_WIDTH - 60)/3
+
+#define kCellImgaeHeight (SCREEN_WIDTH - 60)/3
 
 #define kNOTI_CHANGEPERSONALMSG_SUCCESS @"NOTI_CHANGEPERSONALMSG_SUCCESS"
 

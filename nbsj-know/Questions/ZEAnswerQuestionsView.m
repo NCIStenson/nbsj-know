@@ -25,6 +25,8 @@
     UIButton * questionTypeBtn;
     
     UIView * dashView; // 虚线视图
+    ZEQuestionInfoModel * _questionInfoM;
+    
 }
 
 @property (nonatomic,strong) NSMutableArray * choosedImageArr;
@@ -34,10 +36,11 @@
 
 @implementation ZEAnswerQuestionsView
 
--(id)initWithFrame:(CGRect)frame
+-(id)initWithFrame:(CGRect)frame withQuestionInfoModel:(ZEQuestionInfoModel *)questionInfoM
 {
     self = [super initWithFrame:frame];
     if (self) {
+        _questionInfoM = questionInfoM;
         self.choosedImageArr = [NSMutableArray array];
         [self initView];
         [self initImageView];
@@ -45,26 +48,41 @@
     return self;
 }
 -(void)initView
-{    
+{
+    UIView * questionExplainView = [UIView new];
+    [self addSubview:questionExplainView];
+    questionExplainView.backgroundColor = MAIN_BACKGROUND_COLOR;
+    
+    float questionExplainHeight = [ZEUtil heightForString:_questionInfoM.QUESTIONEXPLAIN font:[UIFont boldSystemFontOfSize:16] andWidth:SCREEN_WIDTH - 20];
+    
+    UILabel * explainLab = [UILabel new];
+    explainLab.left = 10;
+    explainLab.top = 10;
+    explainLab.size = CGSizeMake(SCREEN_WIDTH - 20, questionExplainHeight);
+    [questionExplainView addSubview:explainLab];
+    explainLab.text = _questionInfoM.QUESTIONEXPLAIN;
+    explainLab.font = [UIFont boldSystemFontOfSize:16];
+    explainLab.textColor = kTextColor;
+    
+    questionExplainView.frame = CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, questionExplainHeight + 20);
+    
     self.inputView = [[UITextView alloc]initWithFrame:CGRectZero];
     _inputView.text = textViewStr;
     _inputView.font = [UIFont systemFontOfSize:14];
     _inputView.textColor = [UIColor lightGrayColor];
     _inputView.delegate = self;
+    _inputView.left = kInputViewMarginLeft;
+    _inputView.top = kInputViewMarginTop + questionExplainView.height;
+    _inputView.size = CGSizeMake(kInputViewWidth, kInputViewHeight);
     [self addSubview:_inputView];
-    [_inputView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(kInputViewMarginLeft);
-        make.top.mas_equalTo(kInputViewMarginTop);
-        make.size.mas_equalTo(CGSizeMake(kInputViewWidth, kInputViewHeight));
-    }];
     
-    UIView * _dashView= [[UIView alloc]initWithFrame:CGRectMake( 0, kInputViewHeight + NAV_HEIGHT, SCREEN_WIDTH, 1)];
+    UIView * _dashView= [[UIView alloc]initWithFrame:CGRectMake( 0,_inputView.bottom, SCREEN_WIDTH, 1)];
     [self addSubview:_dashView];
     
     [self drawDashLine:_dashView lineLength:5 lineSpacing:2 lineColor:[UIColor lightGrayColor]];
     
     UIButton * downKeyboardBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    downKeyboardBtn.frame = CGRectMake(10, kInputViewHeight + NAV_HEIGHT + 5.0f, 30, 30);
+    downKeyboardBtn.frame = CGRectMake(10, _inputView.bottom + 5.0f, 30, 30);
     [downKeyboardBtn setImage:[UIImage imageNamed:@"TLdown"] forState:UIControlStateNormal];
     [self addSubview:downKeyboardBtn];
     [downKeyboardBtn addTarget:self action:@selector(downTheKeyBoard) forControlEvents:UIControlEventTouchUpInside];
@@ -74,7 +92,7 @@
     downKeyboardBtn.layer.borderColor = [MAIN_GREEN_COLOR CGColor];
     
     UIButton * cameraBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    cameraBtn.frame = CGRectMake(SCREEN_WIDTH - 40.0f, kInputViewHeight + NAV_HEIGHT + 5.0f, 30, 30);
+    cameraBtn.frame = CGRectMake(SCREEN_WIDTH - 40.0f, _inputView.bottom + 5.0f, 30, 30);
     [cameraBtn setImage:[UIImage imageNamed:@"camera_gray" color:MAIN_GREEN_COLOR] forState:UIControlStateNormal];
     [self addSubview:cameraBtn];
     cameraBtn.clipsToBounds = YES;

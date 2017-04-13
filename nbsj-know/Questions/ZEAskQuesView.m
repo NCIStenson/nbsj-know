@@ -538,7 +538,7 @@
 
 #pragma mark - 选择问题分类
 
--(void)didSelectType:(NSString *)typeName typeCode:(NSString *)typeCode;
+-(void)didSelectType:(NSString *)typeName typeCode:(NSString *)typeCode fatherCode:(NSString *)fatherCode
 {
     [questionTypeBtn  setTitle:[NSString stringWithFormat:@"关键词：%@",typeName] forState:UIControlStateNormal];
     self.quesTypeSEQKEY = typeCode;

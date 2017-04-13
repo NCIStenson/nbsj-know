@@ -172,6 +172,7 @@
     
     ZEAnswerTeamQuestionVC * answerQuesVC = [[ZEAnswerTeamQuestionVC alloc]init];
     answerQuesVC.questionSEQKEY = _questionInfoModel.SEQKEY;
+    answerQuesVC.questionInfoModel = _questionInfoModel;
     [self.navigationController pushViewController:answerQuesVC animated:YES];
 }
 

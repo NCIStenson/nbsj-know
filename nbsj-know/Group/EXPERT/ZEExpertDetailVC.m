@@ -10,6 +10,7 @@
 #import "ZEButton.h"
 #import "ZEExpertChatVC.h"
 #import "ZEShowQuestionVC.h"
+#import "ZEExpertChatListVC.h"
 
 @interface ZEExpertDetailVC ()
 
@@ -109,9 +110,8 @@
     if (btn.tag == 101) {
         if ([_expertModel.USERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
             NSLog(@"是专家！！！");
-            
-            
-            
+            ZEExpertChatListVC * chatListVC = [[ZEExpertChatListVC alloc]init];
+            [self.navigationController pushViewController:chatListVC animated:YES];
         }else{
             
             JMSGConversation *conversation = [JMSGConversation singleConversationWithUsername:_expertModel.USERCODE];

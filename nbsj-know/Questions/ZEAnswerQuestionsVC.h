@@ -10,6 +10,7 @@
 
 @interface ZEAnswerQuestionsVC : ZESettingRootVC
 
+@property (nonatomic,strong) ZEQuestionInfoModel * questionInfoM;
 @property (nonatomic,copy) NSString * questionSEQKEY;
 
 @end

@@ -301,6 +301,12 @@
 		98D42BD51DC73FBB003A3812 /* discuss_comment_gray@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98D42BCD1DC73FBB003A3812 /* discuss_comment_gray@3x.png */; };
 		98D42BD61DC73FBB003A3812 /* coursecell_list_score@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98D42BCE1DC73FBB003A3812 /* coursecell_list_score@3x.png */; };
 		98D584581E9C842A004588EE /* ZEExpertChatListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D584571E9C842A004588EE /* ZEExpertChatListVC.m */; };
+		98D5845D1E9C88BE004588EE /* JCHATConversationListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D5845B1E9C88BE004588EE /* JCHATConversationListCell.m */; };
+		98D5845E1E9C88BE004588EE /* JCHATConversationListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98D5845C1E9C88BE004588EE /* JCHATConversationListCell.xib */; };
+		98D584611E9C8A42004588EE /* JCHATSendMsgManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D584601E9C8A42004588EE /* JCHATSendMsgManager.m */; };
+		98D584641E9C8A7E004588EE /* JCHATSendMsgController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D584631E9C8A7E004588EE /* JCHATSendMsgController.m */; };
+		98D584671E9CA51D004588EE /* headDefalt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98D584651E9CA51D004588EE /* headDefalt@2x.png */; };
+		98D584681E9CA51D004588EE /* headDefalt@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98D584661E9CA51D004588EE /* headDefalt@3x.png */; };
 		98D598081DC83402002074C7 /* ZETypicalCaseDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D598071DC83402002074C7 /* ZETypicalCaseDetailVC.m */; };
 		98D5980B1DC83424002074C7 /* ZETypicalCaseDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D5980A1DC83424002074C7 /* ZETypicalCaseDetailView.m */; };
 		98D5980E1DC83E78002074C7 /* detail_star_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98D5980C1DC83E78002074C7 /* detail_star_normal@2x.png */; };
@@ -784,6 +790,15 @@
 		98D42BCE1DC73FBB003A3812 /* coursecell_list_score@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coursecell_list_score@3x.png"; sourceTree = "<group>"; };
 		98D584561E9C842A004588EE /* ZEExpertChatListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEExpertChatListVC.h; path = Group/EXPERT/ZEExpertChatListVC.h; sourceTree = "<group>"; };
 		98D584571E9C842A004588EE /* ZEExpertChatListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEExpertChatListVC.m; path = Group/EXPERT/ZEExpertChatListVC.m; sourceTree = "<group>"; };
+		98D5845A1E9C88BE004588EE /* JCHATConversationListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCHATConversationListCell.h; sourceTree = "<group>"; };
+		98D5845B1E9C88BE004588EE /* JCHATConversationListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCHATConversationListCell.m; sourceTree = "<group>"; };
+		98D5845C1E9C88BE004588EE /* JCHATConversationListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JCHATConversationListCell.xib; sourceTree = "<group>"; };
+		98D5845F1E9C8A42004588EE /* JCHATSendMsgManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCHATSendMsgManager.h; sourceTree = "<group>"; };
+		98D584601E9C8A42004588EE /* JCHATSendMsgManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCHATSendMsgManager.m; sourceTree = "<group>"; };
+		98D584621E9C8A7E004588EE /* JCHATSendMsgController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCHATSendMsgController.h; sourceTree = "<group>"; };
+		98D584631E9C8A7E004588EE /* JCHATSendMsgController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCHATSendMsgController.m; sourceTree = "<group>"; };
+		98D584651E9CA51D004588EE /* headDefalt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "headDefalt@2x.png"; sourceTree = "<group>"; };
+		98D584661E9CA51D004588EE /* headDefalt@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "headDefalt@3x.png"; sourceTree = "<group>"; };
 		98D598061DC83402002074C7 /* ZETypicalCaseDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZETypicalCaseDetailVC.h; path = Home/ZETypicalCaseDetailVC.h; sourceTree = "<group>"; };
 		98D598071DC83402002074C7 /* ZETypicalCaseDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZETypicalCaseDetailVC.m; path = Home/ZETypicalCaseDetailVC.m; sourceTree = "<group>"; };
 		98D598091DC83424002074C7 /* ZETypicalCaseDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZETypicalCaseDetailView.h; path = Home/ZETypicalCaseDetailView.h; sourceTree = "<group>"; };
@@ -1417,6 +1432,7 @@
 				9896637D1E8BDB0000F42906 /* ZEExpertChatVC.m */,
 				98D584561E9C842A004588EE /* ZEExpertChatListVC.h */,
 				98D584571E9C842A004588EE /* ZEExpertChatListVC.m */,
+				98D584591E9C88BE004588EE /* CellView */,
 			);
 			name = EXPERT;
 			sourceTree = "<group>";
@@ -1424,6 +1440,8 @@
 		9894FEB81E95D63000C255B5 /* icon_team */ = {
 			isa = PBXGroup;
 			children = (
+				98D584651E9CA51D004588EE /* headDefalt@2x.png */,
+				98D584661E9CA51D004588EE /* headDefalt@3x.png */,
 				9894FEDD1E95DD3000C255B5 /* building.gif */,
 				9894FEDB1E95D7A600C255B5 /* icon_team_practice.png */,
 				9894FED71E95D71800C255B5 /* icon_team_chat.png */,
@@ -1678,6 +1696,21 @@
 			name = ClassicalCase;
 			path = "nbsj-know/SourceImg/ClassicalCase";
 			sourceTree = SOURCE_ROOT;
+		};
+		98D584591E9C88BE004588EE /* CellView */ = {
+			isa = PBXGroup;
+			children = (
+				98D584621E9C8A7E004588EE /* JCHATSendMsgController.h */,
+				98D584631E9C8A7E004588EE /* JCHATSendMsgController.m */,
+				98D5845F1E9C8A42004588EE /* JCHATSendMsgManager.h */,
+				98D584601E9C8A42004588EE /* JCHATSendMsgManager.m */,
+				98D5845A1E9C88BE004588EE /* JCHATConversationListCell.h */,
+				98D5845B1E9C88BE004588EE /* JCHATConversationListCell.m */,
+				98D5845C1E9C88BE004588EE /* JCHATConversationListCell.xib */,
+			);
+			name = CellView;
+			path = Group/EXPERT/CellView;
+			sourceTree = "<group>";
 		};
 		98DB7C3D1C4F2F490046D405 /* Constant */ = {
 			isa = PBXGroup;
@@ -1964,6 +1997,7 @@
 				9831B01E1E60113600729BA8 /* post_normal@2x.png in Resources */,
 				9831AF691E5FF6CF00729BA8 /* login_background@3x.png in Resources */,
 				9894FED31E95D63000C255B5 /* icon_team_search@2x.png in Resources */,
+				98D5845E1E9C88BE004588EE /* JCHATConversationListCell.xib in Resources */,
 				9831AF6C1E5FF6CF00729BA8 /* Layer-14@2x.png in Resources */,
 				982ED4371D48517600F87343 /* icon_search@2x.png in Resources */,
 				987ACBC21D49E08F006D692E /* rateTa@2x.png in Resources */,
@@ -2017,6 +2051,7 @@
 				988019851DE2D0860097892E /* hornView@2x.png in Resources */,
 				982ED4401D48517600F87343 /* tab_download_normal@2x.png in Resources */,
 				9894FEE41E9611CD00C255B5 /* icon_circle_third.png in Resources */,
+				98D584671E9CA51D004588EE /* headDefalt@2x.png in Resources */,
 				9831B0601E602C5C00729BA8 /* 运维@2x.png in Resources */,
 				9831B0231E60113600729BA8 /* 修改@3x.png in Resources */,
 				9896637A1E8B5F4700F42906 /* icon_expert_chat@3x.png in Resources */,
@@ -2057,6 +2092,7 @@
 				98253E1A1E2E09CF005C3E10 /* answer_tag@2x.png in Resources */,
 				983D47CA1DCC2B1100D61BC9 /* fast_forward_disable@2x.png in Resources */,
 				9831B0661E602C5C00729BA8 /* 运输调度@2x.png in Resources */,
+				98D584681E9CA51D004588EE /* headDefalt@3x.png in Resources */,
 				9831B01A1E60113600729BA8 /* icon_signin@2x.png in Resources */,
 				9831AF681E5FF6CF00729BA8 /* login_background@2x.png in Resources */,
 				983D47CF1DCC2B1100D61BC9 /* pause_nor@2x.png in Resources */,
@@ -2222,10 +2258,13 @@
 				98EE5DB91DE56D9A00C82FCB /* ZEChooseMonthView.m in Sources */,
 				989AA6801D4F186300A08022 /* ZEAskQuesView.m in Sources */,
 				98253E0C1E2DC3E5005C3E10 /* LBTabBar.m in Sources */,
+				98D584611E9C8A42004588EE /* JCHATSendMsgManager.m in Sources */,
 				984A32921DAC88CE00B9F53B /* PYNavigationController.m in Sources */,
 				98B13C3F1E6E9996006C783B /* MKJCollectionViewFlowLayout.m in Sources */,
 				98A1D5781DF659E000D92333 /* ZEChatLayout.m in Sources */,
 				9801DB0D1D6170A8008B1676 /* ZEServerEngine.m in Sources */,
+				98D5845D1E9C88BE004588EE /* JCHATConversationListCell.m in Sources */,
+				98D584641E9C8A7E004588EE /* JCHATSendMsgController.m in Sources */,
 				982ED36C1D4208A900F87343 /* ZESettingRootVC.m in Sources */,
 				989AA68E1D52CDB500A08022 /* ZEQuestionsDetailVC.m in Sources */,
 				984A329A1DAC88CE00B9F53B /* PYPhotoBrowseView.m in Sources */,
@@ -2462,7 +2501,7 @@
 				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = "com.zenithElec.know-Debug";
-				ZENITH_SERVER = "http://117.149.2.229:1622/emarkspg_nbsjzd";
+				ZENITH_SERVER = "http://192.168.1.175:8080/nbsjzd";
 			};
 			name = Debug;
 		};
@@ -2533,7 +2572,7 @@
 				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = com.zenithElec.know;
-				ZENITH_SERVER = "http://117.149.2.229:1622/emarkspg_nbsjzd";
+				ZENITH_SERVER = "http://192.168.1.175:8080/nbsjzd";
 			};
 			name = Release;
 		};

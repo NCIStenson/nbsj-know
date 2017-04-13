@@ -175,8 +175,8 @@
         return;
     }
     NSDictionary * dic = currentArr[indexPath.row];
-    if([self.delegate respondsToSelector:@selector(didSelectType:typeCode:)]){
-        [self.delegate didSelectType:[dic objectForKey:@"NAME"] typeCode:[dic objectForKey:@"CODE"]];
+    if([self.delegate respondsToSelector:@selector(didSelectType:typeCode:fatherCode:)]){
+        [self.delegate didSelectType:[dic objectForKey:@"NAME"] typeCode:[dic objectForKey:@"CODE"] fatherCode:[dic objectForKey:@"PARENTID"]];
     }
 }
 
@@ -295,8 +295,8 @@
 -(void)handleDoubleTap:(UIView *)view
 {
     NSDictionary * dic = self.typeArr[_currentSelectType];
-    if([self.delegate respondsToSelector:@selector(didSelectType:typeCode:)]){
-        [self.delegate didSelectType:[dic objectForKey:@"NAME"] typeCode:[dic objectForKey:@"CODE"]];
+    if([self.delegate respondsToSelector:@selector(didSelectType:typeCode:fatherCode:)]){
+        [self.delegate didSelectType:[dic objectForKey:@"NAME"] typeCode:[dic objectForKey:@"CODE"] fatherCode:[dic objectForKey:@"PARENTID"]];
     }
 
 }

@@ -238,7 +238,7 @@
 
 #pragma mark - ZEAskQuestionTypeViewDelegate
 
--(void)didSelectType:(NSString *)typeName typeCode:(NSString *)typeCode
+-(void)didSelectType:(NSString *)typeName typeCode:(NSString *)typeCode fatherCode:(NSString *)fatherCode
 {
     _isShowTypicalTypeView = NO;
     

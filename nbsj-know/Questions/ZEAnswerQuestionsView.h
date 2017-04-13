@@ -44,7 +44,7 @@
 /************** 问题主键 *************/
 @property (nonatomic,copy) NSString * quesTypeSEQKEY;
 
--(id)initWithFrame:(CGRect)frame;
+-(id)initWithFrame:(CGRect)frame withQuestionInfoModel:(ZEQuestionInfoModel *)questionInfoM;
 
 -(void)reloadChoosedImageView:(id)choosedImage;
 

@@ -165,9 +165,23 @@
     if (circleLab.height == 0) {
         circleLab.height = 15.0f;
     }
-    
-    
     userY += circleLab.height + 5.0f;
+
+    if (_questionInfoModel.TARGETUSERNAME.length > 0) {
+        
+        NSString * targetUsernameStr = [NSString stringWithFormat:@"指定人员回答 ：%@",_questionInfoModel.TARGETUSERNAME];
+        
+        float targetUsernameHeight = [ZEUtil heightForString:targetUsernameStr font:[UIFont systemFontOfSize:kSubTiltlFontSize] andWidth:SCREEN_WIDTH - 40];
+        
+        UILabel * TARGETUSERNAMELab = [[UILabel alloc]initWithFrame:CGRectMake(20,userY,SCREEN_WIDTH - 40,targetUsernameHeight)];
+        TARGETUSERNAMELab.font = [UIFont systemFontOfSize:kSubTiltlFontSize];
+        TARGETUSERNAMELab.text = targetUsernameStr;
+        TARGETUSERNAMELab.textColor = MAIN_SUBTITLE_COLOR;
+        [questionsView addSubview:TARGETUSERNAMELab];
+        TARGETUSERNAMELab.numberOfLines = 0;
+        
+        userY += targetUsernameHeight + 5.0f;
+    }
     
     UIView * messageLineView = [[UIView alloc]initWithFrame:CGRectMake(0, userY, SCREEN_WIDTH, 0.5)];
     messageLineView.backgroundColor = MAIN_LINE_COLOR;
@@ -226,8 +240,18 @@
     
     float tagHeight = [ZEUtil heightForString:typeNameContent font:[UIFont systemFontOfSize:kSubTiltlFontSize] andWidth:SCREEN_WIDTH - 70];
     
-    if ([_questionInfoModel.FILEURLARR count] > 0) {
-        return questionHeight + tagHeight + 75.0f + kCellImgaeHeight;
+    NSString * targetUsernameStr = [NSString stringWithFormat:@"指定人员回答 ：%@", _questionInfoModel.TARGETUSERNAME];
+    float targetUsernameHeight = [ZEUtil heightForString:targetUsernameStr font:[UIFont systemFontOfSize:kSubTiltlFontSize] andWidth:SCREEN_WIDTH - 40];
+    
+    if(_questionInfoModel.FILEURLARR.count > 0){
+        if(_questionInfoModel.TARGETUSERNAME.length > 0){
+            return questionHeight + kCellImgaeHeight + tagHeight + 75.0f + targetUsernameHeight;
+        }
+        return questionHeight + kCellImgaeHeight + tagHeight + 70.0f;
+    }
+    
+    if (_questionInfoModel.TARGETUSERNAME.length > 0) {
+        return questionHeight + tagHeight + 65.0f + targetUsernameHeight;
     }
 
     return questionHeight + tagHeight + 65.0f;
@@ -303,7 +327,6 @@
     [cellContentView addSubview:ANSWEREXPLAIN];
     
     float userY = answerHeight + 40.0f;
-    
     
     NSMutableArray * urlsArr = [NSMutableArray array];
     for (NSString * str in answerInfoM.FILEURLARR) {
@@ -388,27 +411,7 @@
         [cellContentView addSubview:otherAnswers];
     }
     
-    if ([answerInfoM.ANSWERCOUNT integerValue] > 0) {
-        UILabel * badgeLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 20, 20.0f)];
-        badgeLab.backgroundColor = [UIColor redColor];
-        badgeLab.tag = 100;
-        badgeLab.center = CGPointMake(SCREEN_WIDTH - 20, (userY + 20.0f) / 2);
-        badgeLab.font = [UIFont systemFontOfSize:kTiltlFontSize];
-        badgeLab.textColor = [UIColor whiteColor];
-        badgeLab.textAlignment = NSTextAlignmentCenter;
-        [cellContentView addSubview:badgeLab];
-        badgeLab.clipsToBounds = YES;
-        badgeLab.layer.cornerRadius = badgeLab.height / 2;
-        badgeLab.text = answerInfoM.ANSWERCOUNT;
-        if (badgeLab.text.length > 2){
-            badgeLab.width = 30.0f;
-            badgeLab.center = CGPointMake(SCREEN_WIDTH - 25, (userY + 20.0f) / 2);
-        }
-        if ([_questionInfoModel.INFOCOUNT integerValue] > 99) {
-            badgeLab.text = @"99+";
-        }
-    }
-    if ([answerInfoM.INFOCOUNT integerValue] > 0 && [answerInfoM.ANSWERUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
+    if ([answerInfoM.INFOCOUNT integerValue] > 0) {
         UILabel * badgeLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 20, 20.0f)];
         badgeLab.backgroundColor = [UIColor redColor];
         badgeLab.tag = 100;

@@ -35,7 +35,7 @@
 
 -(void)initView
 {
-    _answerQuesView = [[ZEAnswerQuestionsView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    _answerQuesView = [[ZEAnswerQuestionsView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) withQuestionInfoModel:_questionInfoM];
     _answerQuesView.delegate = self;
     [self.view addSubview:_answerQuesView];
     [self.view sendSubviewToBack:_answerQuesView];

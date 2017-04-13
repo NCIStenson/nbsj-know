@@ -16,7 +16,9 @@
 @property (nonatomic,assign) QUESTION_LIST showQuestionListType;
 
 @property (nonatomic,copy) NSString * QUESTIONTYPENAME;
+
 @property (nonatomic,copy) NSString * typeSEQKEY;
+@property (nonatomic,copy) NSString * typeParentID;
 
 @property (nonatomic,copy) NSString * currentInputStr;
 

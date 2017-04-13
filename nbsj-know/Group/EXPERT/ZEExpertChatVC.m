@@ -24,8 +24,11 @@
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-    
-    self.title = _expertModel.USERNAME;
+    if([ZEUtil isNotNull:_expertModel]){
+        self.title = _expertModel.USERNAME;
+    }else if([ZEUtil isNotNull:self.conversation]){
+        self.title = ((JMSGUser *)self.conversation.target).displayName;
+    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showChatImage:) name:kJMESSAGE_TAP_IMAGE object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPersonalMessage:) name:kJMESSAGE_TAP_HEADVIEW object:nil];
@@ -40,6 +43,11 @@
 {
     [super viewWillDisappear:YES];
     [self.navigationController setNavigationBarHidden:YES];
+    if([ZEUtil isNotNull:self.conversation]){
+        [self.conversation clearUnreadCount];
+        [[JMUIAudioPlayerHelper shareInstance] stopAudio];
+        [[JMUIAudioPlayerHelper shareInstance] setDelegate:nil];
+    }
 }
 
 - (void)showChatImage:(NSNotification *)noti

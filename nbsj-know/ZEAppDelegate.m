@@ -67,13 +67,13 @@
     [JPUSHService setupWithOption:launchOptions
                            appKey:JMESSAGE_APPKEY
                           channel:@"App Store"
-                 apsForProduction:YES
+                 apsForProduction:NO
             advertisingIdentifier:nil];
     
     [JMessage setupJMessage:launchOptions
                      appKey:JMESSAGE_APPKEY
                     channel:@"App Store"
-           apsForProduction:YES
+           apsForProduction:NO
                    category:nil];
     [JMessage addDelegate:self withConversation:nil];
 
