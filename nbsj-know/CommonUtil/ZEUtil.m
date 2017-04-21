@@ -399,10 +399,14 @@
 +(NSDictionary *)getEXCEPTIONDATA:(NSDictionary *)dic
 {
     NSDictionary * tableDic = [dic objectForKey:@"EXCEPTIONDATA"];
-    
     return tableDic;
 }
 
++(NSDictionary *)getCOMMANDDATA:(NSDictionary *)dic
+{
+    NSDictionary * tableDic = [dic objectForKey:@"COMMAND"];
+    return tableDic;
+}
 
 +(BOOL)isSuccess:(NSString *)dicStr
 {

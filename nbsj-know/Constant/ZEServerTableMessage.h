@@ -67,6 +67,7 @@
 #define V_KLB_TEAMCIRCLE_QUESTION_INFO     @"V_KLB_TEAMCIRCLE_QUESTION_INFO"    /***   班组圈问题视图  ***/
 #define KLB_TEAMCIRCLE_QUE_ANS_DETAIL             @"KLB_TEAM_QUE_ANS_DETAIL"               /***   追问表   ***/
 
+#define V_KLB_TEAMCIRCLE_MEMBERRANK             @"V_KLB_TEAMCIRCLE_MEMBERRANK"               /***   团队比一比  ***/
 
 #define KLB_SETUP_RECORD               @"KLB_SETUP_RECORD"              /***   我的个人设置记录   ***/
 #define KLB_POINT_RULE_INFO            @"KLB_POINT_RULE_INFO"           /***   积分等级规则维护表   ***/

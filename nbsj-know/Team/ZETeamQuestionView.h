@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <JavaScriptCore/JavaScriptCore.h>
+#import <WebKit/WebKit.h>
 
 @class ZETeamQuestionView;
 @protocol ZETeamQuestionViewDelegate <NSObject>
@@ -21,8 +23,6 @@
  */
 -(void)goQuestionDetailVCWithQuestionInfo:(ZEQuestionInfoModel *)infoModel
                          withQuestionType:(ZEQuestionTypeModel *)typeModel;
-
-
 
 /**
  加载新最新数据
@@ -44,7 +44,6 @@
 
 -(void)goAnswerQuestionVC:(ZEQuestionInfoModel *)_questionInfoModel;
 
-
 /**
  进入团队聊天组
  */
@@ -52,9 +51,14 @@
 
 @end
 
-@interface ZETeamQuestionView : UIView<UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface ZETeamQuestionView : UIView<UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource,WKUIDelegate,WKNavigationDelegate>
 
 @property(nonatomic,weak) id <ZETeamQuestionViewDelegate> delegate;
+
+@property (nonatomic,copy) NSString * practiceURL;  // 每日一练
+@property (nonatomic,copy) NSString * teamTestURL;  // 团队测试
+
+@property (nonatomic,assign) BOOL isPractice;  //  是否正在练习
 
 -(id)initWithFrame:(CGRect)frame;
 
@@ -86,5 +90,24 @@
  @param toContent 需要显示的视图索引
  */
 -(void)scrollContentViewToIndex:(TEAM_CONTENT)toContent;
+
+
+/**
+ 刷新比一比界面
+ */
+-(void)reloadTeamViewRankingList:(NSArray *)arr withRankingContent:(TEAM_RANKING)ranking;
+
+
+
+/**
+ 刷新练一练界面
+ */
+-(void)refreshPracticeWebView;
+
+
+/**
+ 网页界面弹出框
+ */
+-(void)showWebViewAlert;
 
 @end

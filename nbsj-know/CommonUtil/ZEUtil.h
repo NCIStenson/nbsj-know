@@ -68,7 +68,7 @@
 + (NSDictionary *)getServerDic:(NSDictionary *)dic withTabelName:(NSString *)tableName;
 + (NSArray *)getServerData:(NSDictionary *)dic withTabelName:(NSString *)tableName;
 
-
++(NSDictionary *)getCOMMANDDATA:(NSDictionary *)dic;
 /**
  获取敏感词反馈信息
 

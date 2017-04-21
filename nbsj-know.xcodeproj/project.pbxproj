@@ -45,6 +45,7 @@
 		98253E131E2DC446005C3E10 /* UIView+LBExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 98253E111E2DC446005C3E10 /* UIView+LBExtension.m */; };
 		98253E1A1E2E09CF005C3E10 /* answer_tag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98253E181E2E09CF005C3E10 /* answer_tag@2x.png */; };
 		98253E1B1E2E09CF005C3E10 /* center_name_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98253E191E2E09CF005C3E10 /* center_name_logo@2x.png */; };
+		9828A7321EA9DB2300611327 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9828A7311EA9DB2300611327 /* WebKit.framework */; };
 		982ED36C1D4208A900F87343 /* ZESettingRootVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED36B1D4208A900F87343 /* ZESettingRootVC.m */; };
 		982ED3731D42095400F87343 /* ZEHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED3721D42095400F87343 /* ZEHomeVC.m */; };
 		982ED3761D42096F00F87343 /* ZEHomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 982ED3751D42096F00F87343 /* ZEHomeView.m */; };
@@ -256,6 +257,7 @@
 		9896637A1E8B5F4700F42906 /* icon_expert_chat@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 989663781E8B5F4700F42906 /* icon_expert_chat@3x.png */; };
 		9896637B1E8B5F4700F42906 /* icon_expert_history@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 989663791E8B5F4700F42906 /* icon_expert_history@3x.png */; };
 		9896637E1E8BDB0000F42906 /* ZEExpertChatVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9896637D1E8BDB0000F42906 /* ZEExpertChatVC.m */; };
+		9899CC491EA893CD00A1446F /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9899CC481EA893CD00A1446F /* JavaScriptCore.framework */; };
 		989AA67D1D4EF83E00A08022 /* ZEAskQuesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 989AA67C1D4EF83E00A08022 /* ZEAskQuesViewController.m */; };
 		989AA6801D4F186300A08022 /* ZEAskQuesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 989AA67F1D4F186300A08022 /* ZEAskQuesView.m */; };
 		989AA6821D4F33E400A08022 /* TLdown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 989AA6811D4F33E400A08022 /* TLdown@2x.png */; };
@@ -438,6 +440,7 @@
 		98253E111E2DC446005C3E10 /* UIView+LBExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+LBExtension.m"; sourceTree = "<group>"; };
 		98253E181E2E09CF005C3E10 /* answer_tag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "answer_tag@2x.png"; path = "nbsj-know/SourceImg/answer_tag@2x.png"; sourceTree = SOURCE_ROOT; };
 		98253E191E2E09CF005C3E10 /* center_name_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "center_name_logo@2x.png"; path = "nbsj-know/SourceImg/center_name_logo@2x.png"; sourceTree = SOURCE_ROOT; };
+		9828A7311EA9DB2300611327 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		982ED36A1D4208A900F87343 /* ZESettingRootVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZESettingRootVC.h; path = CommonUtil/ZESettingRootVC.h; sourceTree = "<group>"; };
 		982ED36B1D4208A900F87343 /* ZESettingRootVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZESettingRootVC.m; path = CommonUtil/ZESettingRootVC.m; sourceTree = "<group>"; };
 		982ED3711D42095400F87343 /* ZEHomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEHomeVC.h; path = Home/ZEHomeVC.h; sourceTree = "<group>"; };
@@ -712,6 +715,7 @@
 		989663791E8B5F4700F42906 /* icon_expert_history@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_expert_history@3x.png"; path = "nbsj-know/SourceImg/icon_expert_history@3x.png"; sourceTree = SOURCE_ROOT; };
 		9896637C1E8BDB0000F42906 /* ZEExpertChatVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEExpertChatVC.h; path = Group/EXPERT/ZEExpertChatVC.h; sourceTree = "<group>"; };
 		9896637D1E8BDB0000F42906 /* ZEExpertChatVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEExpertChatVC.m; path = Group/EXPERT/ZEExpertChatVC.m; sourceTree = "<group>"; };
+		9899CC481EA893CD00A1446F /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		989AA67B1D4EF83E00A08022 /* ZEAskQuesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEAskQuesViewController.h; path = Questions/ZEAskQuesViewController.h; sourceTree = "<group>"; };
 		989AA67C1D4EF83E00A08022 /* ZEAskQuesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEAskQuesViewController.m; path = Questions/ZEAskQuesViewController.m; sourceTree = "<group>"; };
 		989AA67E1D4F186300A08022 /* ZEAskQuesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEAskQuesView.h; path = Questions/ZEAskQuesView.h; sourceTree = "<group>"; };
@@ -863,6 +867,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9828A7321EA9DB2300611327 /* WebKit.framework in Frameworks */,
+				9899CC491EA893CD00A1446F /* JavaScriptCore.framework in Frameworks */,
 				988C10641E8A3453006795F0 /* JMUICommon.framework in Frameworks */,
 				9FBE7A32BDB566C417E1113F /* libPods-nbsj-know.a in Frameworks */,
 				98DEF0EB1E8DEE9300242043 /* JMUIChattingKit.framework in Frameworks */,
@@ -1757,6 +1763,8 @@
 		B7D1F079C1E85BD7D2342805 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9828A7311EA9DB2300611327 /* WebKit.framework */,
+				9899CC481EA893CD00A1446F /* JavaScriptCore.framework */,
 				9850691C1E7FC46B005F30A6 /* libresolv.tbd */,
 				9850691A1E7FC463005F30A6 /* UserNotifications.framework */,
 				985069181E7FC45B005F30A6 /* AdSupport.framework */,
@@ -2501,7 +2509,7 @@
 				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = "com.zenithElec.know-Debug";
-				ZENITH_SERVER = "http://192.168.1.175:8080/nbsjzd";
+				ZENITH_SERVER = "http://117.149.2.229:1622/emarkspg_nbsjzd";
 			};
 			name = Debug;
 		};
@@ -2572,7 +2580,7 @@
 				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = com.zenithElec.know;
-				ZENITH_SERVER = "http://192.168.1.175:8080/nbsjzd";
+				ZENITH_SERVER = "http://117.149.2.229:1622/emarkspg_nbsjzd";
 			};
 			name = Release;
 		};

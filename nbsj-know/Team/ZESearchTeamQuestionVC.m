@@ -28,9 +28,8 @@
     _currentInputStr = @"";
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    _questionsView = [[ZEShowQuestionView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
+    _questionsView = [[ZEShowQuestionView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT) withEnterType:QUESTION_LIST_TEAM_QUESTION];
     _questionsView.delegate = self;
-    _questionsView.backgroundColor = [UIColor redColor];
     [self.view addSubview:_questionsView];
 //    _questionsView.searchStr = _currentInputStr;
     [self.view sendSubviewToBack:_questionsView];

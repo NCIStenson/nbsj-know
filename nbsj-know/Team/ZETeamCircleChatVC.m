@@ -289,7 +289,7 @@
                                      @"METHOD":METHOD_INSERT,
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"CLASSNAME":@"com.nci.klb.app.teamcircle.QueAnsDetail",
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{@"ANSWERCODE":_answerInfo.SEQKEY,

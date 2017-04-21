@@ -29,6 +29,12 @@
     NSInteger _currentTeamTargetPage; //  你问我答
     NSInteger _currentTeamMyQuestionPage;  //  我的问题
     NSInteger _currentTeamSolvedPage; //   团队已解决问题
+    
+    NSInteger _currentAskRankingPage; //   团队已解决问题
+    NSInteger _currentAnswerRankingPage; //   团队已解决问题
+    
+    TEAM_WILL_SHOWVIEW _willShowView;
+
 }
 @end
 
@@ -44,12 +50,15 @@
     [self addNavBarBtn];
     [self initView];
     
+    _willShowView = -1;
+    
     self.automaticallyAdjustsScrollViewInsets = NO;
         
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendHomeDataRequest) name:kNOTI_ASK_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendHomeDataRequest) name:kNOTI_ACCEPT_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendHomeDataRequest) name:kNOTI_ANSWER_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeTeamCircleInfo:) name:kNOTI_CHANGE_TEAMCIRCLEINFO_SUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(goLeavePracticeWebView) name:kNOTI_LEAVE_PRACTICE_WEBVIEW object:nil];
 
     UITapGestureRecognizer *tapGr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
     tapGr.cancelsTouchesInView = NO;
@@ -87,6 +96,23 @@
     }
 }
 
+-(void)leftBtnClick{
+    _willShowView = TEAM_WILL_SHOWVIEW_BACK;
+    if(_teamQuestionView.isPractice ){
+        [_teamQuestionView showWebViewAlert];
+        return;
+    }else{
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
+-(void)goLeavePracticeWebView
+{
+    NSLog(@"离开练一练界面离开练一练界面离开练一练界面离开练一练界面离开练一练界面离开练一练界面离开练一练界面离开练一练界面离开练一练界面离开练一练界面离开练一练界面");
+    if (_willShowView == TEAM_WILL_SHOWVIEW_BACK) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
 #pragma mark - 导航栏两个按钮点击
 
 -(void)typeBtnClick:(UIButton *)btn
@@ -172,6 +198,9 @@
     [self sendOnlyMeAskQuestionsRequest:@""];
     [self sendSolvedQuestion];
     [self sendMyQuestionsRequest:@""];
+    [self sendAskRankingRequest];
+    [self sendAnswerRankingRequest];
+    [self sendPracticeRequest];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -258,7 +287,7 @@
     NSDictionary * parametersDic = @{@"limit":[NSString stringWithFormat:@"%ld",(long) MAX_PAGE_COUNT],
                                      @"MASTERTABLE":V_KLB_TEAMCIRCLE_QUESTION_INFO,
                                      @"MENUAPP":@"EMARK_APP",
-                                     @"ORDERSQL":@" ANSWERSUM,SYSCREATEDATE desc ",
+                                     @"ORDERSQL":@" ANSWERSUM DESC,SYSCREATEDATE desc ",
                                      @"WHERESQL":WHERESQL,
                                      @"start":[NSString stringWithFormat:@"%ld",(long)_currentTeamNewestPage * MAX_PAGE_COUNT],
                                      @"METHOD":METHOD_SEARCH,
@@ -473,6 +502,121 @@
 }
 
 
+#pragma mark - 比一比接口请求
+
+-(void)sendAskRankingRequest
+{
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":V_KLB_TEAMCIRCLE_MEMBERRANK,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"",
+                                     @"METHOD":METHOD_SEARCH,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.teamcircle.TeamcircleRank",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{@"TEAMCIRCLECODE":_teamCircleInfo.TEAMCODE,
+                                @"USERNAME":@"",
+                                @"FILEURL":@"",
+                                @"QUESTIONSUM":@""};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_TEAMCIRCLE_MEMBERRANK]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:@"TEAMCIRCLE_QUESTIONRANK"];
+    
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:V_KLB_TEAMCIRCLE_MEMBERRANK];
+                                 if (dataArr.count > 0) {
+                                     [_teamQuestionView reloadTeamViewRankingList:dataArr withRankingContent:TEAM_RANKING_ASK];
+                                 }
+                             } fail:^(NSError *errorCode) {
+
+                             }];
+}
+
+-(void)sendAnswerRankingRequest
+{
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":V_KLB_TEAMCIRCLE_MEMBERRANK,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"",
+                                     @"METHOD":METHOD_SEARCH,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.teamcircle.TeamcircleRank",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{@"TEAMCIRCLECODE":_teamCircleInfo.TEAMCODE,
+                                @"USERNAME":@"",
+                                @"FILEURL":@"",
+                                @"ANSWERSUM":@""};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_TEAMCIRCLE_MEMBERRANK]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:@"TEAMCIRCLE_ANSWERRANK"];
+    
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:V_KLB_TEAMCIRCLE_MEMBERRANK];
+                                 if (dataArr.count > 0) {
+                                     [_teamQuestionView reloadTeamViewRankingList:dataArr withRankingContent:TEAM_RANKING_ANSWER];
+                                 }
+                             } fail:^(NSError *errorCode) {
+                                 
+                             }];
+}
+
+#pragma mark - 练一练接口
+
+-(void)sendPracticeRequest
+{
+    _teamQuestionView.practiceURL = @"http://117.149.2.229:1623/ecm/ZUI/pages/dzd/taskPractice.html?userID=66661666&teamID=6486";
+    [_teamQuestionView refreshPracticeWebView];
+
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":V_KLB_TEAMCIRCLE_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"",
+                                     @"METHOD":@"DailyPractice",
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.exam.examCaseTeam",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{@"TEAMCIRCLECODE":_teamCircleInfo.TEAMCODE};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_TEAMCIRCLE_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 NSDictionary * dic = [ZEUtil getCOMMANDDATA:data];
+                                 NSString * targetURL = [dic objectForKey:@"target"];
+                                 if (targetURL.length > 0) {
+                                     NSLog(@"targetURL >>>  %@",targetURL);
+                                     _teamQuestionView.practiceURL = targetURL;
+                                     [_teamQuestionView refreshPracticeWebView];
+                                 }
+                             } fail:^(NSError *errorCode) {
+                                 
+                             }];
+}
+
 #pragma mark - ZEHomeViewDelegate
 
 -(void)goQuestionDetailVCWithQuestionInfo:(ZEQuestionInfoModel *)infoModel
@@ -517,7 +661,6 @@
     askQues.enterType = ENTER_GROUP_TYPE_TABBAR;
     askQues.teamInfoModel = _teamCircleInfo;
     [self presentViewController:askQues animated:YES completion:nil];
-
 }
 
 - (void)showTips:(NSString *)labelText {

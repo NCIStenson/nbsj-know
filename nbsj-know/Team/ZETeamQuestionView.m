@@ -6,6 +6,14 @@
 //  Copyright © 2016年 Hangzhou Zenith Electronic Technology Co., Ltd. . All rights reserved.
 //
 
+#define kTypeScrollViewTag 1000    //  分类列表
+#define kContentSrollViewTag 2017 // 内容列表
+
+#define kTypeScrollLabTag 1008    //  分类列表的文字
+#define kTypeScrollLineImageTag 1999  // 下划线
+
+#define kPracticeWebViewTag 1994
+
 #define kQuestionTitleFontSize      kTiltlFontSize
 #define kQuestionSubTitleFontSize   kSubTiltlFontSize
 
@@ -17,7 +25,9 @@
 #define kNavBarMarginTop    0.0f
 #define kNavBarWidth        SCREEN_WIDTH
 
-#define kLabelScrollViewMarginTop     (64.0f + SCREEN_WIDTH / 4 )
+#define kContentMarginTop  (64.0f + SCREEN_WIDTH / 4)
+
+#define kLabelScrollViewMarginTop  0.0f
 
 // 导航栏内左侧按钮
 #define kLeftButtonWidth 40.0f
@@ -36,15 +46,14 @@
 #define kTypicalViewHeight      135.0f
 
 #define kContentTableMarginLeft  0.0f
-#define kContentTableMarginTop   ( kLabelScrollViewMarginTop + 35.0f )
+#define kContentTableMarginTop   35.0f
 #define kContentTableWidth       SCREEN_WIDTH
-#define kContentTableHeight      (SCREEN_HEIGHT - kContentTableMarginTop)
+#define kContentTableHeight      (SCREEN_HEIGHT - NAV_HEIGHT - kContentTableMarginTop)
 
 #import "ZETeamQuestionView.h"
 #import "PYPhotoBrowser.h"
 #import "ZEKLB_CLASSICCASE_INFOModel.h"
 #import "ZEButton.h"
-
 
 @interface ZETeamQuestionView ()
 {
@@ -52,19 +61,27 @@
     
     UIView * optionView;  // 团队不同功能选项按钮
     
-    UIScrollView * _labelScrollView;  // 展示出的分类名称
-    UIScrollView * _contentScrollView; // 展示出的问题内容
+    UIView * questionView; // 问一问界面
+    UIView * practiceView; // 练一练界面
+    UIView * rankingListView; // 比一比界面
+    
+    TEAM_VIEW _currentTeamShowView;
     
     YYAnimatedImageView * gifImageView;  //  GIF 动态
-    UIImageView * _lineImageView;
     
     NSArray * _allTypeArr;
-    
-    BOOL isSignin;
+    NSArray * _allCompareTypeArr;
+    NSArray * _allPracticeTypeArr;
     
     float _historyY;
     
     NSInteger _currentHomeContentPage; // 当前显示的页面 0 你问我答 1 指定回答 2已采纳 3我的问题
+    NSInteger _currentRankingListPage; // 当前显示的页面 0 提问榜 1 回答榜
+    NSInteger _currentPracticePage; // 当前显示的页面 0 提问榜 1 回答榜
+    
+    BOOL _isPractice; // 是否正在练习界面
+    
+    TEAM_WILL_SHOWVIEW _willShowView;
 }
 
 @property (nonatomic,strong) NSMutableArray * newestQuestionArr; //   最新
@@ -75,6 +92,11 @@
 
 @property (nonatomic,strong) NSMutableArray * myQuestionArr;  //  我的问题
 
+
+@property (nonatomic,strong) NSMutableArray * askRankingListArr;  //  提问榜
+
+@property (nonatomic,strong) NSMutableArray * answerRankingListArr;  //  回答榜
+
 @end
 
 @implementation ZETeamQuestionView
@@ -82,7 +104,6 @@
 
 -(id)initWithFrame:(CGRect)frame
 {
-    
     self = [super initWithFrame:frame];
     if (self) {
         [self initView];
@@ -93,14 +114,35 @@
 -(void)initView
 {
     _allTypeArr = @[@"我来挑战",@"你问我答",@"已解决",@"我的问题"];
-    
+    _allCompareTypeArr = @[@"提问榜",@"回答榜"];
+    _allPracticeTypeArr = @[@"每日一练",@"团队测试"];
     _currentHomeContentPage = TEAM_CONTENT_NEWEST;
+    _currentRankingListPage = TEAM_RANKING_ASK;
     
-    [self initContentView];
-    [self addSubview:[self createTypicalCaseView]];
+    [self initOptionView];
+
+    questionView = [UIView new];
+    [self addSubview:questionView];
+    questionView.frame = CGRectMake(0, kContentMarginTop, SCREEN_WIDTH, SCREEN_HEIGHT);
+    
+    practiceView = [UIView new];
+    [self addSubview:practiceView];
+    practiceView.frame = CGRectMake(0, kContentMarginTop, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+    rankingListView = [UIView new];
+    [self addSubview:rankingListView];
+    rankingListView.frame = CGRectMake(0, kContentMarginTop, SCREEN_WIDTH, SCREEN_HEIGHT);
+    
+    [self initQuestionView];
+    [self initRankingListView];
+    [self initPracticeView];
+    
+    _currentTeamShowView = TEAM_VIEW_QUESTION;
+    practiceView.hidden = YES;
+    rankingListView.hidden = YES;
 }
 
-#pragma mark - 经典案例
+#pragma mark - 四个选项按钮
 
 -(void)initOptionView
 {
@@ -123,7 +165,6 @@
         [optionBtn setTitleColor:kTextColor forState:UIControlStateNormal];
         [optionBtn setTitleColor:MAIN_NAV_COLOR forState:UIControlStateSelected];
 
-        
         UIView * lineLayer = [UIView new];
         lineLayer.frame = CGRectMake( optionBtn.frame.size.width - 1, 0, 1.0f, optionBtn.frame.size.height);
         [optionBtn addSubview:lineLayer];
@@ -165,52 +206,14 @@
     lineView.backgroundColor = MAIN_LINE_COLOR;
 }
 
--(UIView *)createTypicalCaseView
-{
-    _labelScrollView = [[UIScrollView alloc]init];
-    _labelScrollView.width = SCREEN_WIDTH;
-    _labelScrollView.left = 0.0f;
-    _labelScrollView.top = kLabelScrollViewMarginTop;
-    _labelScrollView.width = SCREEN_WIDTH;
-    _labelScrollView.height = 35.0f;
-    
-    _lineImageView = [[UIImageView alloc]init];
-    _lineImageView.frame = CGRectMake(0, 33.0f, SCREEN_WIDTH / _allTypeArr.count, 2.0f);
-    _lineImageView.backgroundColor = MAIN_GREEN_COLOR;
-    [_labelScrollView addSubview:_lineImageView];
-    
-    float marginLeft = 0;
-    
-    for (int i = 0 ; i < _allTypeArr.count; i ++) {
-        UIButton * labelContentBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-        labelContentBtn.titleLabel.font = [UIFont systemFontOfSize:kTiltlFontSize];
-        [_labelScrollView addSubview:labelContentBtn];
-        [labelContentBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        if(i == 0){
-            [labelContentBtn setTitleColor:MAIN_GREEN_COLOR forState:UIControlStateNormal];
-        }
-        labelContentBtn.top = 0.0f;
-        labelContentBtn.height = 33.0f;
-        [labelContentBtn setTitle:_allTypeArr[i] forState:UIControlStateNormal];
-        [labelContentBtn addTarget:self action:@selector(selectDifferentType:) forControlEvents:UIControlEventTouchUpInside];
-        labelContentBtn.tag = 100 + i;
-        labelContentBtn.width = SCREEN_WIDTH / _allTypeArr.count;
-        labelContentBtn.left = marginLeft;
-        
-        marginLeft += labelContentBtn.width;
-    }
-    
-    
-    return _labelScrollView;
-}
+#pragma mark - 创建问一问界面
 
--(void)initContentView
+-(void)initQuestionView
 {
-
-    [self initOptionView];
+    [questionView addSubview:[self createDetailOptionView:_allTypeArr]];
     
-    _contentScrollView = [[UIScrollView alloc]init];
-    [self addSubview:_contentScrollView];
+    UIScrollView * _contentScrollView = [[UIScrollView alloc]init];
+    [questionView addSubview:_contentScrollView];
     _contentScrollView.left = kContentTableMarginLeft;
     _contentScrollView.top = kContentTableMarginTop;
     _contentScrollView.size = CGSizeMake(kContentTableWidth, kContentTableHeight);
@@ -219,7 +222,8 @@
     _contentScrollView.showsHorizontalScrollIndicator = NO;
     _contentScrollView.delegate = self;
     _contentScrollView.contentOffset = CGPointMake(100, 100);
-    
+    _contentScrollView.tag = kContentSrollViewTag;
+
     for (int i = 0; i < _allTypeArr.count; i ++) {
         UITableView * contentTableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
         contentTableView.delegate = self;
@@ -234,11 +238,108 @@
         contentTableView.mj_header = header;
     }
 }
+
+-(void)initRankingListView
+{
+    [rankingListView addSubview:[self createDetailOptionView:_allCompareTypeArr]];
+    
+    UIScrollView * _contentScrollView = [[UIScrollView alloc]init];
+    [rankingListView addSubview:_contentScrollView];
+    _contentScrollView.left = kContentTableMarginLeft;
+    _contentScrollView.top = kContentTableMarginTop;
+    _contentScrollView.size = CGSizeMake(kContentTableWidth, kContentTableHeight);
+    _contentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * _allCompareTypeArr.count, kContentTableHeight);
+    _contentScrollView.pagingEnabled = YES;
+    _contentScrollView.showsHorizontalScrollIndicator = NO;
+    _contentScrollView.delegate = self;
+    _contentScrollView.contentOffset = CGPointMake(0, 0);
+    _contentScrollView.tag = kContentSrollViewTag;
+    
+    for (int i = 0; i < _allCompareTypeArr.count; i ++) {
+        UITableView * contentTableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
+        contentTableView.delegate = self;
+        contentTableView.dataSource = self;
+        [_contentScrollView addSubview:contentTableView];
+        contentTableView.showsVerticalScrollIndicator = NO;
+        contentTableView.frame = CGRectMake(kContentTableMarginLeft + SCREEN_WIDTH * i, 0, kContentTableWidth, kContentTableHeight);
+        contentTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        contentTableView.tag = 100 + i;
+        
+//        MJRefreshGifHeader *header = [MJRefreshGifHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewRankingData:)];
+//        contentTableView.mj_header = header;
+    }
+}
+
+#pragma mark - 练一练界面
+
+-(void)initPracticeView
+{
+//    [practiceView addSubview:[self createDetailOptionView:_allPracticeTypeArr]];
+    
+    WKWebView * web = [[WKWebView alloc]initWithFrame:CGRectMake(0,0.0f, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT - SCREEN_WIDTH/ 4)];
+    web.tag = kPracticeWebViewTag;
+    [practiceView addSubview:web];
+//    web.UIDelegate = self;
+    web.scrollView.delegate = self;
+    web.navigationDelegate = self;
+    
+}
+
+#pragma mark - 子分类选项滑动
+
+-(UIView *)createDetailOptionView:(NSArray *)arr
+{
+    UIScrollView * _labelScrollView = [[UIScrollView alloc]init];
+    _labelScrollView.width = SCREEN_WIDTH;
+    _labelScrollView.left = 0.0f;
+    _labelScrollView.top = kLabelScrollViewMarginTop;
+    _labelScrollView.width = SCREEN_WIDTH;
+    _labelScrollView.height = 35.0f;
+    _labelScrollView.tag = kTypeScrollViewTag;
+    
+    UIImageView * _lineImageView = [[UIImageView alloc]init];
+    _lineImageView.frame = CGRectMake(0, 33.0f, SCREEN_WIDTH / arr.count, 2.0f);
+    _lineImageView.backgroundColor = MAIN_GREEN_COLOR;
+    [_labelScrollView addSubview:_lineImageView];
+    _lineImageView.tag = kTypeScrollLineImageTag;
+    
+    float marginLeft = 0;
+    
+    for (int i = 0 ; i < arr.count; i ++) {
+        UIButton * labelContentBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+        labelContentBtn.titleLabel.font = [UIFont systemFontOfSize:kTiltlFontSize];
+        [_labelScrollView addSubview:labelContentBtn];
+        [labelContentBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        if(i == 0){
+            [labelContentBtn setTitleColor:MAIN_GREEN_COLOR forState:UIControlStateNormal];
+        }
+        labelContentBtn.top = 0.0f;
+        labelContentBtn.height = 33.0f;
+        [labelContentBtn setTitle:arr[i] forState:UIControlStateNormal];
+        [labelContentBtn addTarget:self action:@selector(selectDifferentType:) forControlEvents:UIControlEventTouchUpInside];
+        labelContentBtn.tag = 100 + i;
+        labelContentBtn.width = SCREEN_WIDTH / arr.count;
+        labelContentBtn.left = marginLeft;
+        
+        marginLeft += labelContentBtn.width;
+    }
+    
+    return _labelScrollView;
+}
+
 #pragma mark - 选择不同选项 比一比 练一练等
 
 -(void)didSelectMyOption:(UIButton *)btn
 {
+    _willShowView = btn.tag;
+
+    if(_isPractice){
+        [self showWebViewAlert];
+        return;
+    }
+    
     if (btn.tag == 3) {
+        _willShowView = TEAM_WILL_SHOWVIEW_CHAT;
         if ([self.delegate respondsToSelector:@selector(goTeamChatRoom)]) {
             [self.delegate goTeamChatRoom];
         }
@@ -258,49 +359,128 @@
     }
     
     if (btn.tag == 0) {
-        [self hiddenBuildingView];
-    }else if(btn.tag == 1 || btn.tag == 2){
-        [self showBuildingView:self];
+        [self showQuestionView];
+    }else if(btn.tag == 1){
+        [self showPracticeView];
+    }else if (btn.tag == 2){
+        [self showRankingList];
     }
     
+}
+-(void)showQuestionView
+{
+    _currentTeamShowView = TEAM_VIEW_QUESTION;
+    if (!rankingListView.hidden) {
+        rankingListView.hidden = YES;
+    }
+    if (!practiceView.hidden) {
+        practiceView.hidden = YES;
+    }
+    questionView.hidden = NO;
+}
+
+-(void)showRankingList
+{
+    _currentTeamShowView = TEAM_VIEW_RANKINGLIST;
+    if (!questionView.hidden) {
+        questionView.hidden = YES;
+    }
+    if (!practiceView.hidden) {
+        practiceView.hidden = YES;
+    }
+    rankingListView.hidden = NO;
+    if (_currentTeamShowView == TEAM_RANKING_ANSWER) {
+        [self reloadTeamViewRankingList:self.answerRankingListArr withRankingContent:_currentRankingListPage];
+    }else if (_currentRankingListPage == TEAM_RANKING_ASK){
+        [self reloadTeamViewRankingList:self.askRankingListArr withRankingContent:_currentRankingListPage];
+    }
+}
+
+-(void)showPracticeView
+{
+    _currentTeamShowView = TEAM_VIEW_PRACTICE;
+    if (!questionView.hidden) {
+        questionView.hidden = YES;
+    }
+    if (!rankingListView.hidden) {
+        rankingListView.hidden = YES;
+    }
+    practiceView.hidden = NO;
+    [self refreshPracticeWebView];
 }
 
 #pragma mark - 选择上方分类
 
 -(void)selectDifferentType:(UIButton *)btn
 {
-    _currentHomeContentPage = btn.tag - 100;
+    UIScrollView *_typeScrollView;
+    UIScrollView *_contentScrollView;
+    NSArray * typeArr;
+    UIImageView * _lineImageView;
     
-    UITableView * contentView = (UITableView *)[_contentScrollView viewWithTag:btn.tag];
-    [contentView reloadData];
+    if (_currentTeamShowView == TEAM_VIEW_QUESTION) {
+        _currentHomeContentPage = btn.tag - 100;
+        _typeScrollView = [questionView viewWithTag:kTypeScrollViewTag];
+        _contentScrollView = [questionView viewWithTag:kContentSrollViewTag];
+        typeArr = _allTypeArr;
+    }else if (_currentTeamShowView == TEAM_VIEW_RANKINGLIST){
+        _typeScrollView = [rankingListView viewWithTag:kTypeScrollViewTag];
+        _contentScrollView = [rankingListView viewWithTag:kContentSrollViewTag];
+        typeArr = _allCompareTypeArr;
+    }else if (_currentTeamShowView == TEAM_VIEW_PRACTICE){
+        _typeScrollView = [practiceView viewWithTag:kTypeScrollViewTag];
+        typeArr = _allPracticeTypeArr;
+        _currentPracticePage = btn.tag - 100;
+        WKWebView * web = [practiceView viewWithTag:kPracticeWebViewTag];
+        switch (btn.tag) {
+            case 100:
+                [web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.baidu.com"]]];
+                break;
+            case 101:
+                [web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://blog.csdn.net/iosworker/article/details/50833531"]]];
+                break;
+            default:
+                break;
+        }
+    }
+    _lineImageView = [_typeScrollView viewWithTag:kTypeScrollLineImageTag];
+
+    if(_currentTeamShowView != TEAM_VIEW_PRACTICE){
+        UITableView * contentView;
+        if (_currentTeamShowView == TEAM_VIEW_QUESTION) {
+            _currentHomeContentPage = btn.tag - 100;
+            contentView = (UITableView *)[_contentScrollView viewWithTag:100 + _currentHomeContentPage];
+        }
+        else if (_currentTeamShowView == TEAM_VIEW_RANKINGLIST) {
+            _currentRankingListPage = btn.tag - 100;
+            contentView = (UITableView *)[_contentScrollView viewWithTag:100 + _currentRankingListPage];
+        }
+        [contentView reloadData];
+    }
     
     float marginLeft = 0;
-    
-    for (int i = 0 ; i < _allTypeArr.count; i ++) {
-        
+    for (int i = 0 ; i < typeArr.count; i ++) {
         UIButton * button = [btn.superview viewWithTag:100 + i];
         [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        
-        //        float btnWidth = [ZEUtil widthForString:_allTypeArr[i] font:[UIFont systemFontOfSize:kTiltlFontSize] maxSize:CGSizeMake(SCREEN_WIDTH, 33.0f)] + 20.0f;
-        float btnWidth = SCREEN_WIDTH / _allTypeArr.count;
+        float btnWidth = SCREEN_WIDTH / typeArr.count;
         if (btn.tag - 100 == i) {
             [UIView animateWithDuration:0.35 animations:^{
                 _lineImageView.frame = CGRectMake(marginLeft, 33.0f, btnWidth, 2.0f);
-                _contentScrollView.contentOffset = CGPointMake(SCREEN_WIDTH * i, 0);
+                if(_currentTeamShowView != TEAM_VIEW_PRACTICE) {
+                    _contentScrollView.contentOffset = CGPointMake(SCREEN_WIDTH * i, 0);
+                }
             }];
         }
         marginLeft += btnWidth;
     }
     [btn setTitleColor:MAIN_GREEN_COLOR forState:UIControlStateNormal];
+
 }
 
 #pragma mark - 显示建设中页面
 
 -(void)showBuildingView:(UIView *)superView
 {
-    _labelScrollView.hidden = YES;
-    _contentScrollView.hidden = YES;
-    
     if (!gifImageView) {
         gifImageView = [YYAnimatedImageView new];
         [superView addSubview:gifImageView];
@@ -327,8 +507,6 @@
 
 -(void)hiddenBuildingView
 {
-    _labelScrollView.hidden = NO;
-    _contentScrollView.hidden = NO;
     gifImageView.hidden = YES;
 }
 
@@ -362,6 +540,13 @@
         default:
             break;
     }
+    
+    UIScrollView * _contentScrollView;
+    if (_currentTeamShowView == TEAM_VIEW_QUESTION) {
+       _contentScrollView  = [questionView viewWithTag:kContentSrollViewTag];
+    }else if (_currentTeamShowView == TEAM_VIEW_RANKINGLIST){
+        _contentScrollView  = [rankingListView viewWithTag:kContentSrollViewTag];
+    }
     contentTableView = (UITableView *)[_contentScrollView viewWithTag:100 + content_page];
     
     MJRefreshFooter * footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData:)];
@@ -378,6 +563,9 @@
 
 -(void)reloadContentViewWithArr:(NSArray *)dataArr withHomeContent:(TEAM_CONTENT)content_page;
 {
+    UIScrollView * _contentScrollView;
+    _contentScrollView  = [questionView viewWithTag:kContentSrollViewTag];
+
     UITableView * contentTableView;
     
     switch (content_page) {
@@ -411,6 +599,13 @@
  */
 -(void)loadNoMoreDataWithHomeContent:(TEAM_CONTENT)content_page;
 {
+    UIScrollView * _contentScrollView;
+    if (_currentTeamShowView == TEAM_VIEW_QUESTION) {
+        _contentScrollView  = [questionView viewWithTag:kContentSrollViewTag];
+    }else if (_currentTeamShowView == TEAM_VIEW_RANKINGLIST){
+        _contentScrollView  = [rankingListView viewWithTag:kContentSrollViewTag];
+    }
+
     UITableView * contentTableView = (UITableView *)[_contentScrollView viewWithTag:100 + content_page];
     [contentTableView.mj_footer endRefreshingWithNoMoreData];
 }
@@ -420,12 +615,26 @@
  */
 -(void)headerEndRefreshingWithHomeContent:(TEAM_CONTENT)content_page;
 {
+    UIScrollView * _contentScrollView;
+    if (_currentTeamShowView == TEAM_VIEW_QUESTION) {
+        _contentScrollView  = [questionView viewWithTag:kContentSrollViewTag];
+    }else if (_currentTeamShowView == TEAM_VIEW_RANKINGLIST){
+        _contentScrollView  = [rankingListView viewWithTag:kContentSrollViewTag];
+    }
+
     UITableView * contentTableView = (UITableView *)[_contentScrollView viewWithTag:100 + content_page];
     [contentTableView.mj_header endRefreshing];
 }
 
 -(void)endRefreshingWithHomeContent:(TEAM_CONTENT)content_page;
 {
+    UIScrollView * _contentScrollView;
+    if (_currentTeamShowView == TEAM_VIEW_QUESTION) {
+        _contentScrollView  = [questionView viewWithTag:kContentSrollViewTag];
+    }else if (_currentTeamShowView == TEAM_VIEW_RANKINGLIST){
+        _contentScrollView  = [rankingListView viewWithTag:kContentSrollViewTag];
+    }
+
     UITableView * contentTableView = (UITableView *)[_contentScrollView viewWithTag:100 + content_page];
     [contentTableView.mj_footer endRefreshing];
     [contentTableView.mj_header endRefreshing];
@@ -433,38 +642,85 @@
 
 -(void)scrollContentViewToIndex:(TEAM_CONTENT)toContent
 {
-    _contentScrollView.backgroundColor = [UIColor whiteColor];
+    UIScrollView * _contentScrollView;
+
+    _contentScrollView  = [questionView viewWithTag:kContentSrollViewTag];
     _contentScrollView.contentOffset = CGPointMake(SCREEN_WIDTH * toContent, 0);
-//    _currentHomeContentPage = toContent;
+    _currentHomeContentPage = toContent;
     [self scrollViewDidEndDecelerating:_contentScrollView];
 }
+/**
+ 刷新比一比界面
+ */
+-(void)reloadTeamViewRankingList:(NSArray *)arr withRankingContent:(TEAM_RANKING)ranking
+{
+    UIScrollView * _contentScrollView;
+    _contentScrollView  = [rankingListView viewWithTag:kContentSrollViewTag];
+    
+    UITableView * contentTableView;
+    
+    switch (ranking) {
+        case TEAM_RANKING_ASK:
+            self.askRankingListArr = [NSMutableArray arrayWithArray:arr];
+            break;
+        case TEAM_RANKING_ANSWER:
+            self.answerRankingListArr = [NSMutableArray arrayWithArray:arr];
+            break;
+        default:
+            break;
+    }
+    contentTableView = (UITableView *)[_contentScrollView viewWithTag:100 + ranking];
+    
+    [contentTableView.mj_header endRefreshing];
+    [contentTableView.mj_footer endRefreshing];
+    [contentTableView reloadData];
+}
 
+-(void)refreshPracticeWebView
+{
+    WKWebView * web = [practiceView viewWithTag:kPracticeWebViewTag];
+    [web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.practiceURL]]];
+}
 
 #pragma mark - UITableViewDelegate
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    switch (_currentHomeContentPage) {
-        case TEAM_CONTENT_NEWEST:
-            return self.newestQuestionArr.count;
-            break;
-            
-        case TEAM_CONTENT_TARGETASK:
-            return self.targetQuestionArr.count;
-            break;
-            
-        case TEAM_CONTENT_SOLVED:
-            return self.solvedQuestionArr.count;
-            break;
-            
-        case TEAM_CONTENT_MYQUESTION:
-            return self.myQuestionArr.count;
-            break;
-            
-        default:
-            break;
+    if(_currentTeamShowView == TEAM_VIEW_QUESTION){
+        switch (_currentHomeContentPage) {
+            case TEAM_CONTENT_NEWEST:
+                return self.newestQuestionArr.count;
+                break;
+                
+            case TEAM_CONTENT_TARGETASK:
+                return self.targetQuestionArr.count;
+                break;
+                
+            case TEAM_CONTENT_SOLVED:
+                return self.solvedQuestionArr.count;
+                break;
+                
+            case TEAM_CONTENT_MYQUESTION:
+                return self.myQuestionArr.count;
+                break;
+                
+            default:
+                break;
+        }
+    }else if (_currentTeamShowView == TEAM_VIEW_RANKINGLIST){
+        switch (_currentRankingListPage) {
+            case TEAM_RANKING_ASK:
+                return self.askRankingListArr.count;
+                break;
+                
+            case TEAM_RANKING_ANSWER:
+                return self.answerRankingListArr.count;
+                break;
+                
+            default:
+                break;
+        }
     }
-    
     return  0;
 }
 
@@ -473,18 +729,6 @@
     return 1;
 }
 
-//-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-//{
-//    return 35.0f;
-//}
-//
-//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-//{
-//    UIView * optionView = [[UIView alloc]initWithFrame:CGRectZero];
-//    optionView.backgroundColor = [UIColor redColor];
-//    return optionView;
-//}
-
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 0.01f;
@@ -492,6 +736,10 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if(_currentTeamShowView == TEAM_VIEW_RANKINGLIST){
+        return 60;
+    }
+    
     NSDictionary * datasDic = nil;
     
     switch (_currentHomeContentPage) {
@@ -561,7 +809,6 @@
         return questionHeight + tagHeight + 65.0f + targetUsernameHeight;
     }
     return questionHeight + tagHeight + 60.0f;
-    
 }
 
 -(UITableViewCell * )tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -578,13 +825,119 @@
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    [self createAnswerViewWithIndexpath:indexPath withView:cell.contentView] ;
+    if(_currentTeamShowView == TEAM_VIEW_QUESTION){
+        [self createAnswerViewWithIndexpath:indexPath withView:cell.contentView] ;
+    }else{
+        [self cellForRankingListView:indexPath cellView:cell.contentView];
+    }
     
     return cell;
 }
 
+-(void)cellForRankingListView:(NSIndexPath *)indexPath cellView:(UIView *)cellView
+{
+    NSDictionary * dic;
+    NSString * SUMNUM;
+    
+    if (_currentRankingListPage == TEAM_RANKING_ASK) {
+        dic = self.askRankingListArr[indexPath.row];
+        SUMNUM = [dic objectForKey:@"QUESTIONSUM"];
+    }else if (_currentRankingListPage == TEAM_RANKING_ANSWER){
+        dic = self.answerRankingListArr[indexPath.row];
+        SUMNUM = [dic objectForKey:@"ANSWERSUM"];
+    }
+    NSString * USERNAME = [dic objectForKey:@"USERNAME"];
+    NSString * HEADIMAGEURL = [dic objectForKey:@"FILEURL"];
+    
+    if (indexPath.row < 3) {
+        UIImageView * rankingImage = [UIImageView new];
+        rankingImage.frame = CGRectMake(10, 20, 30, 30);
+        [cellView addSubview:rankingImage];
+        
+        switch (indexPath.row) {
+            case 0:
+                rankingImage.image = [UIImage imageNamed:@"icon_circle_first.png"];
+                break;
+                
+            case 1:
+                rankingImage.image = [UIImage imageNamed:@"icon_circle_second.png"];
+                break;
+                
+            case 2:
+                rankingImage.image = [UIImage imageNamed:@"icon_circle_third.png"];
+                break;
+                
+            default:
+                break;
+        }
+    }
+    
+    if(indexPath.row > 2){
+        UILabel * rankingLab = [UILabel new];
+        [cellView addSubview:rankingLab];
+        rankingLab.frame = CGRectMake(10, 10, 30, 30);
+        rankingLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row + 1];
+        rankingLab.textAlignment = NSTextAlignmentCenter;
+        rankingLab.textColor = kTextColor;
+    }
+    
+    if(HEADIMAGEURL.length > 0){
+        UIImageView * headimage = [UIImageView new];
+        headimage.frame = CGRectMake(50, 10, 50, 50);
+        [cellView addSubview:headimage];
+        headimage.clipsToBounds = YES;
+        headimage.layer.cornerRadius = headimage.height/ 2;
+        [headimage sd_setImageWithURL:ZENITH_IMAGEURL(HEADIMAGEURL) placeholderImage:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
+    }else{
+        UILabel * lastName = [UILabel new];
+        [cellView addSubview:lastName];
+        lastName.frame = CGRectMake(50, 10, 50, 50);
+        lastName.backgroundColor = MAIN_ARM_COLOR;
+        lastName.clipsToBounds = YES;
+        lastName.layer.cornerRadius = lastName.height / 2;
+        lastName.text = [USERNAME substringToIndex:1];
+        lastName.textAlignment = NSTextAlignmentCenter;
+        lastName.textColor = [UIColor whiteColor];
+    }
+
+    UILabel * usernameLab = [UILabel new];
+    [cellView addSubview:usernameLab];
+    usernameLab.frame = CGRectMake(110, 10, 150, 50);
+    usernameLab.text = USERNAME;
+    usernameLab.textAlignment = NSTextAlignmentLeft;
+    usernameLab.textColor = kTextColor;
+    
+    NSString * countStr = SUMNUM;
+    float countWidth = [ZEUtil widthForString:countStr font:[UIFont boldSystemFontOfSize:kTiltlFontSize] maxSize:CGSizeMake(200, usernameLab.height)];
+    
+    UILabel * countNum = [UILabel new];
+    [cellView addSubview:countNum];
+    countNum.frame = CGRectMake(0, 10, countWidth, usernameLab.height);
+    countNum.text = countStr;
+    countNum.textColor = kTextColor;
+    countNum.right = SCREEN_WIDTH - 10;
+    countNum.font = [UIFont boldSystemFontOfSize:kTiltlFontSize];
+    
+    UILabel * questionExplain = [UILabel new];
+    [cellView addSubview:questionExplain];
+    questionExplain.font = [UIFont systemFontOfSize:12];
+    questionExplain.textColor = [UIColor lightGrayColor];
+    questionExplain.left = SCREEN_WIDTH - countWidth - 50 ;
+    questionExplain.top = countNum.top + 10;
+    questionExplain.size = CGSizeMake(40, usernameLab.height);
+    if (_currentRankingListPage == TEAM_RANKING_ASK) {
+        questionExplain.text = @"提问数";
+    }else  if (_currentRankingListPage == TEAM_RANKING_ANSWER) {
+        questionExplain.text = @"回答数";
+    }
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (_currentTeamShowView == TEAM_VIEW_RANKINGLIST) {
+        return;
+    }
+    
     NSDictionary * datasDic = nil;
     
     switch (_currentHomeContentPage) {
@@ -625,22 +978,19 @@
 {
     [self endEditing:YES];
 
-    if ([scrollView isKindOfClass:[UITableView class]]) {
+    if ([scrollView isKindOfClass:[UITableView class]] || _currentTeamShowView == TEAM_VIEW_PRACTICE) {
         _historyY = scrollView.contentOffset.y;
     }
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if ([scrollView isKindOfClass:[UITableView class]]) {
+    if ([scrollView isKindOfClass:[UITableView class]] || _currentTeamShowView == TEAM_VIEW_PRACTICE) {
         if (scrollView.contentOffset.y < _historyY) {
-//            NSLog(@"down");
             if(optionView.hidden){
                 [self showOptionView:scrollView];
             }
-            
         } else if (scrollView.contentOffset.y > _historyY) {
-//            NSLog(@"up >>  %d",optionView.hidden);
             if(!optionView.hidden){
                 [self hiddenOptionView:scrollView];
             }
@@ -650,22 +1000,70 @@
 
 -(void)hiddenOptionView:(UIScrollView *)currentScrollView
 {
+    UIScrollView *_labelScrollView;
+    UITableView * _contentScrollView;
+    if (_currentTeamShowView == TEAM_VIEW_QUESTION) {
+        _labelScrollView = [questionView viewWithTag:kTypeScrollLabTag];
+        _contentScrollView = [questionView viewWithTag:kContentSrollViewTag];
+    }else if (_currentTeamShowView == TEAM_VIEW_RANKINGLIST){
+        _labelScrollView = [rankingListView viewWithTag:kTypeScrollLabTag];
+        _contentScrollView = [rankingListView viewWithTag:kContentSrollViewTag];
+    }else if (_currentTeamShowView == TEAM_VIEW_PRACTICE){
+        [UIView animateWithDuration:0.29 animations:^{
+            practiceView.frame = CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT);
+            WKWebView * webView = [practiceView viewWithTag:kPracticeWebViewTag];
+            webView.height = SCREEN_HEIGHT - NAV_HEIGHT;
+        } completion:^(BOOL finished) {
+            optionView.hidden = YES;
+        }];
+        return;
+    }
+
     [UIView animateWithDuration:0.29 animations:^{
         optionView.alpha = 0.0;
-        _labelScrollView.frame = CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, 35.0f);
-        _contentScrollView.frame = CGRectMake(0, NAV_HEIGHT + 35.0f, SCREEN_WIDTH, SCREEN_HEIGHT - (NAV_HEIGHT + 35.0f));
-        currentScrollView.frame = CGRectMake(currentScrollView.frame.origin.x, 0, SCREEN_WIDTH, SCREEN_HEIGHT - (NAV_HEIGHT + 35.0f));
+        if (_currentTeamShowView == TEAM_VIEW_QUESTION) {
+            questionView.frame = CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT) ;
+            _contentScrollView.frame = CGRectMake(0,  35.0f, SCREEN_WIDTH, SCREEN_HEIGHT -  - NAV_HEIGHT - 35.0f);
+            _contentScrollView.pagingEnabled = YES;
+        }else if (_currentTeamShowView == TEAM_VIEW_RANKINGLIST){
+            rankingListView.frame = CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT) ;
+            _contentScrollView.frame = CGRectMake(0,35.0f, SCREEN_WIDTH, SCREEN_HEIGHT - (NAV_HEIGHT + 35.0f));
+            _contentScrollView.pagingEnabled = YES;
+        }
     } completion:^(BOOL finished) {
         optionView.hidden = YES;
     }];
 }
 
 -(void)showOptionView:(UIScrollView *)currentScrollView{
+    
+    UIScrollView *_labelScrollView;
+    UITableView * _contentScrollView;
+    if (_currentTeamShowView == TEAM_VIEW_QUESTION) {
+        _labelScrollView = [questionView viewWithTag:kTypeScrollLabTag];
+        _contentScrollView = [questionView viewWithTag:kContentSrollViewTag];
+    }else if (_currentTeamShowView == TEAM_VIEW_RANKINGLIST){
+        _labelScrollView = [rankingListView viewWithTag:kTypeScrollLabTag];
+        _contentScrollView = [rankingListView viewWithTag:kContentSrollViewTag];
+    }else if (_currentTeamShowView == TEAM_VIEW_PRACTICE){
+        [UIView animateWithDuration:0.29 animations:^{
+            practiceView.frame = CGRectMake(0, kContentMarginTop, SCREEN_WIDTH, SCREEN_HEIGHT - kContentMarginTop);
+            WKWebView * webView = [practiceView viewWithTag:kPracticeWebViewTag];
+            webView.height = SCREEN_HEIGHT - kContentMarginTop;
+        } completion:^(BOOL finished) {
+            optionView.hidden = NO;
+        }];
+        return;
+    }
+    
     [UIView animateWithDuration:0.29 animations:^{
         optionView.alpha = 1.0;
-        _labelScrollView.frame = CGRectMake(0, kLabelScrollViewMarginTop, SCREEN_WIDTH, 35.0f);
-        _contentScrollView.frame = CGRectMake(0, kContentTableMarginTop, SCREEN_WIDTH, kContentTableHeight);
-        currentScrollView.frame = CGRectMake(currentScrollView.frame.origin.x, 0, SCREEN_WIDTH, kContentTableHeight);
+        if (_currentTeamShowView == TEAM_VIEW_QUESTION) {
+            questionView.frame = CGRectMake(0, kContentMarginTop, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT) ;
+        }else if (_currentTeamShowView == TEAM_VIEW_RANKINGLIST){
+            rankingListView.frame = CGRectMake(0, kContentMarginTop, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT) ;
+        }
+
     } completion:^(BOOL finished) {
         optionView.hidden = NO;
     }];
@@ -673,6 +1071,23 @@
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
+    UIScrollView *_typeScrollView;
+    UIScrollView *_contentScrollView;
+    NSArray * typeArr;
+    UIImageView * _lineImageView;
+    
+    if (_currentTeamShowView == TEAM_VIEW_QUESTION) {
+        _typeScrollView = [questionView viewWithTag:kTypeScrollViewTag];
+        _contentScrollView = [questionView viewWithTag:kContentSrollViewTag];
+        typeArr = _allTypeArr;
+        
+    }else if (_currentTeamShowView == TEAM_VIEW_RANKINGLIST){
+        _typeScrollView = [rankingListView viewWithTag:kTypeScrollViewTag];
+        _contentScrollView = [rankingListView viewWithTag:kContentSrollViewTag];
+        typeArr = _allCompareTypeArr;
+    }
+    _lineImageView = [_typeScrollView viewWithTag:kTypeScrollLineImageTag];
+
     if ([scrollView isEqual:_contentScrollView]) {
         
         NSInteger currentIndex = 0;
@@ -681,24 +1096,26 @@
         
         float marginLeft = 0;
         
-        
-        for (int i = 0 ; i < _allTypeArr.count; i ++) {
-            
-            UIButton * button = [_labelScrollView viewWithTag:100 + i];
+        for (int i = 0 ; i < typeArr.count; i ++) {
+            UIButton * button = [_typeScrollView viewWithTag:100 + i];
             [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             
-            float btnWidth = SCREEN_WIDTH / _allTypeArr.count;
+            float btnWidth = SCREEN_WIDTH / typeArr.count;
             
             if (currentIndex == i) {
                 [UIView animateWithDuration:0.35 animations:^{
                     _lineImageView.frame = CGRectMake(marginLeft, 33.0f, btnWidth, 2.0f);
                 }];
-                _currentHomeContentPage = i;
-                UITableView * contentView = (UITableView *)[_contentScrollView viewWithTag:100 + _currentHomeContentPage];
+                UITableView * contentView;
+                if (_currentTeamShowView == TEAM_VIEW_QUESTION) {
+                    _currentHomeContentPage = i;
+                    contentView = (UITableView *)[_contentScrollView viewWithTag:100 + _currentHomeContentPage];
+                }
+                else if (_currentTeamShowView == TEAM_VIEW_RANKINGLIST) {
+                    _currentRankingListPage = i;
+                    contentView = (UITableView *)[_contentScrollView viewWithTag:100 + _currentRankingListPage];
+                }
                 [contentView reloadData];
-                
-//                [self hiddenOptionView:contentView];
-
                 [button setTitleColor:MAIN_GREEN_COLOR forState:UIControlStateNormal];
                 
             }
@@ -1006,7 +1423,91 @@
     }
     return YES;
 }
+#pragma mark - WKNavigationDelegate
+// 页面加载完成之后调用
+-(void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation{
+    if([[webView.URL absoluteString] containsString:@"/ecm/mobile/MobileExamCaseStep.jspx"]){
+        _isPractice = YES;
+    }else{
+        _isPractice = NO;
+    }
+}
+// 页面加载失败时调用
+-(void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation{
+    
+}
+// 接收到服务器跳转请求之后调用
+-(void)webView:(WKWebView *)webView didReceiveServerRedirectForProvisionalNavigation:(WKNavigation *)navigation{
+    
+}
+// 在收到响应后，决定是否跳转
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler{
+    
+    decisionHandler(WKNavigationResponsePolicyAllow);
+}
 
+-(void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
+{
+    if([navigationAction.request.URL.absoluteString containsString:@"javasscriptss:tiaozhuang"]){
+        //        NSLog(@"urlString=%@",urlString);
+        _isPractice = NO;
+        [self goLeavePracticeWebView];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_LEAVE_PRACTICE_WEBVIEW object:nil];
+    }
+    decisionHandler(WKNavigationActionPolicyAllow);
+}
+
+
+#pragma mark - WKWebViewDelegate
+-(void)showWebViewAlert
+{
+    NSString *jsFunctStr=@"dropOut()";
+
+    WKWebView * web  = [practiceView viewWithTag:kPracticeWebViewTag];
+    [web evaluateJavaScript:jsFunctStr completionHandler:nil];
+//    JSContext *context=[web valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+//    [context evaluateScript:jsFunctStr];
+}
+//
+//-(BOOL)webView:(WKWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(WKWebViewNavigationType)navigationType
+//{
+//    NSString *urlString = [[request URL] absoluteString];
+//    urlString = [urlString stringByRemovingPercentEncoding];
+//    
+//    if([urlString containsString:@"javasscriptss:tiaozhuang"]){
+////        NSLog(@"urlString=%@",urlString);
+//        _isPractice = NO;
+//        [self goLeavePracticeWebView];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_LEAVE_PRACTICE_WEBVIEW object:nil];
+//    }
+//
+//    return YES;
+//}
+//-(void)webViewDidStartLoad:(WKWebView *)webView
+//{
+//
+//}
+//
+//-(void)webViewDidFinishLoad:(WKWebView *)webView
+//{
+//    if([[webView.request.URL path] isEqualToString:@"/ecm/mobile/MobileExamCaseStep.jspx"]){
+//        _isPractice = YES;
+//    }else{
+//        _isPractice = NO;
+//    }
+//    
+//    WKWebView * web  = [practiceView viewWithTag:kPracticeWebViewTag];
+//    JSContext *context=[web valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+//    NSString *jsFunctStr=@"drop()";
+//    [context evaluateScript:jsFunctStr];
+//}
+
+-(void)goLeavePracticeWebView{
+    ZEButton * btn = [optionView viewWithTag:_willShowView];
+//    if (_willShowView == TEAM_WILL_SHOWVIEW_QUESTION) {
+        [self didSelectMyOption:btn];
+//    }
+}
 
 #pragma mark - ZEHomeViewDelegate
 
@@ -1048,7 +1549,12 @@
     if ([self.delegate respondsToSelector:@selector(goAnswerQuestionVC:)]) {
         [self.delegate goAnswerQuestionVC:questionInfoModel];
     }
-    
+}
+
+- (void)dealloc
+{
+    WKWebView * web = [practiceView viewWithTag:kPracticeWebViewTag];
+    web.scrollView.delegate = nil;
 }
 
 /*

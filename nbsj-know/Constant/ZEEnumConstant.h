@@ -22,8 +22,7 @@ typedef enum:NSInteger{
     QUESTION_LIST_MY_ANSWER,    // 我的回答
     QUESTION_LIST_EXPERT,       // 专家解答
     QUESTION_LIST_CASE,         // 经典案例列表
-    QUESTION_LIST_RECOMMAND,    // 推荐列表
-    QUESTION_LIST_EXPERTLIST,    // 推荐列表
+    QUESTION_LIST_TEAM_QUESTION,    // 推荐列表
 }QUESTION_LIST;
 
 typedef enum : NSUInteger {
@@ -74,11 +73,37 @@ typedef enum : NSUInteger{
 }HOME_CONTENT;
 
 typedef enum : NSUInteger{
+    TEAM_VIEW_QUESTION = 0,   // 问一问
+    TEAM_VIEW_PRACTICE,       // 练一练
+    TEAM_VIEW_RANKINGLIST,    // 比一比
+    TEAM_VIEW_CHAT
+}TEAM_VIEW;
+
+
+typedef enum : NSUInteger{
     TEAM_CONTENT_NEWEST = 0,
     TEAM_CONTENT_TARGETASK,
     TEAM_CONTENT_SOLVED,
     TEAM_CONTENT_MYQUESTION
 }TEAM_CONTENT;
+
+typedef enum : NSUInteger{
+    TEAM_RANKING_ASK = 0,
+    TEAM_RANKING_ANSWER,
+}TEAM_RANKING;
+
+typedef enum : NSUInteger{
+    TEAM_WILL_SHOWVIEW_QUESTION = 0,
+    TEAM_WILL_SHOWVIEW_PRACTICE,
+    TEAM_WILL_SHOWVIEW_RANKING,
+    TEAM_WILL_SHOWVIEW_CHAT,
+    TEAM_WILL_SHOWVIEW_BACK,
+    TEAM_WILL_SHOWVIEW_DETAIL,
+    TEAM_WILL_SHOWVIEW_SEARCH,
+    TEAM_WILL_SHOWVIEW_ASK,
+}TEAM_WILL_SHOWVIEW;
+
+
 
 
 #endif /* ZEEnumConstant_h */
