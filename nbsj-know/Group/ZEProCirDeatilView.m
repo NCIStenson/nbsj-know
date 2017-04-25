@@ -14,11 +14,12 @@
 #define kExpertViewWidth       SCREEN_WIDTH
 #define kExpertViewHeight      ((SCREEN_WIDTH - 20) / 3 - 10) * 1.4 + 60.0f
 
-
 #define kTypicalViewMarginLeft  0.0f
 #define kTypicalViewMarginTop   (kExpertViewHeight + kExpertViewMarginTop)
 #define kTypicalViewWidth       SCREEN_WIDTH
 #define kTypicalViewHeight      ((SCREEN_WIDTH - 20) / 3 - 10) * 1.4
+
+#define kWorkStandardRowHeight 50
 
 #define kCircleMessageMarginTop (kTypicalViewMarginTop + kTypicalViewHeight)
 #define kCircleMessageHeight 250.0f
@@ -36,6 +37,7 @@
 @property (nonatomic,strong) NSArray * memberArr;
 @property (nonatomic,strong) NSMutableArray * caseQuestionArr;
 @property (nonatomic,strong) NSMutableArray * expertListArr;
+@property (nonatomic,strong) NSMutableArray * workStandardArr;
 @end
 
 @implementation ZEProCirDeatilView
@@ -111,11 +113,13 @@
         typicalLab.textAlignment = NSTextAlignmentCenter;
         typicalLab.font = [UIFont systemFontOfSize:12];
         [typicalScrollView addSubview:typicalLab];
-        
+    }
+    if (self.expertListArr.count == 0) {
+        typicalCaseView.height = 35.0f;
     }
     
     CALayer * grayLine = [CALayer layer];
-    grayLine.frame = CGRectMake(0, kExpertViewHeight - 0.5f, SCREEN_WIDTH, .5f);
+    grayLine.frame = CGRectMake(0, typicalCaseView.height - 0.5f, SCREEN_WIDTH, .5f);
     [typicalCaseView.layer addSublayer:grayLine];
     grayLine.backgroundColor = [MAIN_LINE_COLOR CGColor];
     
@@ -199,16 +203,71 @@
     return  typicalCaseView;
 }
 
-#pragma mark - 渐变色
-//-(void)makeColor:(UIView *)view
-//{
-//    CAGradientLayer *layer = [CAGradientLayer new];
-//    layer.colors = @[(__bridge id)MAIN_NAV_COLOR.CGColor, (__bridge id) MAIN_LINE_COLOR.CGColor];
-//    layer.startPoint = CGPointMake(0, 0);
-//    layer.endPoint = CGPointMake(0, 1);
-//    layer.frame = CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, 65.0f);
-//    [self.layer addSublayer:layer];
-//}
+#pragma mark - 行业规范
+-(UIView *)createWorkStandard
+{
+    UIView * workStandardView = [UIView new];
+    
+    UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 80, 35)];
+    rowTitleLab.text = @"行业规范";
+    rowTitleLab.textAlignment = NSTextAlignmentCenter;
+    rowTitleLab.font = [UIFont systemFontOfSize:16];
+    [workStandardView addSubview:rowTitleLab];
+    
+    UIButton * sectionSubTitleBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    [sectionSubTitleBtn setTitleColor:MAIN_NAV_COLOR forState:UIControlStateNormal];
+    sectionSubTitleBtn.frame = CGRectMake(SCREEN_WIDTH - 110 , 0, 90, 35);
+    [sectionSubTitleBtn setTitle:@"更多  >" forState:UIControlStateNormal];
+    sectionSubTitleBtn.contentHorizontalAlignment =  UIControlContentHorizontalAlignmentRight;
+    [workStandardView addSubview:sectionSubTitleBtn];
+    [sectionSubTitleBtn addTarget:self action:@selector(moreWorkStandard) forControlEvents:UIControlEventTouchUpInside];
+    
+    CALayer * lineLayer = [CALayer layer];
+    lineLayer.frame = CGRectMake(0, 35, SCREEN_WIDTH, 1);
+    [workStandardView.layer addSublayer:lineLayer];
+    lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
+    
+    for (int i = 0; i < self.workStandardArr.count; i ++) {
+        NSDictionary * dic = self.workStandardArr[i];
+        
+        UIButton * standardTitle = [UIButton buttonWithType:UIButtonTypeCustom];
+        [standardTitle setTitleColor:MAIN_NAV_COLOR forState:UIControlStateNormal];
+        standardTitle.frame = CGRectMake(10 , 35 + kWorkStandardRowHeight * i, SCREEN_WIDTH - 20, kWorkStandardRowHeight);
+        [standardTitle setTitle:[dic objectForKey:@"STANDARDEXPLAIN"] forState:UIControlStateNormal];
+        standardTitle.titleLabel.font = [UIFont systemFontOfSize:12];
+        standardTitle.contentHorizontalAlignment =  UIControlContentHorizontalAlignmentLeft;
+        [workStandardView addSubview:standardTitle];
+        [standardTitle addTarget:self action:@selector(goWorkStandardDetailBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        standardTitle.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        [standardTitle setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0) ];
+        standardTitle.tag = 100 + i;
+        
+        if ([[dic objectForKey:@"FILETYPE"] isEqualToString:@".pdf"]) {
+            [standardTitle setImage:[UIImage imageNamed:@"icon_circle_pdf"] forState:UIControlStateNormal];
+        }else{
+            [standardTitle setImage:[UIImage imageNamed:@"icon_circle_word"] forState:UIControlStateNormal];
+        }
+        
+        UIButton * browseBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        browseBtn.frame = CGRectMake(SCREEN_WIDTH - 100, 0, 80, kWorkStandardRowHeight);
+        browseBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+        [browseBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        if ([[dic objectForKey:@"CLICKCOUNT"] integerValue] == 0) {
+            [browseBtn setTitle:@" 0" forState:UIControlStateNormal];
+        }else{
+            [browseBtn setTitle:[NSString stringWithFormat:@" %@",[dic objectForKey:@"CLICKCOUNT"]] forState:UIControlStateNormal];
+        }
+        [browseBtn setImage:[UIImage imageNamed:@"discuss_pv.png" color:[UIColor lightGrayColor]] forState:UIControlStateNormal];
+        [standardTitle addSubview:browseBtn];
+
+    }
+
+    workStandardView.left = 0;
+    workStandardView.width = SCREEN_WIDTH;
+    workStandardView.height = 35 + 50 * self.workStandardArr.count;
+    
+    return workStandardView;
+}
 
 
 #pragma mark - Publick Method
@@ -230,11 +289,6 @@
 -(void)reloadCaseView:(NSArray *)arr
 {
     self.caseQuestionArr = [NSMutableArray arrayWithArray:arr];
-    
-//    UIView * typicalCaseView = [self viewWithTag:100];
-//    for (id view in typicalCaseView.subviews) {
-//        [view removeFromSuperview];
-//    }
     if(self.caseQuestionArr.count > 0){
         [contentView reloadData];
     }
@@ -244,34 +298,47 @@
 {
     self.expertListArr = [NSMutableArray arrayWithArray:arr];
     
-//    UIView * typicalCaseView = [self viewWithTag:100];
-//    for (id view in typicalCaseView.subviews) {
-//        [view removeFromSuperview];
-//    }
     if(self.expertListArr.count > 0){
         [contentView reloadData];
     }
 }
 
+-(void)reloadWorkStandardView:(NSArray *)arr{
+    self.workStandardArr = [NSMutableArray arrayWithArray:arr];
+    if(self.workStandardArr.count > 0){
+        [contentView reloadData];
+    }
+}
 
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    if(self.expertListArr.count >0){
+        return kExpertViewHeight + kTypicalViewHeight + 35 + self.workStandardArr.count * kWorkStandardRowHeight + kCircleMessageHeight;
+    }
     
-    return kCircleMessageMarginTop + kCircleMessageHeight;
+    return 35 + kTypicalViewHeight + 35 + self.workStandardArr.count * kWorkStandardRowHeight + kCircleMessageHeight;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView * headerView = [UIView new];
     headerView.backgroundColor = [UIColor whiteColor];
+    
+    UIView * expertView = [self createExpertView];
+    [headerView addSubview:expertView];
+    
+    UIView * typicalView = [self createTypicalCaseView];
+    typicalView.top = expertView.height;
+    [headerView addSubview:typicalView];
 
-    [headerView addSubview:[self createExpertView]];
-    [headerView addSubview:[self createTypicalCaseView]];
-
+    UIView * workStandardView = [self createWorkStandard];
+    workStandardView.top = typicalView.top + typicalView.height;
+    [headerView addSubview:workStandardView];
+    
     UIView * circleMessageView =  [UIView new];
-    circleMessageView.frame = CGRectMake(0, kCircleMessageMarginTop, SCREEN_WIDTH, kCircleMessageHeight);
+    circleMessageView.frame = CGRectMake(0, workStandardView.top + workStandardView.height, SCREEN_WIDTH, kCircleMessageHeight);
     [self initCircleMessage:circleMessageView];
     [headerView addSubview:circleMessageView];
 
@@ -322,16 +389,9 @@
 
 -(void)initCircleMessage:(UIView *)superView
 {
-//    CAGradientLayer *layer = [CAGradientLayer new];
-//    layer.colors = @[(__bridge id)MAIN_NAV_COLOR.CGColor, (__bridge id) MAIN_LINE_COLOR.CGColor];
-//    layer.startPoint = CGPointMake(0, 0);
-//    layer.endPoint = CGPointMake(1, 0);
-//    layer.frame = CGRectMake(0, 0, SCREEN_WIDTH, 40.0f);
-//    [superView.layer addSublayer:layer];
-    
     UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 80, 40)];
     rowTitleLab.text = @"排行榜";
-    rowTitleLab.textAlignment = NSTextAlignmentLeft;
+    rowTitleLab.textAlignment = NSTextAlignmentCenter;
     rowTitleLab.font = [UIFont systemFontOfSize:16];
     [superView addSubview:rowTitleLab];
 
@@ -638,6 +698,20 @@
 {
     if([self.delegate respondsToSelector:@selector(goMoreExpertVC)]){
         [self.delegate goMoreExpertVC];
+    }
+}
+
+-(void)moreWorkStandard
+{
+    if ([self.delegate respondsToSelector:@selector(goMoreWorkStandard)]) {
+        [self.delegate goMoreWorkStandard];
+    }
+}
+
+-(void)goWorkStandardDetailBtnClick:(UIButton *)btn
+{
+    if([self.delegate respondsToSelector:@selector(goWorkStandardDetail:)]){
+        [self.delegate goWorkStandardDetail:self.workStandardArr[btn.tag - 100]];
     }
 }
 

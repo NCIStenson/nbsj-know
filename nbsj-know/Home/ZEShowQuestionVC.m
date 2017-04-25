@@ -134,7 +134,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    self.tabBarController.tabBar.hidden = YES;
 }
 
 -(void)createWhereSQL:(NSString *)searchStr
@@ -145,39 +144,7 @@
         if (![ZEUtil isStrNotEmpty:searchStr]) {
             searchCondition = [NSString stringWithFormat:@"ISLOSE = 0"];
         }
-    }else if (_showQuestionListType == QUESTION_LIST_TYPE){
-        searchCondition = [NSString stringWithFormat:@"ISLOSE = 0 and QUESTIONTYPECODE like '%%%@%%' and QUESTIONEXPLAIN like '%%%@%%'",_typeSEQKEY,searchStr];
-        if (![ZEUtil isStrNotEmpty:searchStr]) {
-            searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONTYPECODE like '%%%@%%'",_typeSEQKEY];
-        }
-        if([ZEUtil isStrNotEmpty:self.typeParentID] && [self.typeParentID integerValue] == -1){
-            [self getAllTypeQuestion];
-            return;
-        }
-    }else if (_showQuestionListType == QUESTION_LIST_MY_QUESTION){
-        searchCondition = [NSString stringWithFormat:@"ISLOSE = 0 and QUESTIONUSERCODE = '%@' and QUESTIONEXPLAIN like '%%%@%%'",[ZESettingLocalData getUSERCODE],searchStr];
-        if (![ZEUtil isStrNotEmpty:searchStr]) {
-            searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONUSERCODE = '%@'",[ZESettingLocalData getUSERCODE]];
-        }
-    }else if (_showQuestionListType == QUESTION_LIST_MY_ANSWER){
-        searchCondition = [NSString stringWithFormat:@"ISLOSE = 0 and USERCODE = '%@'  and QUESTIONEXPLAIN like '%%%@%%'",[ZESettingLocalData getUSERCODE],searchStr];
-        if (![ZEUtil isStrNotEmpty:searchStr]) {
-            searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and USERCODE = '%@'",[ZESettingLocalData getUSERCODE]];
-        }
-        [self sendMyAnswerRequestWithCondition:searchCondition];
-        return;
-    }else if (_showQuestionListType == QUESTION_LIST_EXPERT){
-        searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONEXPLAIN like '%%%@%%' and EXPERTUSERCODE like '%%%@%%'",searchStr,_expertModel.USERCODE];
-        if (![ZEUtil isStrNotEmpty:searchStr]) {
-            searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and EXPERTUSERCODE like '%%%@%%'",_expertModel.USERCODE];
-        }
-    }else if (_showQuestionListType == QUESTION_LIST_CASE){
-        searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONLEVEL = 2 and QUESTIONEXPLAIN like '%%%@%%'",searchStr];
-        if (![ZEUtil isStrNotEmpty:searchStr]) {
-            searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONLEVEL = 2 and QUESTIONEXPLAIN like '%%'"];
-        }
     }
-    
     [self sendRequestWithCondition:searchCondition];
 }
 

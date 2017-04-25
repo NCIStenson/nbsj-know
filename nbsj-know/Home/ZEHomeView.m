@@ -739,7 +739,6 @@
         circleLab.height = 15.0f;
     }
 
-    
     userY += circleLab.height + 5.0f;
     
     UIView * messageLineView = [[UIView alloc]initWithFrame:CGRectMake(0, userY, SCREEN_WIDTH, 0.5)];

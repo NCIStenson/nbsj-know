@@ -139,6 +139,7 @@
                                 @"INFOCOUNT":@"",
                                 @"QUESTIONCOUNT":@"",
                                 @"ANSWERCOUNT":@"",
+                                @"TEAMINFOCOUNT":@"",
                                 };
     
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_USER_BASE_INFO]
@@ -152,18 +153,31 @@
                                  NSArray * arr = [ZEUtil getServerData:data withTabelName:KLB_USER_BASE_INFO];
                                  if ([arr count] > 0) {
                                      NSString * INFOCOUNT = [NSString stringWithFormat:@"%@" ,[arr[0] objectForKey:@"INFOCOUNT"]];
+                                     NSString * TEAMINFOCOUNT = [NSString stringWithFormat:@"%@" ,[arr[0] objectForKey:@"TEAMINFOCOUNT"]];
                                      if ([INFOCOUNT integerValue] > 0) {
                                          UITabBarItem * item=[self.tabBarController.tabBar.items objectAtIndex:3];
                                          item.badgeValue= INFOCOUNT;
                                          if ([INFOCOUNT integerValue] > 99) {
                                              item.badgeValue= @"99+";
                                          }
+                                     }else{
+                                         UITabBarItem * item=[self.tabBarController.tabBar.items objectAtIndex:3];
+                                         item.badgeValue= nil;
+                                     }
+                                     if ([TEAMINFOCOUNT integerValue] > 0 ) {
+                                         UITabBarItem * item=[self.tabBarController.tabBar.items objectAtIndex:2];
+                                         item.badgeValue= TEAMINFOCOUNT;
+                                         if ([INFOCOUNT integerValue] > 99) {
+                                             item.badgeValue= @"99+";
+                                         }
+                                     }else{
+                                         UITabBarItem * item=[self.tabBarController.tabBar.items objectAtIndex:2];
+                                         item.badgeValue= nil;
                                      }
                                  }
                              } fail:^(NSError *errorCode) {
                                  NSLog(@">>  %@",errorCode);
                              }];
-    
 }
 
 #pragma mark - 检测更新

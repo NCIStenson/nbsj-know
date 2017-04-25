@@ -46,6 +46,16 @@
 
 
 /**
+ 更多行业规范
+ */
+-(void)goMoreWorkStandard;
+
+
+/**
+ 行业规范详情
+ */
+-(void)goWorkStandardDetail:(NSDictionary *)standardDic;
+/**
  排行榜更多详情
  */
 -(void)moreRankingMessage;
@@ -64,5 +74,7 @@
 -(void)reloadCaseView:(NSArray *)arr;
 
 -(void)reloadExpertView:(NSArray *)arr;
+
+-(void)reloadWorkStandardView:(NSArray *)arr;
 
 @end

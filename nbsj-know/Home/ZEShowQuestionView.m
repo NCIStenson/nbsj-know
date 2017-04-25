@@ -97,7 +97,7 @@
     [self.datasArr addObjectsFromArray:arr];
     
     [_contentTableView.mj_header endRefreshing];
-    if (arr.count % 20 != 0) {
+    if (arr.count % MAX_PAGE_COUNT == 0 || arr.count < MAX_PAGE_COUNT) {
         [_contentTableView.mj_footer endRefreshingWithNoMoreData];
     }else{
         [_contentTableView.mj_footer endRefreshing];

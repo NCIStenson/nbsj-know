@@ -16,6 +16,7 @@
 @implementation JCHATConversationListCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
   self.time.textColor = [UIColor grayColor];
   self.nickName.textColor = UIColorFromRGB(0x3f80dd);
   self.message.textColor = UIColorFromRGB(0x808080);

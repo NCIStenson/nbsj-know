@@ -87,7 +87,46 @@
         qrcodeLab.textColor = kTextColor;
         qrcodeLab.textAlignment = NSTextAlignmentCenter;
         [self.view addSubview:qrcodeLab];
+    }else if (_enterType == ENTER_WEBVC_WORK_STANDARD){
+        self.title = @"行业规范";
+        [self addWorkStandardClickCount];
+        if(self.webURL.length > 0){
+            [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.webURL]]];
+        }else{
+            [self showTips:@"文件路径错误，请联系管理员" afterDelay:1.5];
+            [self performSelector:@selector(leftBtnClick) withObject:nil afterDelay:1.5];
+        }
     }
+}
+
+-(void)addWorkStandardClickCount
+{
+    if (self.workStandardSeqkey.length == 0) {
+        return;
+    }
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":V_KLB_STANDARD_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_SEARCH,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.standard.ClickCount",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{@"SEQKEY":self.workStandardSeqkey};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_STANDARD_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                             } fail:^(NSError *errorCode) {
+                             }];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {

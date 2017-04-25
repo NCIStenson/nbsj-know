@@ -12,4 +12,6 @@
 
 @property (nonatomic,assign) ENTER_WEBVC enterType;
 
+@property (nonatomic,copy) NSString * webURL;
+@property (nonatomic,copy) NSString * workStandardSeqkey;
 @end

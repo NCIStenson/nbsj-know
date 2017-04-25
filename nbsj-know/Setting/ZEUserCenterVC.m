@@ -73,6 +73,7 @@
                                 @"INFOCOUNT":@"",
                                 @"QUESTIONCOUNT":@"",
                                 @"ANSWERCOUNT":@"",
+                                @"TEAMINFOCOUNT":@"",
                                 };    
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_USER_BASE_INFO]
                                                                            withFields:@[fieldsDic]
@@ -87,6 +88,7 @@
                                      NSString * INFOCOUNT = [NSString stringWithFormat:@"%@" ,[arr[0] objectForKey:@"INFOCOUNT"]];
                                      NSString * QUESTIONCOUNT = [NSString stringWithFormat:@"%@" ,[arr[0] objectForKey:@"QUESTIONCOUNT"]];
                                      NSString * ANSWERCOUNT = [NSString stringWithFormat:@"%@" ,[arr[0] objectForKey:@"ANSWERCOUNT"]];
+                                     NSString * TEAMINFOCOUNT = [NSString stringWithFormat:@"%@" ,[arr[0] objectForKey:@"TEAMINFOCOUNT"]];
                                      if ([INFOCOUNT integerValue] > 0) {
                                          UITabBarItem * item=[self.tabBarController.tabBar.items objectAtIndex:3];
                                          item.badgeValue= INFOCOUNT;
@@ -98,6 +100,17 @@
                                          item.badgeValue= nil;
                                      }
                                      
+                                     if ([TEAMINFOCOUNT integerValue] > 0 ) {
+                                         UITabBarItem * item=[self.tabBarController.tabBar.items objectAtIndex:2];
+                                         item.badgeValue= TEAMINFOCOUNT;
+                                         if ([INFOCOUNT integerValue] > 99) {
+                                             item.badgeValue= @"99+";
+                                         }
+                                     }else{
+                                         UITabBarItem * item=[self.tabBarController.tabBar.items objectAtIndex:2];
+                                         item.badgeValue= nil;
+                                     }
+
                                      [usView reloadHeaderMessage:QUESTIONCOUNT answerCount:ANSWERCOUNT];
                                  }
                              } fail:^(NSError *errorCode) {

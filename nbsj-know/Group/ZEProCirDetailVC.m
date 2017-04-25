@@ -17,6 +17,9 @@
 #import "ZEExpertListVC.h"
 #import "ZEExpertDetailVC.h"
 
+#import "ZEWorkStandardListVC.h"
+#import "ZESchoolWebVC.h"
+
 @interface ZEProCirDetailVC ()<ZEProCirDeatilViewDelegate>
 {
     ZEProCirDeatilView * detailView;
@@ -39,10 +42,12 @@
 {
     [super viewWillAppear:YES];
     self.tabBarController.tabBar.hidden = YES;
+    
     [self isShowJoin];
     [self sendCaseQuestionsRequest];
     [self sendExpertListRequest];
     [self proCirecleMember];
+    [self sendWorkStandardRequest];
 }
 #pragma mark - 典型案例
 /************* 查询典型案例 *************/
@@ -154,6 +159,43 @@
                              }];
 }
 
+#pragma mark - 行业规范
+
+-(void)sendWorkStandardRequest
+{
+    NSDictionary * parametersDic = @{@"limit":@"5",
+                                     @"MASTERTABLE":V_KLB_STANDARD_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"CLICKCOUNT desc",
+                                     @"WHERESQL":[NSString stringWithFormat:@" PROCIRCLECODE like '%@' ",_PROCIRCLECODE],
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_SEARCH,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.standard.StandardInfo",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_STANDARD_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:@"PROCIRCLE_STANDARD_INFO"];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 
+                                 NSArray * memberArr = [ZEUtil getServerData:data withTabelName:V_KLB_STANDARD_INFO];
+                                 if ([memberArr isKindOfClass:[NSArray class]]) {
+                                     [detailView reloadWorkStandardView:memberArr];
+                                 }
+                             } fail:^(NSError *errorCode) {
+                                 
+                             }];
+}
+
+#pragma  mark - 是否加入当前圈子
+
 -(void)isShowJoin
 {
     NSDictionary * parametersDic = @{@"limit":@"-1",
@@ -260,7 +302,6 @@
                                  [self proCirecleMember];
                              } fail:^(NSError *errorCode) {
                              }];
-
 }
 
 -(void)initView{
@@ -304,6 +345,26 @@
     ZEExpertDetailVC * expertDetailVC = [[ZEExpertDetailVC alloc]init];
     expertDetailVC.expertModel = expertM;
     [self.navigationController pushViewController:expertDetailVC animated:YES];
+}
+
+-(void)goMoreWorkStandard
+{
+    ZEWorkStandardListVC * workStandardListVC = [[ZEWorkStandardListVC alloc]init];
+    
+    [self.navigationController pushViewController:workStandardListVC animated:YES];
+    NSLog(@"goMoreWorkStandardgoMoreWorkStandardgoMoreWorkStandard");
+}
+
+-(void)goWorkStandardDetail:(NSDictionary *)standardDic;
+{
+    NSString * fileURL = [ standardDic objectForKey:@"FILEURL" ];
+    NSString * seqkey = [ standardDic objectForKey:@"SEQKEY" ];
+    
+    ZESchoolWebVC * webVC = [[ZESchoolWebVC alloc]init];
+    webVC.enterType = ENTER_WEBVC_WORK_STANDARD;
+    webVC.webURL = ZENITH_IMAGE_FILESTR([fileURL stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]);
+    webVC.workStandardSeqkey = seqkey;
+    [self.navigationController pushViewController:webVC animated:YES];
 }
 
 -(void)moreRankingMessage

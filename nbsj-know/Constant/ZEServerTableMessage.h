@@ -48,6 +48,7 @@
 #define KLB_PROCIRCLEPOINT_INFO             @"KLB_PROCIRCLEPOINT_INFO"            /***   圈子成员表   ***/
 #define KLB_DYNAMIC_INFO             @"KLB_DYNAMIC_INFO"            /***   圈子动态表   ***/
 #define V_KLB_DYNAMIC_INFO             @"V_KLB_DYNAMIC_INFO"            /***   圈子动态表   ***/
+#define V_KLB_STANDARD_INFO             @"V_KLB_STANDARD_INFO"            /***   行业规范列表   ***/
 
 
 #define KLB_PROCIRCLE_REL_USER         @"KLB_PROCIRCLE_REL_USER"        /***   专业圈人员关系表   ***/

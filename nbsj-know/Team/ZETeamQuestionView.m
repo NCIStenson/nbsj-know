@@ -1449,7 +1449,6 @@
 -(void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
     if([navigationAction.request.URL.absoluteString containsString:@"javasscriptss:tiaozhuang"]){
-        //        NSLog(@"urlString=%@",urlString);
         _isPractice = NO;
         [self goLeavePracticeWebView];
         [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_LEAVE_PRACTICE_WEBVIEW object:nil];
