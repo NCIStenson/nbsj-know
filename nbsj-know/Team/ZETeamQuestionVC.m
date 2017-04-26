@@ -298,10 +298,11 @@
     //    if (![ZEUtil isStrNotEmpty:searchStr]) {
     NSString *  WHERESQL = [NSString stringWithFormat:@" ISSOLVE = 0 and TEAMCIRCLECODE = '%@' and TARGETUSERCODE is NULL",_teamCircleInfo.TEAMCODE];
     //    }
+    //    ANSWERSUM DESC,
     NSDictionary * parametersDic = @{@"limit":[NSString stringWithFormat:@"%ld",(long) MAX_PAGE_COUNT],
                                      @"MASTERTABLE":V_KLB_TEAMCIRCLE_QUESTION_INFO,
                                      @"MENUAPP":@"EMARK_APP",
-                                     @"ORDERSQL":@" ANSWERSUM DESC,SYSCREATEDATE desc ",
+                                     @"ORDERSQL":@" SYSCREATEDATE desc ",
                                      @"WHERESQL":WHERESQL,
                                      @"start":[NSString stringWithFormat:@"%ld",(long)_currentTeamNewestPage * MAX_PAGE_COUNT],
                                      @"METHOD":METHOD_SEARCH,

@@ -148,8 +148,15 @@
                                      for (NSDictionary * dic in _originMembersArr ){
                                          ZEUSER_BASE_INFOM * userinfo = [ZEUSER_BASE_INFOM getDetailWithDic:dic];
                                          if ([[ZESettingLocalData getUSERCODE] isEqualToString:userinfo.USERCODE] && ![[ZESettingLocalData getUSERCODE] isEqualToString:_teamCircleInfo.SYSCREATORID]) {
-                                             [self.rightBtn setTitle:@"退出团队" forState:UIControlStateNormal];
-                                             [self.rightBtn addTarget:self action:@selector(quitTeam) forControlEvents:UIControlEventTouchUpInside];
+                                             if ([userinfo.USERTYPE integerValue] == 3) {
+                                                 [self.rightBtn setTitle:@"确认修改" forState:UIControlStateNormal];
+                                                 [self.rightBtn addTarget:self action:@selector(updateTeamData) forControlEvents:UIControlEventTouchUpInside];
+                                                 [createTeamView reloadManagertView:YES];
+                                             }else{
+                                                 [self.rightBtn setTitle:@"退出团队" forState:UIControlStateNormal];
+                                                 [self.rightBtn addTarget:self action:@selector(quitTeam) forControlEvents:UIControlEventTouchUpInside];
+                                                 [createTeamView reloadManagertView:NO];
+                                             }
                                              break;
                                          }
                                      }
@@ -223,6 +230,7 @@
                                                                            withFields:fieldsArr
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
+    [self progressBegin:@"创建团队中，请稍后..."];
     if([ZEUtil isNotNull:_choosedImage]){
         [ZEUserServer uploadImageWithJsonDic:packageDic
                                 withImageArr:@[_choosedImage]
@@ -321,30 +329,30 @@
                                                                            withFields:fieldsArr
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
+    [self progressBegin:@"更新团队信息中，请稍后..."];
     if([ZEUtil isNotNull:_choosedImage]){
         [ZEUserServer uploadImageWithJsonDic:packageDic
                                 withImageArr:@[_choosedImage]
                                showAlertView:NO
                                      success:^(id data) {
-                                         [self showTips:@"更新班组圈信息成功"];
+                                         [self showTips:@"更新团队信息成功"];
                                          [self performSelector:@selector(goBack) withObject:nil afterDelay:1];
                                          ZETeamCircleModel * teamCircleInfo = [ZETeamCircleModel getDetailWithDic:[ZEUtil getServerData:data withTabelName:KLB_TEAMCIRCLE_INFO][0]];
                                          [[NSNotificationCenter defaultCenter]postNotificationName:kNOTI_CHANGE_TEAMCIRCLEINFO_SUCCESS object:teamCircleInfo];
                                      } fail:^(NSError *errorCode) {
-                                         
+                                         [self showTips:@"更新失败"];
                                      }];
     }else{
         [ZEUserServer getDataWithJsonDic:packageDic
                            showAlertView:YES
                                  success:^(id data) {
-                                     [self showTips:@"更新班组圈信息成功"];
+                                     [self showTips:@"更新团队信息成功"];
                                      [self performSelector:@selector(goBack) withObject:nil afterDelay:1];
                                      ZETeamCircleModel * teamCircleInfo = [ZETeamCircleModel getDetailWithDic:[ZEUtil getServerData:data withTabelName:KLB_TEAMCIRCLE_INFO][0]];
                                      [[NSNotificationCenter defaultCenter]postNotificationName:kNOTI_CHANGE_TEAMCIRCLEINFO_SUCCESS object:teamCircleInfo];
                                  } fail:^(NSError *error) {
-                                     
+                                     [self showTips:@"更新失败"];
                                  }];
-        
     }
 }
 
@@ -657,6 +665,146 @@
     [self presentViewController:alertController animated:YES completion:nil];
     
 }
+
+
+#pragma mark - 指定管理员
+
+-(void)designatedAdministrator:(ZEUSER_BASE_INFOM *)userinfo
+{
+    NSString * alertMsg = [NSString stringWithFormat:@"是否指定%@为管理员",userinfo.USERNAME];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:alertMsg message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self confirmDesignatedAdministrator:userinfo];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+
+    }];
+    
+    [alertController addAction:cancelAction];
+    [alertController addAction:okAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+
+}
+
+-(void)confirmDesignatedAdministrator:(ZEUSER_BASE_INFOM *)userinfo
+{
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":KLB_TEAMCIRCLE_REL_USER,
+                                     @"DETAILTABLE":@"",
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_UPDATE,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.teamcircle.TeamcircleManager",
+                                     };
+    
+    NSDictionary * fieldsDic =@{@"SEQKEY":userinfo.SEQKEY,
+                                @"USERCODE":userinfo.USERCODE,
+                                @"USERNAME":userinfo.USERNAME,
+                                @"TEAMCIRCLECODE":_teamCircleInfo.SEQKEY,
+                                @"USERTYPE":@"3"};
+    if (_TEAMCODE.length > 0) {
+        fieldsDic =@{@"SEQKEY":userinfo.SEQKEY,
+                     @"USERCODE":userinfo.USERCODE,
+                     @"USERNAME":userinfo.USERNAME,
+                     @"TEAMCIRCLECODE":_TEAMCODE,
+                     @"USERTYPE":@"3"};
+    }
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_TEAMCIRCLE_REL_USER]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:@"addManager"];
+    
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:YES
+                             success:^(id data) {
+                                 [self showTips:[NSString stringWithFormat:@"设置成功"]];
+                                 [self sendNumbersRequest];
+                             } fail:^(NSError *error) {
+                                 
+                             }];
+}
+
+#pragma mark - 撤销管理员
+-(void)revokeAdministrator:(ZEUSER_BASE_INFOM *)userinfo
+{
+    NSString * alertMsg = [NSString stringWithFormat:@"是否撤销%@的管理员",userinfo.USERNAME];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:alertMsg message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self confirmRevokeAdministrator:userinfo];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    
+    [alertController addAction:cancelAction];
+    [alertController addAction:okAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+-(void)confirmRevokeAdministrator:(ZEUSER_BASE_INFOM *)userinfo
+{
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                      @"MASTERTABLE":KLB_TEAMCIRCLE_REL_USER,
+                                      @"DETAILTABLE":@"",
+                                      @"MENUAPP":@"EMARK_APP",
+                                      @"ORDERSQL":@"",
+                                      @"WHERESQL":@"",
+                                      @"start":@"0",
+                                      @"METHOD":METHOD_UPDATE,
+                                      @"MASTERFIELD":@"SEQKEY",
+                                      @"DETAILFIELD":@"",
+                                      @"CLASSNAME":@"com.nci.klb.app.teamcircle.TeamcircleManager",
+                                      };
+    
+    NSDictionary * fieldsDic =@{@"SEQKEY":userinfo.SEQKEY,
+                                @"USERCODE":userinfo.USERCODE,
+                                @"USERNAME":userinfo.USERNAME,
+                                @"TEAMCIRCLECODE":_teamCircleInfo.SEQKEY,
+                                @"USERTYPE":@"0"};
+    if (_TEAMCODE.length > 0) {
+        fieldsDic =@{@"SEQKEY":userinfo.SEQKEY,
+                     @"USERCODE":userinfo.USERCODE,
+                     @"USERNAME":userinfo.USERNAME,
+                     @"TEAMCIRCLECODE":_TEAMCODE,
+                     @"USERTYPE":@"0"};
+    }
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_TEAMCIRCLE_REL_USER]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:@"removerManager"];
+    
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:YES
+                             success:^(id data) {
+                                 [self showTips:[NSString stringWithFormat:@"撤销成功"]];
+                                 [self sendNumbersRequest];
+                             } fail:^(NSError *error) {
+                                 
+                             }];
+    
+}
+
+-(void)goTeamNotiCenter
+{
+    [self showTips:@"功能建设中，敬请期待" afterDelay:1.5];
+}
+-(void)goPracticeManager
+{
+    [self showTips:@"goPracticeManager" afterDelay:1.5];
+}
+
+-(void)goExamManager
+{
+    [self showTips:@"goExamManager" afterDelay:1.5];
+}
+
+
 
 
 - (void)didReceiveMemoryWarning {

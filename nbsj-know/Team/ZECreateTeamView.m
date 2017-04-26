@@ -7,12 +7,93 @@
 //
 
 #import "ZECreateTeamView.h"
-
+#import "ZEButton.h"
 #define textViewStr @"请输入团队宣言（不超过20字）"
 #define textViewProfileStr @"请输入团队简介，建议不超过100字！"
 
 #define kItemSizeWidth (SCREEN_WIDTH - 20) / (IPHONE6_MORE ? 6 : 5)
 #define kItemSizeHeight (IPHONE6_MORE ? 95 : 80.0f)
+
+@implementation ZECreateTeamManagerView
+
+-(id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self initView];
+    }
+    return self;
+}
+
+-(void)initView
+{
+    
+    for (int i = 0; i < 3; i ++) {
+        ZEButton * optionBtn = [ZEButton buttonWithType:UIButtonTypeCustom];
+        [optionBtn setTitleColor:kTextColor forState:UIControlStateNormal];
+        optionBtn.frame = CGRectMake(0 + SCREEN_WIDTH / 3 * i, 0, SCREEN_WIDTH / 3, 100);
+        [self addSubview:optionBtn];
+        optionBtn.backgroundColor = [UIColor whiteColor];
+        optionBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        optionBtn.titleLabel.font = [UIFont systemFontOfSize:kTiltlFontSize];
+        [optionBtn addTarget:self action:@selector(didSelectMyOption:) forControlEvents:UIControlEventTouchUpInside];
+        optionBtn.tag = 100 + i;
+        
+        UIView * lineLayer = [UIView new];
+        lineLayer.frame = CGRectMake( optionBtn.frame.size.width - 1, 0, 1.0f, 100.0f);
+        [optionBtn addSubview:lineLayer];
+        lineLayer.backgroundColor = MAIN_LINE_COLOR;
+                
+        switch (i) {
+            case 0:
+                [optionBtn setImage:[UIImage imageNamed:@"icon_my_question"] forState:UIControlStateNormal];
+                [optionBtn setTitle:@"团队通知" forState:UIControlStateNormal];
+                break;
+            case 1:
+                [optionBtn setImage:[UIImage imageNamed:@"icon_my_answer"] forState:UIControlStateNormal];
+                [optionBtn setTitle:@"练习管理" forState:UIControlStateNormal];
+                break;
+            case 2:
+                [optionBtn setImage:[UIImage imageNamed:@"icon_my_circle"] forState:UIControlStateNormal];
+                [optionBtn setTitle:@"考试管理" forState:UIControlStateNormal];
+                break;
+                
+            default:
+                break;
+        }
+    }
+    
+    UIView * lineLayer = [UIView new];
+    lineLayer.frame = CGRectMake( 0, 99.0f, SCREEN_WIDTH, 1.0f);
+    [self addSubview:lineLayer];
+    lineLayer.backgroundColor = MAIN_LINE_COLOR;
+
+}
+
+-(void)didSelectMyOption:(UIButton *)btn
+{
+    switch (btn.tag - 100) {
+        case 0:
+            if ([_createTeamView.delegate respondsToSelector:@selector(goTeamNotiCenter)]) {
+                [_createTeamView.delegate goTeamNotiCenter];
+            }
+            break;
+        case 1:
+            if ([_createTeamView.delegate respondsToSelector:@selector(goPracticeManager)]) {
+                [_createTeamView.delegate goPracticeManager];
+            }
+            break;
+        case 2:
+            if ([_createTeamView.delegate respondsToSelector:@selector(goExamManager)]) {
+                [_createTeamView.delegate goExamManager];
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+@end
 
 @implementation ZECreateTeamMessageView
 
@@ -104,7 +185,6 @@
     [teamProfileView addSubview:_profileTextView];
     
     if ([ZEUtil isNotNull:teamCircleInfo] ) {
-        
         // 不是团长 不允许编辑
         if (![teamCircleInfo.SYSCREATORID isEqualToString:[ZESettingLocalData getUSERCODE]]) {
             [_teamHeadImgBtn removeTarget:self action:@selector(showCamera) forControlEvents:UIControlEventTouchUpInside];
@@ -131,7 +211,15 @@
         _TEAMCIRCLECODENAME = teamCircleInfo.TEAMCIRCLECODENAME;
 
     }
+}
 
+-(void)allowEdit
+{
+    [_teamHeadImgBtn addTarget:self action:@selector(showCamera) forControlEvents:UIControlEventTouchUpInside];
+    _teamNameField.enabled = YES;
+    _manifestoTextView.editable = YES;
+    _profileTextView.editable = YES;
+    [_teamTypeBtn addTarget:self action:@selector(showQuestionTypeView) forControlEvents:UIControlEventTouchUpInside];
 }
 
 #pragma mark - UITextViewDelegate
@@ -263,6 +351,13 @@
     [self.alreadyInviteNumbersArr addObjectsFromArray:numbersArr];
     
     [_collectionView reloadData];
+    
+    for (NSDictionary * dic in self.alreadyInviteNumbersArr) {
+        ZEUSER_BASE_INFOM * USERINFO = [ZEUSER_BASE_INFOM getDetailWithDic:dic];
+        if ([USERINFO.USERCODE isEqualToString:[ZESettingLocalData getUSERCODE]] && [USERINFO.USERTYPE integerValue] == 3 ) {
+            [_createTeamView.messageView allowEdit];
+        }
+    }
 }
 
 #pragma mark -- UICollectionViewDataSource
@@ -277,10 +372,9 @@
         for (NSDictionary * dic in self.alreadyInviteNumbersArr){
             ZEUSER_BASE_INFOM * USERINFO = [ZEUSER_BASE_INFOM getDetailWithDic:dic];
 
-            if ([USERINFO.USERCODE isEqualToString:[ZESettingLocalData getUSERCODE]] && [USERINFO.USERTYPE integerValue] == 4) {
+            if ([USERINFO.USERCODE isEqualToString:[ZESettingLocalData getUSERCODE]] && ([USERINFO.USERTYPE integerValue] == 4 || [USERINFO.USERTYPE integerValue] == 3 )) {
                 return self.alreadyInviteNumbersArr.count + 2;
             }
-
         }
     }
     return self.alreadyInviteNumbersArr.count ;
@@ -328,7 +422,19 @@
             [cell.contentView addSubview:leaderLab];
             leaderLab.clipsToBounds = YES;
             leaderLab.layer.cornerRadius = 5;
+        }else if ([userinfo.USERTYPE integerValue]== 3) {
+            UILabel * leaderLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 35, 20)];
+            leaderLab.center = CGPointMake(kItemSizeWidth - 8, kItemSizeWidth -  (IPHONE6_MORE ? 5 : 10));
+            leaderLab.text = @"管理员";
+            leaderLab.textAlignment = NSTextAlignmentCenter;
+            [leaderLab setTextColor:[UIColor whiteColor]];
+            leaderLab.backgroundColor = RGBA(22, 155, 213, 1);
+            leaderLab.font = [UIFont systemFontOfSize:11];
+            [cell.contentView addSubview:leaderLab];
+            leaderLab.clipsToBounds = YES;
+            leaderLab.layer.cornerRadius = 5;
         }
+
         if (indexPath.row == 0 && [userinfo.USERTYPE integerValue] == 4 &&  self.alreadyInviteNumbersArr.count > 0) {
             UILabel * leaderLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 30, 20)];
             leaderLab.center = CGPointMake(kItemSizeWidth - 5, kItemSizeWidth -  (IPHONE6_MORE ? 5 : 10));
@@ -387,6 +493,15 @@
                 if([_createTeamView.delegate respondsToSelector:@selector(whetherAgreeJoinTeam:)]){
                     [_createTeamView.delegate whetherAgreeJoinTeam:userinfo];
                 }
+            }else if ([[ZESettingLocalData getUSERCODE] isEqualToString:leaderUserinfo.USERCODE] && [userinfo.USERTYPE integerValue] == 0){
+                if([_createTeamView.delegate respondsToSelector:@selector(designatedAdministrator:)]){
+                    [_createTeamView.delegate designatedAdministrator:userinfo];
+                }
+            }
+            else if ([[ZESettingLocalData getUSERCODE] isEqualToString:leaderUserinfo.USERCODE] && [userinfo.USERTYPE integerValue] == 3){
+                if([_createTeamView.delegate respondsToSelector:@selector(revokeAdministrator:)]){
+                    [_createTeamView.delegate revokeAdministrator:userinfo];
+                }
             }
         }
     }
@@ -416,14 +531,19 @@
 
 -(void)initView{
     UIScrollView * scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
-    scrollView.backgroundColor = [UIColor redColor];
     [self addSubview:scrollView];
+    
+    _managerView = [[ZECreateTeamManagerView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100)];
+    _managerView.createTeamView = self;
+    [scrollView addSubview:_managerView];
+    _managerView.backgroundColor = [UIColor cyanColor];
+    _managerView.hidden = YES;
     
     _messageView = [[ZECreateTeamMessageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 225) withTeamCircleInfo:teamCircleInfo];
     _messageView.createTeamView = self;
     [scrollView addSubview:_messageView];
     
-    _numbersView = [[ZECreateTeamNumbersView alloc]initWithFrame:CGRectMake(0, 225, SCREEN_WIDTH, SCREEN_HEIGHT -NAV_HEIGHT - 265)];
+    _numbersView = [[ZECreateTeamNumbersView alloc]initWithFrame:CGRectMake(0, _messageView.bottom, SCREEN_WIDTH, SCREEN_HEIGHT -NAV_HEIGHT - 265)];
     _numbersView.createTeamView = self;
     [scrollView addSubview:_numbersView];
     
@@ -460,11 +580,39 @@
     lineView.backgroundColor = kTextColor;
     [leaderJuridiction addSubview:lineView];
     
-    if(![teamCircleInfo.SYSCREATORID isEqualToString:[ZESettingLocalData getUSERCODE]]){
+    if([teamCircleInfo.SYSCREATORID isEqualToString:[ZESettingLocalData getUSERCODE]]){
+        leaderJuridiction.hidden = NO;
+        _managerView.hidden = NO;
+        _managerView.top = 0;
+        _messageView.top = _managerView.bottom;
+        _numbersView.top = _messageView.bottom;
+        _numbersView.height =  SCREEN_HEIGHT -NAV_HEIGHT - _messageView.bottom - 40;
+    }else{
         leaderJuridiction.hidden = YES;
-        _numbersView.frame = CGRectMake(0, 225, SCREEN_WIDTH, SCREEN_HEIGHT -NAV_HEIGHT - 225);
+        _numbersView.height =  SCREEN_HEIGHT -NAV_HEIGHT - _messageView.bottom ;
     }
+}
 
+-(void)reloadManagertView:(BOOL)isManager
+{
+    if (isManager) {
+        _managerView.hidden = NO;
+        _managerView.top = 0;
+        _messageView.top = _managerView.bottom;
+        _numbersView.top = _messageView.bottom;
+        _numbersView.height = SCREEN_HEIGHT - _messageView.bottom -NAV_HEIGHT;
+    }else{
+        _managerView.hidden = YES;
+        _messageView.top = 0;
+        _numbersView.top = _messageView.bottom;
+        _numbersView.height = SCREEN_HEIGHT - _messageView.bottom -NAV_HEIGHT;
+    }
+    
+    if([teamCircleInfo.SYSCREATORID isEqualToString:[ZESettingLocalData getUSERCODE]]){
+        _numbersView.height =  SCREEN_HEIGHT -NAV_HEIGHT - _messageView.bottom - 40 ;
+    }else{
+        _numbersView.height =  SCREEN_HEIGHT -NAV_HEIGHT - _messageView.bottom ;
+    }
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event

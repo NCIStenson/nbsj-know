@@ -133,7 +133,6 @@
     
     NSInteger type = [[dataDic objectForKey:@"DYNAMICTYPE"] integerValue];
     
-    
     UILabel * contentLab = [[UILabel alloc]initWithFrame:CGRectMake(85, 0 , SCREEN_WIDTH - 100, 25)];
     contentLab.text = [ZEUtil compareCurrentTime:[NSString stringWithFormat:@"%@.0",[dataDic objectForKey:@"SYSUPDATORID"]]] ;
     contentLab.textAlignment = NSTextAlignmentLeft;

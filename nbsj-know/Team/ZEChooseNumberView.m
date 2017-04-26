@@ -103,12 +103,22 @@
         if (indexPath.row == 0 && _TEAMCODE.length == 0) {
             MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self animated:YES];
             hud3.mode = MBProgressHUDModeText;
-            hud3.labelText = @"班组长不能被移除";
+            hud3.labelText = @"团长不能被移除";
             [hud3 hide:YES afterDelay:1];
             
             return;
         }
         ZEUSER_BASE_INFOM * userinfo = [ZEUSER_BASE_INFOM getDetailWithDic:self.alreadyInviteNumbersArr[indexPath.row]];
+        ZEUSER_BASE_INFOM * leaderUserinfo = [ZEUSER_BASE_INFOM getDetailWithDic:self.alreadyInviteNumbersArr[0]];
+        if ([userinfo.USERTYPE integerValue] == 3 && _TEAMCODE.length == 0 && ![leaderUserinfo.USERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
+            MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self animated:YES];
+            hud3.mode = MBProgressHUDModeText;
+            hud3.labelText = @"当前账号无移除管理员权限";
+            [hud3 hide:YES afterDelay:1];
+            
+            return;
+        }
+
         if (_TEAMCODE.length > 0 && [userinfo.USERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
             MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self animated:YES];
             hud3.mode = MBProgressHUDModeText;

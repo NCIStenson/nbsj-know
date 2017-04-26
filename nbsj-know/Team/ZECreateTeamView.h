@@ -10,6 +10,15 @@
 #import "ZEAskQuestionTypeView.h"
 #import "ZETeamCircleModel.h"
 @class ZECreateTeamView;
+
+@interface ZECreateTeamManagerView : UIView
+
+-(id)initWithFrame:(CGRect)frame;
+
+@property (nonatomic,weak) ZECreateTeamView * createTeamView;
+
+@end
+
 @interface ZECreateTeamMessageView : UIView<UITextViewDelegate,ZEAskQuestionTypeViewDelegate>
 {
     UITextView * _manifestoTextView;
@@ -32,6 +41,8 @@
 - (void)reloadTeamHeadImageView:(UIImage *)headImage;
 
 -(id)initWithFrame:(CGRect)frame withTeamCircleInfo:(ZETeamCircleModel *)teamCircleM;
+
+-(void)allowEdit;
 
 @end;
 
@@ -83,6 +94,24 @@
  */
 -(void)whetherDeleteTeam;
 
+
+/**
+ 指定管理员
+ */
+-(void)designatedAdministrator:(ZEUSER_BASE_INFOM *)userinfo;
+
+/**
+ 撤销管理员
+ */
+-(void)revokeAdministrator:(ZEUSER_BASE_INFOM *)userinfo;
+
+
+-(void)goTeamNotiCenter;
+
+-(void)goPracticeManager;
+
+-(void)goExamManager;
+
 @end
 
 @interface ZECreateTeamView : UIView
@@ -91,6 +120,15 @@
 }
 -(id)initWithFrame:(CGRect)frame withTeamCircleInfo:(ZETeamCircleModel *)teamCircleM;
 
+
+/**
+ 刷新管理员界面
+
+ @param isManager 是否是管理员
+ */
+-(void)reloadManagertView:(BOOL)isManager;
+
+@property (nonatomic,strong) ZECreateTeamManagerView * managerView;
 @property (nonatomic,strong) ZECreateTeamMessageView * messageView;
 @property (nonatomic,strong) ZECreateTeamNumbersView * numbersView;
 @property (nonatomic,weak) id <ZECreateTeamViewDelegate> delegate;
