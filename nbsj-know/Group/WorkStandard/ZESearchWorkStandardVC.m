@@ -119,7 +119,6 @@
     webVC.webURL = ZENITH_IMAGE_FILESTR([fileURL stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]);
     webVC.workStandardSeqkey = seqkey;
     [self.navigationController pushViewController:webVC animated:YES];
-
 }
 
 -(void)goSearch:(NSString *)str

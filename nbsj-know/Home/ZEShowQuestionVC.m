@@ -134,6 +134,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+    self.tabBarController.tabBar.hidden = YES;
 }
 
 -(void)createWhereSQL:(NSString *)searchStr
@@ -144,7 +145,39 @@
         if (![ZEUtil isStrNotEmpty:searchStr]) {
             searchCondition = [NSString stringWithFormat:@"ISLOSE = 0"];
         }
+    }else if (_showQuestionListType == QUESTION_LIST_TYPE){
+        searchCondition = [NSString stringWithFormat:@"ISLOSE = 0 and QUESTIONTYPECODE like '%%%@%%' and QUESTIONEXPLAIN like '%%%@%%'",_typeSEQKEY,searchStr];
+        if (![ZEUtil isStrNotEmpty:searchStr]) {
+            searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONTYPECODE like '%%%@%%'",_typeSEQKEY];
+        }
+        if([ZEUtil isStrNotEmpty:self.typeParentID] && [self.typeParentID integerValue] == -1){
+            [self getAllTypeQuestion];
+            return;
+        }
+    }else if (_showQuestionListType == QUESTION_LIST_MY_QUESTION){
+        searchCondition = [NSString stringWithFormat:@"ISLOSE = 0 and QUESTIONUSERCODE = '%@' and QUESTIONEXPLAIN like '%%%@%%'",[ZESettingLocalData getUSERCODE],searchStr];
+        if (![ZEUtil isStrNotEmpty:searchStr]) {
+            searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONUSERCODE = '%@'",[ZESettingLocalData getUSERCODE]];
+        }
+    }else if (_showQuestionListType == QUESTION_LIST_MY_ANSWER){
+        searchCondition = [NSString stringWithFormat:@"ISLOSE = 0 and USERCODE = '%@'  and QUESTIONEXPLAIN like '%%%@%%'",[ZESettingLocalData getUSERCODE],searchStr];
+        if (![ZEUtil isStrNotEmpty:searchStr]) {
+            searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and USERCODE = '%@'",[ZESettingLocalData getUSERCODE]];
+        }
+        [self sendMyAnswerRequestWithCondition:searchCondition];
+        return;
+    }else if (_showQuestionListType == QUESTION_LIST_EXPERT){
+        searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONEXPLAIN like '%%%@%%' and EXPERTUSERCODE like '%%%@%%'",searchStr,_expertModel.USERCODE];
+        if (![ZEUtil isStrNotEmpty:searchStr]) {
+            searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and EXPERTUSERCODE like '%%%@%%'",_expertModel.USERCODE];
+        }
+    }else if (_showQuestionListType == QUESTION_LIST_CASE){
+        searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONLEVEL = 2 and QUESTIONEXPLAIN like '%%%@%%'",searchStr];
+        if (![ZEUtil isStrNotEmpty:searchStr]) {
+            searchCondition = [NSString stringWithFormat:@"ISLOSE=0 and QUESTIONLEVEL = 2 and QUESTIONEXPLAIN like '%%'"];
+        }
     }
+    
     [self sendRequestWithCondition:searchCondition];
 }
 
@@ -226,11 +259,11 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-
+    
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-
+                                 
                                  NSArray * dataArr = [ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_INFO];
                                  if (dataArr.count > 0) {
                                      if (_currentPage == 0) {
@@ -257,7 +290,7 @@
                                      [_questionsView loadNoMoreData];
                                  }
                              } fail:^(NSError *errorCode) {
-
+                                 
                              }];
 }
 -(void)sendMyAnswerRequestWithCondition:(NSString *)conditionStr
@@ -280,11 +313,11 @@
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
-
+    
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-
+                                 
                                  NSArray * dataArr = [ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_INFO_LIST];
                                  if (dataArr.count > 0) {
                                      if (_currentPage == 0) {
@@ -307,7 +340,7 @@
                                      [_questionsView loadNoMoreData];
                                  }
                              } fail:^(NSError *errorCode) {
-
+                                 
                              }];
 }
 
@@ -363,17 +396,17 @@
     [[SDImageCache sharedImageCache] setValue:nil forKey:@"memCache"];
     
     [[SDImageCache sharedImageCache] clearDisk];
-
+    
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

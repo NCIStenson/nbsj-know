@@ -475,11 +475,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "nbsj-know/Home/ZEShowQuestionVC.m"
-            timestampString = "514795050.271815"
+            timestampString = "514866805.462127"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "237"
-            endingLineNumber = "237"
+            startingLineNumber = "270"
+            endingLineNumber = "270"
             landmarkName = "-sendRequestWithCondition:"
             landmarkType = "7">
          </BreakpointContent>
