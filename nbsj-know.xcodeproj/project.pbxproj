@@ -354,6 +354,7 @@
 		98F094261D49DD2D002D4E3B /* qb_praiseBtn_hand@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98F094251D49DD2D002D4E3B /* qb_praiseBtn_hand@2x.png */; };
 		98F471981D5434CF0016CD5A /* ZEAnswerQuestionsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98F471971D5434CF0016CD5A /* ZEAnswerQuestionsVC.m */; };
 		98F4719E1D5434F70016CD5A /* ZEAnswerQuestionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98F4719D1D5434F70016CD5A /* ZEAnswerQuestionsView.m */; };
+		98FEF2581EB1859E00A0CB17 /* ZETeamWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FEF2571EB1859E00A0CB17 /* ZETeamWebVC.m */; };
 		9FBE7A32BDB566C417E1113F /* libPods-nbsj-know.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EF64F73ABC42A2CC3AC9B45 /* libPods-nbsj-know.a */; };
 /* End PBXBuildFile section */
 
@@ -878,6 +879,8 @@
 		98F471971D5434CF0016CD5A /* ZEAnswerQuestionsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEAnswerQuestionsVC.m; path = Questions/ZEAnswerQuestionsVC.m; sourceTree = "<group>"; };
 		98F4719C1D5434F70016CD5A /* ZEAnswerQuestionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEAnswerQuestionsView.h; path = Questions/ZEAnswerQuestionsView.h; sourceTree = "<group>"; };
 		98F4719D1D5434F70016CD5A /* ZEAnswerQuestionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEAnswerQuestionsView.m; path = Questions/ZEAnswerQuestionsView.m; sourceTree = "<group>"; };
+		98FEF2561EB1859E00A0CB17 /* ZETeamWebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZETeamWebVC.h; path = Team/ZETeamWebVC.h; sourceTree = "<group>"; };
+		98FEF2571EB1859E00A0CB17 /* ZETeamWebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZETeamWebVC.m; path = Team/ZETeamWebVC.m; sourceTree = "<group>"; };
 		C543DE3B53D618A58F02B201 /* Pods-nbsj-know.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nbsj-know.debug.xcconfig"; path = "Pods/Target Support Files/Pods-nbsj-know/Pods-nbsj-know.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1666,6 +1669,8 @@
 				9814755A1E7A7CCB0019DA79 /* ZESearchTeamQuestionVC.m */,
 				988C10651E8A35B3006795F0 /* ZETeamChatRoomVC.h */,
 				988C10661E8A35B3006795F0 /* ZETeamChatRoomVC.m */,
+				98FEF2561EB1859E00A0CB17 /* ZETeamWebVC.h */,
+				98FEF2571EB1859E00A0CB17 /* ZETeamWebVC.m */,
 			);
 			name = Team;
 			sourceTree = "<group>";
@@ -2276,6 +2281,7 @@
 				988C10671E8A35B3006795F0 /* ZETeamChatRoomVC.m in Sources */,
 				98B13C411E6E9996006C783B /* MKJItemModel.m in Sources */,
 				982300231E78E82D00DD02B1 /* ZETeamCircleChatVC.m in Sources */,
+				98FEF2581EB1859E00A0CB17 /* ZETeamWebVC.m in Sources */,
 				98F4719E1D5434F70016CD5A /* ZEAnswerQuestionsView.m in Sources */,
 				98253E131E2DC446005C3E10 /* UIView+LBExtension.m in Sources */,
 				9801DB0E1D6170A8008B1676 /* ZEUserServer.m in Sources */,

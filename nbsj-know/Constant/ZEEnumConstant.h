@@ -61,6 +61,11 @@ typedef enum : NSUInteger {
     ENTER_WEBVC_WORK_STANDARD, // 关于知道
 } ENTER_WEBVC;   // 进入团队问题搜索页面
 
+typedef enum : NSUInteger {
+    ENTER_WKWEBVC_PRACTICE, // 练习管理
+    ENTER_WKWEBVC_TEST, // 考试管理
+} ENTER_WKWEBVC;   // 进入团队问题搜索页面
+
 
 typedef enum : NSUInteger {
     ENTER_SETTING_TYPE_PERSONAL,

@@ -15,6 +15,7 @@
 #import "ZETeamCircleModel.h"
 
 #import "ZEFindTeamVC.h"
+#import "ZETeamWebVC.h"
 
 #define textViewStr @"请输入团队宣言（不超过20字）"
 #define textViewProfileStr @"请输入团队简介，建议不超过100字！"
@@ -796,12 +797,18 @@
 }
 -(void)goPracticeManager
 {
-    [self showTips:@"goPracticeManager" afterDelay:1.5];
+    ZETeamWebVC * teamWebVC = [[ZETeamWebVC alloc]init];
+    teamWebVC.enterType = ENTER_WKWEBVC_PRACTICE;
+    teamWebVC.teamCircleM = _teamCircleInfo;
+    [self.navigationController pushViewController:teamWebVC animated:YES];
 }
 
 -(void)goExamManager
 {
-    [self showTips:@"goExamManager" afterDelay:1.5];
+    ZETeamWebVC * teamWebVC = [[ZETeamWebVC alloc]init];
+    teamWebVC.enterType = ENTER_WKWEBVC_TEST;
+    teamWebVC.teamCircleM = _teamCircleInfo;
+    [self.navigationController pushViewController:teamWebVC animated:YES];
 }
 
 

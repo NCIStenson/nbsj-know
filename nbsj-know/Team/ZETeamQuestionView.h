@@ -110,4 +110,6 @@
  */
 -(void)showWebViewAlert;
 
+- (void)deleteWebCache;
+
 @end

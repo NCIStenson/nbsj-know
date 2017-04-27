@@ -210,6 +210,12 @@
     [self isHaveNewMessage];
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:YES];
+    [_teamQuestionView deleteWebCache];
+}
+
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:YES];
@@ -595,9 +601,6 @@
 
 -(void)sendPracticeRequest
 {
-    _teamQuestionView.practiceURL = @"http://117.149.2.229:1623/ecm/ZUI/pages/dzd/taskPractice.html?userID=66661666&teamID=6486";
-    [_teamQuestionView refreshPracticeWebView];
-
     NSDictionary * parametersDic = @{@"limit":@"-1",
                                      @"MASTERTABLE":V_KLB_TEAMCIRCLE_INFO,
                                      @"MENUAPP":@"EMARK_APP",
@@ -610,7 +613,7 @@
                                      @"CLASSNAME":@"com.nci.klb.app.exam.examCaseTeam",
                                      @"DETAILTABLE":@"",};
     
-    NSDictionary * fieldsDic =@{@"TEAMCIRCLECODE":_teamCircleInfo.TEAMCODE};
+    NSDictionary * fieldsDic =@{@"SEQKEY":_teamCircleInfo.TEAMCODE};
     
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_TEAMCIRCLE_INFO]
                                                                            withFields:@[fieldsDic]
