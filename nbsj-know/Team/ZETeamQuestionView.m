@@ -1461,7 +1461,6 @@
 -(void)showWebViewAlert
 {
     NSString *jsFunctStr=@"dropOut()";
-
     WKWebView * web  = [practiceView viewWithTag:kPracticeWebViewTag];
     [web evaluateJavaScript:jsFunctStr completionHandler:nil];
 //    JSContext *context=[web valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];

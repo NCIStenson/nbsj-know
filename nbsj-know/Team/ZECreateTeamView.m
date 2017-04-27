@@ -46,15 +46,15 @@
                 
         switch (i) {
             case 0:
-                [optionBtn setImage:[UIImage imageNamed:@"icon_my_question"] forState:UIControlStateNormal];
+                [optionBtn setImage:[UIImage imageNamed:@"icon_team_noti"] forState:UIControlStateNormal];
                 [optionBtn setTitle:@"团队通知" forState:UIControlStateNormal];
                 break;
             case 1:
-                [optionBtn setImage:[UIImage imageNamed:@"icon_my_answer"] forState:UIControlStateNormal];
+                [optionBtn setImage:[UIImage imageNamed:@"icon_team_circle_practice"] forState:UIControlStateNormal];
                 [optionBtn setTitle:@"练习管理" forState:UIControlStateNormal];
                 break;
             case 2:
-                [optionBtn setImage:[UIImage imageNamed:@"icon_my_circle"] forState:UIControlStateNormal];
+                [optionBtn setImage:[UIImage imageNamed:@"icon_team_test"] forState:UIControlStateNormal];
                 [optionBtn setTitle:@"考试管理" forState:UIControlStateNormal];
                 break;
                 
