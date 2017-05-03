@@ -69,7 +69,7 @@
     
     UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 80, 35)];
     rowTitleLab.text = @"专家解答";
-    rowTitleLab.textAlignment = NSTextAlignmentCenter;
+    rowTitleLab.textAlignment = NSTextAlignmentLeft;
     rowTitleLab.font = [UIFont systemFontOfSize:16];
     [typicalCaseView addSubview:rowTitleLab];
     
@@ -136,7 +136,7 @@
     
     UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 80, 35)];
     rowTitleLab.text = @"典型案例";
-    rowTitleLab.textAlignment = NSTextAlignmentCenter;
+    rowTitleLab.textAlignment = NSTextAlignmentLeft;
     rowTitleLab.font = [UIFont systemFontOfSize:16];
     [typicalCaseView addSubview:rowTitleLab];
     
@@ -210,7 +210,7 @@
     
     UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 80, 35)];
     rowTitleLab.text = @"行业规范";
-    rowTitleLab.textAlignment = NSTextAlignmentCenter;
+    rowTitleLab.textAlignment = NSTextAlignmentLeft;
     rowTitleLab.font = [UIFont systemFontOfSize:16];
     [workStandardView addSubview:rowTitleLab];
     
@@ -219,6 +219,7 @@
     sectionSubTitleBtn.frame = CGRectMake(SCREEN_WIDTH - 110 , 0, 90, 35);
     [sectionSubTitleBtn setTitle:@"更多  >" forState:UIControlStateNormal];
     sectionSubTitleBtn.contentHorizontalAlignment =  UIControlContentHorizontalAlignmentRight;
+    sectionSubTitleBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     [workStandardView addSubview:sectionSubTitleBtn];
     [sectionSubTitleBtn addTarget:self action:@selector(moreWorkStandard) forControlEvents:UIControlEventTouchUpInside];
     
@@ -391,7 +392,7 @@
 {
     UILabel * rowTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 80, 40)];
     rowTitleLab.text = @"排行榜";
-    rowTitleLab.textAlignment = NSTextAlignmentCenter;
+    rowTitleLab.textAlignment = NSTextAlignmentLeft;
     rowTitleLab.font = [UIFont systemFontOfSize:16];
     [superView addSubview:rowTitleLab];
 
@@ -405,7 +406,6 @@
     [sectionSubTitleBtn addTarget:self action:@selector(goMoreRankingMessage) forControlEvents:UIControlEventTouchUpInside];
 
     for (int i = 0 ; i < 4; i ++) {
-        
         UILabel * titleLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH / 4 * i, 40, SCREEN_WIDTH / 4, 80)];
         titleLab.text = @"本月排行";
         titleLab.textAlignment = NSTextAlignmentCenter;

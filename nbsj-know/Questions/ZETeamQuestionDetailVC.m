@@ -143,7 +143,8 @@
 -(void)initView
 {
     _quesDetailView = [[ZEQuestionsDetailView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
-                                                 withQuestionInfo:_questionInfoModel];
+                                                 withQuestionInfo:_questionInfoModel
+                                                       withIsTeam:YES];
     _quesDetailView.delegate = self;
     [self.view addSubview:_quesDetailView];
     [self.view sendSubviewToBack:_quesDetailView];

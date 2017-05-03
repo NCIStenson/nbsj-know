@@ -540,6 +540,7 @@
     courseLab.font = [UIFont systemFontOfSize:12];
     [cellView addSubview:courseLab];
     if (indexPath.row < infoM.COURSEFILENAMEARR.count ) {
+        NSLog(@">>>.  %@",infoM.COURSEFILENAMEARR);
         courseLab.text = infoM.COURSEFILENAMEARR[indexPath.row];
     }else{
         //  h5连接根据','分割

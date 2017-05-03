@@ -69,7 +69,10 @@
                                      @"CLASSNAME":@"com.nci.klb.app.exam.examCaseTeam",
                                      @"DETAILTABLE":@"",};
     
-    NSDictionary * fieldsDic =@{@"SEQKEY":_teamCircleM.TEAMCODE};
+    NSDictionary * fieldsDic =@{@"SEQKEY":_teamCircleM.SEQKEY};
+    if (_teamCircleM.TEAMCODE.length > 0) {
+        fieldsDic =@{@"SEQKEY":_teamCircleM.TEAMCODE};
+    }
     
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_TEAMCIRCLE_INFO]
                                                                            withFields:@[fieldsDic]

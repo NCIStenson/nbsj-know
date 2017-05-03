@@ -25,7 +25,7 @@
 }
 
 @property (nonatomic,strong) ZEQuestionInfoModel * questionInfoModel;
-
+@property (nonatomic,assign) BOOL isTeam;
 @property (nonatomic,strong) NSArray * answerInfoArr;
 
 @end
@@ -34,11 +34,12 @@
 
 -(id)initWithFrame:(CGRect)frame
   withQuestionInfo:(ZEQuestionInfoModel *)infoModel
+        withIsTeam:(BOOL)isTeam
 {
     self = [super initWithFrame:frame];
     if (self) {
         _questionInfoModel = infoModel;
-        
+        _isTeam = isTeam;
         [self initView];
     }
     return self;
@@ -168,7 +169,7 @@
     userY += circleLab.height + 5.0f;
 
     if (_questionInfoModel.TARGETUSERNAME.length > 0) {
-        
+
         NSString * targetUsernameStr = [NSString stringWithFormat:@"指定人员回答 ：%@",_questionInfoModel.TARGETUSERNAME];
         
         float targetUsernameHeight = [ZEUtil heightForString:targetUsernameStr font:[UIFont systemFontOfSize:kSubTiltlFontSize] andWidth:SCREEN_WIDTH - 40];
@@ -311,6 +312,9 @@
     
     UILabel * ANSWERUSERNAME = [[UILabel alloc]initWithFrame:CGRectMake(35,0,100.0f,30.0f)];
     ANSWERUSERNAME.text = answerInfoM.NICKNAME;
+    if(_isTeam){
+        ANSWERUSERNAME.text = answerInfoM.ANSWERUSERNAME;
+    }
     ANSWERUSERNAME.userInteractionEnabled = NO;
     ANSWERUSERNAME.textColor = MAIN_SUBTITLE_COLOR;
     [ANSWERUSERNAME sizeToFit];

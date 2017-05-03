@@ -31,7 +31,8 @@
 @property (nonatomic,weak) id <ZEQuestionsDetailViewDelegate> delegate;
 
 -(id)initWithFrame:(CGRect)frame
-  withQuestionInfo:(ZEQuestionInfoModel *)infoModel;
+  withQuestionInfo:(ZEQuestionInfoModel *)infoModel
+        withIsTeam:(BOOL)isTeam;
 
 -(void)reloadData:(NSArray *)arr;
 

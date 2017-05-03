@@ -48,9 +48,12 @@ static ZEKLB_CLASSICCASE_INFOModel * model;
             model.COURSEFILEURLARR = courseUrlArr;
         }
     }
-    
-    model.COURSEFILENAMEARR             = [[dic objectForKey:@"COURSEFILENAME"] componentsSeparatedByString:@","];
-    model.COURSEFILETYPEARR             = [[dic objectForKey:@"COURSEFILETYPE"] componentsSeparatedByString:@","];
+    if([[dic objectForKey:@"COURSEFILENAME"] length] > 0){
+        model.COURSEFILENAMEARR             = [[dic objectForKey:@"COURSEFILENAME"] componentsSeparatedByString:@","];
+    }
+    if([[dic objectForKey:@"COURSEFILETYPE"] length] > 0){
+        model.COURSEFILETYPEARR             = [[dic objectForKey:@"COURSEFILETYPE"] componentsSeparatedByString:@","];
+    }
 
     return model;
 }
