@@ -177,7 +177,7 @@
                                 @"ANSWERIMAGE":@"",
                                 @"USERHEADIMAGE":[ZESettingLocalData getUSERHHEADURL],
                                 @"ANSWERUSERCODE":[ZESettingLocalData getUSERCODE],
-                                @"ANSWERUSERNAME":[ZESettingLocalData getNICKNAME],
+                                @"ANSWERUSERNAME":[ZESettingLocalData getCurrentUsername],
                                 @"ANSWERLEVEL":@"",
                                 @"ISPASS":@"0",
                                 @"ISENABLED":@"0"};

@@ -31,9 +31,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self initView];
-    self.title = [NSString stringWithFormat:@"%@的提问",_questionInfoModel.NICKNAME];
+    self.title = [NSString stringWithFormat:@"%@的提问",_questionInfoModel.QUESTIONUSERNAME];
     if ([_questionInfoModel.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
-//        [self.rightBtn setTitle:@"修改" forState:UIControlStateNormal];
         self.rightBtn.hidden = YES;
     }else{
         [self.rightBtn setTitle:@"回答" forState:UIControlStateNormal];

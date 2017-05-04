@@ -71,7 +71,7 @@
     if(_enterType == ENTER_WEBVC_SCHOOL){
         [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://dzd.nbuen.com/mobile/media_app.php"]]];
     }else if (_enterType == ENTER_WEBVC_OPERATION){
-        [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/file/about/operation.doc",Zenith_Server]]]];
+        [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/file/about/operation.pdf",Zenith_Server]]]];
     }else if (_enterType == ENTER_WEBVC_ABOUT){
         
         webView.hidden = YES;
