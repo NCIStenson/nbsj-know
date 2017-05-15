@@ -11,6 +11,8 @@
 
 #import "ZEFindTeamVC.h"
 #import "ZETeamQuestionVC.h"
+
+#import "ZEPersonalNotiVC.h"
 @interface ZETeamVC ()<ZETeamViewDelegate>
 {
     ZETeamView * teamView;
@@ -34,6 +36,8 @@
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeAskState:) name:kNOTI_ASK_TEAM_QUESTION object:nil];;
 
+    [self.rightBtn setImage:[UIImage imageNamed:@"icon_noti"] forState:UIControlStateNormal];
+    
     [self initView];
 }
 
@@ -216,6 +220,7 @@
     teamView = [[ZETeamView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     teamView.delegate = self;
     [self.view addSubview:teamView];
+    [self.view sendSubviewToBack:teamView];
 }
 
 #pragma mark - ZETeamViewDelegate
@@ -273,6 +278,12 @@
     }
 }
 
+
+-(void)rightBtnClick
+{
+    ZEPersonalNotiVC * personalNotiVC = [[ZEPersonalNotiVC alloc]init];
+    [self.navigationController pushViewController:personalNotiVC animated:YES];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

@@ -13,6 +13,7 @@
 #import "ZEChooseNumberVC.h"
 
 #import "ZETeamCircleModel.h"
+#import "ZETeamNotiCenVC.h"
 
 #import "ZEFindTeamVC.h"
 #import "ZETeamWebVC.h"
@@ -794,6 +795,14 @@
 -(void)goTeamNotiCenter
 {
     [self showTips:@"功能建设中，敬请期待" afterDelay:1.5];
+    
+    ZETeamNotiCenVC * notiCenVC = [[ZETeamNotiCenVC alloc]init];
+    notiCenVC.teamID = _teamCircleInfo.SEQKEY;
+    if (_teamCircleInfo.TEAMCODE.length > 0) {
+        notiCenVC.teamID = _teamCircleInfo.TEAMCODE;
+    }
+    [self.navigationController pushViewController:notiCenVC animated:YES];
+    
 }
 -(void)goPracticeManager
 {
@@ -810,8 +819,6 @@
     teamWebVC.teamCircleM = _teamCircleInfo;
     [self.navigationController pushViewController:teamWebVC animated:YES];
 }
-
-
 
 
 - (void)didReceiveMemoryWarning {

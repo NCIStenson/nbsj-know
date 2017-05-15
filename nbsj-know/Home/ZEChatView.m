@@ -241,7 +241,6 @@
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             [_contentTableView reloadData];
-            NSLog(@">>>>  %@",NSStringFromCGSize(_contentTableView.contentSize));
             if( _isShowedKeyboard ){
                 if(_contentTableView.contentSize.height > SCREEN_HEIGHT - NAV_HEIGHT - 288 - 45){
                     [_contentTableView scrollToBottom];

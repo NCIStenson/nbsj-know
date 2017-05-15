@@ -358,6 +358,26 @@
 		98FEF25C1EB1BF3500A0CB17 /* icon_team_noti@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98FEF2591EB1BF3500A0CB17 /* icon_team_noti@3x.png */; };
 		98FEF25D1EB1BF3500A0CB17 /* icon_team_test@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98FEF25A1EB1BF3500A0CB17 /* icon_team_test@3x.png */; };
 		98FEF25E1EB1BF3500A0CB17 /* icon_team_circle_practice@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98FEF25B1EB1BF3500A0CB17 /* icon_team_circle_practice@3x.png */; };
+		98FEF2621EBAF64200A0CB17 /* ZETeamNotiCenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FEF2611EBAF64200A0CB17 /* ZETeamNotiCenVC.m */; };
+		98FEF2651EBAF66C00A0CB17 /* ZETeamNotiCenView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FEF2641EBAF66C00A0CB17 /* ZETeamNotiCenView.m */; };
+		98FEF2681EBAFB0700A0CB17 /* ZETeamNotiLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FEF2671EBAFB0700A0CB17 /* ZETeamNotiLayout.m */; };
+		98FEF26D1EBAFBD200A0CB17 /* ZETeamNotiCenModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FEF26C1EBAFBD200A0CB17 /* ZETeamNotiCenModel.m */; };
+		98FEF2701EBC0DFB00A0CB17 /* icon_team_sendNoti@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98FEF26F1EBC0DFB00A0CB17 /* icon_team_sendNoti@3x.png */; };
+		98FEF2721EBC0E7100A0CB17 /* icon_team_sendNoti@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98FEF2711EBC0E7100A0CB17 /* icon_team_sendNoti@2x.png */; };
+		98FEF2781EBC0EC300A0CB17 /* ZESendNotiVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FEF2771EBC0EC300A0CB17 /* ZESendNotiVC.m */; };
+		98FEF27B1EBC0F0B00A0CB17 /* ZESendNotiView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FEF27A1EBC0F0B00A0CB17 /* ZESendNotiView.m */; };
+		98FEF2801EBC149600A0CB17 /* icon_team_receipt_choosed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98FEF27C1EBC149600A0CB17 /* icon_team_receipt_choosed@2x.png */; };
+		98FEF2811EBC149600A0CB17 /* icon_team_receipt_choosed@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98FEF27D1EBC149600A0CB17 /* icon_team_receipt_choosed@3x.png */; };
+		98FEF2821EBC149600A0CB17 /* icon_team_receipt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98FEF27E1EBC149600A0CB17 /* icon_team_receipt@2x.png */; };
+		98FEF2831EBC149600A0CB17 /* icon_team_receipt@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98FEF27F1EBC149600A0CB17 /* icon_team_receipt@3x.png */; };
+		98FEF2861EBC53E500A0CB17 /* ZENotiDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FEF2851EBC53E500A0CB17 /* ZENotiDetailVC.m */; };
+		98FEF2891EBC53FC00A0CB17 /* ZENotiDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FEF2881EBC53FC00A0CB17 /* ZENotiDetailView.m */; };
+		98FEF28D1EC2A4F700A0CB17 /* ZEPersonalNotiVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FEF28C1EC2A4F700A0CB17 /* ZEPersonalNotiVC.m */; };
+		98FEF2901EC2A51F00A0CB17 /* ZEPersonalNotiView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FEF28F1EC2A51F00A0CB17 /* ZEPersonalNotiView.m */; };
+		98FEF2931EC4402300A0CB17 /* ZEPersonalDynamicVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FEF2921EC4402300A0CB17 /* ZEPersonalDynamicVC.m */; };
+		98FEF2961EC553FB00A0CB17 /* ZEPersonalChatListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FEF2951EC553FB00A0CB17 /* ZEPersonalChatListVC.m */; };
+		98FEF2991EC55B3D00A0CB17 /* talking_icon_group@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98FEF2971EC55B3D00A0CB17 /* talking_icon_group@2x.png */; };
+		98FEF29A1EC55B3D00A0CB17 /* talking_icon_group@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98FEF2981EC55B3D00A0CB17 /* talking_icon_group@3x.png */; };
 		9FBE7A32BDB566C417E1113F /* libPods-nbsj-know.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EF64F73ABC42A2CC3AC9B45 /* libPods-nbsj-know.a */; };
 /* End PBXBuildFile section */
 
@@ -887,6 +907,38 @@
 		98FEF2591EB1BF3500A0CB17 /* icon_team_noti@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_team_noti@3x.png"; sourceTree = "<group>"; };
 		98FEF25A1EB1BF3500A0CB17 /* icon_team_test@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_team_test@3x.png"; sourceTree = "<group>"; };
 		98FEF25B1EB1BF3500A0CB17 /* icon_team_circle_practice@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_team_circle_practice@3x.png"; sourceTree = "<group>"; };
+		98FEF2601EBAF64200A0CB17 /* ZETeamNotiCenVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZETeamNotiCenVC.h; path = Team/TeamNoti/ZETeamNotiCenVC.h; sourceTree = "<group>"; };
+		98FEF2611EBAF64200A0CB17 /* ZETeamNotiCenVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZETeamNotiCenVC.m; path = Team/TeamNoti/ZETeamNotiCenVC.m; sourceTree = "<group>"; };
+		98FEF2631EBAF66C00A0CB17 /* ZETeamNotiCenView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZETeamNotiCenView.h; path = Team/TeamNoti/ZETeamNotiCenView.h; sourceTree = "<group>"; };
+		98FEF2641EBAF66C00A0CB17 /* ZETeamNotiCenView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZETeamNotiCenView.m; path = Team/TeamNoti/ZETeamNotiCenView.m; sourceTree = "<group>"; };
+		98FEF2661EBAFB0700A0CB17 /* ZETeamNotiLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZETeamNotiLayout.h; path = Team/TeamNoti/ZETeamNotiLayout.h; sourceTree = "<group>"; };
+		98FEF2671EBAFB0700A0CB17 /* ZETeamNotiLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZETeamNotiLayout.m; path = Team/TeamNoti/ZETeamNotiLayout.m; sourceTree = "<group>"; };
+		98FEF26C1EBAFBD200A0CB17 /* ZETeamNotiCenModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZETeamNotiCenModel.m; path = Team/TeamNoti/ZETeamNotiCenModel.m; sourceTree = "<group>"; };
+		98FEF26E1EBAFBDE00A0CB17 /* ZETeamNotiCenModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZETeamNotiCenModel.h; path = Team/TeamNoti/ZETeamNotiCenModel.h; sourceTree = "<group>"; };
+		98FEF26F1EBC0DFB00A0CB17 /* icon_team_sendNoti@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_team_sendNoti@3x.png"; sourceTree = "<group>"; };
+		98FEF2711EBC0E7100A0CB17 /* icon_team_sendNoti@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_team_sendNoti@2x.png"; sourceTree = "<group>"; };
+		98FEF2761EBC0EC300A0CB17 /* ZESendNotiVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZESendNotiVC.h; path = Team/TeamNoti/ZESendNotiVC.h; sourceTree = "<group>"; };
+		98FEF2771EBC0EC300A0CB17 /* ZESendNotiVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZESendNotiVC.m; path = Team/TeamNoti/ZESendNotiVC.m; sourceTree = "<group>"; };
+		98FEF2791EBC0F0B00A0CB17 /* ZESendNotiView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZESendNotiView.h; path = Team/TeamNoti/ZESendNotiView.h; sourceTree = "<group>"; };
+		98FEF27A1EBC0F0B00A0CB17 /* ZESendNotiView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZESendNotiView.m; path = Team/TeamNoti/ZESendNotiView.m; sourceTree = "<group>"; };
+		98FEF27C1EBC149600A0CB17 /* icon_team_receipt_choosed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_team_receipt_choosed@2x.png"; sourceTree = "<group>"; };
+		98FEF27D1EBC149600A0CB17 /* icon_team_receipt_choosed@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_team_receipt_choosed@3x.png"; sourceTree = "<group>"; };
+		98FEF27E1EBC149600A0CB17 /* icon_team_receipt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_team_receipt@2x.png"; sourceTree = "<group>"; };
+		98FEF27F1EBC149600A0CB17 /* icon_team_receipt@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_team_receipt@3x.png"; sourceTree = "<group>"; };
+		98FEF2841EBC53E500A0CB17 /* ZENotiDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZENotiDetailVC.h; path = Team/TeamNoti/ZENotiDetailVC.h; sourceTree = "<group>"; };
+		98FEF2851EBC53E500A0CB17 /* ZENotiDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZENotiDetailVC.m; path = Team/TeamNoti/ZENotiDetailVC.m; sourceTree = "<group>"; };
+		98FEF2871EBC53FC00A0CB17 /* ZENotiDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZENotiDetailView.h; path = Team/TeamNoti/ZENotiDetailView.h; sourceTree = "<group>"; };
+		98FEF2881EBC53FC00A0CB17 /* ZENotiDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZENotiDetailView.m; path = Team/TeamNoti/ZENotiDetailView.m; sourceTree = "<group>"; };
+		98FEF28B1EC2A4F700A0CB17 /* ZEPersonalNotiVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEPersonalNotiVC.h; path = Home/PersonalNoti/ZEPersonalNotiVC.h; sourceTree = "<group>"; };
+		98FEF28C1EC2A4F700A0CB17 /* ZEPersonalNotiVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEPersonalNotiVC.m; path = Home/PersonalNoti/ZEPersonalNotiVC.m; sourceTree = "<group>"; };
+		98FEF28E1EC2A51F00A0CB17 /* ZEPersonalNotiView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEPersonalNotiView.h; path = Home/PersonalNoti/ZEPersonalNotiView.h; sourceTree = "<group>"; };
+		98FEF28F1EC2A51F00A0CB17 /* ZEPersonalNotiView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEPersonalNotiView.m; path = Home/PersonalNoti/ZEPersonalNotiView.m; sourceTree = "<group>"; };
+		98FEF2911EC4402300A0CB17 /* ZEPersonalDynamicVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEPersonalDynamicVC.h; path = Home/PersonalNoti/ZEPersonalDynamicVC.h; sourceTree = "<group>"; };
+		98FEF2921EC4402300A0CB17 /* ZEPersonalDynamicVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEPersonalDynamicVC.m; path = Home/PersonalNoti/ZEPersonalDynamicVC.m; sourceTree = "<group>"; };
+		98FEF2941EC553FB00A0CB17 /* ZEPersonalChatListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEPersonalChatListVC.h; path = Home/PersonalNoti/ZEPersonalChatListVC.h; sourceTree = "<group>"; };
+		98FEF2951EC553FB00A0CB17 /* ZEPersonalChatListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEPersonalChatListVC.m; path = Home/PersonalNoti/ZEPersonalChatListVC.m; sourceTree = "<group>"; };
+		98FEF2971EC55B3D00A0CB17 /* talking_icon_group@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "talking_icon_group@2x.png"; sourceTree = "<group>"; };
+		98FEF2981EC55B3D00A0CB17 /* talking_icon_group@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "talking_icon_group@3x.png"; sourceTree = "<group>"; };
 		C543DE3B53D618A58F02B201 /* Pods-nbsj-know.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nbsj-know.debug.xcconfig"; path = "Pods/Target Support Files/Pods-nbsj-know/Pods-nbsj-know.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1030,6 +1082,10 @@
 		982ED3701D4208E300F87343 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				984492C61E5D5CA50066AFD1 /* ZEHomeView */,
+				98A1D40E1DF547CA00D92333 /* QuestionDetail */,
+				98A1D40D1DF547B600D92333 /* TypicalCase */,
+				98FEF28A1EC2A4AF00A0CB17 /* PersonalNoti */,
 				982ED3711D42095400F87343 /* ZEHomeVC.h */,
 				982ED3721D42095400F87343 /* ZEHomeVC.m */,
 				982ED3741D42096F00F87343 /* ZEHomeView.h */,
@@ -1048,9 +1104,6 @@
 				987ACBC61D4A2557006D692E /* ZEShowQuestionVC.m */,
 				987ACBC81D4AE3E6006D692E /* ZEShowQuestionView.h */,
 				987ACBC91D4AE3E6006D692E /* ZEShowQuestionView.m */,
-				984492C61E5D5CA50066AFD1 /* ZEHomeView */,
-				98A1D40E1DF547CA00D92333 /* QuestionDetail */,
-				98A1D40D1DF547B600D92333 /* TypicalCase */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -1493,11 +1546,19 @@
 		9894FEB81E95D63000C255B5 /* icon_team */ = {
 			isa = PBXGroup;
 			children = (
+				98FEF27C1EBC149600A0CB17 /* icon_team_receipt_choosed@2x.png */,
+				98FEF27D1EBC149600A0CB17 /* icon_team_receipt_choosed@3x.png */,
+				98FEF27E1EBC149600A0CB17 /* icon_team_receipt@2x.png */,
+				98FEF27F1EBC149600A0CB17 /* icon_team_receipt@3x.png */,
+				98FEF2711EBC0E7100A0CB17 /* icon_team_sendNoti@2x.png */,
+				98FEF26F1EBC0DFB00A0CB17 /* icon_team_sendNoti@3x.png */,
 				98FEF2591EB1BF3500A0CB17 /* icon_team_noti@3x.png */,
 				98FEF25A1EB1BF3500A0CB17 /* icon_team_test@3x.png */,
 				98FEF25B1EB1BF3500A0CB17 /* icon_team_circle_practice@3x.png */,
 				98D584651E9CA51D004588EE /* headDefalt@2x.png */,
 				98D584661E9CA51D004588EE /* headDefalt@3x.png */,
+				98FEF2971EC55B3D00A0CB17 /* talking_icon_group@2x.png */,
+				98FEF2981EC55B3D00A0CB17 /* talking_icon_group@3x.png */,
 				9894FEDD1E95DD3000C255B5 /* building.gif */,
 				9894FEDB1E95D7A600C255B5 /* icon_team_practice.png */,
 				9894FED71E95D71800C255B5 /* icon_team_chat.png */,
@@ -1638,6 +1699,7 @@
 		98B13C251E6E9794006C783B /* Team */ = {
 			isa = PBXGroup;
 			children = (
+				98FEF25F1EBAF60700A0CB17 /* TeamNoti */,
 				98B13C261E6E97F8006C783B /* ZETeamVC.h */,
 				98B13C271E6E97F8006C783B /* ZETeamVC.m */,
 				98B13C291E6E9900006C783B /* ZETeamView.h */,
@@ -1812,6 +1874,44 @@
 				98EE5DB61DE56D9A00C82FCB /* ZEChooseMonthView.m */,
 			);
 			path = JCAlertView;
+			sourceTree = "<group>";
+		};
+		98FEF25F1EBAF60700A0CB17 /* TeamNoti */ = {
+			isa = PBXGroup;
+			children = (
+				98FEF2601EBAF64200A0CB17 /* ZETeamNotiCenVC.h */,
+				98FEF2611EBAF64200A0CB17 /* ZETeamNotiCenVC.m */,
+				98FEF2631EBAF66C00A0CB17 /* ZETeamNotiCenView.h */,
+				98FEF2641EBAF66C00A0CB17 /* ZETeamNotiCenView.m */,
+				98FEF2661EBAFB0700A0CB17 /* ZETeamNotiLayout.h */,
+				98FEF2671EBAFB0700A0CB17 /* ZETeamNotiLayout.m */,
+				98FEF26E1EBAFBDE00A0CB17 /* ZETeamNotiCenModel.h */,
+				98FEF26C1EBAFBD200A0CB17 /* ZETeamNotiCenModel.m */,
+				98FEF2761EBC0EC300A0CB17 /* ZESendNotiVC.h */,
+				98FEF2771EBC0EC300A0CB17 /* ZESendNotiVC.m */,
+				98FEF2791EBC0F0B00A0CB17 /* ZESendNotiView.h */,
+				98FEF27A1EBC0F0B00A0CB17 /* ZESendNotiView.m */,
+				98FEF2841EBC53E500A0CB17 /* ZENotiDetailVC.h */,
+				98FEF2851EBC53E500A0CB17 /* ZENotiDetailVC.m */,
+				98FEF2871EBC53FC00A0CB17 /* ZENotiDetailView.h */,
+				98FEF2881EBC53FC00A0CB17 /* ZENotiDetailView.m */,
+			);
+			name = TeamNoti;
+			sourceTree = "<group>";
+		};
+		98FEF28A1EC2A4AF00A0CB17 /* PersonalNoti */ = {
+			isa = PBXGroup;
+			children = (
+				98FEF28B1EC2A4F700A0CB17 /* ZEPersonalNotiVC.h */,
+				98FEF28C1EC2A4F700A0CB17 /* ZEPersonalNotiVC.m */,
+				98FEF2911EC4402300A0CB17 /* ZEPersonalDynamicVC.h */,
+				98FEF2921EC4402300A0CB17 /* ZEPersonalDynamicVC.m */,
+				98FEF28E1EC2A51F00A0CB17 /* ZEPersonalNotiView.h */,
+				98FEF28F1EC2A51F00A0CB17 /* ZEPersonalNotiView.m */,
+				98FEF2941EC553FB00A0CB17 /* ZEPersonalChatListVC.h */,
+				98FEF2951EC553FB00A0CB17 /* ZEPersonalChatListVC.m */,
+			);
+			name = PersonalNoti;
 			sourceTree = "<group>";
 		};
 		B7D1F079C1E85BD7D2342805 /* Frameworks */ = {
@@ -2058,6 +2158,7 @@
 				9831B0061E60113600729BA8 /* icon_my_circle@2x.png in Resources */,
 				9831B0131E60113600729BA8 /* icon_phone@3x.png in Resources */,
 				9831B0251E60113600729BA8 /* 收藏-(1)@3x.png in Resources */,
+				98FEF2991EC55B3D00A0CB17 /* talking_icon_group@2x.png in Resources */,
 				989B2C531C4DE7AA00F14EFA /* Assets.xcassets in Resources */,
 				9831B01E1E60113600729BA8 /* post_normal@2x.png in Resources */,
 				9831AF691E5FF6CF00729BA8 /* login_background@3x.png in Resources */,
@@ -2090,6 +2191,7 @@
 				9831B0241E60113600729BA8 /* 收藏-(1)@2x.png in Resources */,
 				9831B05E1E602C5C00729BA8 /* 辅助元素@2x.png in Resources */,
 				9894FED41E95D63000C255B5 /* icon_team_search@3x.png in Resources */,
+				98FEF2701EBC0DFB00A0CB17 /* icon_team_sendNoti@3x.png in Resources */,
 				988019861DE2D0860097892E /* hornView@3x.png in Resources */,
 				983D47D21DCC2B1100D61BC9 /* progressThumb@2x.png in Resources */,
 				9831B01D1E60113600729BA8 /* icon_user@3x.png in Resources */,
@@ -2103,6 +2205,8 @@
 				9894FED11E95D63000C255B5 /* icon_team_queAsk@2x.png in Resources */,
 				98D5981C1DC86F1A002074C7 /* ic_square_small@3x.png in Resources */,
 				9831B0081E60113600729BA8 /* icon_girl@2x.png in Resources */,
+				98FEF2801EBC149600A0CB17 /* icon_team_receipt_choosed@2x.png in Resources */,
+				98FEF29A1EC55B3D00A0CB17 /* talking_icon_group@3x.png in Resources */,
 				982ED4381D48517600F87343 /* icon_search@3x.png in Resources */,
 				987ACBD61D4AF051006D692E /* refresh_Rank@2x.png in Resources */,
 				98F094241D49DB11002D4E3B /* avatar_default.jpg in Resources */,
@@ -2132,10 +2236,12 @@
 				9831B05C1E602C5C00729BA8 /* 箭头-(4)@2x.png in Resources */,
 				983D47CE1DCC2B1100D61BC9 /* pause_disable@2x.png in Resources */,
 				9831B0161E60113600729BA8 /* icon_setting@2x.png in Resources */,
+				98FEF2821EBC149600A0CB17 /* icon_team_receipt@2x.png in Resources */,
 				9894FEDA1E95D71800C255B5 /* icon_team_ranking.png in Resources */,
 				9894FED51E95D63000C255B5 /* icon_team_transfer@2x.png in Resources */,
 				983D47D11DCC2B1100D61BC9 /* play_nor@2x.png in Resources */,
 				985C28AD1E851061004DDE37 /* icon_setting_operation@3x.png in Resources */,
+				98FEF2721EBC0E7100A0CB17 /* icon_team_sendNoti@2x.png in Resources */,
 				989AA6841D4F35C900A08022 /* camera_gray@2x.png in Resources */,
 				983D47D31DCC2B1100D61BC9 /* video_brightness_bg@2x.png in Resources */,
 				983D47DE1DCC7D7500D61BC9 /* discuss_pv@3x.png in Resources */,
@@ -2149,6 +2255,7 @@
 				98D5980E1DC83E78002074C7 /* detail_star_normal@2x.png in Resources */,
 				982ED4411D48517600F87343 /* tab_download_normal@3x.png in Resources */,
 				9861B5ED1E555AF80095EE2C /* high_score_icon@3x.png in Resources */,
+				98FEF2831EBC149600A0CB17 /* icon_team_receipt@3x.png in Resources */,
 				98D42BD31DC73FBB003A3812 /* coursecell_list_score@2x.png in Resources */,
 				9831B0331E60113600729BA8 /* icon_record@3x.png in Resources */,
 				9831B01C1E60113600729BA8 /* icon_user@2x.png in Resources */,
@@ -2162,6 +2269,7 @@
 				9831B01A1E60113600729BA8 /* icon_signin@2x.png in Resources */,
 				9831AF681E5FF6CF00729BA8 /* login_background@2x.png in Resources */,
 				983D47CF1DCC2B1100D61BC9 /* pause_nor@2x.png in Resources */,
+				98FEF2811EBC149600A0CB17 /* icon_team_receipt_choosed@3x.png in Resources */,
 				9831B0591E602C5C00729BA8 /* 城市@3x.png in Resources */,
 				9831B0191E60113600729BA8 /* icon_setting_up@3x.png in Resources */,
 				98FEF25C1EB1BF3500A0CB17 /* icon_team_noti@3x.png in Resources */,
@@ -2240,6 +2348,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				984A329C1DAC88CE00B9F53B /* PYPhotosView.m in Sources */,
+				98FEF2931EC4402300A0CB17 /* ZEPersonalDynamicVC.m in Sources */,
 				98DB7C501C4F4FA70046D405 /* ZEUtil.m in Sources */,
 				9872575E1D59BAEA005C4AB9 /* ZESettingLocalData.m in Sources */,
 				987ACBCA1D4AE3E6006D692E /* ZEShowQuestionView.m in Sources */,
@@ -2254,11 +2363,13 @@
 				989B2C4B1C4DE7AA00F14EFA /* ZEAppDelegate.m in Sources */,
 				982300031E70F14800DD02B1 /* ZEQueryNumberView.m in Sources */,
 				982300001E70F12C00DD02B1 /* ZEQueryNumberVC.m in Sources */,
+				98FEF2651EBAF66C00A0CB17 /* ZETeamNotiCenView.m in Sources */,
 				98253E0B1E2DC3E5005C3E10 /* LBNavigationController.m in Sources */,
 				984A32961DAC88CE00B9F53B /* PYPhoto.m in Sources */,
 				98B13C3D1E6E9996006C783B /* MKJCollectionViewCell.m in Sources */,
 				9823FFFA1E704AF400DD02B1 /* ZEAskTeamQuestionVC.m in Sources */,
 				982089EB1E6FAE8E00379D5E /* ZEFindTeamView.m in Sources */,
+				98FEF2781EBC0EC300A0CB17 /* ZESendNotiVC.m in Sources */,
 				982ED3761D42096F00F87343 /* ZEHomeView.m in Sources */,
 				982ED37C1D4209F200F87343 /* ZEGroupVC.m in Sources */,
 				987257581D59A7F6005C4AB9 /* ZEPackageServerData.m in Sources */,
@@ -2286,12 +2397,16 @@
 				98B13C2B1E6E9900006C783B /* ZETeamView.m in Sources */,
 				98A1D4111DF5484400D92333 /* ZEChatVC.m in Sources */,
 				9877258E1DDADFC1003BDC1C /* ZEAskQuestionTypeView.m in Sources */,
+				98FEF2621EBAF64200A0CB17 /* ZETeamNotiCenVC.m in Sources */,
 				984A32A41DAC8E8A00B9F53B /* DALabeledCircularProgressView.m in Sources */,
+				98FEF28D1EC2A4F700A0CB17 /* ZEPersonalNotiVC.m in Sources */,
 				9872544F1D587CD7005C4AB9 /* ZELoginViewController.m in Sources */,
+				98FEF27B1EBC0F0B00A0CB17 /* ZESendNotiView.m in Sources */,
 				9831B03A1E6015E200729BA8 /* ZEButton.m in Sources */,
 				98E485F51D98FDA900AA0278 /* ZEProfessionalCirVC.m in Sources */,
 				988C10671E8A35B3006795F0 /* ZETeamChatRoomVC.m in Sources */,
 				98B13C411E6E9996006C783B /* MKJItemModel.m in Sources */,
+				98FEF2681EBAFB0700A0CB17 /* ZETeamNotiLayout.m in Sources */,
 				982300231E78E82D00DD02B1 /* ZETeamCircleChatVC.m in Sources */,
 				98FEF2581EB1859E00A0CB17 /* ZETeamWebVC.m in Sources */,
 				98F4719E1D5434F70016CD5A /* ZEAnswerQuestionsView.m in Sources */,
@@ -2302,8 +2417,10 @@
 				9823000C1E72843600DD02B1 /* ZETeamCircleModel.m in Sources */,
 				98AB2A501D65A6C400F4DBF8 /* ZEAnswerInfoModel.m in Sources */,
 				989AA6891D507A9A00A08022 /* ZELookViewController.m in Sources */,
+				98FEF2961EC553FB00A0CB17 /* ZEPersonalChatListVC.m in Sources */,
 				98D584581E9C842A004588EE /* ZEExpertChatListVC.m in Sources */,
 				984A32A71DAF756100B9F53B /* ZEProCirDynamicVC.m in Sources */,
+				98FEF2861EBC53E500A0CB17 /* ZENotiDetailVC.m in Sources */,
 				987258F31D5C6F7E005C4AB9 /* ZESetPersonalMessageView.m in Sources */,
 				9801DB001D6153EE008B1676 /* ZEChangePersonalMsgVC.m in Sources */,
 				988C10761E8A8D2C006795F0 /* ZEExpertListView.m in Sources */,
@@ -2321,11 +2438,14 @@
 				9828A73F1EAEDCD400611327 /* ZEWorkStandardListView.m in Sources */,
 				984A329D1DAC88CE00B9F53B /* PYPhotoView.m in Sources */,
 				9801DBED1D644BF7008B1676 /* ZEShowQuestionTypeView.m in Sources */,
+				98FEF2901EC2A51F00A0CB17 /* ZEPersonalNotiView.m in Sources */,
 				987ACBDA1D4AFC31006D692E /* ZEQuestionTableView.m in Sources */,
 				98E485FD1D9A14FE00AA0278 /* ZEProCirDetailVC.m in Sources */,
 				98DB7C561C4F53EA0046D405 /* ZEMainViewController.m in Sources */,
+				98FEF2891EBC53FC00A0CB17 /* ZENotiDetailView.m in Sources */,
 				9896637E1E8BDB0000F42906 /* ZEExpertChatVC.m in Sources */,
 				982ED3811D420A5000F87343 /* ZEUserCenterVC.m in Sources */,
+				98FEF26D1EBAFBD200A0CB17 /* ZETeamNotiCenModel.m in Sources */,
 				98EE5DB91DE56D9A00C82FCB /* ZEChooseMonthView.m in Sources */,
 				989AA6801D4F186300A08022 /* ZEAskQuesView.m in Sources */,
 				98253E0C1E2DC3E5005C3E10 /* LBTabBar.m in Sources */,
@@ -2574,7 +2694,7 @@
 				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = "com.zenithElec.know-Debug";
-				ZENITH_SERVER = "http://120.27.152.63:8888/emarkspg_nbsjzd";
+				ZENITH_SERVER = "http://117.149.2.229:1622/emarkspg_nbsjzd";
 			};
 			name = Debug;
 		};
@@ -2645,7 +2765,7 @@
 				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
 				ZENITH_BUNDLEID = com.zenithElec.know;
-				ZENITH_SERVER = "http://120.27.152.63:8888/emarkspg_nbsjzd";
+				ZENITH_SERVER = "http://117.149.2.229:1622/emarkspg_nbsjzd";
 			};
 			name = Release;
 		};

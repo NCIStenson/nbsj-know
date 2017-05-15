@@ -23,8 +23,11 @@
 // 根据颜色生成图片
 + (UIImage *)imageFromColor:(UIColor *)color;
 
-//  时间格式化
-+ (NSString *)formatDate:(NSDate *)date;
+//  年月日格式化
++ (NSString *)formatDate:(NSString *)date;
+
+// 包含小时 分钟 格式化
++ (NSString *)formatContainTime:(NSString *)date;
 
 + (UIColor *)colorWithRed:(NSInteger)red green:(NSInteger)green blue:(NSInteger)blue;
 

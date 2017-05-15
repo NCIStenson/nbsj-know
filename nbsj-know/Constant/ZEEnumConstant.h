@@ -38,6 +38,13 @@ typedef enum : NSUInteger {
 } ENTER_CASE_TYPE;
 
 typedef enum : NSUInteger {
+    ENTER_TEAMNOTI_TYPE_DEFAULT,  //  团队管理进入界面
+    ENTER_TEAMNOTI_TYPE_RECEIPT_N, // 不需要回执页面
+    ENTER_TEAMNOTI_TYPE_RECEIPT_Y, // 需要回执页面
+} ENTER_TEAMNOTI_TYPE;
+
+
+typedef enum : NSUInteger {
     ENTER_TEAM_CREATE, // 创建团队
     ENTER_TEAM_DETAIL, // 团队详情
 } ENTER_TEAM;   // 进入团队详情页面

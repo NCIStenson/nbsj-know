@@ -43,7 +43,6 @@
     _height += kCellTopMargin;
     _height += _titleHeight;
     _height += kCellBottomMargin;
-    
 }
 
 - (void)_layout {

@@ -17,7 +17,7 @@
 
 #import "LBTabBarController.h"
 
-#import "ZETypicalCaseDetailVC.h"
+#import "ZETeamNotiCenVC.h"
 
 #import "ZETeamChatRoomVC.h"
 
@@ -43,6 +43,11 @@
         ZELoginViewController * loginVC = [[ZELoginViewController alloc]init];
         self.window.rootViewController = loginVC;
     }
+    
+//    ZETeamNotiCenVC * loginVC = [[ZETeamNotiCenVC alloc]init];
+//    UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:loginVC];
+//    self.window.rootViewController = nav;
+
 
 #pragma mark - 注册通知
     //Required
@@ -67,13 +72,13 @@
     [JPUSHService setupWithOption:launchOptions
                            appKey:JMESSAGE_APPKEY
                           channel:@"App Store"
-                 apsForProduction:YES
+                 apsForProduction:NO
             advertisingIdentifier:nil];
     
     [JMessage setupJMessage:launchOptions
                      appKey:JMESSAGE_APPKEY
                     channel:@"App Store"
-           apsForProduction:YES
+           apsForProduction:NO
                    category:nil];
     [JMessage addDelegate:self withConversation:nil];
 

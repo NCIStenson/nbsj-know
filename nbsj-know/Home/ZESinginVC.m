@@ -116,9 +116,8 @@
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:YES
                              success:^(id data) {
-
                                  [self sendRequestWithMonth:[ZEUtil getCurrentDate:@"YYYY-MM"]];
-                                 [self showTips:@"签到成功"];
+                                 [self showTips:[[ZEUtil getCOMMANDDATA:data] objectForKey:@"target"]];
                                  [calendarPicker signinSuccess];
                              } fail:^(NSError *errorCode) {
 

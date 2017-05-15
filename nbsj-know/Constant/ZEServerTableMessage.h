@@ -74,6 +74,12 @@
 #define KLB_POINT_RULE_INFO            @"KLB_POINT_RULE_INFO"           /***   积分等级规则维护表   ***/
 #define KLB_ANSWER_GOOD                @"KLB_ANSWER_GOOD"               /***   点赞记录表   ***/
 #define SNOW_APP_VERSION                @"SNOW_APP_VERSION"               /***   版本更新   ***/
-#define SNOW_MOBILE_DEVICE              @"SNOW_MOBILE_DEVICE"               /***   版本更新   ***/
+#define SNOW_MOBILE_DEVICE              @"SNOW_MOBILE_DEVICE"               /***   手机信息   ***/
+
+#define KLB_MESSAGE_REC             @"KLB_MESSAGE_REC"               /***   是否回执列表  ***/
+#define KLB_MESSAGE_SEND              @"KLB_MESSAGE_SEND"               /***   发送信息   ***/
+#define V_KLB_MESSAGE_REC_N              @"V_KLB_MESSAGE_REC_N"               /***   未回执   ***/
+#define V_KLB_MESSAGE_REC_Y              @"V_KLB_MESSAGE_REC_Y"               /***   已回执   ***/
+
 
 #endif /* ZEServerTableMessage_h */

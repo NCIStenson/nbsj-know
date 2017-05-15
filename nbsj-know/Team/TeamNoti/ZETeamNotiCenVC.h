@@ -1,13 +1,15 @@
 //
-//  ZEExpertChatListVC.h
+//  ZETeamNotiCenVC.h
 //  nbsj-know
 //
-//  Created by Stenson on 17/4/11.
+//  Created by Stenson on 17/5/4.
 //  Copyright © 2017年 Hangzhou Zenith Electronic Technology Co., Ltd. All rights reserved.
 //
 
 #import "ZESettingRootVC.h"
 
-@interface ZEExpertChatListVC : ZESettingRootVC<UITableViewDelegate,UITableViewDataSource>
+@interface ZETeamNotiCenVC : ZESettingRootVC
+
+@property (nonatomic,copy)NSString * teamID;
 
 @end

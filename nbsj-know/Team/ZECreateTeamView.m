@@ -489,7 +489,16 @@
             ZEUSER_BASE_INFOM * leaderUserinfo = [ZEUSER_BASE_INFOM getDetailWithDic:self.alreadyInviteNumbersArr[0]];
             ZEUSER_BASE_INFOM * userinfo = [ZEUSER_BASE_INFOM getDetailWithDic:self.alreadyInviteNumbersArr[indexPath.row]];
             
-            if ([[ZESettingLocalData getUSERCODE] isEqualToString:leaderUserinfo.USERCODE] && [userinfo.USERTYPE integerValue] == 2) {
+            BOOL isleader = NO;
+            for (int i = 0; i < self.alreadyInviteNumbersArr.count; i ++) {
+                ZEUSER_BASE_INFOM * isLeaderUserinfo = [ZEUSER_BASE_INFOM getDetailWithDic:self.alreadyInviteNumbersArr[i]];
+                if ([isLeaderUserinfo.USERTYPE integerValue] == 3 || [isLeaderUserinfo.USERTYPE integerValue] == 4 ) {
+                    isleader = YES;
+                    break;
+                }
+            }
+            
+            if (isleader && [userinfo.USERTYPE integerValue] == 2) {
                 if([_createTeamView.delegate respondsToSelector:@selector(whetherAgreeJoinTeam:)]){
                     [_createTeamView.delegate whetherAgreeJoinTeam:userinfo];
                 }
@@ -497,8 +506,7 @@
                 if([_createTeamView.delegate respondsToSelector:@selector(designatedAdministrator:)]){
                     [_createTeamView.delegate designatedAdministrator:userinfo];
                 }
-            }
-            else if ([[ZESettingLocalData getUSERCODE] isEqualToString:leaderUserinfo.USERCODE] && [userinfo.USERTYPE integerValue] == 3){
+            }else if ([[ZESettingLocalData getUSERCODE] isEqualToString:leaderUserinfo.USERCODE] && [userinfo.USERTYPE integerValue] == 3){
                 if([_createTeamView.delegate respondsToSelector:@selector(revokeAdministrator:)]){
                     [_createTeamView.delegate revokeAdministrator:userinfo];
                 }
