@@ -51,6 +51,8 @@
     UICollectionView * _collectionView;
     ENTER_TEAM _enterTeamType;
 }
+
+@property (nonatomic,strong) UICollectionView * collectionView;
 @property (nonatomic,strong) NSMutableArray * alreadyInviteNumbersArr;
 @property (nonatomic,weak) ZECreateTeamView * createTeamView;
 
@@ -119,7 +121,6 @@
     ZETeamCircleModel * teamCircleInfo;
 }
 -(id)initWithFrame:(CGRect)frame withTeamCircleInfo:(ZETeamCircleModel *)teamCircleM;
-
 
 /**
  刷新管理员界面

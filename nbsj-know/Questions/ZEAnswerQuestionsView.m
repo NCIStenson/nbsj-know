@@ -63,6 +63,7 @@
     explainLab.text = _questionInfoM.QUESTIONEXPLAIN;
     explainLab.font = [UIFont boldSystemFontOfSize:16];
     explainLab.textColor = kTextColor;
+    explainLab.numberOfLines = 0;
     
     questionExplainView.frame = CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, questionExplainHeight + 20);
     

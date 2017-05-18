@@ -32,6 +32,8 @@
 
 -(void)goSinginVC;
 
+-(void)goNotiVC;
+
 -(void)goSchollVC:(ENTER_WEBVC)type;
 
 @end
@@ -39,6 +41,9 @@
 @interface ZEUserCenterView : UIView<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,weak) id <ZEUserCenterViewDelegate> delegate;
+
+@property(nonatomic,strong)UIButton * notiBtn;
+@property(nonatomic,strong)UIView * userMessage;
 
 -(void)reloadHeaderB;
 

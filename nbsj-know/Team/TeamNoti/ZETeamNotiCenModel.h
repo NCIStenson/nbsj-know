@@ -20,9 +20,13 @@
 @property (nonatomic,copy) NSString * MRSTYLE;
 @property (nonatomic,copy) NSString * SYSCREATEDATE;
 @property (nonatomic,copy) NSString * USERNAME;
+@property (nonatomic,copy) NSString * CREATORNAME;
 
 @property (nonatomic,copy) NSString * MESTYPE; //  1 团队通知 或者 2 个人问题通知
 @property (nonatomic,copy) NSString * DYNAMICTYPE;
+
+@property (nonatomic,copy) NSString * ISREAD;
+
 
 @property (nonatomic,copy) NSString * TIPS;
 @property (nonatomic,copy) NSString * QUESTIONEXPLAIN;

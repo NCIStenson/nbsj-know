@@ -107,7 +107,7 @@
     _dateLab.text =[NSString stringWithFormat:@"发布时间：%@",[ZEUtil formatContainTime:notiModel.SYSCREATEDATE]];
     if (type == ENTER_TEAMNOTI_TYPE_RECEIPT_N || type == ENTER_TEAMNOTI_TYPE_RECEIPT_Y) {
         _notiTextLab.text = notiModel.QUESTIONEXPLAIN;
-        _dateLab.text =[NSString stringWithFormat:@"发布时间：%@",notiModel.SYSCREATEDATE];
+        _disUsername.text = [NSString stringWithFormat:@"发布人：%@",notiModel.CREATORNAME];;
     }
     if(type == ENTER_TEAMNOTI_TYPE_DEFAULT || type == ENTER_TEAMNOTI_TYPE_RECEIPT_N){
         _receiptBtn.hidden = YES;
@@ -264,7 +264,7 @@
 /**
  需要回执页面
  */
--(void)reloadPersonalYesReceiptView:(ZETeamNotiCenModel *)notiM
+-(void)reloadPersonalYesReceiptView:(ZETeamNotiCenModel *)notiM isReceipt:(BOOL)isReceipt
 {
     _enterTeamNotiDetailType = ENTER_TEAMNOTI_TYPE_RECEIPT_Y;
     
@@ -274,6 +274,12 @@
     [headerView setViewFrames:_notiCenModel withEnterTeamNotiType:_enterTeamNotiDetailType];
     headerView.height = headerView.totalHeight;
     headerView.detailView = self;
+    
+    if (isReceipt) {
+        [headerView.receiptBtn setTitle:@"已回执" forState:UIControlStateNormal];
+        [headerView.receiptBtn setBackgroundColor:[UIColor lightGrayColor]];
+        headerView.receiptBtn.userInteractionEnabled = NO;
+    }
     
     [headerView.segmentedControl setHidden:YES];
     
@@ -326,7 +332,7 @@
     }
     
     NSString * USERNAME = [dic objectForKey:@"USERNAME"];
-    NSString * HEADIMAGEURL = [dic objectForKey:@"FILEURL"];
+    NSString * HEADIMAGEURL = [[[dic objectForKey:@"FILEURL"] stringByReplacingOccurrencesOfString:@"," withString:@""] stringByReplacingOccurrencesOfString:@"\\" withString:@"//"];
     
         UILabel * rankingLab = [UILabel new];
         [cellView addSubview:rankingLab];

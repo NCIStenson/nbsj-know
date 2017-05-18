@@ -17,6 +17,24 @@
 
 -(void)didSelectQuestionMessage:(ZETeamNotiCenModel *)notiModel;
 
+/**
+ *  刷新界面
+ */
+-(void)loadNewData;
+
+/**
+ *  加载更多数据
+ */
+-(void)loadMoreData;
+
+
+/**
+ 删除数据
+
+ @param notiModel 
+ */
+-(void)didSelectDeleteBtn:(ZETeamNotiCenModel *)notiModel;
+
 @end
 
 @interface ZEPersonalNotiView : UIView<UITableViewDelegate,UITableViewDataSource>
@@ -25,6 +43,10 @@
 
 -(id)initWithFrame:(CGRect)frame;
 
--(void)reloadFirstView:(NSArray *)arr;
+-(void)reloadFirstView:(NSArray *)array;
+-(void)reloadContentViewWithArr:(NSArray *)arr;
+
+-(void)headerEndRefreshing;
+-(void)loadNoMoreData;
 
 @end

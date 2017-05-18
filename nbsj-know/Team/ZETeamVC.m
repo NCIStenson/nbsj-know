@@ -13,6 +13,9 @@
 #import "ZETeamQuestionVC.h"
 
 #import "ZEPersonalNotiVC.h"
+
+#define kTipsImageTag 1234
+
 @interface ZETeamVC ()<ZETeamViewDelegate>
 {
     ZETeamView * teamView;
@@ -22,6 +25,8 @@
     
     NSArray * alreadyJoinTeam;
     NSArray * _dynamicArr;
+    
+    NSString * notiUnreadCount;
 }
 @end
 
@@ -79,7 +84,7 @@
                                      @"METHOD":METHOD_SEARCH,
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"CLASSNAME":@"com.nci.klb.app.userinfo.UserInfoManage",
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{@"USERCODE":[ZESettingLocalData getUSERCODE],
@@ -87,12 +92,13 @@
                                 @"QUESTIONCOUNT":@"",
                                 @"ANSWERCOUNT":@"",
                                 @"TEAMINFOCOUNT":@"",
+                                @"PERINFOCOUNT":@"",
                                 };
     
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_USER_BASE_INFO]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
-                                                                       withActionFlag:nil];
+                                                                       withActionFlag:@"userbaseinfo"];
     
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
@@ -101,6 +107,8 @@
                                  if ([arr count] > 0) {
                                      NSString * INFOCOUNT = [NSString stringWithFormat:@"%@" ,[arr[0] objectForKey:@"INFOCOUNT"]];
                                      NSString * TEAMINFOCOUNT = [NSString stringWithFormat:@"%@" ,[arr[0] objectForKey:@"TEAMINFOCOUNT"]];
+                                     NSString * PERINFOCOUNT = [NSString stringWithFormat:@"%@" ,[arr[0] objectForKey:@"PERINFOCOUNT"]];
+                                     notiUnreadCount = PERINFOCOUNT;
                                      if ([INFOCOUNT integerValue] > 0) {
                                          UITabBarItem * item=[self.tabBarController.tabBar.items objectAtIndex:3];
                                          item.badgeValue= INFOCOUNT;
@@ -120,6 +128,32 @@
                                      }else{
                                          UITabBarItem * item=[self.tabBarController.tabBar.items objectAtIndex:2];
                                          item.badgeValue= nil;
+                                     }
+                                     
+                                     long sumCount = [[JMSGConversation getAllUnreadCount] integerValue]+ [PERINFOCOUNT integerValue];
+                                     
+                                     UILabel* tipsImage;
+                                     tipsImage = [self.view viewWithTag:kTipsImageTag];
+                                     if (sumCount  > 0) {
+                                         if (!tipsImage) {
+                                             tipsImage = [[UILabel alloc]init];
+                                             [self.view addSubview:tipsImage];
+                                             tipsImage.backgroundColor = [UIColor redColor];
+                                             tipsImage.top = self.rightBtn.top;
+                                             tipsImage.height = 20;
+                                             tipsImage.width = 20;
+                                             tipsImage.clipsToBounds = YES;
+                                             tipsImage.layer.cornerRadius = 10;
+                                             tipsImage.left = self.rightBtn.centerX + 8;
+                                             tipsImage.tag = kTipsImageTag;
+                                             [tipsImage adjustsFontSizeToFitWidth];
+                                             [tipsImage setFont:[UIFont systemFontOfSize:tipsImage.font.pointSize - 3]];
+                                             tipsImage.textColor = [UIColor whiteColor];
+                                             tipsImage.textAlignment = NSTextAlignmentCenter;
+                                         }
+                                         [tipsImage setText:[NSString stringWithFormat:@"%ld",(long)sumCount]];
+                                     }else{
+                                         tipsImage.hidden = YES;
                                      }
                                  }
                              } fail:^(NSError *errorCode) {
@@ -282,6 +316,7 @@
 -(void)rightBtnClick
 {
     ZEPersonalNotiVC * personalNotiVC = [[ZEPersonalNotiVC alloc]init];
+    personalNotiVC.notiCount = [notiUnreadCount integerValue];
     [self.navigationController pushViewController:personalNotiVC animated:YES];
 }
 - (void)didReceiveMemoryWarning {

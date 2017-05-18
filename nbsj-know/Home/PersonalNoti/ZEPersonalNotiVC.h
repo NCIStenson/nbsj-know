@@ -7,7 +7,12 @@
 //
 
 #import "ZESettingRootVC.h"
+#import "ZEHomeVC.h"
 
 @interface ZEPersonalNotiVC : ZESettingRootVC
+
+@property (nonatomic,assign) ENTER_PERSONALNOTICENTER_TYPE enterPerNotiType;
+
+@property (nonatomic,assign) NSInteger notiCount;
 
 @end

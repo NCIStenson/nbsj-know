@@ -27,7 +27,6 @@
 
 -(void)initView
 {
-    
     for (int i = 0; i < 3; i ++) {
         ZEButton * optionBtn = [ZEButton buttonWithType:UIButtonTypeCustom];
         [optionBtn setTitleColor:kTextColor forState:UIControlStateNormal];
@@ -209,7 +208,6 @@
         
         _TEAMCIRCLECODE = teamCircleInfo.TEAMCIRCLECODE;
         _TEAMCIRCLECODENAME = teamCircleInfo.TEAMCIRCLECODENAME;
-
     }
 }
 
@@ -554,6 +552,7 @@
     _numbersView = [[ZECreateTeamNumbersView alloc]initWithFrame:CGRectMake(0, _messageView.bottom, SCREEN_WIDTH, SCREEN_HEIGHT -NAV_HEIGHT - 265)];
     _numbersView.createTeamView = self;
     [scrollView addSubview:_numbersView];
+    _numbersView.backgroundColor = [UIColor redColor];
     
     UIView * leaderJuridiction = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - NAV_HEIGHT - 40, SCREEN_WIDTH, 40)];
     [scrollView addSubview:leaderJuridiction];
@@ -565,7 +564,7 @@
         [leaderJuridiction addSubview:juridictionBtn];
         juridictionBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
         [juridictionBtn setTitleColor:kTextColor forState:UIControlStateNormal];
-        juridictionBtn.backgroundColor = [UIColor whiteColor];
+        juridictionBtn.backgroundColor = [UIColor clearColor];
         if(i == 0){
             [juridictionBtn setImage:[UIImage imageNamed:@"icon_team_transfer.png"] forState:UIControlStateNormal];
             [juridictionBtn setTitle:@"转移团队" forState:UIControlStateNormal];
@@ -593,11 +592,14 @@
         _managerView.hidden = NO;
         _managerView.top = 0;
         _messageView.top = _managerView.bottom;
+        _messageView.backgroundColor = [UIColor cyanColor];
         _numbersView.top = _messageView.bottom;
-        _numbersView.height =  SCREEN_HEIGHT -NAV_HEIGHT - _messageView.bottom - 40;
+        _numbersView.height =  SCREEN_HEIGHT - NAV_HEIGHT - _messageView.bottom - 40;
+        _numbersView.collectionView.height = _numbersView.height - 15;
     }else{
         leaderJuridiction.hidden = YES;
-        _numbersView.height =  SCREEN_HEIGHT -NAV_HEIGHT - _messageView.bottom ;
+        _numbersView.height =  SCREEN_HEIGHT -NAV_HEIGHT - _messageView.bottom - 20 ;
+        _numbersView.collectionView.height = _numbersView.height - 15;
     }
 }
 
@@ -609,17 +611,21 @@
         _messageView.top = _managerView.bottom;
         _numbersView.top = _messageView.bottom;
         _numbersView.height = SCREEN_HEIGHT - _messageView.bottom -NAV_HEIGHT;
+        _numbersView.collectionView.height = _numbersView.height - 15;
     }else{
         _managerView.hidden = YES;
         _messageView.top = 0;
         _numbersView.top = _messageView.bottom;
         _numbersView.height = SCREEN_HEIGHT - _messageView.bottom -NAV_HEIGHT;
+        _numbersView.collectionView.height = _numbersView.height - 15;
     }
     
     if([teamCircleInfo.SYSCREATORID isEqualToString:[ZESettingLocalData getUSERCODE]]){
         _numbersView.height =  SCREEN_HEIGHT -NAV_HEIGHT - _messageView.bottom - 40 ;
+        _numbersView.collectionView.height = _numbersView.height - 15;
     }else{
         _numbersView.height =  SCREEN_HEIGHT -NAV_HEIGHT - _messageView.bottom ;
+        _numbersView.collectionView.height = _numbersView.height - 15;
     }
 }
 

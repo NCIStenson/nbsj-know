@@ -89,6 +89,10 @@
 
 #define kNOTI_LEAVE_PRACTICE_WEBVIEW @"kNOTI_LEAVE_PRACTICE_WEBVIEW" // 聊天界面FrameWork发送出的固定通知 点击聊天头像
 
+#define kNOTI_TEAM_SENDMESSAGE_NOTI @"kNOTI_TEAM_SENDMESSAGE_NOTI" // 团队发送通知成功
+#define kNOTI_READDYNAMIC @"kNOTI_READDYNAMIC" // 已读消息
+
+
 #define kRelogin @"kRelogin"
 #define kVerifyLogin @"kVerifyLogin"
 #endif /* ZEMarcoConstant_h */

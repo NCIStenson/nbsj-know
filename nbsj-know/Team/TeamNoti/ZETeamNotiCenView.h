@@ -27,6 +27,24 @@
 
 -(void)didSelectNoti:(ZETeamNotiCenModel *)notiModel;
 
+/**
+ *  刷新界面
+ */
+-(void)loadNewData;
+
+/**
+ *  加载更多数据
+ */
+-(void)loadMoreData;
+
+/**
+ 删除数据
+ 
+ @param notiModel
+ */
+-(void)didSelectDeleteBtn:(ZETeamNotiCenModel *)notiModel;
+
+
 @end
 
 @interface ZETeamNotiCenView : UIView
@@ -34,5 +52,11 @@
 @property (nonatomic,weak) id <ZETeamNotiCenViewDelegate> delegate;
 
 -(id)initWithFrame:(CGRect)frame;
--(void)reloadCellWithArr:(NSArray *)arr;
+
+-(void)reloadFirstView:(NSArray *)array;
+-(void)reloadContentViewWithArr:(NSArray *)arr;
+
+-(void)headerEndRefreshing;
+-(void)loadNoMoreData;
+
 @end

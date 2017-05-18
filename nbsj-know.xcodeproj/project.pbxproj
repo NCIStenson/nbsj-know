@@ -354,6 +354,7 @@
 		98F094261D49DD2D002D4E3B /* qb_praiseBtn_hand@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98F094251D49DD2D002D4E3B /* qb_praiseBtn_hand@2x.png */; };
 		98F471981D5434CF0016CD5A /* ZEAnswerQuestionsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98F471971D5434CF0016CD5A /* ZEAnswerQuestionsVC.m */; };
 		98F4719E1D5434F70016CD5A /* ZEAnswerQuestionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98F4719D1D5434F70016CD5A /* ZEAnswerQuestionsView.m */; };
+		98FA64801ECD71C6000F2133 /* ZESystemNotiVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FA647F1ECD71C6000F2133 /* ZESystemNotiVC.m */; };
 		98FEF2581EB1859E00A0CB17 /* ZETeamWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FEF2571EB1859E00A0CB17 /* ZETeamWebVC.m */; };
 		98FEF25C1EB1BF3500A0CB17 /* icon_team_noti@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98FEF2591EB1BF3500A0CB17 /* icon_team_noti@3x.png */; };
 		98FEF25D1EB1BF3500A0CB17 /* icon_team_test@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98FEF25A1EB1BF3500A0CB17 /* icon_team_test@3x.png */; };
@@ -902,6 +903,8 @@
 		98F471971D5434CF0016CD5A /* ZEAnswerQuestionsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEAnswerQuestionsVC.m; path = Questions/ZEAnswerQuestionsVC.m; sourceTree = "<group>"; };
 		98F4719C1D5434F70016CD5A /* ZEAnswerQuestionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEAnswerQuestionsView.h; path = Questions/ZEAnswerQuestionsView.h; sourceTree = "<group>"; };
 		98F4719D1D5434F70016CD5A /* ZEAnswerQuestionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEAnswerQuestionsView.m; path = Questions/ZEAnswerQuestionsView.m; sourceTree = "<group>"; };
+		98FA647E1ECD71C6000F2133 /* ZESystemNotiVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZESystemNotiVC.h; path = Home/PersonalNoti/ZESystemNotiVC.h; sourceTree = "<group>"; };
+		98FA647F1ECD71C6000F2133 /* ZESystemNotiVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZESystemNotiVC.m; path = Home/PersonalNoti/ZESystemNotiVC.m; sourceTree = "<group>"; };
 		98FEF2561EB1859E00A0CB17 /* ZETeamWebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZETeamWebVC.h; path = Team/ZETeamWebVC.h; sourceTree = "<group>"; };
 		98FEF2571EB1859E00A0CB17 /* ZETeamWebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZETeamWebVC.m; path = Team/ZETeamWebVC.m; sourceTree = "<group>"; };
 		98FEF2591EB1BF3500A0CB17 /* icon_team_noti@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_team_noti@3x.png"; sourceTree = "<group>"; };
@@ -1910,6 +1913,8 @@
 				98FEF28F1EC2A51F00A0CB17 /* ZEPersonalNotiView.m */,
 				98FEF2941EC553FB00A0CB17 /* ZEPersonalChatListVC.h */,
 				98FEF2951EC553FB00A0CB17 /* ZEPersonalChatListVC.m */,
+				98FA647E1ECD71C6000F2133 /* ZESystemNotiVC.h */,
+				98FA647F1ECD71C6000F2133 /* ZESystemNotiVC.m */,
 			);
 			name = PersonalNoti;
 			sourceTree = "<group>";
@@ -2445,6 +2450,7 @@
 				98FEF2891EBC53FC00A0CB17 /* ZENotiDetailView.m in Sources */,
 				9896637E1E8BDB0000F42906 /* ZEExpertChatVC.m in Sources */,
 				982ED3811D420A5000F87343 /* ZEUserCenterVC.m in Sources */,
+				98FA64801ECD71C6000F2133 /* ZESystemNotiVC.m in Sources */,
 				98FEF26D1EBAFBD200A0CB17 /* ZETeamNotiCenModel.m in Sources */,
 				98EE5DB91DE56D9A00C82FCB /* ZEChooseMonthView.m in Sources */,
 				989AA6801D4F186300A08022 /* ZEAskQuesView.m in Sources */,

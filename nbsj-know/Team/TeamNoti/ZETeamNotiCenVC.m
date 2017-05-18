@@ -14,6 +14,7 @@
 @interface ZETeamNotiCenVC ()<ZETeamNotiCenViewDelegate>
 {
     ZETeamNotiCenView * teamNotiView;
+    NSInteger _currentPageCount;
 }
 @end
 
@@ -27,16 +28,30 @@
     self.navigationController.navigationBarHidden = YES;
     [self.rightBtn setImage:[UIImage imageNamed:@"icon_team_sendNoti" color:[UIColor whiteColor]] forState:UIControlStateNormal];
     [self getNotiList];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewData) name:kNOTI_TEAM_SENDMESSAGE_NOTI object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reduceUnreadCount) name:kNOTI_READDYNAMIC object:nil];
+
+}
+
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNOTI_TEAM_SENDMESSAGE_NOTI object:nil];;
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNOTI_READDYNAMIC object:nil];;
+}
+
+-(void)reduceUnreadCount
+{
+    
 }
 
 -(void)getNotiList
 {
-    NSDictionary * parametersDic = @{@"limit":@"20",
+    NSDictionary * parametersDic = @{@"limit":[NSString stringWithFormat:@"%d",MAX_PAGE_COUNT],
                                      @"MASTERTABLE":KLB_MESSAGE_SEND,
                                      @"MENUAPP":@"EMARK_APP",
-                                     @"ORDERSQL":@"",
+                                     @"ORDERSQL":@"SYSCREATEDATE desc",
                                      @"WHERESQL":[NSString stringWithFormat:@"TEAMID = '%@'",_teamID],
-                                     @"start":@"0",
+                                     @"start":[NSString stringWithFormat:@"%ld",(long)MAX_PAGE_COUNT * _currentPageCount],
                                      @"METHOD":METHOD_SEARCH,
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
@@ -52,10 +67,28 @@
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 NSArray * arr = [ZEUtil getServerData:data withTabelName:KLB_MESSAGE_SEND] ;
-                                 [teamNotiView reloadCellWithArr:arr];
+                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:KLB_MESSAGE_SEND] ;
+                                if (dataArr.count > 0) {
+                                     if (_currentPageCount == 0) {
+                                         [teamNotiView reloadFirstView:dataArr];
+                                     }else{
+                                         [teamNotiView reloadContentViewWithArr:dataArr];
+                                     }
+                                     if (dataArr.count % MAX_PAGE_COUNT == 0) {
+                                         _currentPageCount += 1;
+                                     }
+                                 }else{
+                                     if (_currentPageCount > 0) {
+                                         [teamNotiView loadNoMoreData];
+                                         return ;
+                                     }
+                                     [teamNotiView reloadFirstView:dataArr];
+                                     [teamNotiView headerEndRefreshing];
+                                     [teamNotiView loadNoMoreData];
+                                 }
+
                              } fail:^(NSError *errorCode) {
-                                 
+                                 [teamNotiView headerEndRefreshing];
                              }];
 }
 
@@ -80,6 +113,54 @@
     notiDetailVC.notiCenModel = notiModel;
     notiDetailVC.teamID = _teamID;
     [self.navigationController pushViewController:notiDetailVC animated:YES];
+}
+
+-(void)loadNewData
+{
+    _currentPageCount = 0;
+    [self getNotiList];
+}
+
+-(void)loadMoreData
+{
+    [self getNotiList];
+}
+
+-(void)didSelectDeleteBtn:(ZETeamNotiCenModel *)notiModel
+{
+    [self deletePersonalDataWithSeqkey:notiModel.SEQKEY];
+}
+
+-(void)deletePersonalDataWithSeqkey:(NSString *)seqkey
+{
+    NSDictionary * parametersDic = @{@"limit":@"1",
+                                     @"MASTERTABLE":KLB_MESSAGE_SEND,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_DELETE,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.message.TeamMessageManage",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{@"SEQKEY":seqkey};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_MESSAGE_SEND]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:@"messageDelete"];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:KLB_MESSAGE_SEND] ;
+                                 if (dataArr.count > 0) {
+                                     [self showTips:@"删除成功"];
+                                 }
+                             } fail:^(NSError *errorCode) {
+                                 
+                             }];
 }
 
 - (void)didReceiveMemoryWarning {

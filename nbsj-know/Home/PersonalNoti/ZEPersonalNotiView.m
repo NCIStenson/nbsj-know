@@ -12,7 +12,6 @@
 @interface ZEPersonalNotiView()
 {    
     UITableView * notiContentView;
-    
 }
 
 @property (nonatomic,strong) NSMutableArray * personalNotiArr;
@@ -37,15 +36,64 @@
     notiContentView.delegate =self;
     [self addSubview:notiContentView];
     notiContentView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    MJRefreshGifHeader *header = [MJRefreshGifHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+    notiContentView.mj_header = header;
+    
+    MJRefreshFooter * footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    notiContentView.mj_footer = footer;
 }
 
 #pragma mark - Public Method
--(void)reloadFirstView:(NSArray *)arr
-{
-    self.personalNotiArr = [NSMutableArray arrayWithArray:arr];
+-(void)reloadContentViewWithArr:(NSArray *)arr{
+    [self.personalNotiArr addObjectsFromArray:arr];
+    
+    [notiContentView.mj_header endRefreshing];
+    
+    if (arr.count < MAX_PAGE_COUNT) {
+        [notiContentView.mj_footer endRefreshingWithNoMoreData];
+    }else{
+        [notiContentView.mj_footer endRefreshing];
+    }
     
     [notiContentView reloadData];
 }
+
+-(void)canLoadMoreData
+{
+    MJRefreshFooter * footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    notiContentView.mj_footer = footer;
+}
+-(void)reloadFirstView:(NSArray *)array
+{
+    self.personalNotiArr = [NSMutableArray array];
+    [self reloadContentViewWithArr:array];
+}
+-(void)loadNewData
+{
+    if([self.delegate respondsToSelector:@selector(loadNewData)]){
+        [self.delegate loadNewData];
+    }
+}
+
+-(void)loadMoreData{
+    if([self.delegate respondsToSelector:@selector(loadMoreData)]){
+        [self.delegate loadMoreData];
+    }
+}
+/**
+ *  停止刷新
+ */
+-(void)headerEndRefreshing
+{
+    [notiContentView.mj_header endRefreshing];
+}
+
+-(void)loadNoMoreData
+{
+    [notiContentView.mj_footer endRefreshingWithNoMoreData];
+}
+
 
 #pragma mark - UITableViewDataSource
 
@@ -133,11 +181,22 @@
     receiptLab.font = [UIFont systemFontOfSize:kTiltlFontSize];
     [cell.contentView addSubview:receiptLab];
     receiptLab.userInteractionEnabled = YES;
-    if ([notiM.DYNAMICTYPE integerValue] == 1) {
+    if ([notiM.DYNAMICTYPE integerValue] == 1 || [notiM.DYNAMICTYPE integerValue] == 2) {
         receiptLab.text = @"需回执";
         receiptLab.textColor = [UIColor redColor];
     }else{
         receiptLab.hidden = YES;
+    }
+    
+    if (![notiM.ISREAD boolValue]) {
+        UIImageView * redImage = [[UIImageView alloc]init];
+        redImage.backgroundColor = [UIColor redColor];
+        [cell.contentView addSubview:redImage];
+        redImage.bounds = CGRectMake(0, 0, 8, 8);
+        redImage.centerX = headeImage.left;
+        redImage.centerY = headeImage.top;
+        redImage.clipsToBounds = YES;
+        redImage.layer.cornerRadius = redImage.height / 2;
     }
 
     UILabel * _disUsername = [UILabel new];
@@ -148,7 +207,7 @@
     _disUsername.textAlignment = NSTextAlignmentLeft;
     _disUsername.textColor = [UIColor lightGrayColor];
     _disUsername.font = [UIFont systemFontOfSize:kTiltlFontSize];
-    _disUsername.text = [NSString stringWithFormat:@"发布人：%@",notiM.USERNAME];
+    _disUsername.text = [NSString stringWithFormat:@"发布人：%@",notiM.CREATORNAME];
     
     UILabel * _dateLab = [UILabel new];
     _dateLab.top = _disUsername.top;
@@ -158,8 +217,9 @@
     _dateLab.textAlignment = NSTextAlignmentRight;
     _dateLab.textColor = [UIColor lightGrayColor];
     _dateLab.font = [UIFont systemFontOfSize:kTiltlFontSize];
-    _dateLab.text = [ZEUtil compareCurrentTime:[NSString stringWithFormat:@"%@.0",notiM.SYSCREATEDATE]];
-    
+    _dateLab.text = [ZEUtil compareCurrentTime:[NSString stringWithFormat:@"%@",notiM.SYSCREATEDATE]];
+    NSLog(@">>>  %@",notiM.SYSCREATEDATE);
+
     if (indexPath.row == 0) {
         UIView * lineView = [UIView new];
         lineView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 0.5);
@@ -224,11 +284,58 @@
         [cell.contentView addSubview:lineView];
     }
     
+    if (![notiM.ISREAD boolValue]) {
+        UIImageView * redImage = [[UIImageView alloc]init];
+        redImage.backgroundColor = [UIColor redColor];
+        [cell.contentView addSubview:redImage];
+        redImage.bounds = CGRectMake(0, 0, 8, 8);
+        redImage.centerX = tipsLab.left;
+        redImage.centerY = tipsLab.top;
+        redImage.clipsToBounds = YES;
+        redImage.layer.cornerRadius = redImage.height / 2;
+    }
+
     UIView * lineView = [UIView new];
     lineView.frame = CGRectMake(0, answerLab.bottom + 4.5f, SCREEN_WIDTH, 0.5);
     lineView.backgroundColor = MAIN_LINE_COLOR;
     [cell.contentView addSubview:lineView];
 }
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    return YES;
+}
+
+//滑动删除
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (!notiContentView.isEditing)
+    {
+        return UITableViewCellEditingStyleDelete;
+    }
+    return UITableViewCellEditingStyleDelete | UITableViewCellEditingStyleInsert;
+}
+
+
+//左滑点击事件
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) { //删除事件
+        
+        if([self.delegate respondsToSelector:@selector(didSelectDeleteBtn:)]){
+            [self.delegate didSelectDeleteBtn:[ZETeamNotiCenModel getDetailWithDic:self.personalNotiArr[indexPath.row]]];
+        }
+
+        [self.personalNotiArr removeObjectAtIndex:indexPath.row];//tableview数据源
+        if (![self.personalNotiArr count]) { //删除此行后数据源为空
+            [notiContentView deleteSections: [NSIndexSet indexSetWithIndex: indexPath.section] withRowAnimation:UITableViewRowAnimationBottom];
+        } else {
+            [notiContentView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        }        
+    }
+    else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+    }
+}
+
 
 #pragma mark - UITableViewDelegate
 
@@ -240,7 +347,6 @@
     }else if([notiModel.MESTYPE integerValue] == 2 && [self.delegate respondsToSelector:@selector(didSelectQuestionMessage:)] ){
         [self.delegate didSelectQuestionMessage:notiModel];
     }
-
 }
 
 /*

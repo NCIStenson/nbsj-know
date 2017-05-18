@@ -93,7 +93,7 @@
                                  }
                                  
                              } fail:^(NSError *errorCode) {
-                                 
+                                 [_workStandardView headerEndRefreshing];
                              }];
 }
 

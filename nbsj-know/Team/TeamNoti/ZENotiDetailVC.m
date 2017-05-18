@@ -28,12 +28,23 @@
 {
     [super viewWillAppear:YES];
     if(_enterTeamNotiType == ENTER_TEAMNOTI_TYPE_DEFAULT){
-        [self getYesReceiptMemberList];
-        [self getNoReceiptMemberList];
+        if ([_notiCenModel.ISRECEIPT boolValue]) {
+            [self getYesReceiptMemberList];
+            [self getNoReceiptMemberList];
+        }else{
+            [detailView reloadPersonalNoReceiptView:_notiCenModel];
+        }
     }else if(_enterTeamNotiType == ENTER_TEAMNOTI_TYPE_RECEIPT_N){
         [detailView reloadPersonalNoReceiptView:_notiCenModel];
+        if ([_notiCenModel.DYNAMICTYPE integerValue] == 0 || [_notiCenModel.DYNAMICTYPE integerValue] == 1) {
+            [self clearPersonalNotiUnreadCount];
+        }
     }else if(_enterTeamNotiType == ENTER_TEAMNOTI_TYPE_RECEIPT_Y){
-        [detailView reloadPersonalYesReceiptView:_notiCenModel];
+        [self getIsReceipt];
+        [detailView reloadPersonalYesReceiptView:_notiCenModel isReceipt:NO];
+        if ([_notiCenModel.DYNAMICTYPE integerValue] == 0 || [_notiCenModel.DYNAMICTYPE integerValue] == 1) {
+            [self clearPersonalNotiUnreadCount];
+        }
     }
 }
 
@@ -100,6 +111,7 @@
                              success:^(id data) {
                                  NSArray * arr = [ZEUtil getServerData:data withTabelName:V_KLB_MESSAGE_REC_N];
                                  if ([ZEUtil isNotNull:arr]) {
+                                     detailView.notiNoReceiptArr = [NSMutableArray arrayWithArray:arr];
                                      [detailView reloadViewWithArr:arr withNotiModel:_notiCenModel withIsReceipt:NO];
                                  }
                              } fail:^(NSError *errorCode) {
@@ -107,7 +119,74 @@
                              }];
 }
 
+-(void)getIsReceipt
+{
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":V_KLB_MESSAGE_REC_Y,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":[NSString stringWithFormat:@"SENDID = '%@' and USERID = '%@'",_notiCenModel.QUESTIONID,[ZESettingLocalData getUSERCODE]],
+//                                     @"WHERESQL":[NSString stringWithFormat:@"SENDID = '%@'",_notiCenModel.SEQKEY],
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_SEARCH,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.message.TeamMessageManage",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_MESSAGE_REC_Y]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:@"messageDetail"];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 NSArray * arr = [ZEUtil getServerData:data withTabelName:V_KLB_MESSAGE_REC_Y];
+                                 if ([ZEUtil isNotNull:arr] && arr.count > 0) {
+                                     [detailView reloadPersonalYesReceiptView:_notiCenModel isReceipt:YES];
+                                 }else{
+                                     [detailView reloadPersonalYesReceiptView:_notiCenModel isReceipt:NO];
+                                 }
+                             } fail:^(NSError *errorCode) {
+                                 
+                             }];
+}
+
 #pragma mark - ZENotiDetailViewDelegate
+-(void)clearPersonalNotiUnreadCount
+{
+    NSDictionary * parametersDic = @{@"limit":@"1",
+                                     @"MASTERTABLE":KLB_DYNAMIC_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_SEARCH,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.message.PersonMessageManage",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{@"SEQKEY":_notiCenModel.SEQKEY,};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_DYNAMIC_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:@"messageDetail"];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 NSArray * arr = [ZEUtil getServerData:data withTabelName:KLB_DYNAMIC_INFO];
+                                 if ([ZEUtil isNotNull:arr]) {
+                                     [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_READDYNAMIC object:nil];
+                                 }
+                             } fail:^(NSError *errorCode) {
+                                 
+                             }];
+}
+
 
 -(void)confirmTeamReceipt
 {
@@ -139,6 +218,7 @@
                                  if ([ZEUtil isNotNull:arr]) {
                                      [self showTips:@"回执成功" afterDelay:1.5];
                                      [self.navigationController popViewControllerAnimated:YES];
+                                     [detailView reloadPersonalYesReceiptView:_notiCenModel isReceipt:YES];
                                  }
                              } fail:^(NSError *errorCode) {
                                  

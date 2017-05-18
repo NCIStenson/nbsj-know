@@ -26,7 +26,7 @@
 
 #define kSearchTFMarginLeft   70.0f
 #define kSearchTFMarginTop    27.0f
-#define kSearchTFWidth        SCREEN_WIDTH - 90.0f
+#define kSearchTFWidth        SCREEN_WIDTH - 120.0f
 #define kSearchTFHeight       30.0f
 
 #define kTypicalViewMarginLeft  0.0f
@@ -110,7 +110,6 @@
     if(IPHONE6_MORE){
         _typeBtn.frame = CGRectMake(kLeftButtonMarginLeft, kLeftButtonMarginTop, 50, 50);
     }
-//    _typeBtn.backgroundColor = [UIColor redColor];
     _typeBtn.imageEdgeInsets = UIEdgeInsetsMake(0.0f, 0, 0.0f, 0.0f);
     _typeBtn.contentMode = UIViewContentModeScaleAspectFill;
     _typeBtn.imageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -118,6 +117,19 @@
     [_typeBtn addTarget:self action:@selector(typeBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [navView addSubview:_typeBtn];
     
+    _notiBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _notiBtn.backgroundColor = [UIColor clearColor];
+    _notiBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    [_notiBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_notiBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
+    [_notiBtn setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
+    [navView addSubview:_notiBtn];
+    _notiBtn.frame = CGRectMake(SCREEN_WIDTH - 50 , 27.0f , 40, 40);
+    [navView addSubview:_notiBtn];
+    [_notiBtn setImage:[UIImage imageNamed:@"icon_noti" color:[UIColor whiteColor]] forState:UIControlStateNormal];
+    _notiBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [_notiBtn addTarget:self action:@selector(goNotiVC) forControlEvents:UIControlEventTouchUpInside];
+
     
     UIView * searchView = [self searchTextfieldView:IPHONE6_MORE ? 35 : 30];
    
@@ -562,17 +574,17 @@
     }
 
     ZEQuestionInfoModel * quesInfoM = [ZEQuestionInfoModel getDetailWithDic:datasDic];
+//    
+//    ZEQuestionTypeModel * questionTypeM = nil;
+//    for (NSDictionary * dic in [[ZEQuestionTypeCache instance] getQuestionTypeCaches]) {
+//        ZEQuestionTypeModel * typeM = [ZEQuestionTypeModel getDetailWithDic:dic];
+//        if ([typeM.CODE isEqualToString:quesInfoM.QUESTIONTYPECODE]) {
+//            questionTypeM = typeM;
+//        }
+//    }
     
-    ZEQuestionTypeModel * questionTypeM = nil;
-    for (NSDictionary * dic in [[ZEQuestionTypeCache instance] getQuestionTypeCaches]) {
-        ZEQuestionTypeModel * typeM = [ZEQuestionTypeModel getDetailWithDic:dic];
-        if ([typeM.CODE isEqualToString:quesInfoM.QUESTIONTYPECODE]) {
-            questionTypeM = typeM;
-        }
-    }
-    
-    if ([self.delegate respondsToSelector:@selector(goQuestionDetailVCWithQuestionInfo:withQuestionType:)]) {
-        [self.delegate goQuestionDetailVCWithQuestionInfo:quesInfoM withQuestionType:questionTypeM];
+    if ([self.delegate respondsToSelector:@selector(goQuestionDetailVCWithQuestionInfo:)]) {
+        [self.delegate goQuestionDetailVCWithQuestionInfo:quesInfoM ];
     }
 }
 
@@ -878,12 +890,12 @@
     }
 }
 
-//-(void)goTypicalCaseDetail:(UIButton *)btn
-//{
-//    if([self.delegate respondsToSelector:@selector(goTypicalDetail:)]){
-//        [self.delegate goTypicalDetail:self.newestQuestionArr[btn.tag]];
-//    }
-//}
+-(void)goNotiVC
+{
+    if([self.delegate respondsToSelector:@selector(goNotiVC)]){
+        [self.delegate goNotiVC];
+    }
+}
 
 -(void)goSingInView
 {

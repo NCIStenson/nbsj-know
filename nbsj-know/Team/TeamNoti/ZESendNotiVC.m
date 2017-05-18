@@ -45,7 +45,7 @@
     NSLog(@" 是否回执 >>>> %d",_sendNotiView.isReceipt);
     
     if(_sendNotiView.notiTextView.text.length < 5 ){
-        [self showTips:@"请输入通知主题"];
+        [self showTips:@"请输入详细通知主题"];
         return;
     }
     
@@ -94,6 +94,7 @@
                                  if ([ZEUtil isNotNull:arr]) {
                                      [self showTips:@"通知发送成功" afterDelay:1.5];
                                      [self.navigationController popViewControllerAnimated:YES];
+                                     [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_TEAM_SENDMESSAGE_NOTI object:nil];
                                  }
                              } fail:^(NSError *errorCode) {
                                  [self showTips:@"通知发送失败，请重试" afterDelay:1];

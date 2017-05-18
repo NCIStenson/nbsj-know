@@ -7,14 +7,8 @@
 //
 
 #import "ZEAppDelegate.h"
-#import "ZEMainViewController.h"
-
-#import "ZEHomeVC.h"
-#import "ZEQuestionsVC.h"
-#import "ZEGroupVC.h"
-#import "ZEUserCenterVC.h"
+#import "ZEPersonalNotiVC.h"
 #import "ZELoginViewController.h"
-
 #import "LBTabBarController.h"
 
 #import "ZETeamNotiCenVC.h"
@@ -43,6 +37,16 @@
         ZELoginViewController * loginVC = [[ZELoginViewController alloc]init];
         self.window.rootViewController = loginVC;
     }
+    
+    NSDictionary *localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    
+    NSDictionary *dict = [localNotif valueForKey:@"aps"];
+    if([ZEUtil isNotNull:dict]){
+        ZEPersonalNotiVC * notiVC = [[ZEPersonalNotiVC alloc]init];
+        notiVC.enterPerNotiType = ENTER_PERSONALNOTICENTER_TYPE_NOTI;
+        self.window.rootViewController = notiVC;
+    }
+    
     
 //    ZETeamNotiCenVC * loginVC = [[ZETeamNotiCenVC alloc]init];
 //    UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:loginVC];
@@ -241,6 +245,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     if ([UIApplication sharedApplication].applicationIconBadgeNumber > 0) {
         [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
         [JPUSHService setBadge:0];
+        
     }
 }
 

@@ -25,6 +25,8 @@ static ZETeamNotiCenModel *teamNotiM = nil;
     teamNotiM.SYSCREATEDATE           = [dic objectForKey:@"SYSCREATEDATE"];
     teamNotiM.RECEIPTCOUNT           = [dic objectForKey:@"RECEIPTCOUNT"];
     teamNotiM.USERNAME              = [dic objectForKey:@"USERNAME"];
+    teamNotiM.CREATORNAME              = [dic objectForKey:@"CREATORNAME"];
+    teamNotiM.ISREAD              = [dic objectForKey:@"ISREAD"];
     
     teamNotiM.MESTYPE              = [dic objectForKey:@"MESTYPE"];
     teamNotiM.DYNAMICTYPE              = [dic objectForKey:@"DYNAMICTYPE"];

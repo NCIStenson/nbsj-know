@@ -207,16 +207,16 @@
         return grayView;
     }
     
-    UIView * userMessage = [[UIView alloc]init];
-    userMessage.backgroundColor = MAIN_NAV_COLOR;
+    _userMessage = [[UIView alloc]init];
+    _userMessage.backgroundColor = MAIN_NAV_COLOR;
     
     userHEAD = [UIButton buttonWithType:UIButtonTypeCustom];
     userHEAD.frame =CGRectMake(0, 0, 100, 100);
     userHEAD.center = CGPointMake(SCREEN_WIDTH / 2, 150.0f);
     [userHEAD sd_setImageWithURL:ZENITH_IMAGEURL([ZESettingLocalData getUSERHHEADURL]) forState:UIControlStateNormal placeholderImage:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
-    [userMessage addSubview:userHEAD];
+    [_userMessage addSubview:userHEAD];
     [userHEAD addTarget:self action:@selector(goChooseImage) forControlEvents:UIControlEventTouchUpInside];
-    userMessage.contentMode = UIViewContentModeScaleAspectFit;
+    _userMessage.contentMode = UIViewContentModeScaleAspectFit;
     userHEAD.backgroundColor =[UIColor redColor];
     userHEAD.clipsToBounds = YES;
     userHEAD.layer.cornerRadius = userHEAD.frame.size.height / 2;
@@ -234,20 +234,20 @@
     usernameLabel.font = [UIFont boldSystemFontOfSize:18];
     usernameLabel.textColor = [UIColor whiteColor];
     usernameLabel.textAlignment = NSTextAlignmentCenter;
-    [userMessage addSubview:usernameLabel];
+    [_userMessage addSubview:usernameLabel];
     
     UIImageView * sexImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 12, 12)];
     sexImage.center = CGPointMake(usernameLabel.center.x + usernameWidth / 2 + 10.0f, usernameLabel.center.y );
     sexImage.image = [UIImage imageNamed:@"boy"];
-    [userMessage addSubview:sexImage];
+    [_userMessage addSubview:sexImage];
     
     grayView.frame = CGRectMake(0, 244, SCREEN_WIDTH, 10);
-    [userMessage addSubview:grayView];
+    [_userMessage addSubview:grayView];
     
     ZEButton * personalMsgBtn = [ZEButton buttonWithType:UIButtonTypeCustom];
     personalMsgBtn.frame = CGRectMake(0, 220, SCREEN_WIDTH / 2, 60.0f);
     personalMsgBtn.backgroundColor = MAIN_NAV_COLOR;
-    [userMessage addSubview:personalMsgBtn];
+    [_userMessage addSubview:personalMsgBtn];
     [personalMsgBtn setTitle:@"个人信息" forState:UIControlStateNormal];
     [personalMsgBtn setImage:[UIImage imageNamed:@"icon_person_msg"] forState:UIControlStateNormal];
     personalMsgBtn.titleLabel.font = [UIFont systemFontOfSize:12];
@@ -256,7 +256,7 @@
     
     ZEButton * signInBtn = [ZEButton buttonWithType:UIButtonTypeCustom];
     signInBtn.frame = CGRectMake(SCREEN_WIDTH / 2, 220, SCREEN_WIDTH / 2, 60.0f);
-    [userMessage addSubview:signInBtn];
+    [_userMessage addSubview:signInBtn];
     signInBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     [signInBtn setTitle:@"签到" forState:UIControlStateNormal];
     [signInBtn setImage:[UIImage imageNamed:@"icon_signin"] forState:UIControlStateNormal];
@@ -264,18 +264,26 @@
     [signInBtn addTarget:self action:@selector(goSinginVC) forControlEvents:UIControlEventTouchUpInside];
     signInBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
 
+    _notiBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _notiBtn.frame = CGRectMake(15, 30, 25, 25.0f);
+    [_userMessage addSubview:_notiBtn];
+    [_notiBtn setImage:[UIImage imageNamed:@"icon_noti" color:[UIColor whiteColor]] forState:UIControlStateNormal];
+    _notiBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    _notiBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
+    _notiBtn.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
+    [_notiBtn addTarget:self action:@selector(goNotiVC) forControlEvents:UIControlEventTouchUpInside];
+
     UIButton * setBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     setBtn.frame = CGRectMake(SCREEN_WIDTH - 50, 30, 25, 25.0f);
-    [userMessage addSubview:setBtn];
+    [_userMessage addSubview:setBtn];
     [setBtn setImage:[UIImage imageNamed:@"icon_setting_up" color:[UIColor whiteColor]] forState:UIControlStateNormal];
     setBtn.imageView.contentMode = UIViewContentModeScaleToFill;
     setBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
     setBtn.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
     [setBtn addTarget:self action:@selector(goSettingVC) forControlEvents:UIControlEventTouchUpInside];
 
-    
     UIView * _dashView= [[UIView alloc]initWithFrame:CGRectMake( SCREEN_WIDTH / 2, 220, 1, 40.0f)];
-    [userMessage addSubview:_dashView];
+    [_userMessage addSubview:_dashView];
     
     [ZEUtil drawDashLine:_dashView lineLength:3 lineSpacing:2 lineColor:[UIColor whiteColor]];
 
@@ -283,7 +291,7 @@
         ZEButton * optionBtn = [ZEButton buttonWithType:UIButtonTypeCustom];
         [optionBtn setTitleColor:kTextColor forState:UIControlStateNormal];
         optionBtn.frame = CGRectMake(0 + SCREEN_WIDTH / 3 * i, 290, SCREEN_WIDTH / 3, 100);
-        [userMessage addSubview:optionBtn];
+        [_userMessage addSubview:optionBtn];
         optionBtn.backgroundColor = [UIColor whiteColor];
         optionBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
         optionBtn.titleLabel.font = [UIFont systemFontOfSize:kTiltlFontSize];
@@ -332,9 +340,9 @@
     
     UIView * spaceView = [[UIView alloc]initWithFrame:CGRectMake(0, 290 + 100.0f, SCREEN_WIDTH , 10)];
     spaceView.backgroundColor = MAIN_LINE_COLOR ;
-    [userMessage addSubview: spaceView];
+    [_userMessage addSubview: spaceView];
     
-    return userMessage;
+    return _userMessage;
 }
 
 -(void)didSelectMyOption:(UIButton *)btn
@@ -455,6 +463,13 @@
 {
     if ([self.delegate respondsToSelector:@selector(goSinginVC)]) {
         [self.delegate goSinginVC];
+    }
+}
+
+-(void)goNotiVC
+{
+    if ([self.delegate respondsToSelector:@selector(goNotiVC)]) {
+        [self.delegate goNotiVC];
     }
 }
 

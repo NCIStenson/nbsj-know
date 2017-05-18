@@ -67,6 +67,7 @@
     
     _contentLab.text = layout.teamNotiModel.MESSAGE;
     _disUsername.text = [NSString stringWithFormat:@"发布人：%@",layout.teamNotiModel.USERNAME];
+
     
     float disUsernameWidth = [ZEUtil widthForString:_disUsername.text font:_disUsername.font maxSize:CGSizeMake(200, 20)];
     _dateLab.text = [ZEUtil formatDate:layout.teamNotiModel.SYSCREATEDATE];
@@ -145,8 +146,73 @@
     _notiCenTableView.dataSource = self;
     _notiCenTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self addSubview:_notiCenTableView];
+    
+    MJRefreshGifHeader *header = [MJRefreshGifHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+    _notiCenTableView.mj_header = header;
+    
+    MJRefreshFooter * footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    _notiCenTableView.mj_footer = footer;
 }
 
+#pragma mark - Public Method
+-(void)reloadContentViewWithArr:(NSArray *)arr{
+    
+    for (int i = 0; i < arr.count ; i ++) {
+        ZETeamNotiCenModel * teamNotiCenModel = [ZETeamNotiCenModel getDetailWithDic:arr[i]];
+        ZETeamNotiLayout * layout = [[ZETeamNotiLayout alloc]initWithContent:teamNotiCenModel];
+        [self.layouts addObject:layout];
+    }
+    
+    [_notiCenTableView.mj_header endRefreshing];
+    
+    if (arr.count < MAX_PAGE_COUNT) {
+        [_notiCenTableView.mj_footer endRefreshingWithNoMoreData];
+    }else{
+        [_notiCenTableView.mj_footer endRefreshing];
+    }
+    
+    [_notiCenTableView reloadData];
+
+    
+}
+
+-(void)canLoadMoreData
+{
+    MJRefreshFooter * footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    _notiCenTableView.mj_footer = footer;
+}
+-(void)reloadFirstView:(NSArray *)array
+{
+    self.layouts = [NSMutableArray array];
+    [self reloadContentViewWithArr:array];
+}
+-(void)loadNewData
+{
+    if([self.delegate respondsToSelector:@selector(loadNewData)]){
+        [self.delegate loadNewData];
+    }
+}
+
+-(void)loadMoreData{
+    if([self.delegate respondsToSelector:@selector(loadMoreData)]){
+        [self.delegate loadMoreData];
+    }
+}
+/**
+ *  停止刷新
+ */
+-(void)headerEndRefreshing
+{
+    [_notiCenTableView.mj_header endRefreshing];
+}
+
+-(void)loadNoMoreData
+{
+    [_notiCenTableView.mj_footer endRefreshingWithNoMoreData];
+}
+
+
+#pragma mark - UITableViewDataSource
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ZETeamNotiLayout * layout = self.layouts[indexPath.row];
@@ -170,6 +236,43 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    return YES;
+}
+
+//滑动删除
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (!_notiCenTableView.isEditing)
+    {
+        return UITableViewCellEditingStyleDelete;
+    }
+    return UITableViewCellEditingStyleDelete | UITableViewCellEditingStyleInsert;
+}
+
+
+//左滑点击事件
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) { //删除事件
+        
+        if([self.delegate respondsToSelector:@selector(didSelectDeleteBtn:)]){
+            ZETeamNotiLayout * layout = self.layouts[indexPath.row];
+            ZETeamNotiCenModel * MODEL = layout.teamNotiModel;
+            [self.delegate didSelectDeleteBtn:MODEL];
+        }
+        
+        [self.layouts removeObjectAtIndex:indexPath.row];//tableview数据源
+        if (![self.layouts count]) { //删除此行后数据源为空
+            [_notiCenTableView deleteSections: [NSIndexSet indexSetWithIndex: indexPath.section] withRowAnimation:UITableViewRowAnimationBottom];
+        } else {
+            [_notiCenTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        }
+    }
+    else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+    }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

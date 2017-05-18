@@ -51,9 +51,7 @@
  *
  *  @param indexPath 选择第几区第几个问题
  */
--(void)goQuestionDetailVCWithQuestionInfo:(ZEQuestionInfoModel *)infoModel
-                         withQuestionType:(ZEQuestionTypeModel *)typeModel;
-
+-(void)goQuestionDetailVCWithQuestionInfo:(ZEQuestionInfoModel *)infoModel;
 
 
 /**
@@ -74,6 +72,9 @@
 -(void)goSearch:(NSString *)str;
 
 
+-(void)goNotiVC;
+
+
 /**
  根据问题分类展示问题列表
  */
@@ -87,6 +88,8 @@
 @interface ZEHomeView : UIView<UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource>
 
 @property(nonatomic,weak) id <ZEHomeViewDelegate> delegate;
+
+@property(nonatomic,strong) UIButton * notiBtn;
 
 -(id)initWithFrame:(CGRect)frame;
 
@@ -115,6 +118,5 @@
 -(void)reloadSigninedViewDay:(NSString *)dayStr numbers:(NSString *)number;
 
 -(void)hiddenSinginView;
-
 
 @end

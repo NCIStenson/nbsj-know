@@ -60,5 +60,5 @@
 /**
  需要回执页面
  */
--(void)reloadPersonalYesReceiptView:(ZETeamNotiCenModel *)notiM;
+-(void)reloadPersonalYesReceiptView:(ZETeamNotiCenModel *)notiM isReceipt:(BOOL)isReceipt;
 @end
