@@ -265,21 +265,19 @@
     signInBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
 
     _notiBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _notiBtn.frame = CGRectMake(15, 30, 25, 25.0f);
+    _notiBtn.frame = CGRectMake(SCREEN_WIDTH - 50 , 27.0f , 40, 40);
     [_userMessage addSubview:_notiBtn];
     [_notiBtn setImage:[UIImage imageNamed:@"icon_noti" color:[UIColor whiteColor]] forState:UIControlStateNormal];
     _notiBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    _notiBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
-    _notiBtn.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
     [_notiBtn addTarget:self action:@selector(goNotiVC) forControlEvents:UIControlEventTouchUpInside];
 
     UIButton * setBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    setBtn.frame = CGRectMake(SCREEN_WIDTH - 50, 30, 25, 25.0f);
+    setBtn.frame = CGRectMake(15, 27, 40,40);
     [_userMessage addSubview:setBtn];
     [setBtn setImage:[UIImage imageNamed:@"icon_setting_up" color:[UIColor whiteColor]] forState:UIControlStateNormal];
-    setBtn.imageView.contentMode = UIViewContentModeScaleToFill;
-    setBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
-    setBtn.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
+    setBtn.imageView.contentMode = UIViewContentModeScaleAspectFill;
+//    setBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
+//    setBtn.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
     [setBtn addTarget:self action:@selector(goSettingVC) forControlEvents:UIControlEventTouchUpInside];
 
     UIView * _dashView= [[UIView alloc]initWithFrame:CGRectMake( SCREEN_WIDTH / 2, 220, 1, 40.0f)];
@@ -328,8 +326,12 @@
                 break;
             case 2:
                 badgeLab.hidden = YES;
-                [optionBtn setImage:[UIImage imageNamed:@"icon_my_circle"] forState:UIControlStateNormal];
-                [optionBtn setTitle:@"我的圈子" forState:UIControlStateNormal];
+//                [optionBtn setImage:[UIImage imageNamed:@"icon_my_circle"] forState:UIControlStateNormal];
+//                [optionBtn setTitle:@"我的圈子" forState:UIControlStateNormal];
+                [optionBtn setImage:[UIImage imageNamed:@"icon_my_practice.png"] forState:UIControlStateNormal];
+                [optionBtn setTitle:@"我的练习" forState:UIControlStateNormal];
+//                logoImageView.image = [UIImage imageNamed:@"icon_my_practice.png" color:MAIN_NAV_COLOR];
+//                contentLabel.text = @"我的练习";
                 break;
 
             default:
@@ -359,8 +361,8 @@
             }
             break;
         case 2:
-            if ([self.delegate respondsToSelector:@selector(goMyGroup)]) {
-                [self.delegate goMyGroup];
+            if ([self.delegate respondsToSelector:@selector(goSchollVC:)]) {
+                [self.delegate goSchollVC:ENTER_WEBVC_MY_PRACTICE];
             }
             break;
         case 3:

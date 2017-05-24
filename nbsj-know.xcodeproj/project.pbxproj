@@ -197,6 +197,7 @@
 		985C28AD1E851061004DDE37 /* icon_setting_operation@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 985C28AB1E851061004DDE37 /* icon_setting_operation@3x.png */; };
 		985C28B01E85112E004DDE37 /* icon_setting_about@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 985C28AE1E85112E004DDE37 /* icon_setting_about@2x.png */; };
 		985C28B11E85112E004DDE37 /* icon_setting_about@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 985C28AF1E85112E004DDE37 /* icon_setting_about@3x.png */; };
+		985C89481ED556EC00681CD9 /* icon_my_practice@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 985C89471ED556EC00681CD9 /* icon_my_practice@2x.png */; };
 		9861B5E51E5533C80095EE2C /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9861B5E21E5533C80095EE2C /* logo@2x.png */; };
 		9861B5E61E5533C80095EE2C /* logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9861B5E31E5533C80095EE2C /* logo@3x.png */; };
 		9861B5E91E5533D40095EE2C /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9861B5E81E5533D40095EE2C /* logo.png */; };
@@ -355,6 +356,7 @@
 		98F471981D5434CF0016CD5A /* ZEAnswerQuestionsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98F471971D5434CF0016CD5A /* ZEAnswerQuestionsVC.m */; };
 		98F4719E1D5434F70016CD5A /* ZEAnswerQuestionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98F4719D1D5434F70016CD5A /* ZEAnswerQuestionsView.m */; };
 		98FA64801ECD71C6000F2133 /* ZESystemNotiVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FA647F1ECD71C6000F2133 /* ZESystemNotiVC.m */; };
+		98FA64821ECD9CF3000F2133 /* Trash@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98FA64811ECD9CF3000F2133 /* Trash@3x.png */; };
 		98FEF2581EB1859E00A0CB17 /* ZETeamWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FEF2571EB1859E00A0CB17 /* ZETeamWebVC.m */; };
 		98FEF25C1EB1BF3500A0CB17 /* icon_team_noti@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98FEF2591EB1BF3500A0CB17 /* icon_team_noti@3x.png */; };
 		98FEF25D1EB1BF3500A0CB17 /* icon_team_test@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98FEF25A1EB1BF3500A0CB17 /* icon_team_test@3x.png */; };
@@ -673,6 +675,7 @@
 		985C28AB1E851061004DDE37 /* icon_setting_operation@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_setting_operation@3x.png"; path = "nbsj-know/SourceImg/icon_setting/icon_setting_operation@3x.png"; sourceTree = SOURCE_ROOT; };
 		985C28AE1E85112E004DDE37 /* icon_setting_about@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_setting_about@2x.png"; sourceTree = "<group>"; };
 		985C28AF1E85112E004DDE37 /* icon_setting_about@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_setting_about@3x.png"; sourceTree = "<group>"; };
+		985C89471ED556EC00681CD9 /* icon_my_practice@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_my_practice@2x.png"; path = "nbsj-know/SourceImg/icon_home/icon_my_practice@2x.png"; sourceTree = SOURCE_ROOT; };
 		9861B5E21E5533C80095EE2C /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo@2x.png"; path = "nbsj-know/SourceImg/logo@2x.png"; sourceTree = SOURCE_ROOT; };
 		9861B5E31E5533C80095EE2C /* logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo@3x.png"; path = "nbsj-know/SourceImg/logo@3x.png"; sourceTree = SOURCE_ROOT; };
 		9861B5E81E5533D40095EE2C /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = "nbsj-know/SourceImg/logo.png"; sourceTree = SOURCE_ROOT; };
@@ -905,6 +908,7 @@
 		98F4719D1D5434F70016CD5A /* ZEAnswerQuestionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEAnswerQuestionsView.m; path = Questions/ZEAnswerQuestionsView.m; sourceTree = "<group>"; };
 		98FA647E1ECD71C6000F2133 /* ZESystemNotiVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZESystemNotiVC.h; path = Home/PersonalNoti/ZESystemNotiVC.h; sourceTree = "<group>"; };
 		98FA647F1ECD71C6000F2133 /* ZESystemNotiVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZESystemNotiVC.m; path = Home/PersonalNoti/ZESystemNotiVC.m; sourceTree = "<group>"; };
+		98FA64811ECD9CF3000F2133 /* Trash@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Trash@3x.png"; path = "nbsj-know/SourceImg/icon_questions/Trash@3x.png"; sourceTree = SOURCE_ROOT; };
 		98FEF2561EB1859E00A0CB17 /* ZETeamWebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZETeamWebVC.h; path = Team/ZETeamWebVC.h; sourceTree = "<group>"; };
 		98FEF2571EB1859E00A0CB17 /* ZETeamWebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZETeamWebVC.m; path = Team/ZETeamWebVC.m; sourceTree = "<group>"; };
 		98FEF2591EB1BF3500A0CB17 /* icon_team_noti@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_team_noti@3x.png"; sourceTree = "<group>"; };
@@ -1164,6 +1168,7 @@
 				982ED42B1D48517600F87343 /* tab_download_normal@3x.png */,
 				982ED42E1D48517600F87343 /* tab_setting_normal@2x.png */,
 				982ED42F1D48517600F87343 /* tab_setting_normal@3x.png */,
+				985C89471ED556EC00681CD9 /* icon_my_practice@2x.png */,
 			);
 			name = SourceImg;
 			path = ThirdSource;
@@ -1498,6 +1503,7 @@
 				984492C41E5AD8940066AFD1 /* ic_best_answer.png */,
 				989AA6851D5075C600A08022 /* addImage@2x.png */,
 				989AA68A1D50840500A08022 /* Trash@2x.png */,
+				98FA64811ECD9CF3000F2133 /* Trash@3x.png */,
 				989AA6831D4F35C900A08022 /* camera_gray@2x.png */,
 				989AA6811D4F33E400A08022 /* TLdown@2x.png */,
 				987ACBD41D4AF051006D692E /* refresh_Rank@2x.png */,
@@ -2105,6 +2111,7 @@
 				9831B0541E602C5C00729BA8 /* 互换@2x.png in Resources */,
 				9831B0561E602C5C00729BA8 /* 国家电网Logo@2x.png in Resources */,
 				9831B0361E60129D00729BA8 /* icon_boy@2x.png in Resources */,
+				98FA64821ECD9CF3000F2133 /* Trash@3x.png in Resources */,
 				98D42BD01DC73FBB003A3812 /* course_score_number@3x.png in Resources */,
 				9861B5EC1E555AF80095EE2C /* high_score_icon@2x.png in Resources */,
 				9831AF6B1E5FF6CF00729BA8 /* icon修改1@3x.png in Resources */,
@@ -2229,6 +2236,7 @@
 				9831B0601E602C5C00729BA8 /* 运维@2x.png in Resources */,
 				9831B0231E60113600729BA8 /* 修改@3x.png in Resources */,
 				9896637A1E8B5F4700F42906 /* icon_expert_chat@3x.png in Resources */,
+				985C89481ED556EC00681CD9 /* icon_my_practice@2x.png in Resources */,
 				9894FECD1E95D63000C255B5 /* icon_team_discuss@2x.png in Resources */,
 				9831B0621E602C5C00729BA8 /* 运维工具@2x.png in Resources */,
 				9831B00E1E60113600729BA8 /* icon_noti@2x.png in Resources */,

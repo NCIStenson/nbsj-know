@@ -58,17 +58,20 @@
     _receiptCount.textColor = [UIColor lightGrayColor];
     _receiptCount.font = [UIFont systemFontOfSize:kTiltlFontSize];
 
+    _lineView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1)];
+    _lineView.backgroundColor = MAIN_LINE_COLOR;
+    [self.contentView addSubview:_lineView];
+
+    
 }
 
 -(void)setLayout:(ZETeamNotiLayout *)layout
 {
     float contentHeight = [ZEUtil heightForString:layout.teamNotiModel.MESSAGE font:_contentLab.font andWidth:SCREEN_WIDTH - _contentLab.left * 2];
     
-    
     _contentLab.text = layout.teamNotiModel.MESSAGE;
     _disUsername.text = [NSString stringWithFormat:@"发布人：%@",layout.teamNotiModel.USERNAME];
 
-    
     float disUsernameWidth = [ZEUtil widthForString:_disUsername.text font:_disUsername.font maxSize:CGSizeMake(200, 20)];
     _dateLab.text = [ZEUtil formatDate:layout.teamNotiModel.SYSCREATEDATE];
 
@@ -79,16 +82,13 @@
 //        _receiptCount.text = [NSString stringWithFormat:@"回执数量：%@/23",@"0"];
 //    }
     
-    
-    UIView * view = [[UIView alloc]initWithFrame:CGRectMake(0, layout.height - 1, SCREEN_WIDTH, 1)];
-    view.backgroundColor = MAIN_LINE_COLOR;
-    [self.contentView addSubview:view];
-    
     _contentLab.height = contentHeight;
     _disUsername.top = _contentLab.bottom + 5;
     _disUsername.width = disUsernameWidth;
     _dateLab.top = _disUsername.top;
     _receiptCount.top = _disUsername.top;
+    _lineView.top = layout.height - 1;
+
     
     if (![layout.teamNotiModel.ISRECEIPT boolValue]) {
         _receiptCount.hidden = YES;
@@ -231,7 +231,7 @@
     if (!cell) {
         cell = [[ZETeamNotiCenTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
-
+    
     [cell setLayout:self.layouts[indexPath.row]];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     

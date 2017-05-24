@@ -28,6 +28,7 @@
 @property (nonatomic,copy) NSString * QACOUNT;
 @property (nonatomic,copy) NSString * ANSWERCOUNT;
 @property (nonatomic,copy) NSString * INFOCOUNT;
+@property (nonatomic,copy) NSString * QUESTIONCOUNT;
 
 @property (nonatomic,strong) NSArray * FILEURLARR;
 

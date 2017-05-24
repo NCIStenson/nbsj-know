@@ -11,6 +11,13 @@
 
 #define RICHTEXT_IMAGE (@"[UIImageView]")
 
+#ifdef DEBUG
+#define NSLog(format, ...) printf("[%s] %s [第%d行] %s\n", __TIME__, __FUNCTION__, __LINE__, [[NSString stringWithFormat:format, ## __VA_ARGS__] UTF8String]);
+#else
+#define NSLog(format, ...)
+#endif
+
+
 #define IS_IOS7 [[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0
 #define IS_IOS8 [[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0
 #define IS_IOS9 [[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0
@@ -91,6 +98,7 @@
 
 #define kNOTI_TEAM_SENDMESSAGE_NOTI @"kNOTI_TEAM_SENDMESSAGE_NOTI" // 团队发送通知成功
 #define kNOTI_READDYNAMIC @"kNOTI_READDYNAMIC" // 已读消息
+#define kNOTI_DELETE_ALL_DYNAMIC @"kNOTI_DELETE_ALL_DYNAMIC" // 已读消息
 
 
 #define kRelogin @"kRelogin"

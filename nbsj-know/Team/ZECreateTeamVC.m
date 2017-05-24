@@ -793,9 +793,7 @@
 }
 
 -(void)goTeamNotiCenter
-{
-    [self showTips:@"功能建设中，敬请期待" afterDelay:1.5];
-    
+{    
     ZETeamNotiCenVC * notiCenVC = [[ZETeamNotiCenVC alloc]init];
     notiCenVC.teamID = _teamCircleInfo.SEQKEY;
     if (_teamCircleInfo.TEAMCODE.length > 0) {

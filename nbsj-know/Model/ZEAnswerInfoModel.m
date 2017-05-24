@@ -30,6 +30,7 @@ static ZEAnswerInfoModel * ansertInfoM = nil;
     ansertInfoM.QACOUNT       = [NSString stringWithFormat:@"%@",[dic objectForKey:@"QACOUNT"]];
     ansertInfoM.ANSWERCOUNT       = [NSString stringWithFormat:@"%@",[dic objectForKey:@"ANSWERCOUNT"]];
     ansertInfoM.INFOCOUNT       = [NSString stringWithFormat:@"%@",[dic objectForKey:@"INFOCOUNT"]];
+    ansertInfoM.QUESTIONCOUNT       = [NSString stringWithFormat:@"%@",[dic objectForKey:@"QUESTIONCOUNT"]];
     ansertInfoM.SYSCREATEDATE  = [dic objectForKey:@"SYSCREATEDATE"];
     ansertInfoM.NICKNAME       = [dic objectForKey:@"NICKNAME"];
     ansertInfoM.HEADIMAGE        = [[[dic objectForKey:@"HEADIMAGE"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"] stringByReplacingOccurrencesOfString:@"," withString:@""];

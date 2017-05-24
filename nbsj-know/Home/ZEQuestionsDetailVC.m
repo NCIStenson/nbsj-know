@@ -45,6 +45,11 @@
         }
         
         [self sendSearchAnswerRequest];
+    }else if(_enterDetailIsFromNoti == QUESTIONDETAIL_TYPE_NOTI){
+        [self sendNewestQuestionsRequest];
+        if(![_notiCenM.ISREAD boolValue] ){
+            [self clearPersonalNotiUnreadCount];
+        }
     }
 
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(acceptSuccess) name:kNOTI_ACCEPT_SUCCESS object:nil];
@@ -55,12 +60,6 @@
     [super viewWillAppear:YES];
     self.tabBarController.tabBar.hidden = YES;
 
-    if(_enterDetailIsFromNoti == QUESTIONDETAIL_TYPE_NOTI){
-        [self sendNewestQuestionsRequest];
-        if(![_notiCenM.ISREAD boolValue] ){
-            [self clearPersonalNotiUnreadCount];
-        }
-    }
 }
 
 -(void)viewDidDisappear:(BOOL)animated
@@ -154,6 +153,7 @@
                              success:^(id data) {
                                  NSArray * arr = [ZEUtil getServerData:data withTabelName:KLB_DYNAMIC_INFO];
                                  if ([ZEUtil isNotNull:arr]) {
+                                     _notiCenM.ISREAD = @"1";
                                      [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_READDYNAMIC object:nil];
                                  }
                              } fail:^(NSError *errorCode) {
@@ -314,9 +314,7 @@
 
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
-                             success:^(id data) {
-
-                                 
+                             success:^(id data) {                                 
                                  [self sendSearchAnswerRequest];
                              } fail:^(NSError *errorCode) {
 

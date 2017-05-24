@@ -552,7 +552,6 @@
     _numbersView = [[ZECreateTeamNumbersView alloc]initWithFrame:CGRectMake(0, _messageView.bottom, SCREEN_WIDTH, SCREEN_HEIGHT -NAV_HEIGHT - 265)];
     _numbersView.createTeamView = self;
     [scrollView addSubview:_numbersView];
-    _numbersView.backgroundColor = [UIColor redColor];
     
     UIView * leaderJuridiction = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - NAV_HEIGHT - 40, SCREEN_WIDTH, 40)];
     [scrollView addSubview:leaderJuridiction];
@@ -592,7 +591,6 @@
         _managerView.hidden = NO;
         _managerView.top = 0;
         _messageView.top = _managerView.bottom;
-        _messageView.backgroundColor = [UIColor cyanColor];
         _numbersView.top = _messageView.bottom;
         _numbersView.height =  SCREEN_HEIGHT - NAV_HEIGHT - _messageView.bottom - 40;
         _numbersView.collectionView.height = _numbersView.height - 15;

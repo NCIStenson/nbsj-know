@@ -415,7 +415,7 @@
         [cellContentView addSubview:otherAnswers];
     }
     
-    if ([answerInfoM.INFOCOUNT integerValue] > 0) {
+    if (([answerInfoM.ANSWERCOUNT integerValue] > 0 && [_questionInfoModel.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) ) {
         UILabel * badgeLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 20, 20.0f)];
         badgeLab.backgroundColor = [UIColor redColor];
         badgeLab.tag = 100;
@@ -426,7 +426,7 @@
         [cellContentView addSubview:badgeLab];
         badgeLab.clipsToBounds = YES;
         badgeLab.layer.cornerRadius = badgeLab.height / 2;
-        badgeLab.text = answerInfoM.INFOCOUNT;
+        badgeLab.text = answerInfoM.ANSWERCOUNT;
         if (badgeLab.text.length > 2){
             badgeLab.width = 30.0f;
             badgeLab.center = CGPointMake(SCREEN_WIDTH - 25, (userY + 20.0f) / 2);
@@ -435,6 +435,28 @@
             badgeLab.text = @"99+";
         }
     }
+    
+    if (([answerInfoM.QUESTIONCOUNT integerValue] > 0 && [answerInfoM.ANSWERUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) ) {
+        UILabel * badgeLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 20, 20.0f)];
+        badgeLab.backgroundColor = [UIColor redColor];
+        badgeLab.tag = 100;
+        badgeLab.center = CGPointMake(SCREEN_WIDTH - 20, (userY + 20.0f) / 2);
+        badgeLab.font = [UIFont systemFontOfSize:kTiltlFontSize];
+        badgeLab.textColor = [UIColor whiteColor];
+        badgeLab.textAlignment = NSTextAlignmentCenter;
+        [cellContentView addSubview:badgeLab];
+        badgeLab.clipsToBounds = YES;
+        badgeLab.layer.cornerRadius = badgeLab.height / 2;
+        badgeLab.text = answerInfoM.QUESTIONCOUNT;
+        if (badgeLab.text.length > 2){
+            badgeLab.width = 30.0f;
+            badgeLab.center = CGPointMake(SCREEN_WIDTH - 25, (userY + 20.0f) / 2);
+        }
+        if ([_questionInfoModel.INFOCOUNT integerValue] > 99) {
+            badgeLab.text = @"99+";
+        }
+    }
+
     
     cellContentView.frame = CGRectMake(0, 0, SCREEN_WIDTH, userY + 20.0f);
 }

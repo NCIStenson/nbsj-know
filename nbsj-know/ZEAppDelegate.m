@@ -43,8 +43,10 @@
     NSDictionary *dict = [localNotif valueForKey:@"aps"];
     if([ZEUtil isNotNull:dict]){
         ZEPersonalNotiVC * notiVC = [[ZEPersonalNotiVC alloc]init];
+        UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:notiVC];
+        nav.navigationBarHidden = YES;
         notiVC.enterPerNotiType = ENTER_PERSONALNOTICENTER_TYPE_NOTI;
-        self.window.rootViewController = notiVC;
+        self.window.rootViewController = nav;
     }
     
     
@@ -120,6 +122,16 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler {
     // Required
     NSDictionary * userInfo = notification.request.content.userInfo;
+    
+//    NSString *alert = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
+//    UIViewController * vc = [ZEUtil getCurrentVC];
+//    [MBProgressHUD hideHUDForView:vc.view animated:YES];
+//    MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:vc.view animated:YES];
+//    hud3.mode = MBProgressHUDModeText;
+//    hud3.labelText = alert;
+//    [hud3 hide:YES afterDelay:2];
+//    hud3.yOffset = SCREEN_HEIGHT / 2 - 80;
+
     if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
         [JPUSHService handleRemoteNotification:userInfo];
     }
@@ -130,6 +142,13 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
     // Required
     NSDictionary * userInfo = response.notification.request.content.userInfo;
+    
+    ZEPersonalNotiVC * notiVC = [[ZEPersonalNotiVC alloc]init];
+    UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:notiVC];
+    notiVC.enterPerNotiType = ENTER_PERSONALNOTICENTER_TYPE_NOTI;
+    nav.navigationBarHidden = YES;
+    self.window.rootViewController = nav;
+
     if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
         [JPUSHService handleRemoteNotification:userInfo];
     }
@@ -138,7 +157,6 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     
-    NSLog(@">>>>  %@",userInfo);
     NSString *alert = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
     if (application.applicationState == UIApplicationStateActive) {
         UIViewController * vc = [ZEUtil getCurrentVC];
@@ -148,9 +166,14 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
         hud3.labelText = alert;
         [hud3 hide:YES afterDelay:2];
         hud3.yOffset = SCREEN_HEIGHT / 2 - 80;
+    }else if (application.applicationState == UIApplicationStateBackground ||application.applicationState == UIApplicationStateInactive){
+        ZEPersonalNotiVC * notiVC = [[ZEPersonalNotiVC alloc]init];
+        UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:notiVC];
+        notiVC.enterPerNotiType = ENTER_PERSONALNOTICENTER_TYPE_NOTI;
+        nav.navigationBarHidden = YES;
+        self.window.rootViewController = nav;
     }
     [application setApplicationIconBadgeNumber:0];
-    [JPUSHService handleRemoteNotification:userInfo];
     
     // Required, iOS 7 Support
     [JPUSHService handleRemoteNotification:userInfo];
@@ -245,7 +268,6 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     if ([UIApplication sharedApplication].applicationIconBadgeNumber > 0) {
         [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
         [JPUSHService setBadge:0];
-        
     }
 }
 

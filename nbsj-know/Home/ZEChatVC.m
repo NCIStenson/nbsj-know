@@ -303,6 +303,7 @@
                      @"OPERATETYPE":@"1",
                      @"EXPLAIN":text};
     }
+    _chatView.inputView.inputField.text = @"";
 
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_QUE_ANS_DETAIL]
                                                                            withFields:@[fieldsDic]
@@ -328,9 +329,9 @@
         [self updateKLB_ANSWER_INFOWithQuestionInfo:_questionInfo withAnswerInfo:_answerInfo];
     }];
     UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
-    [alertC addAction:confirmAction];
     [alertC addAction:cancelAction];
-    
+    [alertC addAction:confirmAction];
+
     [self presentViewController:alertC animated:YES completion:nil];
 }
 

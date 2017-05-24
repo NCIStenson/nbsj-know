@@ -183,7 +183,6 @@
     receiptLab.userInteractionEnabled = YES;
     if ([notiM.DYNAMICTYPE integerValue] == 1 || [notiM.DYNAMICTYPE integerValue] == 2) {
         receiptLab.text = @"需回执";
-        receiptLab.textColor = [UIColor redColor];
     }else{
         receiptLab.hidden = YES;
     }
@@ -247,7 +246,7 @@
     [cell.contentView addSubview:tipsLab];
     tipsLab.textColor = [UIColor lightGrayColor];
     
-    UILabel * questionLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 50, SCREEN_WIDTH - 120, 40)];
+    UILabel * questionLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 50, SCREEN_WIDTH - 20, 40)];
     questionLab.numberOfLines = 0;
     questionLab.textAlignment = NSTextAlignmentLeft;
     questionLab.font = [UIFont systemFontOfSize:18];
@@ -258,7 +257,7 @@
     float questionHeight = [ZEUtil heightForString:notiM.QUESTIONEXPLAIN font:questionLab.font andWidth:SCREEN_WIDTH - 20];
     questionLab.height = questionHeight;
     
-    UILabel * answerLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 50, SCREEN_WIDTH - 120, 20)];
+    UILabel * answerLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 50, SCREEN_WIDTH - 20, 20)];
     answerLab.textAlignment = NSTextAlignmentLeft;
     answerLab.font = [UIFont systemFontOfSize:kTiltlFontSize];
     [cell.contentView addSubview:answerLab];
@@ -269,7 +268,7 @@
     answerLab.height = answerHeight;
     
     UILabel * SYSCREATEDATE = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 90,10,70,20.0f)];
-    SYSCREATEDATE.text = [ZEUtil compareCurrentTime:[NSString stringWithFormat:@"%@.0", [dynamicDic objectForKey:@"SYSCREATEDATE"]]];
+    SYSCREATEDATE.text = [ZEUtil compareCurrentTime:[NSString stringWithFormat:@"%@", [dynamicDic objectForKey:@"SYSCREATEDATE"]]];
     SYSCREATEDATE.userInteractionEnabled = NO;
     SYSCREATEDATE.textAlignment = NSTextAlignmentRight;
     SYSCREATEDATE.textColor = MAIN_SUBTITLE_COLOR;

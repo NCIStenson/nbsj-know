@@ -88,13 +88,13 @@
     _receiptBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _receiptBtn.backgroundColor = MAIN_NAV_COLOR;
     _receiptBtn.titleLabel.font = [UIFont systemFontOfSize:kTiltlFontSize];
-    _receiptBtn.size = CGSizeMake(120, 40);
+    _receiptBtn.size = CGSizeMake(SCREEN_WIDTH - 40, 40);
     [self addSubview:_receiptBtn];
-    [_receiptBtn setTitle:@"确认回执" forState:UIControlStateNormal];
+    [_receiptBtn setTitle:@"点击回执" forState:UIControlStateNormal];
     _receiptBtn.clipsToBounds = YES;
     _receiptBtn.layer.cornerRadius = 5;
     _receiptBtn.top = _dateLab.bottom + 20;
-    _receiptBtn.left = (SCREEN_WIDTH - 100)/ 2;
+    _receiptBtn.left = (SCREEN_WIDTH - _receiptBtn.width)/ 2;
     [_receiptBtn addTarget:self action:@selector(receiptBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
 }

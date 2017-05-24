@@ -212,9 +212,9 @@
                                          NSDictionary * failReason = arr[0];
                                          [self showTips:[NSString stringWithFormat:@"%@\n",[failReason objectForKey:@"reason"]] afterDelay:1.5];
                                      }else{
-                                         [self showTips:@"回答成功"];
+                                         [self showTips:[[ZEUtil getCOMMANDDATA:data] objectForKey:@"target"] afterDelay:1.5];
                                          [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_BACK_QUEANSVIEW object:nil];
-                                         [self performSelector:@selector(goBack) withObject:nil afterDelay:1];
+                                         [self performSelector:@selector(goBack) withObject:nil afterDelay:1.5];
                                      }
                                  } fail:^(NSError *error) {
                                      [self showTips:@"回答问题失败，请稍后重试。"];

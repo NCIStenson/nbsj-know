@@ -12,6 +12,7 @@
 {
     UITableView * contentTable;
     ENTER_SETTING_TYPE _enterType;
+    NSString * sumpoints;
 }
 @property (nonatomic,strong) NSDictionary * userInfoDic;
 @end
@@ -47,6 +48,12 @@
     [contentTable reloadData];
 }
 
+-(void)reloadPersonalScore:(NSString *)points
+{
+    sumpoints = points;
+    [contentTable reloadData];
+}
+
 -(void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNOTI_CHANGEPERSONALMSG_SUCCESS object:nil];
@@ -65,7 +72,7 @@
             if(_enterType == ENTER_SETTING_TYPE_SETTING){
                 return 0;
             }
-            return 2;
+            return 3;
             break;
         case 1:
             return 3;
@@ -124,11 +131,15 @@
                     cell.textLabel.text = @"用户昵称";
                     cell.detailTextLabel.text = [ZESettingLocalData getNICKNAME];
                     break;
-//                case 1:
-//                    cell.textLabel.text = @"性别";
-//                    cell.detailTextLabel.text = @"男";
-//                    break;
                 case 1:
+                    cell.textLabel.text = @"当前积分";
+                    if ([sumpoints  integerValue ] == 0) {
+                        cell.detailTextLabel.text = @"0";
+                    }else{
+                        cell.detailTextLabel.text = sumpoints;
+                    }
+                    break;
+                case 2:
                     cell.textLabel.text = @"当前等级";
                     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@",[self.userInfoDic objectForKey:@"LEVELNAME"],[self.userInfoDic objectForKey:@"LEVELCODE"]];
                     cell.accessoryType = UITableViewCellAccessoryNone;

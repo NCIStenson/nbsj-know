@@ -42,6 +42,8 @@
         self.title =  @"关于电知道";
     }else if (_enterType == ENTER_WEBVC_OPERATION){
         self.title = @"操作手册";
+    }else if (_enterType == ENTER_WEBVC_MY_PRACTICE){
+        self.title = @"我的练习";
     }
     
     [self initWebView];
@@ -72,6 +74,13 @@
         [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://dzd.nbuen.com/mobile/media_app.php"]]];
     }else if (_enterType == ENTER_WEBVC_OPERATION){
         [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/file/about/operation.pdf",Zenith_Server]]]];
+    }else if (_enterType == ENTER_WEBVC_MY_PRACTICE){
+        NSString * serverStr  = Zenith_Server;
+        if ([serverStr containsString:@"117.149.2.229"]) {
+            [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://117.149.2.229:1623/ecm_dzd/ZUI/pages/dzd/practice.html"]]];
+        }else if ([serverStr containsString:@"120.27.152.63"]){
+            [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://120.27.152.63:7788/ecm_dzd/ZUI/pages/dzd/practice.html"]]];
+        }
     }else if (_enterType == ENTER_WEBVC_ABOUT){
         
         webView.hidden = YES;

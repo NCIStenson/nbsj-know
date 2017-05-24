@@ -36,6 +36,7 @@
     self.tabBarController.tabBar.hidden = YES;
     
     [self getCurrentUserLevel];
+    [self sendMyBONUSPOINTSRequest];
 }
 
 
@@ -69,6 +70,39 @@
                              }
                                 fail:^(NSError *error) {
                                    }];
+}
+
+-(void)sendMyBONUSPOINTSRequest
+{
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":KLB_USER_BASE_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":[NSString stringWithFormat:@"USERCODE = '%@'",[ZESettingLocalData getUSERCODE]],
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_SEARCH,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_USER_BASE_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 NSArray * infoArr = [ZEUtil getServerData:data withTabelName:KLB_USER_BASE_INFO];
+                                 if (infoArr.count > 0) {
+                                     NSDictionary * dic = infoArr[0];
+                                     [personalMsgView reloadPersonalScore:[NSString stringWithFormat:@"%@",[dic objectForKey:@"SUMPOINTS"]]];
+                                 }
+                             } fail:^(NSError *errorCode) {
+                                 
+                             }];
 }
 
 

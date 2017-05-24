@@ -31,4 +31,6 @@
 
 -(void)reloadDataWithDic:(NSDictionary *)dic;
 
+-(void)reloadPersonalScore:(NSString *)points;
+
 @end

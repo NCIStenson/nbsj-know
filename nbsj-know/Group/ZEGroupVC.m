@@ -145,6 +145,7 @@
                                              tipsImage.textColor = [UIColor whiteColor];
                                              tipsImage.textAlignment = NSTextAlignmentCenter;
                                          }
+                                         tipsImage.hidden = NO;
                                          [tipsImage setText:[NSString stringWithFormat:@"%ld",(long)sumCount]];
                                      }else{
                                          tipsImage.hidden = YES;

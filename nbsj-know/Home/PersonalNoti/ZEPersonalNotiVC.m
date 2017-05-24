@@ -40,7 +40,7 @@
     // Do any additional setup after loading the view.
     [self initVC];
     [self initView];
-    
+
     self.title = @"消息盒子";
     self.automaticallyAdjustsScrollViewInsets = NO;
     
@@ -52,9 +52,12 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNOTI_READDYNAMIC object:nil];;
 }
 
+
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+    self.navigationController.navigationBar.hidden = YES;
     if([[JMSGConversation getAllUnreadCount] integerValue] > 0){
         chatUnreadTipsLab.hidden = NO;
         [chatUnreadTipsLab setText:[NSString stringWithFormat:@"%@",[JMSGConversation getAllUnreadCount]]];
@@ -62,6 +65,12 @@
         [chatUnreadTipsLab setText:@"0"];
         chatUnreadTipsLab.hidden = YES;
     }
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:YES];
+    self.navigationController.navigationBar.hidden = NO;
 }
 
 -(void)reduceUnreadCount:(NSNotification *)noti
@@ -148,6 +157,7 @@
                                  NSArray * dataArr = [ZEUtil getServerData:data withTabelName:KLB_DYNAMIC_INFO] ;
                                  if (dataArr.count > 0) {
                                      [self showTips:@"删除成功"];
+                                     [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_DELETE_ALL_DYNAMIC object:nil];
                                  }
                              } fail:^(NSError *errorCode) {
                                  

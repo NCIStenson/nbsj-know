@@ -32,12 +32,14 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(verifyLogin:) name:kVerifyLogin object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reduceUnreadCount) name:kNOTI_READDYNAMIC object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewData) name:kNOTI_DELETE_ALL_DYNAMIC object:nil];
     
 }
 
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kVerifyLogin object:nil];;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNOTI_READDYNAMIC object:nil];;
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNOTI_DELETE_ALL_DYNAMIC object:nil];;
 }
 
 -(void)reduceUnreadCount
@@ -48,6 +50,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+    self.navigationController.navigationBar.hidden = YES;
     [self loadNewData];
 }
 

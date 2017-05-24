@@ -93,12 +93,17 @@
                                  NSArray * arr = [ZEUtil getServerData:data withTabelName:KLB_MESSAGE_SEND];
                                  if ([ZEUtil isNotNull:arr]) {
                                      [self showTips:@"通知发送成功" afterDelay:1.5];
-                                     [self.navigationController popViewControllerAnimated:YES];
+                                     [self performSelector:@selector(goBack) withObject:nil afterDelay:1.5];
                                      [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_TEAM_SENDMESSAGE_NOTI object:nil];
                                  }
                              } fail:^(NSError *errorCode) {
                                  [self showTips:@"通知发送失败，请重试" afterDelay:1];
                              }];
+}
+
+-(void)goBack
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

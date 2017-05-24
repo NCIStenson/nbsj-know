@@ -16,6 +16,7 @@
 @property (nonatomic,strong) UILabel * disUsername;  // 发布人名称
 @property (nonatomic,strong) UILabel * receiptCount;  // 回执数量
 @property (nonatomic,strong) UILabel * dateLab;        // 日期
+@property (nonatomic,strong) UIView * lineView;        // 日期
 
 - (void)setLayout:(ZETeamNotiLayout *)layout;
 
