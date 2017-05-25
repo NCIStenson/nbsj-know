@@ -123,15 +123,6 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     // Required
     NSDictionary * userInfo = notification.request.content.userInfo;
     
-//    NSString *alert = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
-//    UIViewController * vc = [ZEUtil getCurrentVC];
-//    [MBProgressHUD hideHUDForView:vc.view animated:YES];
-//    MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:vc.view animated:YES];
-//    hud3.mode = MBProgressHUDModeText;
-//    hud3.labelText = alert;
-//    [hud3 hide:YES afterDelay:2];
-//    hud3.yOffset = SCREEN_HEIGHT / 2 - 80;
-
     if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
         [JPUSHService handleRemoteNotification:userInfo];
     }
@@ -147,6 +138,9 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:notiVC];
     notiVC.enterPerNotiType = ENTER_PERSONALNOTICENTER_TYPE_NOTI;
     nav.navigationBarHidden = YES;
+    if ([[userInfo objectForKey:@"_j_type"] isEqualToString:@"jmessage"]) {
+        notiVC.enterPerNotiType = ENTER_PERSONALNOTICENTER_TYPE_NOTI_CHAT;
+    }
     self.window.rootViewController = nav;
 
     if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
@@ -157,7 +151,10 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     
+    NSLog(@">>>>> ========  %@",userInfo);
+    
     NSString *alert = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
+    NSString *apnsType = [userInfo objectForKey:@"_j_type"];
     if (application.applicationState == UIApplicationStateActive) {
         UIViewController * vc = [ZEUtil getCurrentVC];
         [MBProgressHUD hideHUDForView:vc.view animated:YES];
@@ -167,9 +164,13 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
         [hud3 hide:YES afterDelay:2];
         hud3.yOffset = SCREEN_HEIGHT / 2 - 80;
     }else if (application.applicationState == UIApplicationStateBackground ||application.applicationState == UIApplicationStateInactive){
+        
         ZEPersonalNotiVC * notiVC = [[ZEPersonalNotiVC alloc]init];
         UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:notiVC];
         notiVC.enterPerNotiType = ENTER_PERSONALNOTICENTER_TYPE_NOTI;
+        if ([apnsType isEqualToString:@"jmessage"]) {
+            notiVC.enterPerNotiType = ENTER_PERSONALNOTICENTER_TYPE_NOTI_CHAT;
+        }
         nav.navigationBarHidden = YES;
         self.window.rootViewController = nav;
     }

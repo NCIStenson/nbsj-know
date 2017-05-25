@@ -72,7 +72,7 @@
     
     self = [super initWithFrame:frame];
     
-    _contentLab = [YYLabel new];
+    _contentLab = [UILabel new];
     _contentLab.origin = CGPointMake(kContentMarginLeft, kContentMarginTop);
     _contentLab.numberOfLines = 0;
     _contentLab.font = [UIFont systemFontOfSize:kFontSize];
@@ -99,7 +99,7 @@
         _contentLab.size = CGSizeMake( textW ,textH );
     }
     _contentLab.attributedText = [ZEUtil getAttributedStringWithString:textContentStr lineSpace:kLabel_LineSpace];
-    _contentLab.textVerticalAlignment = YYTextVerticalAlignmentTop;
+//    _contentLab.textVerticalAlignment = YYTextVerticalAlignmentTop;
     if (textH < 21) {
         textH = 21;
     }
@@ -144,7 +144,7 @@
         _contentLab.size = CGSizeMake( textW ,textH );
     }
     _contentLab.attributedText = [ZEUtil getAttributedStringWithString:textContentStr lineSpace:kLabel_LineSpace];
-    _contentLab.textVerticalAlignment = YYTextVerticalAlignmentTop;
+//    _contentLab.textVerticalAlignment = YYTextVerticalAlignmentTop;
     if (textH < 21) {
         textH = 21;
     }

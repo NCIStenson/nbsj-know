@@ -145,13 +145,13 @@
 -(void)initTeamCellViewWithIndexpath:(NSIndexPath *)indexPath withCell:(UITableViewCell *)cell
 {
     NSDictionary * dynamicDic =self.personalNotiArr[indexPath.row];
-    NSLog(@">>>>>  %@",dynamicDic);
+
     ZETeamNotiCenModel * notiM = [ZETeamNotiCenModel getDetailWithDic:dynamicDic];
     NSString * fileUrl = [[[dynamicDic objectForKey:@"FILEURL"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"] stringByReplacingOccurrencesOfString:@"," withString:@""];
     
     UIImageView * headeImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 80, 80)];
     [headeImage setImage:ZENITH_PLACEHODLER_TEAM_IMAGE];
-    [headeImage sd_setImageWithURL:ZENITH_IMAGEURL(fileUrl) placeholderImage:ZENITH_PLACEHODLER_TEAM_IMAGE];
+    [headeImage sd_setImageWithURL:ZENITH_IMAGEURL(fileUrl) placeholderImage:[UIImage imageNamed:@"icon_team_personal_noti"]];
     [cell.contentView addSubview:headeImage];
     [headeImage setContentMode:UIViewContentModeScaleAspectFit];
     
@@ -259,13 +259,14 @@
     
     UILabel * answerLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 50, SCREEN_WIDTH - 20, 20)];
     answerLab.textAlignment = NSTextAlignmentLeft;
+    answerLab.numberOfLines = 1;
     answerLab.font = [UIFont systemFontOfSize:kTiltlFontSize];
     [cell.contentView addSubview:answerLab];
     answerLab.textColor = [UIColor lightGrayColor];
     answerLab.top = questionLab.bottom + 5;
     answerLab.text = notiM.ANSWEREXPLAIN;
-    float answerHeight = [ZEUtil heightForString:notiM.ANSWEREXPLAIN font:answerLab.font andWidth:SCREEN_WIDTH - 20];
-    answerLab.height = answerHeight;
+//    float answerHeight = [ZEUtil heightForString:notiM.ANSWEREXPLAIN font:answerLab.font andWidth:SCREEN_WIDTH - 20];
+//    answerLab.height = answerHeight;
     
     UILabel * SYSCREATEDATE = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 90,10,70,20.0f)];
     SYSCREATEDATE.text = [ZEUtil compareCurrentTime:[NSString stringWithFormat:@"%@", [dynamicDic objectForKey:@"SYSCREATEDATE"]]];

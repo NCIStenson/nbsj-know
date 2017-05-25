@@ -99,12 +99,21 @@
 
     float questionHeight =[ZEUtil heightForString:_questionInfoModel.QUESTIONEXPLAIN font:[UIFont boldSystemFontOfSize:kDetailTitleFontSize] andWidth:SCREEN_WIDTH - 40];
     
-    UILabel * questionsLab = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, SCREEN_WIDTH - 40, questionHeight)];
-    questionsLab.numberOfLines = 0;
+//    UILabel * questionsLab = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, SCREEN_WIDTH - 40, questionHeight)];
+//    questionsLab.numberOfLines = 0;
+//    questionsLab.text = _questionInfoModel.QUESTIONEXPLAIN;
+//    questionsLab.font = [UIFont boldSystemFontOfSize:kDetailTitleFontSize];
+//    [questionsView addSubview:questionsLab];
+
+    UITextView * questionsLab = [[UITextView alloc]initWithFrame:CGRectMake(20, 10, SCREEN_WIDTH - 40, questionHeight)];
     questionsLab.text = _questionInfoModel.QUESTIONEXPLAIN;
+    questionsLab.editable = NO;
+//    questionsLab.scrollEnabled = NO;
     questionsLab.font = [UIFont boldSystemFontOfSize:kDetailTitleFontSize];
     [questionsView addSubview:questionsLab];
+    [questionsLab setContentInset:UIEdgeInsetsMake(-8, 0, 0, 0)];//设置UITextView的内边距
 
+    
     //  问题文字与用户信息之间间隔
     float userY = questionHeight + 20.0f;
     

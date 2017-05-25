@@ -357,6 +357,8 @@
 		98F4719E1D5434F70016CD5A /* ZEAnswerQuestionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98F4719D1D5434F70016CD5A /* ZEAnswerQuestionsView.m */; };
 		98FA64801ECD71C6000F2133 /* ZESystemNotiVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FA647F1ECD71C6000F2133 /* ZESystemNotiVC.m */; };
 		98FA64821ECD9CF3000F2133 /* Trash@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98FA64811ECD9CF3000F2133 /* Trash@3x.png */; };
+		98FE0DB01ED6B41F00558DA0 /* icon_team_personal_noti@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98FE0DAE1ED6B41F00558DA0 /* icon_team_personal_noti@2x.png */; };
+		98FE0DB11ED6B41F00558DA0 /* icon_team_personal_noti@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98FE0DAF1ED6B41F00558DA0 /* icon_team_personal_noti@3x.png */; };
 		98FEF2581EB1859E00A0CB17 /* ZETeamWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FEF2571EB1859E00A0CB17 /* ZETeamWebVC.m */; };
 		98FEF25C1EB1BF3500A0CB17 /* icon_team_noti@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98FEF2591EB1BF3500A0CB17 /* icon_team_noti@3x.png */; };
 		98FEF25D1EB1BF3500A0CB17 /* icon_team_test@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98FEF25A1EB1BF3500A0CB17 /* icon_team_test@3x.png */; };
@@ -909,6 +911,8 @@
 		98FA647E1ECD71C6000F2133 /* ZESystemNotiVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZESystemNotiVC.h; path = Home/PersonalNoti/ZESystemNotiVC.h; sourceTree = "<group>"; };
 		98FA647F1ECD71C6000F2133 /* ZESystemNotiVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZESystemNotiVC.m; path = Home/PersonalNoti/ZESystemNotiVC.m; sourceTree = "<group>"; };
 		98FA64811ECD9CF3000F2133 /* Trash@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Trash@3x.png"; path = "nbsj-know/SourceImg/icon_questions/Trash@3x.png"; sourceTree = SOURCE_ROOT; };
+		98FE0DAE1ED6B41F00558DA0 /* icon_team_personal_noti@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_team_personal_noti@2x.png"; sourceTree = "<group>"; };
+		98FE0DAF1ED6B41F00558DA0 /* icon_team_personal_noti@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_team_personal_noti@3x.png"; sourceTree = "<group>"; };
 		98FEF2561EB1859E00A0CB17 /* ZETeamWebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZETeamWebVC.h; path = Team/ZETeamWebVC.h; sourceTree = "<group>"; };
 		98FEF2571EB1859E00A0CB17 /* ZETeamWebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZETeamWebVC.m; path = Team/ZETeamWebVC.m; sourceTree = "<group>"; };
 		98FEF2591EB1BF3500A0CB17 /* icon_team_noti@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_team_noti@3x.png"; sourceTree = "<group>"; };
@@ -1555,6 +1559,8 @@
 		9894FEB81E95D63000C255B5 /* icon_team */ = {
 			isa = PBXGroup;
 			children = (
+				98FE0DAE1ED6B41F00558DA0 /* icon_team_personal_noti@2x.png */,
+				98FE0DAF1ED6B41F00558DA0 /* icon_team_personal_noti@3x.png */,
 				98FEF27C1EBC149600A0CB17 /* icon_team_receipt_choosed@2x.png */,
 				98FEF27D1EBC149600A0CB17 /* icon_team_receipt_choosed@3x.png */,
 				98FEF27E1EBC149600A0CB17 /* icon_team_receipt@2x.png */,
@@ -2065,6 +2071,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9861B5E51E5533C80095EE2C /* logo@2x.png in Resources */,
+				98FE0DB11ED6B41F00558DA0 /* icon_team_personal_noti@3x.png in Resources */,
 				98EE5DB71DE56D9A00C82FCB /* JCAlertView.bundle in Resources */,
 				98D42BD41DC73FBB003A3812 /* discuss_comment_gray@2x.png in Resources */,
 				98E486061D9A608600AA0278 /* tab_circle@2x.png in Resources */,
@@ -2236,6 +2243,7 @@
 				9831B0601E602C5C00729BA8 /* 运维@2x.png in Resources */,
 				9831B0231E60113600729BA8 /* 修改@3x.png in Resources */,
 				9896637A1E8B5F4700F42906 /* icon_expert_chat@3x.png in Resources */,
+				98FE0DB01ED6B41F00558DA0 /* icon_team_personal_noti@2x.png in Resources */,
 				985C89481ED556EC00681CD9 /* icon_my_practice@2x.png in Resources */,
 				9894FECD1E95D63000C255B5 /* icon_team_discuss@2x.png in Resources */,
 				9831B0621E602C5C00729BA8 /* 运维工具@2x.png in Resources */,
@@ -2647,7 +2655,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "nbsj-know/电知道.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: HangZhou Zenith Electronic Technology Co., Ltd. (CJ8CND7Y24)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ripeng Zhao (8BJ5KF4673)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = CJ8CND7Y24;
 				ENABLE_BITCODE = NO;
@@ -2707,7 +2715,7 @@
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
-				ZENITH_BUNDLEID = "com.zenithElec.know-Debug";
+				ZENITH_BUNDLEID = com.zenithElec.know;
 				ZENITH_SERVER = "http://117.149.2.229:1622/emarkspg_nbsjzd";
 			};
 			name = Debug;
@@ -2719,7 +2727,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "nbsj-know/电知道.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: HangZhou Zenith Electronic Technology Co., Ltd. (CJ8CND7Y24)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ripeng Zhao (8BJ5KF4673)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = CJ8CND7Y24;
 				ENABLE_BITCODE = NO;

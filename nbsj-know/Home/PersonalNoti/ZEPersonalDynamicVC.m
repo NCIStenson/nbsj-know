@@ -133,6 +133,8 @@
                              success:^(id data) {
                                  NSArray * dataArr = [ZEUtil getServerData:data withTabelName:KLB_DYNAMIC_INFO] ;
                                  if (dataArr.count > 0) {
+                                     [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_READDYNAMIC object:nil];
+
                                      [MBProgressHUD hideHUDForView:self.view animated:YES];
                                      MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                                      hud3.mode = MBProgressHUDModeText;

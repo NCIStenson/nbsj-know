@@ -49,7 +49,7 @@
 
 @interface ZEChatTextView : ZEChatBaseView
 
-@property (nonatomic, strong) YYLabel *contentLab;              // 容器
+@property (nonatomic, strong) UILabel *contentLab;              // 容器
 
 -(void)setContent:(id)infoM withLayout:(ZEChatLayout *)layout;
 @end

@@ -298,9 +298,7 @@
                 iconImage.image = [UIImage imageNamed:@"hornView" color:MAIN_NAV_COLOR];
                 [cell.contentView addSubview:iconImage];
             }
-        }
-
-        
+        }        
     }else{
         [contentLab setText:PROCIRCLENAME(self.datasArr[indexPath.row + 3])];
         [contentImage sd_setImageWithURL:ZENITH_ICON_IMAGEURL(ICOPATH(self.datasArr[indexPath.row + 3])) placeholderImage:ZENITH_PLACEHODLER_IMAGE];

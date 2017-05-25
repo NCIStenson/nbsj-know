@@ -53,11 +53,13 @@
 /************* 查询典型案例 *************/
 -(void)sendCaseQuestionsRequest
 {
+    NSLog(@">>>>>>>>=======  %@ ",_PROCIRCLECODE);
+    
     NSDictionary * parametersDic = @{@"limit":@"3",
                                      @"MASTERTABLE":V_KLB_CLASSICCASE_INFO,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"CLICKCOUNT desc",
-                                     @"WHERESQL":@"",
+                                     @"WHERESQL":[NSString stringWithFormat:@"PROCIRCLECODE = %@",_PROCIRCLECODE],
                                      @"start":@"0",
                                      @"METHOD":METHOD_SEARCH,
                                      @"MASTERFIELD":@"SEQKEY",
@@ -77,13 +79,49 @@
                                  NSArray * arr = [ZEUtil getServerData:data withTabelName:V_KLB_CLASSICCASE_INFO] ;
                                  if ([ZEUtil isNotNull:arr] && [arr count] > 0) {
                                      [detailView reloadCaseView:arr];
+                                 }else{
+                                     [self sendWithoutProcircleCodeCaseQuestionsRequest];
                                  }
-
                              } fail:^(NSError *errorCode) {
 
                              }];
 
 }
+-(void)sendWithoutProcircleCodeCaseQuestionsRequest
+{
+    NSLog(@">>>>>>>>=======  %@ ",_PROCIRCLECODE);
+    
+    NSDictionary * parametersDic = @{@"limit":@"3",
+                                     @"MASTERTABLE":V_KLB_CLASSICCASE_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"CLICKCOUNT desc",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_SEARCH,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.classiccase.ClassicCase",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_CLASSICCASE_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 NSArray * arr = [ZEUtil getServerData:data withTabelName:V_KLB_CLASSICCASE_INFO] ;
+                                 if ([ZEUtil isNotNull:arr] && [arr count] > 0) {
+                                     [detailView reloadCaseView:arr];
+                                 }
+                             } fail:^(NSError *errorCode) {
+                                 
+                             }];
+    
+}
+
 
 #pragma mark - 专家列表
 

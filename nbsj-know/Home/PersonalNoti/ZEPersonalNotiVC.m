@@ -53,7 +53,6 @@
 }
 
 
-
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
@@ -85,7 +84,6 @@
 }
 
 -(void)initView{
-   
     _allTypeArr = @[@"通知",@"系统",@"会话"];
     [self.view addSubview:[self createDetailOptionView:_allTypeArr]];
 }
@@ -94,16 +92,24 @@
 {
     dynamicVC = [[ZEPersonalDynamicVC alloc]init];
     [self addChildViewController:dynamicVC];
-    _currentVC = dynamicVC;
     
-    [self.view addSubview:dynamicVC.view];
-    [self.view sendSubviewToBack:dynamicVC.view];
     
     chatVC = [[ZEPersonalChatListVC alloc]init];
     [self addChildViewController:chatVC];
     
     systemNotiVC = [[ZESystemNotiVC alloc]init];
     [self addChildViewController:systemNotiVC];
+    
+    if (_enterPerNotiType == ENTER_PERSONALNOTICENTER_TYPE_NOTI_CHAT) {
+        _currentVC = chatVC;
+
+        [self.view addSubview:chatVC.view];
+        [self.view sendSubviewToBack:chatVC.view];
+    }else{
+        _currentVC = dynamicVC;
+        [self.view addSubview:dynamicVC.view];
+        [self.view sendSubviewToBack:dynamicVC.view];
+    }
 
 }
 
@@ -182,6 +188,10 @@
     _lineImageView.backgroundColor = MAIN_GREEN_COLOR;
     [_labelScrollView addSubview:_lineImageView];
     _lineImageView.tag = kLabelScrollLineImageViewTag;
+    
+    if (_enterPerNotiType == ENTER_PERSONALNOTICENTER_TYPE_NOTI_CHAT) {
+        _lineImageView.frame = CGRectMake(SCREEN_WIDTH / arr.count * 2, 33.0f, SCREEN_WIDTH / arr.count, 2.0f);
+    }
     
     float marginLeft = 0;
     
