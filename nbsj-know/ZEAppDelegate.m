@@ -150,9 +150,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    
-    NSLog(@">>>>> ========  %@",userInfo);
-    
+        
     NSString *alert = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
     NSString *apnsType = [userInfo objectForKey:@"_j_type"];
     if (application.applicationState == UIApplicationStateActive) {

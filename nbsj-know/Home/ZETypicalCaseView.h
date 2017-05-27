@@ -42,6 +42,12 @@
  */
 -(void)sortConditon:(NSString *)condition;
 
+
+/**
+ 
+ */
+-(void)showType;
+
 @end
 
 #import <UIKit/UIKit.h>

@@ -410,22 +410,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "nbsj-know/Home/ZETypicalCaseDetailView.m"
-            timestampString = "515471389.544486"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "544"
-            endingLineNumber = "544"
-            landmarkName = "-initCellView:withIndexpath:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "nbsj-know/Team/ZEAnswerTeamQuestionVC.m"
             timestampString = "515492884.361642"
             startingColumnNumber = "9223372036854775807"
@@ -442,13 +426,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "nbsj-know/ZEAppDelegate.m"
-            timestampString = "517386265.375986"
+            filePath = "nbsj-know/Home/ZEChatView.m"
+            timestampString = "517567777.684301"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
-            landmarkName = "-application:didReceiveRemoteNotification:fetchCompletionHandler:"
+            startingLineNumber = "281"
+            endingLineNumber = "281"
+            landmarkName = "-initLayoutArr"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

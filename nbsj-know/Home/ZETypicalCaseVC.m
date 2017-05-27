@@ -25,6 +25,8 @@
     NSString * questionTypeName; //  选择的经典案例分类Name
     
     BOOL _isShowTypicalTypeView;
+    
+    NSString * totalTypeCode;
 }
 
 
@@ -45,8 +47,8 @@
         
         questionTypeName = @"";
         questionTypeCode = @"";
-        [self.rightBtn setTitle:@"分类" forState:UIControlStateNormal];
-        [self.rightBtn addTarget:self action:@selector(initAskTypeView) forControlEvents:UIControlEventTouchUpInside];
+//        [self.rightBtn setTitle:@"分类" forState:UIControlStateNormal];
+//        [self.rightBtn addTarget:self action:@selector(initAskTypeView) forControlEvents:UIControlEventTouchUpInside];
     }else{
         self.title = @"我的收藏";
         [self myCollectRequest];
@@ -120,12 +122,48 @@
                                      @"CLASSNAME":@"com.nci.klb.app.classiccase.ClassicCase",
                                      @"DETAILTABLE":@"",};
     
+    if (totalTypeCode.length > 0) {
+        parametersDic = @{@"limit":[NSString stringWithFormat:@"%ld",(long)MAX_PAGE_COUNT],
+                          @"MASTERTABLE":V_KLB_CLASSICCASE_INFO,
+                          @"MENUAPP":@"EMARK_APP",
+                          @"ORDERSQL":sortOrderSQL,
+                          @"WHERESQL":_currentWHERESQL,
+                          @"start":[NSString stringWithFormat:@"%ld",(long)_currentPage * MAX_PAGE_COUNT],
+                          @"METHOD":METHOD_SEARCH,
+                          @"MASTERFIELD":@"SEQKEY",
+                          @"DETAILFIELD":@"",
+                          @"CLASSNAME":@"com.nci.klb.app.classiccase.ClassicCase",
+                          @"DETAILTABLE":@"",
+                          @"PARENTID":@"-1",
+                          @"TYPECODE":totalTypeCode};
+    }
+    
     NSDictionary * fieldsDic =@{};
     
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_CLASSICCASE_INFO]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
+    if (totalTypeCode.length > 0) {
+        parametersDic = @{@"limit":[NSString stringWithFormat:@"%ld",(long)MAX_PAGE_COUNT],
+                          @"MASTERTABLE":V_KLB_CLASSICCASE_INFO,
+                          @"MENUAPP":@"EMARK_APP",
+                          @"ORDERSQL":sortOrderSQL,
+                          @"WHERESQL":_currentWHERESQL,
+                          @"start":[NSString stringWithFormat:@"%ld",(long)_currentPage * MAX_PAGE_COUNT],
+                          @"METHOD":METHOD_SEARCH,
+                          @"MASTERFIELD":@"SEQKEY",
+                          @"DETAILFIELD":@"",
+                          @"CLASSNAME":@"com.nci.klb.app.classiccase.ClassicCase",
+                          @"DETAILTABLE":@"",
+                          @"PARENTID":@"-1",
+                          @"TYPECODE":totalTypeCode};
+        packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_CLASSICCASE_INFO]
+                                                                withFields:@[fieldsDic]
+                                                            withPARAMETERS:parametersDic
+                                                            withActionFlag:@"SEARCH_PARENT_TYPE"];
+    }
+
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
@@ -213,14 +251,13 @@
 {
     if(_isShowTypicalTypeView){
         self.title = questionTypeName;
-//        questionTypeCode = @"";
         [askTypeView removeFromSuperview];
         askTypeView = nil;
         [self sendRequestWithCurrentPage];
     }else{
         self.title = @"技能分类";
         
-        askTypeView = [[ZEAskQuestionTypeView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
+        askTypeView = [[ZEAskQuestionTypeView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
         askTypeView.delegate = self;
         
         [self.view addSubview:askTypeView];
@@ -250,12 +287,19 @@
 
     [askTypeView removeFromSuperview];
     askTypeView = nil;
+    
+    if ([fatherCode integerValue] == -1) {
+        totalTypeCode = typeCode;
+        [self sendRequestWithCurrentPage];
+        return;
+    }
+    
+    totalTypeCode = @"";
     if (_currentWHERESQL.length > 0 && ![_currentWHERESQL containsString:@"QUESTIONTYPECODE"]) {
         _currentWHERESQL = [NSString stringWithFormat:@"QUESTIONTYPECODE = '%@' and (%@)",questionTypeCode,_currentWHERESQL];
     }else{
         _currentWHERESQL = [NSString stringWithFormat:@"QUESTIONTYPECODE = '%@'",questionTypeCode];
     }
-    
     
     [self sendRequestWithCurrentPage];
 }
@@ -314,6 +358,11 @@
     sortOrderSQL = condition;
     _currentPage = 0;
     [self sendRequestWithCurrentPage];
+}
+
+-(void)showType
+{
+    [self initAskTypeView];
 }
 
 - (void)didReceiveMemoryWarning {

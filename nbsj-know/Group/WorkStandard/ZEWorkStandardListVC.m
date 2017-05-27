@@ -164,7 +164,7 @@
     }else{
         self.title = @"技能分类";
         
-        askTypeView = [[ZEAskQuestionTypeView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
+        askTypeView = [[ZEAskQuestionTypeView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
         askTypeView.delegate = self;
         
         [self.view addSubview:askTypeView];

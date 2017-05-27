@@ -203,17 +203,19 @@
             if (quesAnsDetail.EXPLAIN.length > 0) {
                 ZEChatLayout * layout;
                 if([quesAnsDetail.SYSCREATORID isEqualToString:_questionInfoM.QUESTIONUSERCODE]){
-                    layout = [[ZEChatLayout alloc]initWithDetailTextContent:quesAnsDetail
-                                                              withHeadImage:_questionInfoM.HEADIMAGE];
-                }else{
-                    layout = [[ZEChatLayout alloc]initWithDetailTextContent:quesAnsDetail
-                                                              withHeadImage:_answerInfoM.HEADIMAGE];
+                    if(_questionInfoM.ISANONYMITY){
+                        layout = [[ZEChatLayout alloc]initWithDetailTextContent:quesAnsDetail
+                                                                  withHeadImage:nil];
+                    }else{
+                        layout = [[ZEChatLayout alloc]initWithDetailTextContent:quesAnsDetail
+                                                                  withHeadImage:_answerInfoM.HEADIMAGE];
+                    }
+                    
+                    NSDictionary * dic = @{@"layout":layout,
+                                           @"type":TYPETEXT};
+                    
+                    [_layouts addObject:dic];
                 }
-                
-                NSDictionary * dic = @{@"layout":layout,
-                                       @"type":TYPETEXT};
-                
-                [_layouts addObject:dic];
             }
         
 
@@ -223,6 +225,9 @@
                     NSString * headImageUrl = nil;
                     if([quesAnsDetail.SYSCREATORID isEqualToString:_questionInfoM.QUESTIONUSERCODE]){
                         headImageUrl = _questionInfoM.HEADIMAGE;
+                        if (_questionInfoM.ISANONYMITY) {
+                            headImageUrl = @"";
+                        }
                     }else{
                         headImageUrl = _answerInfoM.HEADIMAGE;
                     }
@@ -267,9 +272,13 @@
     
     if (_questionInfoM.FILEURLARR.count > 0) {
         for (int j = 0; j < _questionInfoM.FILEURLARR.count; j ++) {
+            NSString * headImageUrl = _questionInfoM.HEADIMAGE;
+            if (_questionInfoM.ISANONYMITY) {
+                headImageUrl = @"";
+            }
             ZEChatLayout * layout = [[ZEChatLayout alloc]initWithImgaeUrl:_questionInfoM.FILEURLARR[j]
                                                                  usercode:_questionInfoM.QUESTIONUSERCODE
-                                                             headImageUrl:_questionInfoM.HEADIMAGE];
+                                                             headImageUrl:headImageUrl];
             
             NSDictionary * dic = @{@"layout":layout,
                                    @"type":TYPEIMAGE};

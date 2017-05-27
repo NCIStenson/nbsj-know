@@ -74,7 +74,7 @@
     [optionBtn setTitle:@"全部" forState:UIControlStateNormal];
     [optionBtn setImage:[UIImage imageNamed:@"icon_up.png" color:MAIN_NAV_COLOR] forState:UIControlStateNormal];
     [optionBtn setTitleColor:MAIN_NAV_COLOR forState:UIControlStateNormal];
-    [optionBtn setFrame:CGRectMake(45, 0, 50, kNavViewHeight)];
+    [optionBtn setFrame:CGRectMake(45, 0, 40, kNavViewHeight)];
     optionBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     [optionBtn addTarget:self action:@selector(showOptions) forControlEvents:UIControlEventTouchUpInside];
     [navView addSubview:optionBtn];
@@ -113,7 +113,7 @@
     _contentView.mj_footer = footer;
 }
 
--(void)showOptions
+-(void)showDecOptions
 {    
     if (_isShowOptionView) {
         [self hiddenOptionView];
@@ -336,6 +336,12 @@
 {
     if ([self.delegate respondsToSelector:@selector(loadMoreData)]) {
         [self.delegate loadMoreData];
+    }
+}
+-(void)showOptions
+{
+    if ([self.delegate respondsToSelector:@selector(showType)]) {
+        [self.delegate showType];
     }
 }
 

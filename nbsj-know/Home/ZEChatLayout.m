@@ -56,7 +56,11 @@
     NSString * contentStr = @"";
     if ([ZEUtil isNotNull:_questionInfo]) {
         contentStr = _questionInfo.QUESTIONEXPLAIN;
-        self.headImageUrl = _questionInfo.HEADIMAGE;
+        if(_questionInfo.ISANONYMITY){
+            self.headImageUrl = @"";
+        }else{
+            self.headImageUrl = _questionInfo.HEADIMAGE;
+        }
     }else if ([ZEUtil isNotNull:_quesAnsM]){
         contentStr = _quesAnsM.EXPLAIN;
     }else if ([ZEUtil isNotNull:_answerInfo]){

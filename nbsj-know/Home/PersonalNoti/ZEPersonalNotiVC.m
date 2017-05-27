@@ -38,8 +38,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self initVC];
     [self initView];
+    [self initVC];
 
     self.title = @"消息盒子";
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -93,31 +93,29 @@
     dynamicVC = [[ZEPersonalDynamicVC alloc]init];
     [self addChildViewController:dynamicVC];
     
-    
     chatVC = [[ZEPersonalChatListVC alloc]init];
     [self addChildViewController:chatVC];
     
     systemNotiVC = [[ZESystemNotiVC alloc]init];
     [self addChildViewController:systemNotiVC];
+    _currentVC = dynamicVC;
     
+    [self.view addSubview:dynamicVC.view];
+    [self.view sendSubviewToBack:dynamicVC.view];
+    
+    [self.view bringSubviewToFront:self.navBar];
+
     if (_enterPerNotiType == ENTER_PERSONALNOTICENTER_TYPE_NOTI_CHAT) {
-        _currentVC = chatVC;
-
-        [self.view addSubview:chatVC.view];
-        [self.view sendSubviewToBack:chatVC.view];
-    }else{
-        _currentVC = dynamicVC;
-        [self.view addSubview:dynamicVC.view];
-        [self.view sendSubviewToBack:dynamicVC.view];
+        UIButton * btn = [_labelScrollView viewWithTag:102];
+        [self selectDifferentType:btn];
     }
-
 }
 
 -(void)leftBtnClick
 {
     if (_enterPerNotiType == ENTER_PERSONALNOTICENTER_TYPE_DEFAULT) {
         [self.navigationController popViewControllerAnimated:YES];
-    }else if (_enterPerNotiType == ENTER_PERSONALNOTICENTER_TYPE_NOTI){
+    }else if (_enterPerNotiType == ENTER_PERSONALNOTICENTER_TYPE_NOTI || _enterPerNotiType == ENTER_PERSONALNOTICENTER_TYPE_NOTI_CHAT){
         LBTabBarController *tab = [[LBTabBarController alloc] init];
         UIWindow * window = [UIApplication sharedApplication].keyWindow;
         window.rootViewController = tab;
@@ -200,7 +198,9 @@
         labelContentBtn.titleLabel.font = [UIFont systemFontOfSize:kTiltlFontSize];
         [_labelScrollView addSubview:labelContentBtn];
         [labelContentBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        if(i == 0){
+        if(i == 0 && _enterPerNotiType != ENTER_PERSONALNOTICENTER_TYPE_NOTI_CHAT ){
+            [labelContentBtn setTitleColor:MAIN_GREEN_COLOR forState:UIControlStateNormal];
+        } else if (i == 2  && _enterPerNotiType == ENTER_PERSONALNOTICENTER_TYPE_NOTI_CHAT ) {
             [labelContentBtn setTitleColor:MAIN_GREEN_COLOR forState:UIControlStateNormal];
         }
         labelContentBtn.top = 0.0f;

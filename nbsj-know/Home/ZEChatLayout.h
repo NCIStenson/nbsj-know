@@ -25,6 +25,7 @@
 
 @property (nonatomic,strong) NSString * usercode;
 @property (nonatomic,strong) NSString * headImageUrl;
+
 // 标题栏
 @property (nonatomic, assign) CGFloat titleHeight; //标题栏高度，0为没标题栏
 @property (nonatomic, strong) YYTextLayout *titleTextLayout; // 标题栏
