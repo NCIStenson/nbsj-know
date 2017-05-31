@@ -6,12 +6,16 @@
 //  Copyright © 2017年 Hangzhou Zenith Electronic Technology Co., Ltd. All rights reserved.
 //
 
+#define SCHOOL_WEBURL @"http://dzd.nbuen.com/mobile/media_app.php"
+
 #import "ZESchoolWebVC.h"
 #import "PYPhotosView.h"
 
 @interface ZESchoolWebVC ()<UIWebViewDelegate>
 {
     UIWebView * webView;
+    
+    UIButton * closeButton;
 }
 @end
 
@@ -26,17 +30,19 @@
         self.leftBtn.width = 80.0f;
         [self.leftBtn setTitle:@"返回" forState:UIControlStateNormal];
         [self.leftBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -15, 0, 0)];
-        [self.leftBtn.titleLabel setFont:[UIFont systemFontOfSize:kTiltlFontSize]];
         [self.leftBtn addTarget:self action:@selector(goBackWebView) forControlEvents:UIControlEventTouchUpInside];
         self.title = @"学堂";
         
-        UIButton * closeButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        [self.leftBtn setTitle:@"关闭" forState:UIControlStateNormal];
+//        self.leftBtn.titleLabel.font = [[UIFont systemFontOfSize:<#(CGFloat)#>]];
+        
+        closeButton = [UIButton buttonWithType:UIButtonTypeSystem];
         [self.navBar addSubview:closeButton];
         [closeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         closeButton.left = 80;
         closeButton.top = 20.0f;
         closeButton.size = CGSizeMake(40, 44);
-        [closeButton setTitle:@"关闭" forState:UIControlStateNormal];
+        [closeButton setTitle:@"返回" forState:UIControlStateNormal];
         [closeButton addTarget:self action:@selector(goBackWebHomeView) forControlEvents:UIControlEventTouchUpInside];
     }else if (_enterType == ENTER_WEBVC_ABOUT){
         self.title =  @"关于电知道";
@@ -153,8 +159,26 @@
 -(void)goBackWebHomeView
 {
     [webView stopLoading];
-    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://dzd.nbuen.com/mobile/media_app.php"]]];
+    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:SCHOOL_WEBURL]]];
 }
+
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    if (_enterType == ENTER_WEBVC_SCHOOL) {
+        NSString *urlString = [[request URL] absoluteString];
+        if ([urlString isEqualToString:@"about:blank"]) {
+            return YES;
+        }
+        if ([urlString isEqualToString:SCHOOL_WEBURL]) {
+            closeButton.hidden = YES;
+        }else{
+            closeButton.hidden = NO;
+        }
+        
+    }
+    return YES;
+}
+
 
 
 - (void)didReceiveMemoryWarning {

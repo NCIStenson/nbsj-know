@@ -2715,7 +2715,7 @@
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "arm64 armv7s armv7";
 				WARNING_CFLAGS = "";
-				ZENITH_BUNDLEID = com.zenithElec.know;
+				ZENITH_BUNDLEID = "com.zenithElec.know-Debug";
 				ZENITH_SERVER = "http://117.149.2.229:1622/emarkspg_nbsjzd";
 			};
 			name = Debug;

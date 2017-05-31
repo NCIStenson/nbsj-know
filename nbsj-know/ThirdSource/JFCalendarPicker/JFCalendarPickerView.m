@@ -74,7 +74,7 @@ NSString *const JFCalendarCellIdentifier = @"cell";
     signinBtn.alpha = 1;
     signinBtn.enabled = YES;
     [signinBtn setTitle:@"签到" forState:UIControlStateNormal];
-    [signinBtn addTarget:self action:@selector(viewGoSignin) forControlEvents:UIControlEventTouchUpInside];
+    [signinBtn addTarget:self action:@selector(viewGoSignin:) forControlEvents:UIControlEventTouchUpInside];
     signinBtn.titleLabel.font = [UIFont systemFontOfSize:kTiltlFontSize];
     signinBtn.frame = CGRectMake(SCREEN_WIDTH - 70, 15, 60, 30);
     signinBtn.backgroundColor = MAIN_NAV_COLOR;
@@ -396,8 +396,9 @@ NSString *const JFCalendarCellIdentifier = @"cell";
     } completion:nil];
 }
 
--(void)viewGoSignin
+-(void)viewGoSignin:(UIButton *)btn
 {
+    btn.enabled = NO;
     if ([self.delegate respondsToSelector:@selector(goSignin)]) {
         [self.delegate goSignin];
     }
@@ -430,7 +431,7 @@ NSString *const JFCalendarCellIdentifier = @"cell";
 
     [dateFormatter setDateFormat:@"yyyy-MM"];
     
-    NSString * choosedDate =[destDateString stringByReplacingCharactersInRange:NSMakeRange(0, 7) withString:countStr];
+    NSString * choosedDate =[destDateString stringByReplacingCharactersInRange:NSMakeRange(0, 10) withString:[NSString stringWithFormat:@"%@-28",countStr]];
 
     NSDateFormatter*df = [[NSDateFormatter alloc]init];//格式化
     [df setDateFormat:@"yyyy-MM-dd HHmmss"];
@@ -439,6 +440,8 @@ NSString *const JFCalendarCellIdentifier = @"cell";
     date =[df dateFromString:choosedDate];
 
     self.date = date;
+    NSLog(@" %@ ",self.date);
+
     [dateFormatter setDateFormat:@"yyyy-MM"];
     
     NSString *choosedMonthStr = [dateFormatter stringFromDate:self.date];

@@ -214,6 +214,7 @@
                                      }else{
                                          [self showTips:[[ZEUtil getCOMMANDDATA:data] objectForKey:@"target"] afterDelay:1.5];
                                          [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_BACK_QUEANSVIEW object:nil];
+                                         [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_ANSWER_SUCCESS object:nil];
                                          [self performSelector:@selector(goBack) withObject:nil afterDelay:1.5];
                                      }
                                  } fail:^(NSError *error) {

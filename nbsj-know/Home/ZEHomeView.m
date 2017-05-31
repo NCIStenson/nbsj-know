@@ -317,6 +317,10 @@
         marginLeft += btnWidth;
     }
     [btn setTitleColor:MAIN_GREEN_COLOR forState:UIControlStateNormal];
+    
+    if([self.delegate respondsToSelector:@selector(loadNewData:)]){
+        [self.delegate loadNewData:_currentHomeContentPage];
+    }
 }
 
 
@@ -609,7 +613,6 @@
             UIButton * button = [_labelScrollView viewWithTag:100 + i];
             [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             
-//            float btnWidth = [ZEUtil widthForString:_allTypeArr[i] font:[UIFont systemFontOfSize:kTiltlFontSize] maxSize:CGSizeMake(SCREEN_WIDTH, 33.0f)] + 20.0f;
             float btnWidth = SCREEN_WIDTH / 3;
 
             if (currentIndex == i) {
@@ -623,6 +626,9 @@
                 [button setTitleColor:MAIN_GREEN_COLOR forState:UIControlStateNormal];
             }
             marginLeft += btnWidth;
+        }
+        if([self.delegate respondsToSelector:@selector(loadNewData:)]){
+            [self.delegate loadNewData:_currentHomeContentPage];
         }
     }
     
@@ -760,7 +766,9 @@
     userY += 5.0f;
     
     UIImageView * userImg = [[UIImageView alloc]initWithFrame:CGRectMake(20, userY, 20, 20)];
-    [userImg sd_setImageWithURL:ZENITH_IMAGEURL(quesInfoM.HEADIMAGE) placeholderImage:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
+    if(!quesInfoM.ISANONYMITY){
+        [userImg sd_setImageWithURL:ZENITH_IMAGEURL(quesInfoM.HEADIMAGE) placeholderImage:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
+    }
     [questionsView addSubview:userImg];
     userImg.clipsToBounds = YES;
     userImg.layer.cornerRadius = 10;

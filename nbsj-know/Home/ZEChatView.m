@@ -202,20 +202,19 @@
             ZEQuesAnsDetail * quesAnsDetail = [ZEQuesAnsDetail getDetailWithDic:arr[i]];
             if (quesAnsDetail.EXPLAIN.length > 0) {
                 ZEChatLayout * layout;
-                if([quesAnsDetail.SYSCREATORID isEqualToString:_questionInfoM.QUESTIONUSERCODE]){
-                    if(_questionInfoM.ISANONYMITY){
-                        layout = [[ZEChatLayout alloc]initWithDetailTextContent:quesAnsDetail
-                                                                  withHeadImage:nil];
-                    }else{
-                        layout = [[ZEChatLayout alloc]initWithDetailTextContent:quesAnsDetail
-                                                                  withHeadImage:_answerInfoM.HEADIMAGE];
-                    }
-                    
-                    NSDictionary * dic = @{@"layout":layout,
-                                           @"type":TYPETEXT};
-                    
-                    [_layouts addObject:dic];
+
+                if(_questionInfoM.ISANONYMITY){
+                    layout = [[ZEChatLayout alloc]initWithDetailTextContent:quesAnsDetail
+                                                              withHeadImage:nil];
+                }else{
+                    layout = [[ZEChatLayout alloc]initWithDetailTextContent:quesAnsDetail
+                                                              withHeadImage:_answerInfoM.HEADIMAGE];
                 }
+                
+                NSDictionary * dic = @{@"layout":layout,
+                                       @"type":TYPETEXT};
+                
+                [_layouts addObject:dic];
             }
         
 

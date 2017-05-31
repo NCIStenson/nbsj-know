@@ -475,6 +475,10 @@
     }
     [btn setTitleColor:MAIN_GREEN_COLOR forState:UIControlStateNormal];
 
+    if ([self.delegate respondsToSelector:@selector(loadNewData:)]) {
+        [self.delegate loadNewData:_currentHomeContentPage];
+    }
+    
 }
 
 #pragma mark - 显示建设中页面
@@ -1120,6 +1124,9 @@
                 
             }
             marginLeft += btnWidth;
+        }
+        if ([self.delegate respondsToSelector:@selector(loadNewData:)]) {
+            [self.delegate loadNewData:_currentHomeContentPage];
         }
     }
     
