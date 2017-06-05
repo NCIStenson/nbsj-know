@@ -69,7 +69,7 @@
 
 -(void)initWebView
 {
-     webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
+    webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
     webView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:webView];
     webView.delegate = self;
@@ -83,9 +83,9 @@
     }else if (_enterType == ENTER_WEBVC_MY_PRACTICE){
         NSString * serverStr  = Zenith_Server;
         if ([serverStr containsString:@"117.149.2.229"]) {
-            [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://117.149.2.229:1623/ecm_dzd/ZUI/pages/dzd/practice.html"]]];
-        }else if ([serverStr containsString:@"120.27.152.63"]){
-            [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://120.27.152.63:7788/ecm_dzd/ZUI/pages/dzd/practice.html"]]];
+            [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://117.149.2.229:1623/ecm/ZUI/pages/dzd/practice.html?userID=%@",[ZESettingLocalData getUSERCODE]]]]];
+        }else{
+            [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://120.27.152.63:7788/ecm/ZUI/pages/dzd/practice.html?userID=%@",[ZESettingLocalData getUSERCODE]]]]];
         }
     }else if (_enterType == ENTER_WEBVC_ABOUT){
         

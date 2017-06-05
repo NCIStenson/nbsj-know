@@ -54,12 +54,12 @@
 
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(acceptSuccess) name:kNOTI_ACCEPT_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(sendSearchAnswerRequestWithoutOperateType) name:kNOTI_BACK_QUEANSVIEW object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(sendSearchAnswerRequestWithoutOperateType) name:kNOTI_ANSWER_SUCCESS object:nil];
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
     self.tabBarController.tabBar.hidden = YES;
-
 }
 
 -(void)viewDidDisappear:(BOOL)animated
@@ -69,6 +69,7 @@
 
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNOTI_ACCEPT_SUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNOTI_ANSWER_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNOTI_BACK_QUEANSVIEW object:nil];
 }
 

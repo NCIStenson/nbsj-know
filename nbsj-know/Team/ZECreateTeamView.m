@@ -490,12 +490,12 @@
             BOOL isleader = NO;
             for (int i = 0; i < self.alreadyInviteNumbersArr.count; i ++) {
                 ZEUSER_BASE_INFOM * isLeaderUserinfo = [ZEUSER_BASE_INFOM getDetailWithDic:self.alreadyInviteNumbersArr[i]];
-                if ([isLeaderUserinfo.USERTYPE integerValue] == 3 || [isLeaderUserinfo.USERTYPE integerValue] == 4 ) {
+                if ([isLeaderUserinfo.USERCODE isEqualToString:[ZESettingLocalData getUSERCODE]] && ( [isLeaderUserinfo.USERTYPE integerValue] == 3 || [isLeaderUserinfo.USERTYPE integerValue] == 4 )) {
                     isleader = YES;
                     break;
                 }
             }
-            
+
             if (isleader && [userinfo.USERTYPE integerValue] == 2) {
                 if([_createTeamView.delegate respondsToSelector:@selector(whetherAgreeJoinTeam:)]){
                     [_createTeamView.delegate whetherAgreeJoinTeam:userinfo];

@@ -155,7 +155,7 @@
 
     }else{
         self.title = @"描述你的问题";
-        askView = [[ZEAskQuesView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
+        askView = [[ZEAskQuesView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     }
     askView.delegate = self;
     [self.view addSubview:askView];
@@ -416,7 +416,7 @@
                                 @"IMPORTLEVEL":@"1",
                                 @"ISLOSE":@"0",
                                 @"ISEXPERTANSWER":@"0",
-                                @"ISSOLVE":@"0",
+                                @"ISSOLVE":_QUESINFOM.ISSOLVE,
                                 @"ISANONYMITY":[NSString stringWithFormat:@"%d",askView.isAnonymousAsk],
                                 @"BONUSPOINTS":[ZEUtil isStrNotEmpty:askView.goldScore] ? askView.goldScore : @""};
     

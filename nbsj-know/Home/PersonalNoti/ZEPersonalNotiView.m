@@ -149,7 +149,7 @@
     ZETeamNotiCenModel * notiM = [ZETeamNotiCenModel getDetailWithDic:dynamicDic];
     NSString * fileUrl = [[[dynamicDic objectForKey:@"FILEURL"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"] stringByReplacingOccurrencesOfString:@"," withString:@""];
     
-    UIImageView * headeImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 80, 80)];
+    UIImageView * headeImage = [[UIImageView alloc]initWithFrame:CGRectMake(20, 20, 60, 60)];
     [headeImage setImage:ZENITH_PLACEHODLER_TEAM_IMAGE];
     [headeImage sd_setImageWithURL:ZENITH_IMAGEURL(fileUrl) placeholderImage:[UIImage imageNamed:@"icon_team_personal_noti"]];
     [cell.contentView addSubview:headeImage];
