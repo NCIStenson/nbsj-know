@@ -202,7 +202,7 @@
             ZEQuesAnsDetail * quesAnsDetail = [ZEQuesAnsDetail getDetailWithDic:arr[i]];
             if (quesAnsDetail.EXPLAIN.length > 0) {
                 ZEChatLayout * layout;
-                if([quesAnsDetail.SYSCREATORID isEqualToString:_questionInfoM.QUESTIONUSERCODE] ){
+                if([quesAnsDetail.SYSCREATORID isEqualToString:_questionInfoM.QUESTIONUSERCODE]){
                     if(_questionInfoM.ISANONYMITY){
                         layout = [[ZEChatLayout alloc]initWithDetailTextContent:quesAnsDetail
                                                                   withHeadImage:nil];
@@ -226,7 +226,7 @@
                 for (int j = 0; j < quesAnsDetail.FILEURLARR.count; j ++) {
                     
                     NSString * headImageUrl = nil;
-                    if([quesAnsDetail.SYSCREATORID isEqualToString:_questionInfoM.QUESTIONUSERCODE] ){
+                    if([quesAnsDetail.SYSCREATORID isEqualToString:_questionInfoM.QUESTIONUSERCODE]){
                         headImageUrl = _questionInfoM.HEADIMAGE;
                         if (_questionInfoM.ISANONYMITY) {
                             headImageUrl = @"";
@@ -370,6 +370,11 @@
 }
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [self endEditing:YES];
+}
+
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     [self endEditing:YES];
 }

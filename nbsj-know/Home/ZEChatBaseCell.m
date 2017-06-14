@@ -131,7 +131,7 @@
     }
     
 }
--(void)setChatContent:(ZEQuesAnsDetail *)infoM  withLayout:(ZEChatLayout *)layout
+-(void)setChatContent:(ZEQuesAnsDetail *)infoM withLayout:(ZEChatLayout *)layout
 {
     NSString * textContentStr = infoM.EXPLAIN;
     
@@ -144,26 +144,24 @@
         _contentLab.size = CGSizeMake( textW ,textH );
     }
     _contentLab.attributedText = [ZEUtil getAttributedStringWithString:textContentStr lineSpace:kLabel_LineSpace];
-//    _contentLab.textVerticalAlignment = YYTextVerticalAlignmentTop;
+
     if (textH < 21) {
         textH = 21;
     }
-    
     if(textW >= kMaxWidth){
         self.bubbleView.size = CGSizeMake( kMaxWidth + 25 ,textH + 20 );
     }else{
         self.bubbleView.size = CGSizeMake( textW + 25 ,textH + 20 );
     }
-    
     [self.headImageView setImageWithURL:ZENITH_IMAGEURL(layout.headImageUrl) placeholder:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
-    if ([[ZESettingLocalData getUSERCODE] isEqual:infoM.SYSCREATORID]) {
+    NSLog(@"   ===  %@",infoM.SYSUPDATORID);
+    if ([[ZESettingLocalData getUSERCODE] isEqualToString:infoM.SYSCREATORID]) {
         self.headImageView.right = SCREEN_WIDTH - kRightHeadImageMarginRight;
         self.bubbleView.image = [[UIImage imageNamed:@"bubble_right" color:MAIN_NAV_COLOR_A(0.7)] stretchableImageWithLeftCapWidth:5 topCapHeight:20];
         self.bubbleView.right = SCREEN_WIDTH - 55;
         _contentLab.textColor = [UIColor whiteColor];
         _contentLab.right = SCREEN_WIDTH - kContentMarginLeft;
     }
-    
 }
 
 

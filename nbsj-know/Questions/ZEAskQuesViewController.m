@@ -338,6 +338,10 @@
                                      @"CLASSNAME":@"com.nci.klb.app.question.QuestionPoints",
                                      @"DETAILTABLE":@"",};
     
+    NSData *plainData = [askView.inputView.text dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *base64String = [plainData base64EncodedStringWithOptions:0];
+    NSLog(@"askView.inputView.text  ===   %@",askView.inputView.text);
+    
     NSDictionary * fieldsDic =@{@"SEQKEY":@"",
                                 @"QUESTIONTYPECODE":askView.quesTypeSEQKEY,
                                 @"QUESTIONEXPLAIN":askView.inputView.text,
@@ -403,7 +407,11 @@
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     
     NSString* s1 = [formatter stringFromDate:datenow];
-        
+    
+    NSData *plainData = [askView.inputView.text dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *base64String = [plainData base64EncodedStringWithOptions:0];
+    NSLog(@"askView.inputView.text  ===   %@",askView.inputView.text);
+
     NSDictionary * fieldsDic =@{@"SEQKEY":_QUESINFOM.SEQKEY,
                                 @"QUESTIONTYPECODE":askView.quesTypeSEQKEY,
                                 @"QUESTIONEXPLAIN":askView.inputView.text,

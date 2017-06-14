@@ -16,6 +16,7 @@
 @property (nonatomic,strong) ZEQuestionTypeModel * questionTypeModel;
 
 @property (nonatomic,assign) QUESTIONDETAIL_TYPE enterDetailIsFromNoti; // 是否从通知进入的详情页面
+
 @property (nonatomic,strong) ZETeamNotiCenModel * notiCenM;
 
 @end

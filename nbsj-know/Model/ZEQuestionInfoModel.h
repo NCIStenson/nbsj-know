@@ -47,6 +47,7 @@
 @property (nonatomic,copy) NSString * FILEURL;
 @property (nonatomic,copy) NSString * SEQKEY;
 @property (nonatomic,copy) NSString * SYSCREATORID;
+@property (nonatomic,copy) NSString * SYSUPDATORID;
 @property (nonatomic,copy) NSString * SYSCREATEDATE;
 @property (nonatomic,copy) NSString * HEADIMAGE;
 

@@ -7,7 +7,7 @@
 //
 
 #import "ZEMainViewController.h"
-
+#import <UIKit/UIKit.h>
 #import "ZEUserServer.h"
 
 @interface ZEMainViewController ()

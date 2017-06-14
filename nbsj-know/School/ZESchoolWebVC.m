@@ -148,6 +148,13 @@
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
 } 
 
+-(void)leftBtnClick
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    if (_enterType == ENTER_WEBVC_MY_PRACTICE) {
+        [webView stringByEvaluatingJavaScriptFromString:@"saveExamCase();"];
+    }
+}
 
 -(void)goBackWebView
 {

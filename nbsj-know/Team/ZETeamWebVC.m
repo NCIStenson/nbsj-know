@@ -20,6 +20,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+
     switch (_enterType) {
         case ENTER_WKWEBVC_PRACTICE:
             self.title = @"练习管理";
@@ -32,13 +34,9 @@
         default:
             break;
     }
-    [self getUrlWithEnterType:_enterType];
-
     
-    wkWebView = [[WKWebView alloc]initWithFrame:CGRectMake(0,NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
-    [self.view addSubview:wkWebView];
-    wkWebView.navigationDelegate = self;
-
+    [self getUrlWithEnterType:_enterType];
+    
 }
 
 
@@ -86,6 +84,21 @@
                                  NSString * targetURL = [dic objectForKey:@"target"];
                                  if (targetURL.length > 0) {
                                      NSLog(@"targetURL >>>  %@",targetURL);
+    
+                                     
+                                     self.navBar.hidden = YES;
+                                     wkWebView = [[WKWebView alloc]initWithFrame:CGRectMake(0,NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
+                                     if (_enterType == ENTER_WKWEBVC_TEST) {
+                                         wkWebView.top = 20;
+                                         wkWebView.height = SCREEN_HEIGHT - 20;
+                                         
+                                         UIView * statusBackgroundView = [UIView new];
+                                         statusBackgroundView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+                                         statusBackgroundView.backgroundColor = MAIN_NAV_COLOR;
+                                         [self.view addSubview:statusBackgroundView];
+                                     }
+                                     [self.view addSubview:wkWebView];
+                                     wkWebView.navigationDelegate = self;
                                      [wkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:targetURL]]];
                                  }
                              } fail:^(NSError *errorCode) {
@@ -101,7 +114,14 @@
     if([navigationAction.request.URL.absoluteString containsString:@"javasscriptss:back"]){
         [self.navigationController popViewControllerAnimated:YES];
     }
+    
     decisionHandler(WKNavigationActionPolicyAllow);
+}
+
+-(void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error
+{
+    self.navBar.hidden = NO;
+    wkWebView.hidden = YES;
 }
 
 

@@ -35,6 +35,10 @@
 -(void)loadMoreData;
 
 
+-(void)deleteMyQuestion:(NSString *)questionSEQKEY;
+
+-(void)deleteMyAnswer:(NSString *)questionSEQKEY;
+
 @end
 
 @interface ZEShowQuestionView : UIView

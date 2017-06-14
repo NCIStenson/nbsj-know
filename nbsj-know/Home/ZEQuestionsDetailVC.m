@@ -46,7 +46,7 @@
         
         [self sendSearchAnswerRequest];
     }else if(_enterDetailIsFromNoti == QUESTIONDETAIL_TYPE_NOTI){
-        [self sendNewestQuestionsRequest];
+        [self enterFromNotiSendRequest];
         if(![_notiCenM.ISREAD boolValue] ){
             [self clearPersonalNotiUnreadCount];
         }
@@ -55,6 +55,8 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(acceptSuccess) name:kNOTI_ACCEPT_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(sendSearchAnswerRequestWithoutOperateType) name:kNOTI_BACK_QUEANSVIEW object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(sendSearchAnswerRequestWithoutOperateType) name:kNOTI_ANSWER_SUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeQuestionInfoBack) name:kNOTI_CHANGE_ASK_SUCCESS object:nil];
+    
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -71,13 +73,14 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNOTI_ACCEPT_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNOTI_ANSWER_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNOTI_BACK_QUEANSVIEW object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNOTI_CHANGE_ASK_SUCCESS object:nil];
 }
 
 -(void)acceptSuccess{
     _questionInfoModel.ISSOLVE = @"1";
 }
 
--(void)sendNewestQuestionsRequest
+-(void)enterFromNotiSendRequest
 {
     NSString * WHERESQL = [NSString stringWithFormat:@"SEQKEY = '%@'",_notiCenM.QUESTIONID];
     NSDictionary * parametersDic = @{@"limit":@"1",
@@ -128,6 +131,59 @@
                              }];
     
 }
+
+-(void)changeQuestionInfoBack
+{
+    NSString * WHERESQL = [NSString stringWithFormat:@"SEQKEY = '%@'",_questionInfoModel.SEQKEY];
+    NSDictionary * parametersDic = @{@"limit":@"1",
+                                     @"MASTERTABLE":V_KLB_QUESTION_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"SYSCREATEDATE desc",
+                                     @"WHERESQL":WHERESQL,
+                                     @"start":@"0",
+                                     @"METHOD":@"search",
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.question.QuestionPoints",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_QUESTION_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:V_KLB_QUESTION_INFO];
+                                 if (dataArr.count > 0) {
+                                     _questionInfoModel = [ZEQuestionInfoModel getDetailWithDic:dataArr[0]];
+                                     
+                                     while ([_quesDetailView.subviews lastObject]) {
+                                         [_quesDetailView.subviews.lastObject removeFromSuperview];
+                                     }
+                                     _quesDetailView = nil;
+                                     
+                                     [self initView];
+                                     self.title = [NSString stringWithFormat:@"%@的提问",_questionInfoModel.NICKNAME];
+                                     if(_questionInfoModel.ISANONYMITY){
+                                         self.title = [NSString stringWithFormat:@"%@的提问",@"匿名用户"];
+                                     }
+                                     if ([_questionInfoModel.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
+                                         [self.rightBtn setTitle:@"修改" forState:UIControlStateNormal];
+                                     }else{
+                                         [self.rightBtn setTitle:@"回答" forState:UIControlStateNormal];
+                                     }
+                                     [self sendSearchAnswerRequest];
+                                 }
+                             } fail:^(NSError *errorCode) {
+                                 
+                             }];
+    
+}
+
 
 -(void)clearPersonalNotiUnreadCount
 {

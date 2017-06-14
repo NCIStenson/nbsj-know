@@ -53,6 +53,7 @@
         make.top.mas_equalTo(kContentTableMarginTop);
         make.size.mas_equalTo(CGSizeMake(kContentTableWidth, kContentTableHeight));
     }];
+
     MJRefreshGifHeader *header = [MJRefreshGifHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
     _contentTableView.mj_header = header;
     
@@ -433,6 +434,43 @@
         [self.delegate goQuestionDetailVCWithQuestionInfo:quesInfoM withQuestionType:questionTypeM];
     }
 }
+
+#pragma mark - 删除功能
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(_enterShowQuestionListType == QUESTION_LIST_MY_QUESTION){
+        return YES;
+    }else if (_enterShowQuestionListType == QUESTION_LIST_MY_ANSWER){
+        return YES;
+    }
+    return NO;
+}
+//设置编辑风格EditingStyle
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //当表视图处于没有未编辑状态时选择左滑删除
+    return UITableViewCellEditingStyleDelete;
+}
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return @"删除";
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary * datasDic = _datasArr[indexPath.row];
+    ZEQuestionInfoModel * quesInfoM = [ZEQuestionInfoModel getDetailWithDic:datasDic];
+
+    if(_enterShowQuestionListType == QUESTION_LIST_MY_QUESTION){
+        if([self.delegate respondsToSelector:@selector(deleteMyQuestion:)]){
+            [self.delegate deleteMyQuestion:quesInfoM.SEQKEY];
+        }
+    }else if (_enterShowQuestionListType == QUESTION_LIST_MY_ANSWER){
+        if([self.delegate respondsToSelector:@selector(deleteMyAnswer:)]){
+            [self.delegate deleteMyAnswer:quesInfoM.SEQKEY];
+        }
+    }
+}
+
 
 #pragma mark - UITextFieldDelegate
 

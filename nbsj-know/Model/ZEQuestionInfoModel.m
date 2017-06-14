@@ -62,6 +62,7 @@ static ZEUSER_BASE_INFOM * userinfo = nil;
     
     quesAnsM.SEQKEY           = [dic objectForKey:@"SEQKEY"];
     quesAnsM.SYSCREATORID = [dic objectForKey:@"SYSCREATORID"];
+    quesAnsM.SYSUPDATORID = [dic objectForKey:@"SYSUPDATORID"];
     quesAnsM.SYSCREATEDATE  = [dic objectForKey:@"SYSCREATEDATE"];
     quesAnsM.ANSWERCODE    = [dic objectForKey:@"ANSWERCODE"];
     quesAnsM.FILEURL = [dic objectForKey:@"FILEURL"];

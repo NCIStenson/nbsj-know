@@ -390,13 +390,87 @@
     [self createWhereSQL:_currentInputStr];
 }
 
+-(void)deleteMyQuestion:(NSString *)questionSEQKEY
+{
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":KLB_QUESTION_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_UPDATE,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.question.QuestionPoints",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{@"SEQKEY":questionSEQKEY,
+                                @"ISLOSE":@"1"};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_QUESTION_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:nil];
+    
+    [ZEUserServer getDataWithJsonDic:packageDic
+                           showAlertView:YES
+                                 success:^(id data) {
+                                     NSArray * arr = [ZEUtil getEXCEPTIONDATA:data];
+                                     if(arr.count > 0){
+                                         NSDictionary * failReason = arr[0];
+                                         [self showTips:[NSString stringWithFormat:@"%@\n",[failReason objectForKey:@"reason"]] afterDelay:1.5];
+                                     }else{
+                                         [self showTips:@"问题删除成功" afterDelay:1];
+                                         [self loadNewData];
+                                     }
+                                 } fail:^(NSError *error) {
+                                     [self showTips:@"问题删除失败，请稍后重试。"];
+                                 }];
+}
+
+-(void)deleteMyAnswer:(NSString *)questionSEQKEY
+{
+    NSDictionary * parametersDic = @{@"limit":@"-1",
+                                     @"MASTERTABLE":KLB_ANSWER_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_DELETE,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.answer.MyAnswer",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{@"QUESTIONID":questionSEQKEY,
+                                @"ANSWERUSERCODE":[ZESettingLocalData getUSERCODE]};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_ANSWER_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:@"DELETE_MY_ANSWER"];
+    
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:YES
+                             success:^(id data) {
+                                 NSArray * arr = [ZEUtil getEXCEPTIONDATA:data];
+                                 if(arr.count > 0){
+                                     NSDictionary * failReason = arr[0];
+                                     [self showTips:[NSString stringWithFormat:@"%@\n",[failReason objectForKey:@"reason"]] afterDelay:1.5];
+                                 }else{
+                                     [self showTips:@"回答删除成功" afterDelay:1];
+                                     [self loadNewData];
+                                 }
+                             } fail:^(NSError *error) {
+                                 [self showTips:@"回答删除失败，请稍后重试。"];
+                             }];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
     [[SDImageCache sharedImageCache] setValue:nil forKey:@"memCache"];
-    
     [[SDImageCache sharedImageCache] clearDisk];
-    
 }
 
 /*

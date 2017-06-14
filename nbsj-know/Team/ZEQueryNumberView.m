@@ -73,7 +73,7 @@
     }];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    
+
     contentView = [[UITableView alloc]initWithFrame:CGRectMake(0, kNavBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT - kNavBarHeight) style:UITableViewStylePlain];
     contentView.delegate = self;
     contentView.dataSource = self;
@@ -101,7 +101,8 @@
     searchTF.leftView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, height * 0.6 + 7, height)];
     searchTF.delegate=self;
     [searchTF becomeFirstResponder];
-    
+    [searchTF addTarget:self action:@selector(textFieldEditChanged:) forControlEvents:UIControlEventEditingChanged];
+
     searchTFView.clipsToBounds = YES;
     searchTFView.layer.cornerRadius = height / 2;
     
@@ -219,6 +220,13 @@
         [self.delegate goSearch:textField.text];
     }
     return YES;
+}
+
+- (void)textFieldEditChanged:(UITextField *)textField
+{
+    if ([self.delegate respondsToSelector:@selector(goSearch:)]) {
+        [self.delegate goSearch:textField.text];
+    }
 }
 
 -(void)goBackBtnClick

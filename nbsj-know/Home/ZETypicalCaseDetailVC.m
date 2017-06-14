@@ -173,7 +173,7 @@
 
 -(void)initNavView
 {
-    for (int i = 0; i < 2; i++ ) {
+    for (int i = 0; i < 1; i++ ) {
         UIButton *  typeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [typeBtn setImage:[UIImage imageNamed:@"detail_nav_flower" color:[UIColor whiteColor]] forState:UIControlStateNormal];
         if(i == 1){
@@ -183,7 +183,7 @@
             [typeBtn addTarget:self action:@selector(showScoreView) forControlEvents:UIControlEventTouchUpInside];
         }
         [typeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [typeBtn setFrame:CGRectMake(SCREEN_WIDTH - 80 + 35 * i, 25, 30, 30)];
+        [typeBtn setFrame:CGRectMake(SCREEN_WIDTH - 40 + 35 * i, 25, 30, 30)];
         typeBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
         typeBtn.titleLabel.font = [UIFont systemFontOfSize:12];
         typeBtn.tag = i + 100;

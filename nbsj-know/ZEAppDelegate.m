@@ -49,6 +49,10 @@
     }
     
     
+    NSData * data = [NSData dataWithBase64EncodedString:@"8J+YrA=="];
+    NSString * str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"  ====  %@ ",str);
+    
 //    ZETeamNotiCenVC * loginVC = [[ZETeamNotiCenVC alloc]init];
 //    UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:loginVC];
 //    self.window.rootViewController = nav;

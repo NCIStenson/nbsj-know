@@ -659,6 +659,10 @@
     
     ZEQuestionInfoModel * quesInfoM = [ZEQuestionInfoModel getDetailWithDic:datasDic];
     
+    NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:quesInfoM.QUESTIONEXPLAIN options:0];
+    NSString *decodedString = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
+    NSLog(@"%@", decodedString); // foo
+    
     NSString * QUESTIONEXPLAINStr = quesInfoM.QUESTIONEXPLAIN;
 
     if ([quesInfoM.BONUSPOINTS integerValue] > 0) {
