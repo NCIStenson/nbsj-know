@@ -799,7 +799,6 @@
         chatVC.questionInfo = _questionInfoModel;
         chatVC.enterChatVCType = 1;
         [self.navigationController pushViewController:chatVC animated:YES];
-        
     }else{
         ZEAnswerQuestionsVC * answerQuesVC = [[ZEAnswerQuestionsVC alloc]init];
         answerQuesVC.questionSEQKEY = _questionInfoModel.SEQKEY;

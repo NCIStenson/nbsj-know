@@ -33,12 +33,12 @@
             [self.rightBtn addTarget:self action:@selector(acceptAnswer) forControlEvents:UIControlEventTouchUpInside];
         }
     }
-    [self sendSearchAnswerRequest];
 
     if (_enterChatVCType == 1) {
         self.title = @"";
         [self sendAnswerModelRequest];
     }else{
+        [self sendSearchAnswerRequest];
         self.title = [NSString stringWithFormat:@"%@的回答",_answerInfo.NICKNAME];
         [self initContentView];
     }
@@ -61,7 +61,7 @@
                                      @"METHOD":@"search",
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":BASIC_CLASS_NAME,
+                                     @"CLASSNAME":@"com.nci.klb.app.answer.QueAnsDetail",
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{};
@@ -69,7 +69,7 @@
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_ANSWER_INFO]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
-                                                                       withActionFlag:nil];
+                                                                       withActionFlag:@"anssearch"];
     
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO

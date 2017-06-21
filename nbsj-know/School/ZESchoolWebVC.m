@@ -152,7 +152,7 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
     if (_enterType == ENTER_WEBVC_MY_PRACTICE) {
-        [webView stringByEvaluatingJavaScriptFromString:@"saveExamCase();"];
+        [webView stringByEvaluatingJavaScriptFromString:@"saveExamCase1();"];
     }
 }
 
