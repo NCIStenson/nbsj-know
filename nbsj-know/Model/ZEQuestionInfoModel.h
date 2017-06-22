@@ -32,6 +32,7 @@
 @property (nonatomic,assign) BOOL ISANONYMITY;  // 奖赏积分
 @property (nonatomic,assign) BOOL ISANSWER;  // 奖赏积分
 
+@property (nonatomic,copy) NSString * TARGETUSERCODE; //指定人员code
 @property (nonatomic,copy) NSString * TARGETUSERNAME; //指定人员姓名
 
 @property (nonatomic,strong) NSArray * FILEURLARR;

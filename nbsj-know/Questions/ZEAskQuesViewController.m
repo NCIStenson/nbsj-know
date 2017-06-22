@@ -16,6 +16,7 @@
 #import "ZEQuestionTypeCache.h"
 
 #import "ZEShowQuestionVC.h"
+#import "ZEHomeVC.h"
 #define textViewStr @"试着将问题尽可能清晰的描述出来，这样回答者们才能更完整、更高质量的为您解答。"
 
 @interface ZEAskQuesViewController ()<ZEAskQuesViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,ZELookViewControllerDelegate>
@@ -337,11 +338,7 @@
                                      @"DETAILFIELD":@"",
                                      @"CLASSNAME":@"com.nci.klb.app.question.QuestionPoints",
                                      @"DETAILTABLE":@"",};
-    
-    NSData *plainData = [askView.inputView.text dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *base64String = [plainData base64EncodedStringWithOptions:0];
-    NSLog(@"askView.inputView.text  ===   %@",askView.inputView.text);
-    
+        
     NSDictionary * fieldsDic =@{@"SEQKEY":@"",
                                 @"QUESTIONTYPECODE":askView.quesTypeSEQKEY,
                                 @"QUESTIONEXPLAIN":askView.inputView.text,
@@ -408,10 +405,6 @@
     
     NSString* s1 = [formatter stringFromDate:datenow];
     
-    NSData *plainData = [askView.inputView.text dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *base64String = [plainData base64EncodedStringWithOptions:0];
-    NSLog(@"askView.inputView.text  ===   %@",askView.inputView.text);
-
     NSDictionary * fieldsDic =@{@"SEQKEY":_QUESINFOM.SEQKEY,
                                 @"QUESTIONTYPECODE":askView.quesTypeSEQKEY,
                                 @"QUESTIONEXPLAIN":askView.inputView.text,
@@ -456,6 +449,13 @@
     if (_enterType == ENTER_GROUP_TYPE_TABBAR ) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }else{
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[ZEHomeVC class]]) {
+                ZEHomeVC *A =(ZEHomeVC *)controller;
+                [self.navigationController popToViewController:A animated:YES];
+                return;
+            }
+        }
         [self.navigationController popViewControllerAnimated:YES];
     }
 }

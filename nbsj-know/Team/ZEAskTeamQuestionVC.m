@@ -17,6 +17,7 @@
 #import "ZEChooseNumberVC.h"
 
 #import "ZEShowQuestionVC.h"
+#import "ZETeamQuestionVC.h"
 #define textViewStr @"试着将问题尽可能清晰的描述出来，这样回答者们才能更完整、更高质量的为您解答。"
 
 @interface ZEAskTeamQuestionVC ()<ZEAskTeamQuestionViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
@@ -42,8 +43,9 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.imagesArr = [NSMutableArray array];
     
-    targetMembersStr = @"";
-    targetMembersUsername = @"";
+    targetMembersStr = _QUESINFOM.TARGETUSERCODE;
+    targetMembersUsername = _QUESINFOM.TARGETUSERNAME;
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(goBackShowView) name:kNOTI_CHANGE_ASK_SUCCESS object:nil];;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishChooseTeamMember:) name:kNOTI_FINISH_CHOOSE_TEAMCIRCLENUMBERS object:nil];;
     
@@ -176,6 +178,15 @@
         self.title = @"修改你的问题";
         askView = [[ZEAskTeamQuestionView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT) withQuestionInfoM:self.QUESINFOM];
         
+        targetMembersStr = _QUESINFOM.TARGETUSERNAME;
+        targetMembersUsername = _QUESINFOM.TARGETUSERNAME;
+        
+        if (targetMembersStr.length > 0) {
+            [askView.designatedNumberBtn setTitle:targetMembersUsername forState:UIControlStateNormal];
+        }else{
+            [askView.designatedNumberBtn  setTitle:@"指定提问：只能选取团队中的人，可多选" forState:UIControlStateNormal];
+        }
+
         for (NSString * str in self.QUESINFOM.FILEURLARR) {
             NSString * strUrl =[NSString stringWithFormat:@"%@/file/%@",Zenith_Server,str];
             UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:strUrl];
@@ -360,6 +371,8 @@
                                      @"CLASSNAME":@"com.nci.klb.app.teamcircle.TeamcircleQuestion",
                                      @"DETAILTABLE":@"",};
     
+    NSLog(@">>>>  %@", _teamInfoModel.TEAMCODE);
+
     NSDictionary * fieldsDic =@{@"SEQKEY":@"",
                                 @"QUESTIONTYPECODE":askView.quesTypeSEQKEY,
                                 @"QUESTIONEXPLAIN":askView.inputView.text,
@@ -371,12 +384,11 @@
                                 @"IMPORTLEVEL":@"1",
                                 @"ISLOSE":@"0",
                                 @"ISEXPERTANSWER":@"0",
-                                @"ISSOLVE":@"0",
+                                @"ISSOLVE":_QUESINFOM.ISSOLVE,
                                 @"TEAMCIRCLECODE":_teamInfoModel.TEAMCODE,
                                 @"TARGETUSERCODE":targetMembersStr,
                                 @"TARGETUSERNAME":targetMembersUsername,
                                 };
-    
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_TEAMCIRCLE_QUESTION_INFO]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
@@ -406,7 +418,7 @@
 -(void)updateData
 {
     NSDictionary * parametersDic = @{@"limit":@"-1",
-                                     @"MASTERTABLE":KLB_QUESTION_INFO,
+                                     @"MASTERTABLE":KLB_TEAMCIRCLE_QUESTION_INFO,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"",
                                      @"WHERESQL":@"",
@@ -414,37 +426,18 @@
                                      @"METHOD":METHOD_UPDATE,
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.klb.app.question.QuestionPoints",
+                                     @"CLASSNAME":@"com.nci.klb.app.teamcircle.TeamcircleQuestion",
                                      @"DETAILTABLE":@"",};
-    
-    NSDate *datenow = [NSDate date];//现在时间,你可以输出来看下是什么格式
-    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    
-    [formatter setDateStyle:NSDateFormatterMediumStyle];
-    
-    [formatter setTimeStyle:NSDateFormatterShortStyle];
-    
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    
-    NSString* s1 = [formatter stringFromDate:datenow];
     
     NSDictionary * fieldsDic =@{@"SEQKEY":_QUESINFOM.SEQKEY,
                                 @"QUESTIONTYPECODE":askView.quesTypeSEQKEY,
                                 @"QUESTIONEXPLAIN":askView.inputView.text,
-                                @"QUESTIONIMAGE":@"",
-                                @"SYSCREATEDATE":s1,
-                                @"FILEURL":@"",
-                                @"QUESTIONUSERCODE":[ZESettingLocalData getUSERCODE],
-                                @"QUESTIONUSERNAME":[ZESettingLocalData getNICKNAME],
-                                @"QUESTIONLEVEL":@"1",
-                                @"IMPORTLEVEL":@"1",
-                                @"ISLOSE":@"0",
-                                @"ISEXPERTANSWER":@"0",
-                                @"ISSOLVE":@"0",
-                                @"ISANONYMITY":[NSString stringWithFormat:@"%d",askView.isAnonymousAsk],
-                                @"BONUSPOINTS":[ZEUtil isStrNotEmpty:askView.goldScore] ? askView.goldScore : @""};
+                                @"TEAMCIRCLECODE":_teamInfoModel.TEAMCODE,
+                                @"TARGETUSERCODE":targetMembersStr,
+                                @"TARGETUSERNAME":targetMembersUsername,
+                                };
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_QUESTION_INFO]
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_TEAMCIRCLE_QUESTION_INFO]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
@@ -460,7 +453,7 @@
                                          [self showTips:[NSString stringWithFormat:@"%@\n",[failReason objectForKey:@"reason"]] afterDelay:1.5];
                                      }else{
                                          [self showTips:@"问题修改成功"];
-                                         [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_CHANGE_ASK_SUCCESS object:nil];
+                                         [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_TEAM_CHANGE_QUESTION_SUCCESS object:nil];
                                          [self performSelector:@selector(goBack) withObject:nil afterDelay:1];
                                      }
                                  } fail:^(NSError *error) {
@@ -472,7 +465,12 @@
     if (_enterType == ENTER_GROUP_TYPE_TABBAR ) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }else{
-        [self.navigationController popViewControllerAnimated:YES];
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[ZETeamQuestionVC class]]) {
+                ZETeamQuestionVC *A =(ZETeamQuestionVC *)controller;
+                [self.navigationController popToViewController:A animated:YES];
+            }
+        }
     }
 }
 

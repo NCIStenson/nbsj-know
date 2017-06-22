@@ -25,7 +25,7 @@
 #define kNavBarMarginTop    0.0f
 #define kNavBarWidth        SCREEN_WIDTH
 
-#define kContentMarginTop  (64.0f + SCREEN_WIDTH / 4)
+#define kContentMarginTop  (64.0f + SCREEN_WIDTH / 4 + _maskImageHeight)
 
 #define kLabelScrollViewMarginTop  0.0f
 
@@ -82,6 +82,10 @@
     BOOL _isPractice; // 是否正在练习界面
     
     TEAM_WILL_SHOWVIEW _willShowView;
+    
+    float _maskImageHeight;
+    
+    UILabel * _currentSelectMonthLab; //  比一比  选中的当前月份
 }
 
 @property (nonatomic,strong) NSMutableArray * newestQuestionArr; //   最新
@@ -146,11 +150,16 @@
 
 -(void)initOptionView
 {
+    UIImage * pointImage =  [UIImage imageNamed:@"yy_pointer.png"];
+    float asp = pointImage.size.width / pointImage.size.height;
+    float imageHeight = SCREEN_WIDTH / 4 / asp;
+    _maskImageHeight = imageHeight;
+    
     optionView = [UIView new];
     [self addSubview:optionView];
     optionView.left = 0.0;
     optionView.top = NAV_HEIGHT;
-    optionView.size = CGSizeMake(SCREEN_WIDTH, SCREEN_WIDTH / 4);
+    optionView.size = CGSizeMake(SCREEN_WIDTH, SCREEN_WIDTH / 4 + imageHeight );
     
     for (int i = 0 ; i < 4; i ++) {
         ZEButton * optionBtn = [ZEButton buttonWithType:UIButtonTypeCustom];
@@ -161,34 +170,29 @@
         optionBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
         optionBtn.titleLabel.font = [UIFont systemFontOfSize:kTiltlFontSize];
         [optionBtn addTarget:self action:@selector(didSelectMyOption:) forControlEvents:UIControlEventTouchUpInside];
-        optionBtn.tag = i;
+        optionBtn.tag = i + 200;
         [optionBtn setTitleColor:kTextColor forState:UIControlStateNormal];
         [optionBtn setTitleColor:MAIN_NAV_COLOR forState:UIControlStateSelected];
-
-        UIView * lineLayer = [UIView new];
-        lineLayer.frame = CGRectMake( optionBtn.frame.size.width - 1, 0, 1.0f, optionBtn.frame.size.height);
-        [optionBtn addSubview:lineLayer];
-        lineLayer.backgroundColor = MAIN_LINE_COLOR;
         
         switch (i) {
             case 0:
-                [optionBtn setImage:[UIImage imageNamed:@"icon_team_queAsk" color:MAIN_NAV_COLOR] forState:UIControlStateSelected];
-                [optionBtn setImage:[UIImage imageNamed:@"icon_team_queAsk"] forState:UIControlStateNormal];
+                [optionBtn setImage:[UIImage imageNamed:@"yy_head_wyw"] forState:UIControlStateNormal];
+                [optionBtn setImage:[UIImage imageNamed:@"yy_head_wyw-_click"] forState:UIControlStateSelected];
                 [optionBtn setTitle:@"问一问" forState:UIControlStateNormal];
                 break;
             case 1:
-                [optionBtn setImage:[UIImage imageNamed:@"icon_team_practice" color:MAIN_NAV_COLOR] forState:UIControlStateSelected];
-                [optionBtn setImage:[UIImage imageNamed:@"icon_team_practice"] forState:UIControlStateNormal];
+                [optionBtn setImage:[UIImage imageNamed:@"yy_head_lyl" ] forState:UIControlStateNormal];
+                [optionBtn setImage:[UIImage imageNamed:@"yy_head_lyl_click"] forState:UIControlStateSelected];
                 [optionBtn setTitle:@"练一练" forState:UIControlStateNormal];
                 break;
             case 2:
-                [optionBtn setImage:[UIImage imageNamed:@"icon_team_ranking" color:MAIN_NAV_COLOR] forState:UIControlStateSelected];
-                [optionBtn setImage:[UIImage imageNamed:@"icon_team_ranking"] forState:UIControlStateNormal];
+                [optionBtn setImage:[UIImage imageNamed:@"yy_head_byb" ] forState:UIControlStateNormal];
+                [optionBtn setImage:[UIImage imageNamed:@"yy_head_byb_click"] forState:UIControlStateSelected];
                 [optionBtn setTitle:@"比一比" forState:UIControlStateNormal];
                 break;
             case 3:
-                [optionBtn setImage:[UIImage imageNamed:@"icon_team_chat" color:MAIN_NAV_COLOR] forState:UIControlStateSelected];
-                [optionBtn setImage:[UIImage imageNamed:@"icon_team_chat"] forState:UIControlStateNormal];
+                [optionBtn setImage:[UIImage imageNamed:@"yy_head_nn" ] forState:UIControlStateNormal];
+                [optionBtn setImage:[UIImage imageNamed:@"yy_head_nn1_click"] forState:UIControlStateSelected];
                 [optionBtn setTitle:@"聊一聊" forState:UIControlStateNormal];
                 break;
                 
@@ -200,10 +204,18 @@
         }
     }
     
-    UIView * lineView = [UIView new];
-    lineView.frame = CGRectMake(0, SCREEN_WIDTH / 4 - 1, SCREEN_WIDTH, 1);
-    [optionView addSubview:lineView];
-    lineView.backgroundColor = MAIN_LINE_COLOR;
+    UIImageView * mobileLineView = [UIImageView new];
+    mobileLineView.frame = CGRectMake(0, SCREEN_WIDTH / 4 - 10 , SCREEN_WIDTH / 4, imageHeight);
+    mobileLineView.tag = 100;
+    [optionView addSubview:mobileLineView];
+    mobileLineView.image = pointImage;
+    
+    CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+    gradientLayer.colors = @[(__bridge id)RGBA(245, 245, 245, 1).CGColor, (__bridge id)[UIColor whiteColor].CGColor];
+    gradientLayer.startPoint = CGPointMake(0, 0);
+    gradientLayer.endPoint = CGPointMake(0, 1.0);
+    gradientLayer.frame = CGRectMake(0, SCREEN_WIDTH / 4 + imageHeight - 12, SCREEN_WIDTH, 10);
+    [optionView.layer addSublayer:gradientLayer];
 }
 
 #pragma mark - 创建问一问界面
@@ -309,7 +321,7 @@
         UIButton * labelContentBtn = [UIButton buttonWithType:UIButtonTypeSystem];
         labelContentBtn.titleLabel.font = [UIFont systemFontOfSize:kTiltlFontSize];
         [_labelScrollView addSubview:labelContentBtn];
-        [labelContentBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [labelContentBtn setTitleColor:kTextColor forState:UIControlStateNormal];
         if(i == 0){
             [labelContentBtn setTitleColor:MAIN_GREEN_COLOR forState:UIControlStateNormal];
         }
@@ -331,14 +343,14 @@
 
 -(void)didSelectMyOption:(UIButton *)btn
 {
-    _willShowView = btn.tag;
+    _willShowView = btn.tag - 200;
 
     if(_isPractice){
         [self showWebViewAlert];
         return;
     }
     
-    if (btn.tag == 3) {
+    if (btn.tag == 203) {
         _willShowView = TEAM_WILL_SHOWVIEW_CHAT;
         if ([self.delegate respondsToSelector:@selector(goTeamChatRoom)]) {
             [self.delegate goTeamChatRoom];
@@ -346,11 +358,14 @@
         return;
     }
 
-    for (int i = 0; i < optionView.subviews.count - 1; i ++ ) {
+    UIImageView * maskImageView = [optionView viewWithTag:100];
+    
+    for (int i = 0; i < optionView.subviews.count; i ++ ) {
         id obj = optionView.subviews[i];
         if ([obj isKindOfClass:[ZEButton class]]) {
             ZEButton * button = (ZEButton *) obj;
-            if (i == btn.tag) {
+            if (i + 200 == btn.tag) {
+                maskImageView.centerX = button.centerX;
                 [button setSelected:YES];
             }else{
                 [button setSelected:NO];
@@ -358,11 +373,11 @@
         }
     }
     
-    if (btn.tag == 0) {
+    if (btn.tag == 200) {
         [self showQuestionView];
-    }else if(btn.tag == 1){
+    }else if(btn.tag == 201){
         [self showPracticeView];
-    }else if (btn.tag == 2){
+    }else if (btn.tag == 202){
         [self showRankingList];
     }
     
@@ -461,7 +476,7 @@
     float marginLeft = 0;
     for (int i = 0 ; i < typeArr.count; i ++) {
         UIButton * button = [btn.superview viewWithTag:100 + i];
-        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [button setTitleColor:kTextColor forState:UIControlStateNormal];
         float btnWidth = SCREEN_WIDTH / typeArr.count;
         if (btn.tag - 100 == i) {
             [UIView animateWithDuration:0.35 animations:^{
@@ -733,6 +748,136 @@
     return 1;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if(_currentTeamShowView == TEAM_VIEW_RANKINGLIST){
+        return 50;
+    }
+    return 0;
+}
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView * headerView = [[UIView alloc]init];
+
+    if(_currentTeamShowView == TEAM_VIEW_RANKINGLIST){
+        
+        NSString * monthStr =  [ZEUtil getCurrentDate:@"MM"];
+
+        for (int i = 1; i < 7; i ++) {
+            UIButton * monthBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [monthBtn addTarget:self action:@selector(chooseMonthRankingList:) forControlEvents:UIControlEventTouchUpInside];
+            monthBtn.frame = CGRectMake(SCREEN_WIDTH - 10 - (SCREEN_WIDTH - 20) / 6 * i, 0, (SCREEN_WIDTH - 20) / 6, 50);
+            [headerView addSubview:monthBtn];
+            
+            UILabel * monthLab = [[UILabel alloc]init];
+            monthLab.frame = CGRectMake(0, 0, 40, 40);
+            monthLab.center = CGPointMake(monthBtn.width / 2, monthBtn.height / 2);
+            monthLab.textAlignment = NSTextAlignmentCenter;
+            monthLab.textColor = kTextColor;
+            monthLab.font = [UIFont systemFontOfSize:12];
+            [monthBtn addSubview:monthLab];
+            monthLab.tag = 13;
+            
+            if( i == 1){
+                _currentSelectMonthLab = monthLab;
+                
+                monthLab.clipsToBounds = YES;
+                monthLab.layer.cornerRadius = monthLab.height / 2;
+                monthLab.layer.borderColor = [MAIN_NAV_COLOR CGColor];
+                monthLab.layer.borderWidth = 2;
+            }
+            if ([monthStr integerValue] > 5) {
+                monthBtn.tag = [monthStr integerValue] - i + 1;
+                monthLab.text = [self getMonthStringWithIndex:[monthStr integerValue] - i + 1];
+            }else {
+                monthLab.text = [self getMonthStringWithIndex:[monthStr integerValue] - i + 1];
+                monthBtn.tag = [monthStr integerValue] - i + 1;
+                if ([monthStr integerValue] - i + 1 <= 0) {
+                    monthBtn.tag = [monthStr integerValue] - i + 13;
+                    monthLab.text = [self getMonthStringWithIndex:[monthStr integerValue] - i + 13];
+                }
+            }
+        }
+    }
+    
+    return headerView;
+}
+
+-(void)chooseMonthRankingList:(UIButton *)btn
+{
+    NSLog(@"  当前是 %d 月 " , btn.tag);
+    
+    _currentSelectMonthLab.textColor = kTextColor;
+    _currentSelectMonthLab.layer.borderWidth = 0;
+    _currentSelectMonthLab.layer.borderColor = [[UIColor clearColor] CGColor];
+
+    _currentSelectMonthLab = (UILabel *)[btn viewWithTag:13];
+    _currentSelectMonthLab.clipsToBounds = YES;
+    _currentSelectMonthLab.layer.cornerRadius = _currentSelectMonthLab.height / 2;
+    _currentSelectMonthLab.textColor = MAIN_NAV_COLOR;
+    _currentSelectMonthLab.layer.borderColor = [MAIN_NAV_COLOR CGColor];
+    _currentSelectMonthLab.layer.borderWidth = 2;
+
+}
+
+-(NSString *)getMonthStringWithIndex:(NSInteger)index
+{
+    switch (index) {
+        case 1:
+            return @"一月";
+            break;
+            
+        case 2:
+            return @"二月";
+            break;
+
+        case 3:
+            return @"三月";
+            break;
+
+        case 4:
+            return @"四月";
+            break;
+
+        case 5:
+            return @"五月";
+            break;
+
+        case 6:
+            return @"六月";
+            break;
+
+        case 7:
+            return @"七月";
+            break;
+
+        case 8:
+            return @"八月";
+            break;
+
+        case 9:
+            return @"九月";
+            break;
+
+        case 10:
+            return @"十月";
+            break;
+            
+        case 11:
+            return @"十一月";
+            break;
+
+        case 12:
+            return @"十二月";
+            break;
+
+
+        default:
+            break;
+    }
+    return @"";
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 0.01f;
@@ -741,7 +886,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(_currentTeamShowView == TEAM_VIEW_RANKINGLIST){
-        return 60;
+        return 68;
     }
     
     NSDictionary * datasDic = nil;
@@ -860,15 +1005,15 @@
         
         switch (indexPath.row) {
             case 0:
-                rankingImage.image = [UIImage imageNamed:@"icon_circle_first.png"];
+                rankingImage.image = [UIImage imageNamed:@"yy_one.png"];
                 break;
                 
             case 1:
-                rankingImage.image = [UIImage imageNamed:@"icon_circle_second.png"];
+                rankingImage.image = [UIImage imageNamed:@"yy_two.png"];
                 break;
                 
             case 2:
-                rankingImage.image = [UIImage imageNamed:@"icon_circle_third.png"];
+                rankingImage.image = [UIImage imageNamed:@"yy_three.png"];
                 break;
                 
             default:
@@ -879,7 +1024,7 @@
     if(indexPath.row > 2){
         UILabel * rankingLab = [UILabel new];
         [cellView addSubview:rankingLab];
-        rankingLab.frame = CGRectMake(10, 10, 30, 30);
+        rankingLab.frame = CGRectMake(10, 10, 30, 50);
         rankingLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row + 1];
         rankingLab.textAlignment = NSTextAlignmentCenter;
         rankingLab.textColor = kTextColor;
@@ -911,29 +1056,34 @@
     usernameLab.textAlignment = NSTextAlignmentLeft;
     usernameLab.textColor = kTextColor;
     
-    NSString * countStr = SUMNUM;
+    NSString * countStr = [NSString stringWithFormat:@"%@个",SUMNUM];
     float countWidth = [ZEUtil widthForString:countStr font:[UIFont boldSystemFontOfSize:kTiltlFontSize] maxSize:CGSizeMake(200, usernameLab.height)];
     
     UILabel * countNum = [UILabel new];
     [cellView addSubview:countNum];
     countNum.frame = CGRectMake(0, 10, countWidth, usernameLab.height);
     countNum.text = countStr;
-    countNum.textColor = kTextColor;
-    countNum.right = SCREEN_WIDTH - 10;
+    countNum.textColor = MAIN_NAV_COLOR;
+    countNum.right = SCREEN_WIDTH - 30;
     countNum.font = [UIFont boldSystemFontOfSize:kTiltlFontSize];
     
-    UILabel * questionExplain = [UILabel new];
-    [cellView addSubview:questionExplain];
-    questionExplain.font = [UIFont systemFontOfSize:12];
-    questionExplain.textColor = [UIColor lightGrayColor];
-    questionExplain.left = SCREEN_WIDTH - countWidth - 50 ;
-    questionExplain.top = countNum.top + 10;
-    questionExplain.size = CGSizeMake(40, usernameLab.height);
-    if (_currentRankingListPage == TEAM_RANKING_ASK) {
-        questionExplain.text = @"提问数";
-    }else  if (_currentRankingListPage == TEAM_RANKING_ANSWER) {
-        questionExplain.text = @"回答数";
-    }
+    UIView * LINEVIEW = [UIView new];
+    LINEVIEW.backgroundColor = MAIN_LINE_COLOR;
+    [cellView addSubview:LINEVIEW];
+    LINEVIEW.frame = CGRectMake(10, 67, SCREEN_WIDTH - 20, 1.0f);
+    
+//    UILabel * questionExplain = [UILabel new];
+//    [cellView addSubview:questionExplain];
+//    questionExplain.font = [UIFont systemFontOfSize:12];
+//    questionExplain.textColor = [UIColor lightGrayColor];
+//    questionExplain.left = SCREEN_WIDTH - countWidth - 50 ;
+//    questionExplain.top = countNum.top + 10;
+//    questionExplain.size = CGSizeMake(40, usernameLab.height);
+//    if (_currentRankingListPage == TEAM_RANKING_ASK) {
+//        questionExplain.text = @"提问数";
+//    }else  if (_currentRankingListPage == TEAM_RANKING_ANSWER) {
+//        questionExplain.text = @"回答数";
+//    }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -1102,7 +1252,7 @@
         
         for (int i = 0 ; i < typeArr.count; i ++) {
             UIButton * button = [_typeScrollView viewWithTag:100 + i];
-            [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            [button setTitleColor:kTextColor forState:UIControlStateNormal];
             
             float btnWidth = SCREEN_WIDTH / typeArr.count;
             
@@ -1343,7 +1493,6 @@
     if ([quesInfoM.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
         answerBtn.hidden = YES;
         praiseNumLab.left =  answerBtn.left + 10;
-
     }
     
     if ([quesInfoM.ISSOLVE boolValue]) {

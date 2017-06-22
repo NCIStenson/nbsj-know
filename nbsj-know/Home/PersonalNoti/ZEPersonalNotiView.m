@@ -31,7 +31,7 @@
 
 -(void)setUI{
     
-    notiContentView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT - 35.0f) style:UITableViewStylePlain];
+    notiContentView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT - 60.0f) style:UITableViewStylePlain];
     notiContentView.dataSource = self;
     notiContentView.delegate =self;
     [self addSubview:notiContentView];

@@ -7,10 +7,12 @@
 //
 
 #import "ZESettingRootVC.h"
-
+#import "ZETeamCircleModel.h"
 @interface ZETeamQuestionDetailVC : ZESettingRootVC
 
 @property (nonatomic,strong) ZEQuestionInfoModel * questionInfoModel;
 @property (nonatomic,strong) ZEQuestionTypeModel * questionTypeModel;
+
+@property (nonatomic,strong) ZETeamCircleModel * teamCircleInfo;
 
 @end

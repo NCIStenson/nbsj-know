@@ -147,7 +147,7 @@
 }
 
 -(void)initView{
-    personalNotiView = [[ZEPersonalNotiView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT + 35.0f, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
+    personalNotiView = [[ZEPersonalNotiView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT + 60.0f, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
     personalNotiView.delegate = self;
     [self.view addSubview:personalNotiView];
 }

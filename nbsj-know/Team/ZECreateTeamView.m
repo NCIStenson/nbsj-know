@@ -66,7 +66,6 @@
     lineLayer.frame = CGRectMake( 0, 99.0f, SCREEN_WIDTH, 1.0f);
     [self addSubview:lineLayer];
     lineLayer.backgroundColor = MAIN_LINE_COLOR;
-
 }
 
 -(void)didSelectMyOption:(UIButton *)btn

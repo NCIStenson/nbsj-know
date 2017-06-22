@@ -105,7 +105,7 @@
     _notiDetailTextLab.text = notiModel.REMARK;
     _disUsername.text = [NSString stringWithFormat:@"发布人：%@",notiModel.USERNAME];;
     _dateLab.text =[NSString stringWithFormat:@"发布时间：%@",[ZEUtil formatContainTime:notiModel.SYSCREATEDATE]];
-    if (type == ENTER_TEAMNOTI_TYPE_RECEIPT_N || type == ENTER_TEAMNOTI_TYPE_RECEIPT_Y) {
+    if ((type == ENTER_TEAMNOTI_TYPE_RECEIPT_N || type == ENTER_TEAMNOTI_TYPE_RECEIPT_Y ) && notiModel.QUESTIONEXPLAIN.length > 0) {
         _notiTextLab.text = notiModel.QUESTIONEXPLAIN;
         _disUsername.text = [NSString stringWithFormat:@"发布人：%@",notiModel.CREATORNAME];;
     }

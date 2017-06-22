@@ -101,6 +101,7 @@
 #define kNOTI_DELETE_ALL_DYNAMIC @"kNOTI_DELETE_ALL_DYNAMIC" // 删除全部已读消息
 #define kNOTI_DELETE_SINGLE_DYNAMIC @"kNOTI_DELETE_SINGLE_DYNAMIC" // 删除单条已读消息
 
+#define kNOTI_TEAM_CHANGE_QUESTION_SUCCESS @"NOTI_TEAM_CHANGE_QUESTION_SUCCESS" // 修改我的问题成功通知
 
 #define kRelogin @"kRelogin"
 #define kVerifyLogin @"kVerifyLogin"

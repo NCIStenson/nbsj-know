@@ -36,6 +36,7 @@ static ZEUSER_BASE_INFOM * userinfo = nil;
     quesInfoM.NICKNAME         = [dic objectForKey:@"NICKNAME"];
     quesInfoM.BONUSPOINTS      = [dic objectForKey:@"BONUSPOINTS"];
     quesInfoM.TARGETUSERNAME      = [dic objectForKey:@"TARGETUSERNAME"];
+    quesInfoM.TARGETUSERCODE      = [dic objectForKey:@"TARGETUSERCODE"];
     quesInfoM.INFOCOUNT        =  [NSString stringWithFormat:@"%@",[dic objectForKey:@"INFOCOUNT"]];
     quesInfoM.ISANONYMITY      = [[dic objectForKey:@"ISANONYMITY"] boolValue];
     quesInfoM.ISANSWER      = [[dic objectForKey:@"ISANSWER"] boolValue];

@@ -57,6 +57,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendHomeDataRequest) name:kNOTI_ASK_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendHomeDataRequest) name:kNOTI_ACCEPT_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendHomeDataRequest) name:kNOTI_ANSWER_SUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendHomeDataRequest) name:kNOTI_TEAM_CHANGE_QUESTION_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeTeamCircleInfo:) name:kNOTI_CHANGE_TEAMCIRCLEINFO_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(goLeavePracticeWebView) name:kNOTI_LEAVE_PRACTICE_WEBVIEW object:nil];
 
@@ -85,11 +86,11 @@
         [self.leftBtn.superview addSubview:_typeBtn];
         _typeBtn.tag = i + 100;
         if (i == 0) {
-            [_typeBtn setImage:[UIImage imageNamed:@"icon_team_msg" ] forState:UIControlStateNormal];
+            [_typeBtn setImage:[UIImage imageNamed:@"yy_nav_people" ] forState:UIControlStateNormal];
         }else if (i == 1){
-            [_typeBtn setImage:[UIImage imageNamed:@"icon_team_search" ] forState:UIControlStateNormal];
+            [_typeBtn setImage:[UIImage imageNamed:@"yy_nav_search" ] forState:UIControlStateNormal];
         }else if (i == 2){
-            [_typeBtn setImage:[UIImage imageNamed:@"icon_team_ask" ] forState:UIControlStateNormal];
+            [_typeBtn setImage:[UIImage imageNamed:@"yy_nav_why" ] forState:UIControlStateNormal];
         }else if (i == 3){
             [_typeBtn setImage:[UIImage imageNamed:@"icon_team_discuss" color:[UIColor whiteColor]] forState:UIControlStateNormal];
         }
@@ -206,7 +207,7 @@
 {
     [super viewWillAppear:YES];
     
-    [[NSNotificationCenter defaultCenter]postNotificationName:kNOTI_ASK_QUESTION object:nil];
+//    [[NSNotificationCenter defaultCenter]postNotificationName:kNOTI_ASK_QUESTION object:nil];
     [self isHaveNewMessage];
 }
 
@@ -643,6 +644,7 @@
     ZETeamQuestionDetailVC * detailVC = [[ZETeamQuestionDetailVC alloc]init];
     detailVC.questionInfoModel = infoModel;
     detailVC.questionTypeModel = typeModel;
+    detailVC.teamCircleInfo = _teamCircleInfo;
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 

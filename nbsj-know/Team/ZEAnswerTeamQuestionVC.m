@@ -199,6 +199,7 @@
                                      }else{
                                          [self showTips:@"回答成功"];
                                          [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_BACK_QUEANSVIEW object:nil];
+                                         [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_ANSWER_SUCCESS object:nil];
                                          [self performSelector:@selector(goBack) withObject:nil afterDelay:1];
                                      }
                                  } fail:^(NSError *error) {

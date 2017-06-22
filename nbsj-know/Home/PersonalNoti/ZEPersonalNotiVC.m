@@ -166,7 +166,6 @@
                              } fail:^(NSError *errorCode) {
                                  
                              }];
-    
 }
 
 #pragma mark - 子分类选项滑动
@@ -178,24 +177,24 @@
     _labelScrollView.left = 0.0f;
     _labelScrollView.top = NAV_HEIGHT;
     _labelScrollView.width = SCREEN_WIDTH;
-    _labelScrollView.height = 35.0f;
+    _labelScrollView.height = 60.0f;
     _labelScrollView.tag = kLabelScrollViewTag;
     
     UIImageView * _lineImageView = [[UIImageView alloc]init];
-    _lineImageView.frame = CGRectMake(0, 33.0f, SCREEN_WIDTH / arr.count, 2.0f);
+    _lineImageView.frame = CGRectMake(20, 48.0f, SCREEN_WIDTH / arr.count - 40, 2.0f);
     _lineImageView.backgroundColor = MAIN_GREEN_COLOR;
     [_labelScrollView addSubview:_lineImageView];
     _lineImageView.tag = kLabelScrollLineImageViewTag;
-    
+    _lineImageView.clipsToBounds = YES;
+    _lineImageView.layer.cornerRadius = _lineImageView.height / 2;
     if (_enterPerNotiType == ENTER_PERSONALNOTICENTER_TYPE_NOTI_CHAT) {
-        _lineImageView.frame = CGRectMake(SCREEN_WIDTH / arr.count * 2, 33.0f, SCREEN_WIDTH / arr.count, 2.0f);
+        _lineImageView.frame = CGRectMake(SCREEN_WIDTH / arr.count * 2 + 20, 48.0f, SCREEN_WIDTH / arr.count - 40, 2.0f);
     }
     
     float marginLeft = 0;
     
     for (int i = 0 ; i < arr.count; i ++) {
         UIButton * labelContentBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-        labelContentBtn.titleLabel.font = [UIFont systemFontOfSize:kTiltlFontSize];
         [_labelScrollView addSubview:labelContentBtn];
         [labelContentBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         if(i == 0 && _enterPerNotiType != ENTER_PERSONALNOTICENTER_TYPE_NOTI_CHAT ){
@@ -204,7 +203,7 @@
             [labelContentBtn setTitleColor:MAIN_GREEN_COLOR forState:UIControlStateNormal];
         }
         labelContentBtn.top = 0.0f;
-        labelContentBtn.height = 33.0f;
+        labelContentBtn.height = 50.0f;
         [labelContentBtn setTitle:arr[i] forState:UIControlStateNormal];
         [labelContentBtn addTarget:self action:@selector(selectDifferentType:) forControlEvents:UIControlEventTouchUpInside];
         labelContentBtn.tag = 100 + i;
@@ -247,6 +246,11 @@
         marginLeft += labelContentBtn.width;
     }
     
+    CALayer * lineLayer = [CALayer layer];
+    lineLayer.frame = CGRectMake(0, 50.0f, SCREEN_WIDTH, 10.0f);
+    [_labelScrollView.layer addSublayer:lineLayer];
+    lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
+    
     return _labelScrollView;
 }
 
@@ -267,7 +271,7 @@
         float btnWidth = SCREEN_WIDTH / _allTypeArr.count;
         if (btn.tag - 100 == i) {
             [UIView animateWithDuration:0.35 animations:^{
-                _lineImageView.frame = CGRectMake(marginLeft, 33.0f, btnWidth, 2.0f);
+                _lineImageView.frame = CGRectMake(marginLeft + 20, 48.0f, btnWidth - 40, 2.0f);
             }];
         }
         marginLeft += btnWidth;

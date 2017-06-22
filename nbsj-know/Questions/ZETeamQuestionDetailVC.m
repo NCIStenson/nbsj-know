@@ -11,7 +11,7 @@
 #import "ZEQuestionsDetailView.h"
 #import "ZEAnswerTeamQuestionVC.h"
 
-#import "ZEAskQuesViewController.h"
+#import "ZEAskTeamQuestionVC.h"
 
 #import "ZETeamCircleChatVC.h"
 
@@ -33,7 +33,7 @@
     [self initView];
     self.title = [NSString stringWithFormat:@"%@的提问",_questionInfoModel.QUESTIONUSERNAME];
     if ([_questionInfoModel.QUESTIONUSERCODE isEqualToString:[ZESettingLocalData getUSERCODE]]) {
-        self.rightBtn.hidden = YES;
+        [self.rightBtn setTitle:@"修改" forState:UIControlStateNormal];
     }else{
         [self.rightBtn setTitle:@"回答" forState:UIControlStateNormal];
     }
@@ -227,9 +227,10 @@
 
 -(void)changePersonalQuestion
 {
-    ZEAskQuesViewController * askQues = [[ZEAskQuesViewController alloc]init];
+    ZEAskTeamQuestionVC * askQues = [[ZEAskTeamQuestionVC alloc]init];
     askQues.enterType = ENTER_GROUP_TYPE_CHANGE;
     askQues.QUESINFOM = self.questionInfoModel;
+    askQues.teamInfoModel = _teamCircleInfo;
     [self.navigationController pushViewController:askQues animated:YES];
 }
 
