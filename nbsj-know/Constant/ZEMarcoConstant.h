@@ -103,6 +103,8 @@
 
 #define kNOTI_TEAM_CHANGE_QUESTION_SUCCESS @"NOTI_TEAM_CHANGE_QUESTION_SUCCESS" // 修改我的问题成功通知
 
+#define kNOTI_PERSONAL_WITHOUTDYNAMIC @"NOTI_PERSONAL_WITHOUTDYNAMIC" // 一条个人动态都没有时 发送通知
+
 #define kRelogin @"kRelogin"
 #define kVerifyLogin @"kVerifyLogin"
 #endif /* ZEMarcoConstant_h */

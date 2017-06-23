@@ -7,14 +7,13 @@
 //
 
 #import "ZEPersonalDynamicVC.h"
-#import "ZEPersonalNotiView.h"
 
 #import "ZENotiDetailVC.h"
 #import "ZEQuestionsDetailVC.h"
 
 @interface ZEPersonalDynamicVC ()<ZEPersonalNotiViewDelegate>
 {
-    ZEPersonalNotiView * personalNotiView;
+    ZEPersonalNotiView * _personalNotiView;
     long _currentPageCount;
     
     ZETeamNotiCenModel * previousSelectNotiModel;
@@ -83,23 +82,27 @@
                        showAlertView:NO
                              success:^(id data) {
                                  NSArray * dataArr = [ZEUtil getServerData:data withTabelName:KLB_DYNAMIC_INFO] ;
+                                 if(dataArr.count == 0  && _currentPageCount == 0){
+                                     //  没有数据时 取消表的编辑状态
+                                     [[NSNotificationCenter defaultCenter]postNotificationName:kNOTI_PERSONAL_WITHOUTDYNAMIC object:nil];
+                                 }
                                  if (dataArr.count > 0) {
                                      if (_currentPageCount == 0) {
-                                         [personalNotiView reloadFirstView:dataArr];
+                                         [_personalNotiView reloadFirstView:dataArr];
                                      }else{
-                                         [personalNotiView reloadContentViewWithArr:dataArr];
+                                         [_personalNotiView reloadContentViewWithArr:dataArr];
                                      }
                                      if (dataArr.count % MAX_PAGE_COUNT == 0) {
                                          _currentPageCount += 1;
                                      }
                                  }else{
                                      if (_currentPageCount > 0) {
-                                         [personalNotiView loadNoMoreData];
+                                         [_personalNotiView loadNoMoreData];
                                          return ;
                                      }
-                                     [personalNotiView reloadFirstView:dataArr];
-                                     [personalNotiView headerEndRefreshing];
-                                     [personalNotiView loadNoMoreData];
+                                     [_personalNotiView reloadFirstView:dataArr];
+                                     [_personalNotiView headerEndRefreshing];
+                                     [_personalNotiView loadNoMoreData];
                                  }
                              } fail:^(NSError *errorCode) {
                                  
@@ -107,6 +110,11 @@
 }
 
 #pragma mark - 删除个人动态
+
+-(void)didSelectDeleteNumberOfDynamic:(NSString *)deleteSeqkeys
+{
+    [self deletePersonalDataWithSeqkey:deleteSeqkeys];
+}
 
 -(void)deletePersonalDataWithSeqkey:(NSString *)seqkey
 {
@@ -146,10 +154,61 @@
                              }];
 }
 
+#pragma mark - 删除全部动态
+
+-(void)didSelectDeleteAllDynamic
+{
+    UIAlertController * alertVC = [UIAlertController alertControllerWithTitle:@"清空消息列表" message:@"当前消息记录将被清空，是否确认?" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self confirmDeleteAllDynamic];
+    }];
+    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+    [alertVC addAction:cancelAction];
+    [alertVC addAction:okAction];
+    [self presentViewController:alertVC animated:YES completion:nil];
+}
+
+-(void)confirmDeleteAllDynamic
+{
+    NSDictionary * parametersDic = @{@"limit":@"1",
+                                     @"MASTERTABLE":KLB_DYNAMIC_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_UPDATE,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.message.PersonMessageManage",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_DYNAMIC_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:@"messageDeleteAll"];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:KLB_DYNAMIC_INFO] ;
+                                 if (dataArr.count > 0) {
+                                     [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                     MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                                     hud3.mode = MBProgressHUDModeText;
+                                     hud3.labelText = @"删除成功";
+                                     [hud3 hide:YES afterDelay:1.0f];
+                                     [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_DELETE_ALL_DYNAMIC object:nil];
+                                 }
+                             } fail:^(NSError *errorCode) {
+                                 
+                             }];
+}
+
 -(void)initView{
-    personalNotiView = [[ZEPersonalNotiView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT + 60.0f, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT)];
-    personalNotiView.delegate = self;
-    [self.view addSubview:personalNotiView];
+    _personalNotiView = [[ZEPersonalNotiView alloc]initWithFrame:CGRectMake(0, NAV_HEIGHT + 60.0f, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT - 60)];
+    _personalNotiView.delegate = self;
+    [self.view addSubview:_personalNotiView];
 }
 
 #pragma mark - ZEPersonalNotiViewDelegate

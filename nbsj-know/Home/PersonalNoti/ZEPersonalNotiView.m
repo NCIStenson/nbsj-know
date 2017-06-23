@@ -11,10 +11,13 @@
 
 @interface ZEPersonalNotiView()
 {    
-    UITableView * notiContentView;
+    UITableView * _notiContentView;
+    
+    UIView * _editingView;
 }
 
 @property (nonatomic,strong) NSMutableArray * personalNotiArr;
+@property (nonatomic,strong) NSMutableArray * deletePersonalNotiArr;
 
 @end
 
@@ -25,47 +28,164 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self setUI];
+        [self initEditingView];
     }
     return self;
 }
 
 -(void)setUI{
     
-    notiContentView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT - 60.0f) style:UITableViewStylePlain];
-    notiContentView.dataSource = self;
-    notiContentView.delegate =self;
-    [self addSubview:notiContentView];
-    notiContentView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _notiContentView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT - 60.0f) style:UITableViewStylePlain];
+    _notiContentView.dataSource = self;
+    _notiContentView.delegate =self;
+    [self addSubview:_notiContentView];
+    _notiContentView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     MJRefreshGifHeader *header = [MJRefreshGifHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
-    notiContentView.mj_header = header;
+    _notiContentView.mj_header = header;
     
     MJRefreshFooter * footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-    notiContentView.mj_footer = footer;
+    _notiContentView.mj_footer = footer;
 }
 
+-(void)initEditingView
+{
+    _editingView = [[UIView alloc] init];
+    [self addSubview:_editingView];
+    _editingView.frame = CGRectMake(0,SCREEN_HEIGHT - NAV_HEIGHT - 60.0f, SCREEN_WIDTH, 60);
+
+    CALayer * lineLayer = [CALayer layer];
+    lineLayer.frame = CGRectMake(0, 0, SCREEN_WIDTH, 10);
+    [_editingView.layer addSublayer:lineLayer];
+    lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
+    
+    for (int i = 0; i < 3; i ++) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setTitle:@"删除" forState:UIControlStateNormal];
+        [button setTitleColor:kTextColor forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(editingViewBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_editingView addSubview:button];
+//        button.backgroundColor = MAIN_ARM_COLOR;
+        button.frame = CGRectMake(0 + _editingView.width / 3 * i, 10, _editingView.width / 3, _editingView.height - 10);
+        [_editingView addSubview:button];
+        button.tag = 100 + i;
+        
+        switch (i) {
+            case 0:
+                [button setTitle:@"全部已读" forState:UIControlStateNormal];
+                [button setTitleColor:MAIN_NAV_COLOR forState:UIControlStateNormal];
+                break;
+            case 1:
+                [button setTitle:@"全部删除" forState:UIControlStateNormal];
+                [button setTitleColor:MAIN_NAV_COLOR forState:UIControlStateNormal];
+                break;
+            case 2:
+                [button setTitle:@"删除" forState:UIControlStateNormal];
+                break;
+   
+            default:
+                break;
+        }
+    }
+}
+
+-(void)editingViewBtnClick:(UIButton *)btn
+{
+    if ([[btn titleForState:UIControlStateNormal] isEqualToString:@"删除"]) {
+        self.deletePersonalNotiArr = [NSMutableArray array];
+        [[_notiContentView indexPathsForSelectedRows] enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [self.deletePersonalNotiArr addObject:self.personalNotiArr[obj.row]];
+        }];
+        if (self.deletePersonalNotiArr.count ==0) {
+            MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self animated:YES];
+            hud3.mode = MBProgressHUDModeText;
+            hud3.labelText = @"请至少选择一条删除";
+            [hud3 hide:YES afterDelay:1.0f];
+            return;
+        }
+
+        UIAlertController * alertVC = [UIAlertController alertControllerWithTitle:@"删除消息记录" message:@"当前选中的消息记录将被删除，是否确认?" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self deleteNumberOfPersonalDynamic];
+        }];
+        UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+        [alertVC addAction:cancelAction];
+        [alertVC addAction:okAction];
+        [[ZEUtil getCurrentVC] presentViewController:alertVC animated:YES completion:nil];
+    }else if(btn.tag == 101){
+        if ([self.delegate respondsToSelector:@selector(didSelectDeleteAllDynamic)]) {
+            [self.delegate didSelectDeleteAllDynamic];
+        }
+    }else if (btn.tag == 100){
+        NSLog(@" ========  全部标为已读  ====== ");
+    }
+}
+
+-(void)deleteNumberOfPersonalDynamic
+{
+    self.deletePersonalNotiArr = [NSMutableArray array];
+    NSMutableIndexSet *insets = [[NSMutableIndexSet alloc] init];
+    [[_notiContentView indexPathsForSelectedRows] enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self.deletePersonalNotiArr addObject:self.personalNotiArr[obj.row]];
+        [insets addIndex:obj.row];
+    }];
+    if (self.deletePersonalNotiArr.count ==0) {
+        [MBProgressHUD hideHUDForView:self animated:YES];
+        MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self animated:YES];
+        hud3.mode = MBProgressHUDModeText;
+        hud3.labelText = @"请至少选择一条删除";
+        [hud3 hide:YES afterDelay:1.0f];
+        return;
+    }
+    
+    NSString * deleteSeqkey = @"";
+    for (NSDictionary * dic in self.deletePersonalNotiArr) {
+        if(deleteSeqkey.length > 0){
+            deleteSeqkey = [NSString stringWithFormat:@"%@,%@",deleteSeqkey, [dic objectForKey:@"SEQKEY"]];
+        }else{
+            deleteSeqkey = [dic objectForKey:@"SEQKEY"];
+        }
+    }
+
+
+    [self.personalNotiArr removeObjectsAtIndexes:insets];
+    [_notiContentView deleteRowsAtIndexPaths:[_notiContentView indexPathsForSelectedRows] withRowAnimation:UITableViewRowAnimationFade];
+    
+    if([self.delegate respondsToSelector:@selector(didSelectDeleteNumberOfDynamic:)]){
+        [self.delegate didSelectDeleteNumberOfDynamic:deleteSeqkey];
+    }
+    
+    /** 数据清空情况下取消编辑状态*/
+    if (self.personalNotiArr.count == 0) {
+        [_notiContentView setEditing:NO animated:YES];
+        [self showEitingView:NO];
+    }
+}
+
+
 #pragma mark - Public Method
+
 -(void)reloadContentViewWithArr:(NSArray *)arr{
     [self.personalNotiArr addObjectsFromArray:arr];
     
-    [notiContentView.mj_header endRefreshing];
+    [_notiContentView.mj_header endRefreshing];
     
     if (arr.count < MAX_PAGE_COUNT) {
-        [notiContentView.mj_footer endRefreshingWithNoMoreData];
+        [_notiContentView.mj_footer endRefreshingWithNoMoreData];
     }else{
-        [notiContentView.mj_footer endRefreshing];
+        [_notiContentView.mj_footer endRefreshing];
     }
     
-    [notiContentView reloadData];
+    [_notiContentView reloadData];
 }
 
 -(void)canLoadMoreData
 {
     MJRefreshFooter * footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-    notiContentView.mj_footer = footer;
+    _notiContentView.mj_footer = footer;
 }
 -(void)reloadFirstView:(NSArray *)array
-{
+{    
     self.personalNotiArr = [NSMutableArray array];
     [self reloadContentViewWithArr:array];
 }
@@ -86,12 +206,30 @@
  */
 -(void)headerEndRefreshing
 {
-    [notiContentView.mj_header endRefreshing];
+    [_notiContentView.mj_header endRefreshing];
 }
 
 -(void)loadNoMoreData
 {
-    [notiContentView.mj_footer endRefreshingWithNoMoreData];
+    [_notiContentView.mj_footer endRefreshingWithNoMoreData];
+}
+
+- (void)showEitingView:(BOOL)isShow{
+    if(self.personalNotiArr.count == 0){
+        MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self animated:YES];
+        hud3.mode = MBProgressHUDModeText;
+        hud3.labelText = @"当前没有个人动态";
+        [hud3 hide:YES afterDelay:1.0f];
+        return;
+    }
+    
+    if (isShow) {
+        _editingView.top = SCREEN_HEIGHT - NAV_HEIGHT - 60 - 60;
+        _notiContentView.height = _notiContentView.height - 60;
+    }else{
+        _editingView.frame = CGRectMake(0,SCREEN_HEIGHT - NAV_HEIGHT - 60.0f, SCREEN_WIDTH, 60);
+        _notiContentView.height = _notiContentView.height + 60;
+    }
 }
 
 
@@ -121,8 +259,6 @@
     }else if ([notiCenM.MESTYPE integerValue] == 2){
         [self initQuestionCellViewWithIndexpath:indexPath withCell:cell];
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
     return cell;
 }
 
@@ -302,19 +438,18 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    
     return YES;
 }
 
 //滑动删除
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (!notiContentView.isEditing)
-    {
+    if (!_notiContentView.isEditing){
         return UITableViewCellEditingStyleDelete;
     }
     return UITableViewCellEditingStyleDelete | UITableViewCellEditingStyleInsert;
 }
-
 
 //左滑点击事件
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -326,9 +461,9 @@
 
         [self.personalNotiArr removeObjectAtIndex:indexPath.row];//tableview数据源
         if (![self.personalNotiArr count]) { //删除此行后数据源为空
-            [notiContentView deleteSections: [NSIndexSet indexSetWithIndex: indexPath.section] withRowAnimation:UITableViewRowAnimationBottom];
+            [_notiContentView deleteSections: [NSIndexSet indexSetWithIndex: indexPath.section] withRowAnimation:UITableViewRowAnimationBottom];
         } else {
-            [notiContentView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [_notiContentView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         }        
     }
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
@@ -341,6 +476,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (_notiContentView.isEditing){
+        return;
+    }
+
     ZETeamNotiCenModel * notiModel = [ZETeamNotiCenModel getDetailWithDic:self.personalNotiArr[indexPath.row]];
     if([notiModel.MESTYPE integerValue] == 1 && [self.delegate respondsToSelector:@selector(didSelectTeamMessage:)] ){
         [self.delegate didSelectTeamMessage:notiModel];

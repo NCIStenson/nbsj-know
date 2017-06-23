@@ -469,8 +469,10 @@
             if ([controller isKindOfClass:[ZETeamQuestionVC class]]) {
                 ZETeamQuestionVC *A =(ZETeamQuestionVC *)controller;
                 [self.navigationController popToViewController:A animated:YES];
+                return;
             }
         }
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 

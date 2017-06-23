@@ -35,11 +35,28 @@
  */
 -(void)didSelectDeleteBtn:(ZETeamNotiCenModel *)notiModel;
 
+
+/**
+ 确认全部删除
+ 
+ @param deleteSeqkeys 多选删除的seqkey
+ */
+-(void)didSelectDeleteNumberOfDynamic:(NSString *)deleteSeqkeys;
+
+
+/**
+ 确认全部删除
+
+ @param deleteSeqkeys <#deleteSeqkeys description#>
+ */
+-(void)didSelectDeleteAllDynamic;
+
 @end
 
 @interface ZEPersonalNotiView : UIView<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,weak) id <ZEPersonalNotiViewDelegate> delegate;
+@property (nonatomic,strong)  UITableView * notiContentView;
 
 -(id)initWithFrame:(CGRect)frame;
 
@@ -48,5 +65,7 @@
 
 -(void)headerEndRefreshing;
 -(void)loadNoMoreData;
+
+- (void)showEitingView:(BOOL)isShow;
 
 @end

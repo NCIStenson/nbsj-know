@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZEPersonalNotiView.h"
 
 @interface ZEPersonalDynamicVC : UIViewController
+
+@property (nonatomic,strong) ZEPersonalNotiView * personalNotiView;
 
 @end

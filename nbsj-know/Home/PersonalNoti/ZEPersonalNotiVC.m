@@ -44,12 +44,15 @@
     self.title = @"消息盒子";
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    [self.rightBtn setImage:[UIImage imageNamed:@"Trash"] forState:UIControlStateNormal];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reduceUnreadCount:) name:kNOTI_READDYNAMIC object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cancelTableEditingState) name:kNOTI_PERSONAL_WITHOUTDYNAMIC object:nil];
+
 }
 
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNOTI_READDYNAMIC object:nil];;
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNOTI_PERSONAL_WITHOUTDYNAMIC object:nil];;
 }
 
 
@@ -98,6 +101,7 @@
     
     systemNotiVC = [[ZESystemNotiVC alloc]init];
     [self addChildViewController:systemNotiVC];
+    
     _currentVC = dynamicVC;
     
     [self.view addSubview:dynamicVC.view];
@@ -106,8 +110,11 @@
     [self.view bringSubviewToFront:self.navBar];
 
     if (_enterPerNotiType == ENTER_PERSONALNOTICENTER_TYPE_NOTI_CHAT) {
+        self.rightBtn.hidden = YES;
         UIButton * btn = [_labelScrollView viewWithTag:102];
         [self selectDifferentType:btn];
+    }else{
+        [self.rightBtn setTitle:@"编辑" forState:UIControlStateNormal];
     }
 }
 
@@ -124,48 +131,32 @@
 
 -(void)rightBtnClick
 {
-    UIAlertController * alertVC = [UIAlertController alertControllerWithTitle:@"清空消息列表" message:@"当前消息记录将被清空，是否确认?" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction * okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self confirmDeleteAllDynamic];
-    }];
-    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
-    [alertVC addAction:cancelAction];
-    [alertVC addAction:okAction];
-    [self presentViewController:alertVC animated:YES completion:nil];
-    
+    if ([_currentVC isKindOfClass:[ZEPersonalDynamicVC class]]) {
+        ZEPersonalDynamicVC * personalVC = (ZEPersonalDynamicVC *)_currentVC;
+        UITableView * table = personalVC.personalNotiView.notiContentView ;
+        
+        if ([self.rightBtn.titleLabel.text isEqualToString:@"编辑"]) {
+            [self.rightBtn setTitle:@"取消" forState:UIControlStateNormal];
+            [table setEditing:YES animated:YES];
+            [personalVC.personalNotiView showEitingView:YES];
+        }else{
+            [self.rightBtn setTitle:@"编辑" forState:UIControlStateNormal];
+            [table setEditing:NO animated:YES];
+            [personalVC.personalNotiView showEitingView:NO];
+        }
+    }
 }
 
--(void)confirmDeleteAllDynamic
+-(void)cancelTableEditingState
 {
-    NSDictionary * parametersDic = @{@"limit":@"1",
-                                     @"MASTERTABLE":KLB_DYNAMIC_INFO,
-                                     @"MENUAPP":@"EMARK_APP",
-                                     @"ORDERSQL":@"",
-                                     @"WHERESQL":@"",
-                                     @"start":@"0",
-                                     @"METHOD":METHOD_UPDATE,
-                                     @"MASTERFIELD":@"SEQKEY",
-                                     @"DETAILFIELD":@"",
-                                     @"CLASSNAME":@"com.nci.klb.app.message.PersonMessageManage",
-                                     @"DETAILTABLE":@"",};
-    
-    NSDictionary * fieldsDic =@{};
-    
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_DYNAMIC_INFO]
-                                                                           withFields:@[fieldsDic]
-                                                                       withPARAMETERS:parametersDic
-                                                                       withActionFlag:@"messageDeleteAll"];
-    [ZEUserServer getDataWithJsonDic:packageDic
-                       showAlertView:NO
-                             success:^(id data) {
-                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:KLB_DYNAMIC_INFO] ;
-                                 if (dataArr.count > 0) {
-                                     [self showTips:@"删除成功"];
-                                     [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_DELETE_ALL_DYNAMIC object:nil];
-                                 }
-                             } fail:^(NSError *errorCode) {
-                                 
-                             }];
+    if ([_currentVC isKindOfClass:[ZEPersonalDynamicVC class]]) {
+        ZEPersonalDynamicVC * personalVC = (ZEPersonalDynamicVC *)_currentVC;
+        UITableView * table = personalVC.personalNotiView.notiContentView ;
+        
+        [self.rightBtn setTitle:@"编辑" forState:UIControlStateNormal];
+        [table setEditing:NO animated:YES];
+        [personalVC.personalNotiView showEitingView:NO];
+    }
 }
 
 #pragma mark - 子分类选项滑动
@@ -282,6 +273,7 @@
         if([_currentVC isEqual:dynamicVC]){
             return;
         }
+        self.rightBtn.hidden = NO;
         [self transitionFromViewController:_currentVC
                           toViewController:dynamicVC
                                   duration:0.29
@@ -294,6 +286,7 @@
         if([_currentVC isEqual:systemNotiVC]){
             return;
         }
+        self.rightBtn.hidden = YES;
         [self transitionFromViewController:_currentVC
                           toViewController:systemNotiVC
                                   duration:0.29
@@ -306,6 +299,7 @@
         if([_currentVC isEqual:chatVC]){
             return;
         }
+        self.rightBtn.hidden = YES;
         [self transitionFromViewController:_currentVC
                           toViewController:chatVC
                                   duration:0.29
