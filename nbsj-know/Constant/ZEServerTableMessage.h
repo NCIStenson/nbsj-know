@@ -50,6 +50,8 @@
 #define V_KLB_DYNAMIC_INFO             @"V_KLB_DYNAMIC_INFO"            /***   圈子动态表   ***/
 #define V_KLB_STANDARD_INFO             @"V_KLB_STANDARD_INFO"            /***   行业规范列表   ***/
 
+#define V_KLB_DYNAMIC_INFO_TEAM             @"V_KLB_DYNAMIC_INFO_TEAM"            /***   圈子动态表   ***/
+
 
 #define KLB_PROCIRCLE_REL_USER         @"KLB_PROCIRCLE_REL_USER"        /***   专业圈人员关系表   ***/
 #define KLB_PROCIRCLE_REL_QUESTIONTYPE @"KLB_PROCIRCLE_REL_QUESTIONTYPE"/***   专业圈问题分类关系表   ***/

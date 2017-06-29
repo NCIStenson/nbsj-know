@@ -301,7 +301,6 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-//    return (SCREEN_WIDTH / 3 + (IPHONE5 ? 30 : IPHONE6 ? 40 : 50)) + 60;
     return 0;
 }
 

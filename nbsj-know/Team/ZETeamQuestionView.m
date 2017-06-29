@@ -79,6 +79,9 @@
     NSInteger _currentRankingListPage; // 当前显示的页面 0 提问榜 1 回答榜
     NSInteger _currentPracticePage; // 当前显示的页面 0 提问榜 1 回答榜
     
+    NSInteger  _currentAskYearMonth;  // 当前选择的提问榜的月份
+    NSInteger  _currentAnswerYearMonth;  // 当前选择的提问榜的月份
+    
     BOOL _isPractice; // 是否正在练习界面
     
     TEAM_WILL_SHOWVIEW _willShowView;
@@ -86,6 +89,8 @@
     float _maskImageHeight;
     
     UILabel * _currentSelectMonthLab; //  比一比  选中的当前月份
+    
+    NSString * _yearMonthStr;
 }
 
 @property (nonatomic,strong) NSMutableArray * newestQuestionArr; //   最新
@@ -255,12 +260,71 @@
 {
     [rankingListView addSubview:[self createDetailOptionView:_allCompareTypeArr]];
     
+    UIView * headerView = [[UIView alloc]init];
+    headerView.frame = CGRectMake(0, 35.0f, SCREEN_WIDTH, 50.0f);
+        NSString * monthStr =  [ZEUtil getCurrentDate:@"MM"];
+        for (int i = 1; i < 7; i ++) {
+            UIButton * monthBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [monthBtn addTarget:self action:@selector(chooseMonthRankingList:) forControlEvents:UIControlEventTouchUpInside];
+            monthBtn.frame = CGRectMake(SCREEN_WIDTH - 10 - (SCREEN_WIDTH - 20) / 6 * i, 0, (SCREEN_WIDTH - 20) / 6, 50);
+            [headerView addSubview:monthBtn];
+            
+            UILabel * monthLab = [[UILabel alloc]init];
+            monthLab.frame = CGRectMake(0, 0, 40, 40);
+            monthLab.center = CGPointMake(monthBtn.width / 2, monthBtn.height / 2);
+            monthLab.textAlignment = NSTextAlignmentCenter;
+            monthLab.textColor = kTextColor;
+            monthLab.font = [UIFont systemFontOfSize:12];
+            [monthBtn addSubview:monthLab];
+            monthLab.tag = 13;
+            
+            if ([monthStr integerValue] > 5) {
+                monthBtn.tag = [monthStr integerValue] - i + 1;
+                monthLab.text = [self getMonthStringWithIndex:[monthStr integerValue] - i + 1];
+            }else {
+                monthLab.text = [self getMonthStringWithIndex:[monthStr integerValue] - i + 1];
+                monthBtn.tag = [monthStr integerValue] - i + 1;
+                if ([monthStr integerValue] - i + 1 <= 0) {
+                    monthBtn.tag = [monthStr integerValue] - i + 13;
+                    monthLab.text = [self getMonthStringWithIndex:[monthStr integerValue] - i + 13];
+                }
+            }
+            
+            if (_currentAskYearMonth == monthBtn.tag && _currentRankingListPage == TEAM_RANKING_ASK) {
+                NSLog(@"===============TEAM_RANKING_ASK================");
+                _currentSelectMonthLab = monthLab;
+                
+                monthLab.clipsToBounds = YES;
+                monthLab.layer.cornerRadius = monthLab.height / 2;
+                monthLab.layer.borderColor = [MAIN_NAV_COLOR CGColor];
+                monthLab.layer.borderWidth = 2;
+            }else if(_currentAnswerYearMonth == monthBtn.tag && _currentRankingListPage == TEAM_RANKING_ANSWER){
+                NSLog(@"===============TEAM_RANKING_ANSWER================");
+                _currentSelectMonthLab = monthLab;
+                
+                monthLab.clipsToBounds = YES;
+                monthLab.layer.cornerRadius = monthLab.height / 2;
+                monthLab.layer.borderColor = [MAIN_NAV_COLOR CGColor];
+                monthLab.layer.borderWidth = 2;
+            }else if( i == 1){
+                _currentSelectMonthLab = monthLab;
+                
+                monthLab.clipsToBounds = YES;
+                monthLab.layer.cornerRadius = monthLab.height / 2;
+                monthLab.layer.borderColor = [MAIN_NAV_COLOR CGColor];
+                monthLab.layer.borderWidth = 2;
+            }
+            
+        }
+    
+    [rankingListView addSubview:headerView];
+    
     UIScrollView * _contentScrollView = [[UIScrollView alloc]init];
     [rankingListView addSubview:_contentScrollView];
     _contentScrollView.left = kContentTableMarginLeft;
-    _contentScrollView.top = kContentTableMarginTop;
-    _contentScrollView.size = CGSizeMake(kContentTableWidth, kContentTableHeight);
-    _contentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * _allCompareTypeArr.count, kContentTableHeight);
+    _contentScrollView.top = kContentTableMarginTop + headerView.height;
+    _contentScrollView.size = CGSizeMake(kContentTableWidth, SCREEN_HEIGHT - kContentMarginTop - 85.0f - 20.0f);
+    _contentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * _allCompareTypeArr.count, SCREEN_HEIGHT - kContentMarginTop - 85.0f - 20.0f);
     _contentScrollView.pagingEnabled = YES;
     _contentScrollView.showsHorizontalScrollIndicator = NO;
     _contentScrollView.delegate = self;
@@ -273,10 +337,9 @@
         contentTableView.dataSource = self;
         [_contentScrollView addSubview:contentTableView];
         contentTableView.showsVerticalScrollIndicator = NO;
-        contentTableView.frame = CGRectMake(kContentTableMarginLeft + SCREEN_WIDTH * i, 0, kContentTableWidth, kContentTableHeight);
+        contentTableView.frame = CGRectMake(kContentTableMarginLeft + SCREEN_WIDTH * i, 0, kContentTableWidth, SCREEN_HEIGHT - NAV_HEIGHT - 85.0f);
         contentTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         contentTableView.tag = 100 + i;
-        
 //        MJRefreshGifHeader *header = [MJRefreshGifHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewRankingData:)];
 //        contentTableView.mj_header = header;
     }
@@ -379,6 +442,17 @@
         [self showPracticeView];
     }else if (btn.tag == 202){
         [self showRankingList];
+        
+        if (_yearMonthStr.length > 0 ) {
+            if ([self.delegate respondsToSelector:@selector(selectMonthStr:)]) {
+                [self.delegate selectMonthStr:_yearMonthStr];
+            }
+        }else{
+            if ([self.delegate respondsToSelector:@selector(selectMonthStr:)]) {
+                [self.delegate selectMonthStr:[ZEUtil getCurrentDate:@"yyyyMM"]];
+            }
+        }
+        
     }
     
 }
@@ -567,6 +641,10 @@
         _contentScrollView  = [rankingListView viewWithTag:kContentSrollViewTag];
     }
     contentTableView = (UITableView *)[_contentScrollView viewWithTag:100 + content_page];
+    if (_currentTeamShowView == TEAM_VIEW_RANKINGLIST){
+        [contentTableView reloadData];
+        return;
+    }
     
     MJRefreshFooter * footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData:)];
     contentTableView.mj_footer = footer;
@@ -750,57 +828,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if(_currentTeamShowView == TEAM_VIEW_RANKINGLIST){
-        return 50;
-    }
     return 0;
-}
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView * headerView = [[UIView alloc]init];
-
-    if(_currentTeamShowView == TEAM_VIEW_RANKINGLIST){
-        
-        NSString * monthStr =  [ZEUtil getCurrentDate:@"MM"];
-
-        for (int i = 1; i < 7; i ++) {
-            UIButton * monthBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            [monthBtn addTarget:self action:@selector(chooseMonthRankingList:) forControlEvents:UIControlEventTouchUpInside];
-            monthBtn.frame = CGRectMake(SCREEN_WIDTH - 10 - (SCREEN_WIDTH - 20) / 6 * i, 0, (SCREEN_WIDTH - 20) / 6, 50);
-            [headerView addSubview:monthBtn];
-            
-            UILabel * monthLab = [[UILabel alloc]init];
-            monthLab.frame = CGRectMake(0, 0, 40, 40);
-            monthLab.center = CGPointMake(monthBtn.width / 2, monthBtn.height / 2);
-            monthLab.textAlignment = NSTextAlignmentCenter;
-            monthLab.textColor = kTextColor;
-            monthLab.font = [UIFont systemFontOfSize:12];
-            [monthBtn addSubview:monthLab];
-            monthLab.tag = 13;
-            
-            if( i == 1){
-                _currentSelectMonthLab = monthLab;
-                
-                monthLab.clipsToBounds = YES;
-                monthLab.layer.cornerRadius = monthLab.height / 2;
-                monthLab.layer.borderColor = [MAIN_NAV_COLOR CGColor];
-                monthLab.layer.borderWidth = 2;
-            }
-            if ([monthStr integerValue] > 5) {
-                monthBtn.tag = [monthStr integerValue] - i + 1;
-                monthLab.text = [self getMonthStringWithIndex:[monthStr integerValue] - i + 1];
-            }else {
-                monthLab.text = [self getMonthStringWithIndex:[monthStr integerValue] - i + 1];
-                monthBtn.tag = [monthStr integerValue] - i + 1;
-                if ([monthStr integerValue] - i + 1 <= 0) {
-                    monthBtn.tag = [monthStr integerValue] - i + 13;
-                    monthLab.text = [self getMonthStringWithIndex:[monthStr integerValue] - i + 13];
-                }
-            }
-        }
-    }
-    
-    return headerView;
 }
 
 -(void)chooseMonthRankingList:(UIButton *)btn
@@ -817,7 +845,41 @@
     _currentSelectMonthLab.textColor = MAIN_NAV_COLOR;
     _currentSelectMonthLab.layer.borderColor = [MAIN_NAV_COLOR CGColor];
     _currentSelectMonthLab.layer.borderWidth = 2;
+    
+    if (_currentRankingListPage == TEAM_RANKING_ASK) {
+        _currentAskYearMonth = btn.tag;
+    }else if (_currentRankingListPage == TEAM_RANKING_ANSWER){
+        _currentAnswerYearMonth = btn.tag;
+    }
 
+    NSString * monthStr =  [ZEUtil getCurrentDate:@"MM"];
+    if ([monthStr integerValue] > 5) {
+        NSString * yearMonth = @"";
+        if ([monthStr integerValue] < 10) {
+            yearMonth = [NSString stringWithFormat:@"%@0%ld",[ZEUtil getCurrentDate:@"yyyy"],(long)btn.tag];
+        }else{
+            yearMonth = [NSString stringWithFormat:@"%@%ld",[ZEUtil getCurrentDate:@"yyyy"],(long)btn.tag];
+        }
+        _yearMonthStr = yearMonth;
+        if([self.delegate respondsToSelector:@selector(selectMonthStr:)]){
+            [self.delegate selectMonthStr:yearMonth ];
+        }
+    }else{
+        NSString * yearMonth = @"";
+        if(btn.tag > 7 && btn.tag < 10){
+            yearMonth = [NSString stringWithFormat:@"%ld0%ld",[[ZEUtil getCurrentDate:@"yyyy"] longValue] - 1,(long)btn.tag];
+        }else if (btn.tag > 9){
+            yearMonth = [NSString stringWithFormat:@"%ld%ld",[[ZEUtil getCurrentDate:@"yyyy"] longValue] - 1,(long)btn.tag];
+        }else{
+            yearMonth = [NSString stringWithFormat:@"%@0%ld",[ZEUtil getCurrentDate:@"yyyy"],(long)btn.tag];
+        }
+        _yearMonthStr = yearMonth;
+        
+        if([self.delegate respondsToSelector:@selector(selectMonthStr:)]){
+            [self.delegate selectMonthStr:yearMonth ];
+        }
+    }
+    
 }
 
 -(NSString *)getMonthStringWithIndex:(NSInteger)index
@@ -1177,11 +1239,13 @@
         optionView.alpha = 0.0;
         if (_currentTeamShowView == TEAM_VIEW_QUESTION) {
             questionView.frame = CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT) ;
-            _contentScrollView.frame = CGRectMake(0,  35.0f, SCREEN_WIDTH, SCREEN_HEIGHT -  - NAV_HEIGHT - 35.0f);
+            _contentScrollView.frame = CGRectMake(0,  35.0f, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT - 35.0f);
             _contentScrollView.pagingEnabled = YES;
         }else if (_currentTeamShowView == TEAM_VIEW_RANKINGLIST){
             rankingListView.frame = CGRectMake(0, NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT) ;
-            _contentScrollView.frame = CGRectMake(0,35.0f, SCREEN_WIDTH, SCREEN_HEIGHT - (NAV_HEIGHT + 35.0f));
+            _contentScrollView.frame = CGRectMake(0,35.0f + 50.0f, SCREEN_WIDTH, SCREEN_HEIGHT - (NAV_HEIGHT + 35.0f + 50.0f));
+            _contentScrollView.backgroundColor = [UIColor greenColor];
+            
             _contentScrollView.pagingEnabled = YES;
         }
     } completion:^(BOOL finished) {
@@ -1275,8 +1339,10 @@
             }
             marginLeft += btnWidth;
         }
-        if ([self.delegate respondsToSelector:@selector(loadNewData:)]) {
-            [self.delegate loadNewData:_currentHomeContentPage];
+        if (_currentTeamShowView == TEAM_VIEW_QUESTION) {
+            if ([self.delegate respondsToSelector:@selector(loadNewData:)]) {
+                [self.delegate loadNewData:_currentHomeContentPage];
+            }
         }
     }
     
@@ -1742,8 +1808,6 @@
     }
     
 }
-
-
 
 - (void)dealloc
 {

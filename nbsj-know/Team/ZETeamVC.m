@@ -217,7 +217,7 @@
 
     }
     NSDictionary * parametersDic = @{@"limit":@"30",
-                                     @"MASTERTABLE":V_KLB_DYNAMIC_INFO,
+                                     @"MASTERTABLE":V_KLB_DYNAMIC_INFO_TEAM,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"SYSCREATEDATE desc",
                                      @"WHERESQL":[NSString stringWithFormat:@"TEAMCIRCLECODE in (%@)",str],
@@ -230,18 +230,17 @@
     
     NSDictionary * fieldsDic =@{};
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_DYNAMIC_INFO]
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_DYNAMIC_INFO_TEAM]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:nil];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:V_KLB_DYNAMIC_INFO];
+                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:V_KLB_DYNAMIC_INFO_TEAM];
                                  if ([dataArr count] > 0) {
                                      _dynamicArr = dataArr;
                                      [teamView reloadContentView:dataArr];
-
                                  }else{
 
                                  }

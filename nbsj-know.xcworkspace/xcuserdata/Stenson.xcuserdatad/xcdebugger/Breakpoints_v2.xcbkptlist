@@ -173,11 +173,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "nbsj-know/Team/ZEAskTeamQuestionVC.m"
-            timestampString = "519812207.175823"
+            timestampString = "520410071.953901"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "403"
-            endingLineNumber = "403"
+            startingLineNumber = "408"
+            endingLineNumber = "408"
             landmarkName = "-insertData"
             landmarkType = "7">
          </BreakpointContent>
@@ -221,11 +221,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "nbsj-know/Team/ZETeamQuestionView.m"
-            timestampString = "519809010.379459"
+            timestampString = "520412005.565813"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1763"
-            endingLineNumber = "1763">
+            startingLineNumber = "1827"
+            endingLineNumber = "1827">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -315,11 +315,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "nbsj-know/Team/ZETeamQuestionView.m"
-            timestampString = "519809010.379459"
+            timestampString = "520412005.565813"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1622"
-            endingLineNumber = "1622"
+            startingLineNumber = "1688"
+            endingLineNumber = "1688"
             landmarkName = "-showWebViewAlert"
             landmarkType = "7">
          </BreakpointContent>
@@ -426,28 +426,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "nbsj-know/Group/ZEProCirDeatilView.m"
-            timestampString = "519802933.349258"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "375"
-            endingLineNumber = "375"
-            landmarkName = "-tableView:heightForHeaderInSection:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "nbsj-know/Team/ZEAskTeamQuestionVC.m"
-            timestampString = "519812207.175823"
+            timestampString = "520410071.953901"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "390"
-            endingLineNumber = "390"
+            startingLineNumber = "401"
+            endingLineNumber = "401"
             landmarkName = "-insertData"
             landmarkType = "7">
          </BreakpointContent>

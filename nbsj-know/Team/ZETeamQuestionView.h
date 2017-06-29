@@ -44,10 +44,24 @@
 
 -(void)goAnswerQuestionVC:(ZEQuestionInfoModel *)_questionInfoModel;
 
+
+/**
+ 点击比一比按钮 发送请求
+ */
+-(void)showRankingListView;
+
 /**
  进入团队聊天组
  */
 -(void)goTeamChatRoom;
+
+
+/**
+ 选择月份
+
+ @param yearMonth 选中的年月
+ */
+-(void)selectMonthStr:(NSString *)yearMonth;
 
 @end
 

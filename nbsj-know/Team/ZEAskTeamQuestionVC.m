@@ -45,6 +45,12 @@
     
     targetMembersStr = _QUESINFOM.TARGETUSERCODE;
     targetMembersUsername = _QUESINFOM.TARGETUSERNAME;
+    if(targetMembersStr.length == 0){
+        targetMembersStr = @"";
+    }
+    if (targetMembersUsername == 0) {
+        targetMembersUsername = @"";
+    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(goBackShowView) name:kNOTI_CHANGE_ASK_SUCCESS object:nil];;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishChooseTeamMember:) name:kNOTI_FINISH_CHOOSE_TEAMCIRCLENUMBERS object:nil];;
@@ -377,14 +383,13 @@
                                 @"QUESTIONTYPECODE":askView.quesTypeSEQKEY,
                                 @"QUESTIONEXPLAIN":askView.inputView.text,
                                 @"QUESTIONIMAGE":@"",
-                                @"USERHEADIMAGE":[ZESettingLocalData getUSERHHEADURL],
                                 @"QUESTIONUSERCODE":[ZESettingLocalData getUSERCODE],
                                 @"QUESTIONUSERNAME":[ZESettingLocalData getCurrentUsername],
                                 @"QUESTIONLEVEL":@"1",
                                 @"IMPORTLEVEL":@"1",
                                 @"ISLOSE":@"0",
                                 @"ISEXPERTANSWER":@"0",
-                                @"ISSOLVE":_QUESINFOM.ISSOLVE,
+                                @"ISSOLVE":@"0",
                                 @"TEAMCIRCLECODE":_teamInfoModel.TEAMCODE,
                                 @"TARGETUSERCODE":targetMembersStr,
                                 @"TARGETUSERNAME":targetMembersUsername,

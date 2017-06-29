@@ -198,8 +198,8 @@
     [self sendOnlyMeAskQuestionsRequest:@""];
     [self sendSolvedQuestion];
     [self sendMyQuestionsRequest:@""];
-    [self sendAskRankingRequest];
-    [self sendAnswerRankingRequest];
+    [self sendAskRankingRequest:[ZEUtil getCurrentDate:@"yyyyMM"]];
+    [self sendAnswerRankingRequest:[ZEUtil getCurrentDate:@"yyyyMM"]];
     [self sendPracticeRequest];
 }
 
@@ -526,7 +526,7 @@
 
 #pragma mark - 比一比接口请求
 
--(void)sendAskRankingRequest
+-(void)sendAskRankingRequest:(NSString *)yearMonth
 {
     NSDictionary * parametersDic = @{@"limit":@"-1",
                                      @"MASTERTABLE":V_KLB_TEAMCIRCLE_MEMBERRANK,
@@ -538,12 +538,15 @@
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
                                      @"CLASSNAME":@"com.nci.klb.app.teamcircle.TeamcircleRank",
+                                     @"YEARMONTH":yearMonth,
+                                     @"TEAMCIRCLECODE":_teamCircleInfo.TEAMCODE,
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{@"TEAMCIRCLECODE":_teamCircleInfo.TEAMCODE,
                                 @"USERNAME":@"",
                                 @"FILEURL":@"",
-                                @"QUESTIONSUM":@""};
+                                @"QUESTIONSUM":@"",
+                                };
     
     NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_TEAMCIRCLE_MEMBERRANK]
                                                                            withFields:@[fieldsDic]
@@ -554,15 +557,13 @@
                        showAlertView:NO
                              success:^(id data) {
                                  NSArray * dataArr = [ZEUtil getServerData:data withTabelName:V_KLB_TEAMCIRCLE_MEMBERRANK];
-                                 if (dataArr.count > 0) {
-                                     [_teamQuestionView reloadTeamViewRankingList:dataArr withRankingContent:TEAM_RANKING_ASK];
-                                 }
+                                 [_teamQuestionView reloadTeamViewRankingList:dataArr withRankingContent:TEAM_RANKING_ASK];
                              } fail:^(NSError *errorCode) {
 
                              }];
 }
 
--(void)sendAnswerRankingRequest
+-(void)sendAnswerRankingRequest:(NSString *)yearMonth
 {
     NSDictionary * parametersDic = @{@"limit":@"-1",
                                      @"MASTERTABLE":V_KLB_TEAMCIRCLE_MEMBERRANK,
@@ -574,6 +575,8 @@
                                      @"MASTERFIELD":@"SEQKEY",
                                      @"DETAILFIELD":@"",
                                      @"CLASSNAME":@"com.nci.klb.app.teamcircle.TeamcircleRank",
+                                     @"YEARMONTH":yearMonth,
+                                     @"TEAMCIRCLECODE":_teamCircleInfo.TEAMCODE,
                                      @"DETAILTABLE":@"",};
     
     NSDictionary * fieldsDic =@{@"TEAMCIRCLECODE":_teamCircleInfo.TEAMCODE,
@@ -590,9 +593,7 @@
                        showAlertView:NO
                              success:^(id data) {
                                  NSArray * dataArr = [ZEUtil getServerData:data withTabelName:V_KLB_TEAMCIRCLE_MEMBERRANK];
-                                 if (dataArr.count > 0) {
-                                     [_teamQuestionView reloadTeamViewRankingList:dataArr withRankingContent:TEAM_RANKING_ANSWER];
-                                 }
+                                 [_teamQuestionView reloadTeamViewRankingList:dataArr withRankingContent:TEAM_RANKING_ANSWER];
                              } fail:^(NSError *errorCode) {
                                  
                              }];
@@ -692,7 +693,6 @@
     [hud3 hide:YES afterDelay:1.0f];
 }
 
-
 -(void)loadNewData:(TEAM_CONTENT)contentPage
 {
     switch (contentPage) {
@@ -744,6 +744,14 @@
             break;
     }
 }
+
+-(void)selectMonthStr:(NSString *)yearMonth
+{
+    NSLog(@" yearMonth  ===============  %@ ",yearMonth);
+    [self sendAnswerRankingRequest:yearMonth];
+    [self sendAskRankingRequest:yearMonth];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

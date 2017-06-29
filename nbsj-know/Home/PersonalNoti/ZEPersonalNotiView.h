@@ -51,6 +51,12 @@
  */
 -(void)didSelectDeleteAllDynamic;
 
+
+/**
+ 全部标为已读
+ */
+-(void)clearUnreadDynamic;
+
 @end
 
 @interface ZEPersonalNotiView : UIView<UITableViewDelegate,UITableViewDataSource>

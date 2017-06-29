@@ -108,25 +108,32 @@
         [typicalScrollView addSubview:typicalImageBtn];
         [typicalImageBtn addTarget:self action:@selector(goExpertDetail:) forControlEvents:UIControlEventTouchUpInside];
         typicalImageBtn.tag = i;
-        [typicalImageBtn setImage:[UIImage imageNamed:@"jdbh_zjjd_bg"] forState:UIControlStateNormal];
+//        [typicalImageBtn setImage:[UIImage imageNamed:@"jdbh_zjjd_bg"] forState:UIControlStateNormal];
         typicalImageBtn.imageView.contentMode = UIViewContentModeScaleToFill;
+        [typicalImageBtn setBackgroundImage:[UIImage imageNamed:@"jdbh_zjjd_bg"] forState:UIControlStateNormal];
         if (i > 2) {
             typicalScrollView.contentSize = CGSizeMake((SCREEN_WIDTH - 20) / 3 * (i + 1) - 10, kTypicalViewHeight - 75);
         }
         
         UIImageView * expertHeadImage = [[UIImageView alloc]init];
         [typicalImageBtn addSubview:expertHeadImage];
-        expertHeadImage.width = 60;
-        expertHeadImage.height = 60;
+        expertHeadImage.width = 70;
+        expertHeadImage.height = 70;
         expertHeadImage.center = CGPointMake(typicalImageBtn.width / 2 , typicalImageBtn.center.y - 25);
+
+        if(IPHONE6P){
+        }else if (IPHONE6){
+            expertHeadImage.center = CGPointMake(typicalImageBtn.width / 2  , typicalImageBtn.center.y - 25);
+        }else if (IPHONE5){
+            expertHeadImage.width = 60;
+            expertHeadImage.height = 60;
+            expertHeadImage.center = CGPointMake(typicalImageBtn.width / 2 , typicalImageBtn.center.y - 25);
+        }
         expertHeadImage.clipsToBounds = YES;
         expertHeadImage.layer.cornerRadius = expertHeadImage.height / 2;
         NSURL * fileURL =[NSURL URLWithString:ZENITH_IMAGE_FILESTR(classicalCaseM.FILEURL)] ;
         [expertHeadImage sd_setImageWithURL:fileURL placeholderImage:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
 
-        NSLog(@" ===  %f  typicalImageBtn == %f",typicalImageBtn.width ,typicalImageBtn.centerX);
-        NSLog(@" ===  %f expertHeadImage  == %f",expertHeadImage.width ,expertHeadImage.centerX);
-        
         UILabel * typicalLab = [[UILabel alloc]initWithFrame:CGRectZero];
         typicalLab.size = CGSizeMake(typicalImageBtn.width, 20);
         typicalLab.center = CGPointMake(typicalImageBtn.width / 2, typicalImageBtn.center.y + 35);

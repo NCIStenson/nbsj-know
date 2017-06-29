@@ -40,7 +40,8 @@
     _notiContentView.delegate =self;
     [self addSubview:_notiContentView];
     _notiContentView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
+    _notiContentView.allowsMultipleSelectionDuringEditing=YES;
+
     MJRefreshGifHeader *header = [MJRefreshGifHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
     _notiContentView.mj_header = header;
     
@@ -118,6 +119,9 @@
         }
     }else if (btn.tag == 100){
         NSLog(@" ========  全部标为已读  ====== ");
+        if([self.delegate respondsToSelector:@selector(clearUnreadDynamic)]){
+            [self.delegate clearUnreadDynamic];
+        }
     }
 }
 
@@ -259,6 +263,7 @@
     }else if ([notiCenM.MESTYPE integerValue] == 2){
         [self initQuestionCellViewWithIndexpath:indexPath withCell:cell];
     }
+        
     return cell;
 }
 
@@ -266,16 +271,15 @@
 {
     ZETeamNotiCenModel * notiCenM = [ZETeamNotiCenModel getDetailWithDic:self.personalNotiArr[indexPath.row]];
 
-    if ([notiCenM.MESTYPE integerValue] == 1) {
-        float explainHeight = [ZEUtil heightForString:notiCenM.QUESTIONEXPLAIN font:[UIFont systemFontOfSize:kTiltlFontSize] andWidth:SCREEN_WIDTH - 120];
-
-        return explainHeight + 80;
-    }else if ([notiCenM.MESTYPE integerValue] == 2){
-        float questionHeight = [ZEUtil heightForString:notiCenM.QUESTIONEXPLAIN font:[UIFont systemFontOfSize:18] andWidth:SCREEN_WIDTH - 20];
-
-        return questionHeight + 65;
-    }
-    return 0;
+//    if ([notiCenM.MESTYPE integerValue] == 1) {
+//        float explainHeight = [ZEUtil heightForString:notiCenM.QUESTIONEXPLAIN font:[UIFont systemFontOfSize:kTiltlFontSize] andWidth:SCREEN_WIDTH - 120];
+//        return explainHeight + 80;
+        return 80;
+//    }else if ([notiCenM.MESTYPE integerValue] == 2){
+//        float questionHeight = [ZEUtil heightForString:notiCenM.QUESTIONEXPLAIN font:[UIFont systemFontOfSize:18] andWidth:SCREEN_WIDTH - 20];
+//        return questionHeight + 65;
+//    }
+//    return 0;
 }
 
 -(void)initTeamCellViewWithIndexpath:(NSIndexPath *)indexPath withCell:(UITableViewCell *)cell
@@ -285,13 +289,15 @@
     ZETeamNotiCenModel * notiM = [ZETeamNotiCenModel getDetailWithDic:dynamicDic];
     NSString * fileUrl = [[[dynamicDic objectForKey:@"FILEURL"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"] stringByReplacingOccurrencesOfString:@"," withString:@""];
     
-    UIImageView * headeImage = [[UIImageView alloc]initWithFrame:CGRectMake(20, 20, 60, 60)];
+    UIImageView * headeImage = [[UIImageView alloc]initWithFrame:CGRectMake(20, 10, 60, 60)];
     [headeImage setImage:ZENITH_PLACEHODLER_TEAM_IMAGE];
-    [headeImage sd_setImageWithURL:ZENITH_IMAGEURL(fileUrl) placeholderImage:[UIImage imageNamed:@"icon_team_personal_noti"]];
+    [headeImage sd_setImageWithURL:ZENITH_IMAGEURL(fileUrl) placeholderImage:[UIImage imageNamed:@"xihz_td.png"]];
     [cell.contentView addSubview:headeImage];
     [headeImage setContentMode:UIViewContentModeScaleAspectFit];
-    
-    UILabel * nameLab = [[UILabel alloc]initWithFrame:CGRectMake(100, 10, SCREEN_WIDTH - 120, 40)];
+    if(fileUrl.length > 0){
+        [headeImage sd_setImageWithURL:ZENITH_IMAGEURL(fileUrl) placeholderImage:[UIImage imageNamed:@"xihz_td.png"]];
+    }
+    UILabel * nameLab = [[UILabel alloc]initWithFrame:CGRectMake(100, 10, SCREEN_WIDTH - 120, 20)];
     nameLab.text = @"团队消息";
     nameLab.numberOfLines = 0;
     nameLab.textAlignment = NSTextAlignmentLeft;
@@ -299,61 +305,53 @@
     [cell.contentView addSubview:nameLab];
     nameLab.textColor = kTextColor;
     
-    UILabel * dynamiLab = [[UILabel alloc]initWithFrame:CGRectMake(100, 50, SCREEN_WIDTH - 120, 40)];
-    dynamiLab.numberOfLines = 0;
+    YYLabel * dynamiLab = [[YYLabel alloc]initWithFrame:CGRectMake(100, 30, SCREEN_WIDTH - 120, 40)];
+    dynamiLab.numberOfLines = 2;
     dynamiLab.textAlignment = NSTextAlignmentLeft;
     dynamiLab.font = [UIFont systemFontOfSize:kTiltlFontSize];
     [cell.contentView addSubview:dynamiLab];
     dynamiLab.textColor = kTextColor;
     dynamiLab.text = notiM.QUESTIONEXPLAIN;
+    dynamiLab.textVerticalAlignment = YYTextVerticalAlignmentCenter;
+    dynamiLab.lineBreakMode = NSLineBreakByTruncatingMiddle;
+    dynamiLab.text = [NSString stringWithFormat:@"%@  |  %@",notiM.QUESTIONEXPLAIN,notiM.CREATORNAME];
     float explainHeight = [ZEUtil heightForString:dynamiLab.text font:dynamiLab.font andWidth:dynamiLab.width];
     dynamiLab.height = explainHeight;
     
     UILabel * receiptLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 90,10,70,20.0f)];
-    receiptLab.userInteractionEnabled = NO;
     receiptLab.textAlignment = NSTextAlignmentRight;
     receiptLab.numberOfLines = 0;
     receiptLab.textColor = MAIN_SUBTITLE_COLOR;
     receiptLab.font = [UIFont systemFontOfSize:kTiltlFontSize];
     [cell.contentView addSubview:receiptLab];
-    receiptLab.userInteractionEnabled = YES;
-    if ([notiM.DYNAMICTYPE integerValue] == 1 || [notiM.DYNAMICTYPE integerValue] == 2) {
-        receiptLab.text = @"需回执";
-    }else{
-        receiptLab.hidden = YES;
-    }
+//    if ([notiM.DYNAMICTYPE integerValue] == 1 || [notiM.DYNAMICTYPE integerValue] == 2) {
+//        receiptLab.text = @"需回执";
+//    }else{
+//        receiptLab.hidden = YES;
+//    }
+    receiptLab.text = [ZEUtil compareCurrentTime:[NSString stringWithFormat:@"%@",notiM.SYSCREATEDATE]];
     
     if (![notiM.ISREAD boolValue]) {
         UIImageView * redImage = [[UIImageView alloc]init];
         redImage.backgroundColor = [UIColor redColor];
         [cell.contentView addSubview:redImage];
-        redImage.bounds = CGRectMake(0, 0, 8, 8);
-        redImage.centerX = headeImage.left;
+        redImage.bounds = CGRectMake(0, 0, 10, 10);
+        redImage.centerX = headeImage.right;
         redImage.centerY = headeImage.top;
         redImage.clipsToBounds = YES;
         redImage.layer.cornerRadius = redImage.height / 2;
     }
-
-    UILabel * _disUsername = [UILabel new];
-    _disUsername.top = dynamiLab.bottom + 5.0f;
-    _disUsername.left = headeImage.right + 10.0f;
-    [cell.contentView addSubview:_disUsername];
-    _disUsername.size = CGSizeMake(120, 20);
-    _disUsername.textAlignment = NSTextAlignmentLeft;
-    _disUsername.textColor = [UIColor lightGrayColor];
-    _disUsername.font = [UIFont systemFontOfSize:kTiltlFontSize];
-    _disUsername.text = [NSString stringWithFormat:@"发布人：%@",notiM.CREATORNAME];
     
-    UILabel * _dateLab = [UILabel new];
-    _dateLab.top = _disUsername.top;
-    _dateLab.left = 10;
-    [cell.contentView addSubview:_dateLab];
-    _dateLab.size = CGSizeMake(SCREEN_WIDTH - 20, 20);
-    _dateLab.textAlignment = NSTextAlignmentRight;
-    _dateLab.textColor = [UIColor lightGrayColor];
-    _dateLab.font = [UIFont systemFontOfSize:kTiltlFontSize];
-    _dateLab.text = [ZEUtil compareCurrentTime:[NSString stringWithFormat:@"%@",notiM.SYSCREATEDATE]];
-    NSLog(@">>>  %@",notiM.SYSCREATEDATE);
+//    UILabel * _dateLab = [UILabel new];
+////    _dateLab.top = _disUsername.top;
+//    _dateLab.left = 10;
+//    [cell.contentView addSubview:_dateLab];
+//    _dateLab.size = CGSizeMake(SCREEN_WIDTH - 20, 20);
+//    _dateLab.textAlignment = NSTextAlignmentRight;
+//    _dateLab.textColor = [UIColor lightGrayColor];
+//    _dateLab.font = [UIFont systemFontOfSize:kTiltlFontSize];
+//    _dateLab.text = [ZEUtil compareCurrentTime:[NSString stringWithFormat:@"%@",notiM.SYSCREATEDATE]];
+//    NSLog(@">>>  %@",notiM.SYSCREATEDATE);
 
     if (indexPath.row == 0) {
         UIView * lineView = [UIView new];
@@ -363,7 +361,7 @@
     }
     
     UIView * lineView = [UIView new];
-    lineView.frame = CGRectMake(0, _dateLab.bottom + 4.5, SCREEN_WIDTH, 0.5);
+    lineView.frame = CGRectMake(0, headeImage.bottom + 9.5, SCREEN_WIDTH, 0.5);
     lineView.backgroundColor = MAIN_LINE_COLOR;
     [cell.contentView addSubview:lineView];
     
@@ -372,7 +370,106 @@
 -(void)initQuestionCellViewWithIndexpath:(NSIndexPath *)indexPath withCell:(UITableViewCell *)cell{
 
     NSDictionary * dynamicDic =self.personalNotiArr[indexPath.row];
+    
     ZETeamNotiCenModel * notiM = [ZETeamNotiCenModel getDetailWithDic:dynamicDic];
+    NSString * fileUrl = [[[dynamicDic objectForKey:@"FILEURL"] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"] stringByReplacingOccurrencesOfString:@"," withString:@""];
+    
+    if(fileUrl.length > 0){
+        UIImageView * headimage = [UIImageView new];
+        headimage.frame = CGRectMake(20, 10, 60, 60);
+        [cell.contentView addSubview:headimage];
+        headimage.clipsToBounds = YES;
+        headimage.layer.cornerRadius = headimage.height/ 2;
+        [headimage sd_setImageWithURL:ZENITH_IMAGEURL(fileUrl) placeholderImage:ZENITH_PLACEHODLER_USERHEAD_IMAGE];
+    }else{
+        UIImageView * headimage = [UIImageView new];
+        headimage.frame = CGRectMake(20, 10, 60, 60);
+        [cell.contentView addSubview:headimage];
+        headimage.clipsToBounds = YES;
+        headimage.layer.cornerRadius = headimage.height/ 2;
+        [headimage setImage:[UIImage imageNamed:@"xxhz_no_name.png"]];
+        
+        UILabel * lastName = [UILabel new];
+        [cell.contentView addSubview:lastName];
+        lastName.frame = CGRectMake(20, 10, 60, 60);
+        lastName.clipsToBounds = YES;
+        lastName.layer.cornerRadius = lastName.height / 2;
+        lastName.text = [notiM.USERNAME substringToIndex:1];
+        lastName.textAlignment = NSTextAlignmentCenter;
+        lastName.textColor = [UIColor whiteColor];
+    }
+    
+    UILabel * nameLab = [[UILabel alloc]initWithFrame:CGRectMake(100, 10, SCREEN_WIDTH - 120, 20)];
+    nameLab.text = notiM.TIPS;
+    nameLab.numberOfLines = 0;
+    nameLab.textAlignment = NSTextAlignmentLeft;
+    nameLab.font = [UIFont systemFontOfSize:18];
+    [cell.contentView addSubview:nameLab];
+    nameLab.textColor = kTextColor;
+    
+    UILabel * dynamiLab = [[UILabel alloc]initWithFrame:CGRectMake(100, 30, SCREEN_WIDTH - 120, 40)];
+    dynamiLab.numberOfLines = 2;
+    dynamiLab.textAlignment = NSTextAlignmentLeft;
+    dynamiLab.font = [UIFont systemFontOfSize:kTiltlFontSize];
+    [cell.contentView addSubview:dynamiLab];
+    dynamiLab.textColor = kTextColor;
+    dynamiLab.text = notiM.QUESTIONEXPLAIN;
+    dynamiLab.lineBreakMode = NSLineBreakByTruncatingMiddle;
+    dynamiLab.text = [NSString stringWithFormat:@"%@",notiM.ANSWEREXPLAIN];
+    float explainHeight = [ZEUtil heightForString:dynamiLab.text font:dynamiLab.font andWidth:dynamiLab.width];
+    dynamiLab.height = explainHeight;
+    
+    UILabel * receiptLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 90,10,70,20.0f)];
+    receiptLab.textAlignment = NSTextAlignmentRight;
+    receiptLab.numberOfLines = 0;
+    receiptLab.textColor = MAIN_SUBTITLE_COLOR;
+    receiptLab.font = [UIFont systemFontOfSize:kTiltlFontSize];
+    [cell.contentView addSubview:receiptLab];
+    //    if ([notiM.DYNAMICTYPE integerValue] == 1 || [notiM.DYNAMICTYPE integerValue] == 2) {
+    //        receiptLab.text = @"需回执";
+    //    }else{
+    //        receiptLab.hidden = YES;
+    //    }
+    receiptLab.text = [ZEUtil compareCurrentTime:[NSString stringWithFormat:@"%@",notiM.SYSCREATEDATE]];
+    
+    if (![notiM.ISREAD boolValue]) {
+        UIImageView * redImage = [[UIImageView alloc]init];
+        redImage.backgroundColor = [UIColor redColor];
+        [cell.contentView addSubview:redImage];
+        redImage.bounds = CGRectMake(0, 0, 10, 10);
+        redImage.centerX = 80;
+        redImage.centerY = 10;
+        redImage.clipsToBounds = YES;
+        redImage.layer.cornerRadius = redImage.height / 2;
+    }
+    
+    //    UILabel * _dateLab = [UILabel new];
+    ////    _dateLab.top = _disUsername.top;
+    //    _dateLab.left = 10;
+    //    [cell.contentView addSubview:_dateLab];
+    //    _dateLab.size = CGSizeMake(SCREEN_WIDTH - 20, 20);
+    //    _dateLab.textAlignment = NSTextAlignmentRight;
+    //    _dateLab.textColor = [UIColor lightGrayColor];
+    //    _dateLab.font = [UIFont systemFontOfSize:kTiltlFontSize];
+    //    _dateLab.text = [ZEUtil compareCurrentTime:[NSString stringWithFormat:@"%@",notiM.SYSCREATEDATE]];
+    //    NSLog(@">>>  %@",notiM.SYSCREATEDATE);
+    
+    if (indexPath.row == 0) {
+        UIView * lineView = [UIView new];
+        lineView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 0.5);
+        lineView.backgroundColor = MAIN_LINE_COLOR;
+        [cell.contentView addSubview:lineView];
+    }
+    
+    UIView * lineView = [UIView new];
+    lineView.frame = CGRectMake(0, 79.5, SCREEN_WIDTH, 0.5);
+    lineView.backgroundColor = MAIN_LINE_COLOR;
+    [cell.contentView addSubview:lineView];
+    
+    return;
+    
+//    NSDictionary * dynamicDic =self.personalNotiArr[indexPath.row];
+//    ZETeamNotiCenModel * notiM = [ZETeamNotiCenModel getDetailWithDic:dynamicDic];
 
     UILabel * tipsLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, SCREEN_WIDTH - 120, 20)];
     tipsLab.text = notiM.TIPS;
@@ -430,11 +527,6 @@
         redImage.clipsToBounds = YES;
         redImage.layer.cornerRadius = redImage.height / 2;
     }
-
-    UIView * lineView = [UIView new];
-    lineView.frame = CGRectMake(0, answerLab.bottom + 4.5f, SCREEN_WIDTH, 0.5);
-    lineView.backgroundColor = MAIN_LINE_COLOR;
-    [cell.contentView addSubview:lineView];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{

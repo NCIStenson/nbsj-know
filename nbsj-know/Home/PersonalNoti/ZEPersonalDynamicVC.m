@@ -61,7 +61,7 @@
 -(void)getPersonalNotiList
 {
     NSDictionary * parametersDic = @{@"limit":[NSString stringWithFormat:@"%d",MAX_PAGE_COUNT],
-                                     @"MASTERTABLE":KLB_DYNAMIC_INFO,
+                                     @"MASTERTABLE":V_KLB_DYNAMIC_INFO,
                                      @"MENUAPP":@"EMARK_APP",
                                      @"ORDERSQL":@"SYSCREATEDATE desc",
                                      @"WHERESQL":@"",
@@ -74,14 +74,14 @@
     
     NSDictionary * fieldsDic =@{};
     
-    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_DYNAMIC_INFO]
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[V_KLB_DYNAMIC_INFO]
                                                                            withFields:@[fieldsDic]
                                                                        withPARAMETERS:parametersDic
                                                                        withActionFlag:@"messageList"];
     [ZEUserServer getDataWithJsonDic:packageDic
                        showAlertView:NO
                              success:^(id data) {
-                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:KLB_DYNAMIC_INFO] ;
+                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:V_KLB_DYNAMIC_INFO] ;
                                  if(dataArr.count == 0  && _currentPageCount == 0){
                                      //  没有数据时 取消表的编辑状态
                                      [[NSNotificationCenter defaultCenter]postNotificationName:kNOTI_PERSONAL_WITHOUTDYNAMIC object:nil];
@@ -197,6 +197,45 @@
                                      MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                                      hud3.mode = MBProgressHUDModeText;
                                      hud3.labelText = @"删除成功";
+                                     [hud3 hide:YES afterDelay:1.0f];
+                                     [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_PERSONAL_WITHOUTDYNAMIC object:nil];
+                                 }
+                             } fail:^(NSError *errorCode) {
+                                 
+                             }];
+}
+
+#pragma mark - 全部标为已读
+
+-(void)clearUnreadDynamic
+{
+    NSDictionary * parametersDic = @{@"limit":@"1",
+                                     @"MASTERTABLE":KLB_DYNAMIC_INFO,
+                                     @"MENUAPP":@"EMARK_APP",
+                                     @"ORDERSQL":@"",
+                                     @"WHERESQL":@"",
+                                     @"start":@"0",
+                                     @"METHOD":METHOD_UPDATE,
+                                     @"MASTERFIELD":@"SEQKEY",
+                                     @"DETAILFIELD":@"",
+                                     @"CLASSNAME":@"com.nci.klb.app.message.PersonMessageManage",
+                                     @"DETAILTABLE":@"",};
+    
+    NSDictionary * fieldsDic =@{};
+    
+    NSDictionary * packageDic = [ZEPackageServerData getCommonServerDataWithTableName:@[KLB_DYNAMIC_INFO]
+                                                                           withFields:@[fieldsDic]
+                                                                       withPARAMETERS:parametersDic
+                                                                       withActionFlag:@"updateReadFlag"];
+    [ZEUserServer getDataWithJsonDic:packageDic
+                       showAlertView:NO
+                             success:^(id data) {
+                                 NSArray * dataArr = [ZEUtil getServerData:data withTabelName:KLB_DYNAMIC_INFO] ;
+                                 if (dataArr.count > 0) {
+                                     [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                     MBProgressHUD *hud3 = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                                     hud3.mode = MBProgressHUDModeText;
+                                     hud3.labelText = @"全部标为已读成功";
                                      [hud3 hide:YES afterDelay:1.0f];
                                      [[NSNotificationCenter defaultCenter] postNotificationName:kNOTI_DELETE_ALL_DYNAMIC object:nil];
                                  }
