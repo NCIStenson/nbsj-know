@@ -79,6 +79,7 @@ typedef enum : NSUInteger {
     ENTER_WEBVC_ABOUT, // 关于知道
     ENTER_WEBVC_WORK_STANDARD, // 关于知道
     ENTER_WEBVC_MY_PRACTICE,
+    ENTER_WEBVC_SYSTEMNOTI,
 } ENTER_WEBVC;   // 进入团队问题搜索页面
 
 typedef enum : NSUInteger {

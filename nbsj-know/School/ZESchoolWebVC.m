@@ -50,6 +50,8 @@
         self.title = @"操作手册";
     }else if (_enterType == ENTER_WEBVC_MY_PRACTICE){
         self.title = @"我的练习";
+    }else if (_enterType == ENTER_WEBVC_SYSTEMNOTI){
+        self.title = @"系统通知";
     }
     
     [self initWebView];
@@ -110,6 +112,12 @@
         }else{
             [self showTips:@"文件路径错误，请联系管理员" afterDelay:1.5];
             [self performSelector:@selector(leftBtnClick) withObject:nil afterDelay:1.5];
+        }
+    }else if (_enterType == ENTER_WEBVC_SYSTEMNOTI){
+        if(self.webURL.length > 0){
+            [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.webURL]]];
+        }else if (self.htmlStr.length > 0){
+            [webView loadHTMLString:self.htmlStr baseURL:nil];
         }
     }
 }

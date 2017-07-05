@@ -315,8 +315,9 @@
     dynamiLab.textVerticalAlignment = YYTextVerticalAlignmentCenter;
     dynamiLab.lineBreakMode = NSLineBreakByTruncatingMiddle;
     dynamiLab.text = [NSString stringWithFormat:@"%@  |  %@",notiM.QUESTIONEXPLAIN,notiM.CREATORNAME];
-    float explainHeight = [ZEUtil heightForString:dynamiLab.text font:dynamiLab.font andWidth:dynamiLab.width];
-    dynamiLab.height = explainHeight;
+//    float explainHeight = [ZEUtil heightForString:dynamiLab.text font:dynamiLab.font andWidth:dynamiLab.width];
+//    dynamiLab.height = explainHeight;
+//    dynamiLab.backgroundColor = MAIN_ARM_COLOR;
     
     UILabel * receiptLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 90,10,70,20.0f)];
     receiptLab.textAlignment = NSTextAlignmentRight;
@@ -416,8 +417,8 @@
     dynamiLab.text = notiM.QUESTIONEXPLAIN;
     dynamiLab.lineBreakMode = NSLineBreakByTruncatingMiddle;
     dynamiLab.text = [NSString stringWithFormat:@"%@",notiM.ANSWEREXPLAIN];
-    float explainHeight = [ZEUtil heightForString:dynamiLab.text font:dynamiLab.font andWidth:dynamiLab.width];
-    dynamiLab.height = explainHeight;
+//    float explainHeight = [ZEUtil heightForString:dynamiLab.text font:dynamiLab.font andWidth:dynamiLab.width];
+//    dynamiLab.height = explainHeight;
     
     UILabel * receiptLab = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 90,10,70,20.0f)];
     receiptLab.textAlignment = NSTextAlignmentRight;

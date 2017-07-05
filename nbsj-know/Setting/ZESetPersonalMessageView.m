@@ -132,7 +132,7 @@
                     cell.detailTextLabel.text = [ZESettingLocalData getNICKNAME];
                     break;
                 case 1:
-                    cell.textLabel.text = @"当前积分";
+                    cell.textLabel.text = @"个人积分";
                     if ([sumpoints  integerValue ] == 0) {
                         cell.detailTextLabel.text = @"0";
                     }else{
